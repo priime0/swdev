@@ -67,6 +67,16 @@
    "abc")
 
   (test-equal?
+   "single boolean"
+   (xjson (open-input-string "true"))
+   "")
+
+  (test-equal?
+   "single null"
+   (xjson (open-input-string "null"))
+   "")
+
+  (test-equal?
    "empty list"
    (xjson (open-input-string "[]"))
    "")
@@ -77,9 +87,24 @@
    "")
 
   (test-equal?
+   "list with single boolean"
+   (xjson (open-input-string "[false]"))
+   "")
+
+  (test-equal?
+   "object with single boolean"
+   (xjson (open-input-string "{ \"key\": true }"))
+   "")
+
+  (test-equal?
    "list of values"
    (xjson (open-input-string "[\"a\", 1]"))
    "a, number")
+
+  (test-equal?
+   "list of values with null and booleans"
+   (xjson (open-input-string "[\"a\", 1, null, \"b\", false, \"c\"]"))
+   "a, number, b, c")
 
   (test-equal?
    "single number string"
