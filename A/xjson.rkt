@@ -44,11 +44,10 @@
 (define (xjson input-port)
   (define hash-table (read-json input-port))
   (define listof-values (xjson/extract hash-table))
-  (define concatenated-values (string-join listof-values ", "))
-  (displayln concatenated-values))
+  (string-join listof-values ", "))
 
 (module+ main
-  (xjson (current-input-port)))
+  (displayln (xjson (current-input-port))))
 
 (module+ test
   (require rackunit))
