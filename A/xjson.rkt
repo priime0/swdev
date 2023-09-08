@@ -37,7 +37,8 @@
            sort-assoc-list))
      (define sorted-values
        (map cdr sorted-assoc-list))
-     (xjson/extract sorted-values)]))
+     (xjson/extract sorted-values)]
+    [_ '()]))
 
 #; {InputPort -> String}
 ;; Read and parse a JSON string from an input port into concatenated string of terminating JSON
