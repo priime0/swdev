@@ -21,7 +21,7 @@
 #; {JSON -> [Listof String]}
 ;; Recursively extract terminating JSON values as strings, collecting the extracted values into a
 ;; flattened list. Number values are transformed into the string "number". A terminating JSON value
-;; is of the type (U Number String).
+;; is of the type (U Number String). Boolean values and `'null` are ignored.
 (define (xjson/extract json)
   (match json
     [(? number?) '("number")]
