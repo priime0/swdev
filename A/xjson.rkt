@@ -5,6 +5,8 @@
 
 #; {type JSON = (U Number
                    String
+                   Boolean
+                   'null
                    [Listof JSON]
                    [HashTable Symbol JSON])}
 
