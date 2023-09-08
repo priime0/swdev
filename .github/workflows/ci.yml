@@ -26,7 +26,7 @@ jobs:
 
       - name: Install Library and Dependencies
         working-directory: ./A
-        run: raco pkg install
+        run: raco pkg install --deps
 
       - name: Run Unit Tests
         working-directory: ./A
