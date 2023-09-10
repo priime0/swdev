@@ -47,7 +47,7 @@
   (string-join listof-values ", "))
 
 (module+ main
-  (displayln (xjson (current-input-port))))
+  (println (xjson (current-input-port))))
 
 (module+ test
   (require rackunit))

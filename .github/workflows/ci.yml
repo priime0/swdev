@@ -26,8 +26,16 @@ jobs:
 
       - name: Install Library and Dependencies
         working-directory: ./A
-        run: raco pkg install --auto
+        run: raco pkg install --auto --skip-installed
 
       - name: Run Unit Tests
         working-directory: ./A
         run: raco test xjson.rkt
+
+      - name: Build Binary
+        working-directory: ./A
+        run: make
+
+      - name: Run Integration Tests
+        working-directory: ./A/Tests
+        run: chmod +x test.sh && ./test.sh
