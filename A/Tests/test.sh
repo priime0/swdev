@@ -3,7 +3,7 @@
 actual=$(../xjson < ./0-in.json)
 expected=$(cat ./0-out.json)
 
-if [ "$actual" == "$expected" ]
+if [ "$actual" = "$expected" ]
 then
     echo "Tests passed"
     exit 0
