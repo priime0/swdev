@@ -4,9 +4,9 @@ on:
   push:
     branches:
       - main
-    pull_request:
-      branches:
-        - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
   # Run Milestone A tests -- can delete once Milestone A is complete
@@ -26,8 +26,8 @@ jobs:
 
       - name: Install Library and Dependencies
         working-directory: ./A
-        run: raco pkg install
+        run: raco pkg install --auto
 
       - name: Run Unit Tests
         working-directory: ./A
-        run: raco test main.rkt
+        run: raco test xjson.rkt

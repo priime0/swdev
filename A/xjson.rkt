@@ -19,7 +19,7 @@
 #; {JSON -> [Listof String]}
 ;; Recursively extract terminating JSON values as strings, collecting the extracted values into a
 ;; flattened list. Number values are transformed into the string "number". A terminating JSON value
-;; is of the type (U Number String).
+;; is of the type (U Number String). 
 (define (xjson/extract json)
   (match json
     [(? number?) '("number")]
@@ -44,11 +44,10 @@
 (define (xjson input-port)
   (define hash-table (read-json input-port))
   (define listof-values (xjson/extract hash-table))
-  (define concatenated-values (string-join listof-values ", "))
-  (displayln concatenated-values))
+  (string-join listof-values ", "))
 
 (module+ main
-  (xjson (current-input-port)))
+  (displayln (xjson (current-input-port))))
 
 (module+ test
   (require rackunit))
