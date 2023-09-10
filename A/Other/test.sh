@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
-actual=$(../xjson < ./0-in.json)
-expected=$(cat ./0-out.json)
+actual=$(../xjson < ../Tests/0-in.json)
+expected=$(cat ../Tests/0-out.json)
 
 if [ "$actual" = "$expected" ]
 then

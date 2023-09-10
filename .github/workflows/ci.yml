@@ -37,5 +37,5 @@ jobs:
         run: make
 
       - name: Run Integration Tests
-        working-directory: ./A/Tests
+        working-directory: ./A/Other
         run: chmod +x test.sh && ./test.sh
