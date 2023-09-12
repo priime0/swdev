@@ -25,11 +25,11 @@ jobs:
           version: '8.9'
 
       - name: Install Library and Dependencies
-        working-directory: ./A
+        working-directory: ./A/Other
         run: raco pkg install --auto --skip-installed
 
       - name: Run Unit Tests
-        working-directory: ./A
+        working-directory: ./A/Other
         run: raco test xjson.rkt
 
       - name: Build Binary
