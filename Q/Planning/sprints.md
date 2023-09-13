@@ -1,21 +1,50 @@
+**TO:** Matthias Felleisen <matthias@ccs.neu.edu>
+
+**FROM:** Andrey Piterkin <piterkin.a@northeastern.edu>, Lucas Sta Maria
+<lucas@priime.dev>
+
+**CC:** Benjamin Lerner <blerner@ccs.neu.edu>
+
+**DATE:** 2023-09-12
+
+**SUBJECT:** Sprint Allocation
+
 Rough split:
 
-Sprint 1:
+## Sprint 1:
 
-- Basic data representations (tiles, map, etc)
-- Player-referee interface
+**GOAL**: Define all the essential game types needed for describing a
+game state, along with the rules that govern interactions with the game
+state.
 
-Sprint 2:
+This includes basic data representations, such as tiles and the board,
+along with the referee data representation and game state validation
+functions.
 
-- Referee implementation
+## Sprint 2:
 
-Sprint 3:
+**GOAL**: Define player interactions with the game states and with the
+referee.
 
-- Player implementation
+It's necessary to have a representable game state to apply actions on,
+plus a referee to enforce rules that govern the game states. It was also
+reasonable to place the player data representation and implementation in
+this sprint to adequately portion work into roughly equivalent chunks.
 
-Second sprint (referee) relates to Sprint 1 because it relies on the
-defined interface between players and referees.
+## Sprint 3:
 
-Third sprint (player) relates to Sprint 2 because it relies on both
-prior components, and allows us to test the referee implementation and
-game logic.
+**GOAL**: Implement client-server communication for players and
+observers.
+
+Players are required to exist prior to communicating with the server. 
+
+
+
+
+"Compiler Sprint Version"
+
+Sprint 1: Implement all the data representations, including tiles,
+board, players, referee. Implement function stubs with contracts.
+
+Sprint 2 & 3: Implement feature-by-feature: placing tiles, making turns,
+setting up the game, scores.

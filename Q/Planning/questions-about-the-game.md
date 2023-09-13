@@ -9,15 +9,40 @@
 
 **SUBJECT:** Questions Concerning the Game
 
-1. Is a tile adjacent to a row and column sequence constrained by both?
+For this document, we define an *intersection* to be the board square
+adjacent to both a row sequence and column sequence. 
 
-2. When extending an existing sequence, as per bullet #2 in `Scoring a
-   Turn`, are points assigned based on the length of the existing
-   sequence, the added sequence, or the union of both sequences?
+For instance, `X`
+represents the intersection, where a tile has not yet been placed.
 
-3. When placing a tile that interacts with a row sequence and a column
-   sequence, like in Question 1, do both the adjacent row and column
-   sequences assign points, or is it only one of the two? If so, how is
-   that determined (arbitrarily, or user choice)?
+As an example, consider the following 3x3 board, where `.` represents an
+empty square, `C` represents tiles of the column sequence, `R`
+represents tiles of the row sequence, and `X` represents an empty tile
+at *an* intersection (there exist 2 in this example).
 
+```
+..C
+..C
+RRX
+```
 
+1. Is the tile placed at the intersection constrained by both sequences?
+
+There are several possible interpretations of the rules. One, is that
+the placed tile at the intersection can satisfy either the adjacent row
+tile or adjacent column tile's constraints. Second, the placed tile at
+the intersection must satisfy both adjacent tiles. Making this explicit
+would be useful in the implementation of the referee.
+
+2. For a tile placed in an intersection, are points assigned for both
+   sequences?
+
+3. How are points assigned when an existing sequence is extended?
+
+There are several possible interpretations of the rules. One, points are
+assigned based on the length of the existing sequence. Two, points are
+assigned based on the length of the added sequence. Lastly, points are
+assigned based on the cumulative lengths of the existing and added
+sequences. According to the rules, points are already added for each
+tile placed, so we want to clarify whether points are doubly counted for
+the added sequence.
