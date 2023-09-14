@@ -38,13 +38,3 @@ observers.
 
 Players are required to exist prior to communicating with the server. 
 
-
-
-
-"Compiler Sprint Version"
-
-Sprint 1: Implement all the data representations, including tiles,
-board, players, referee. Implement function stubs with contracts.
-
-Sprint 2 & 3: Implement feature-by-feature: placing tiles, making turns,
-setting up the game, scores.
