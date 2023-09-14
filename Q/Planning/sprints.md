@@ -9,8 +9,6 @@
 
 **SUBJECT:** Sprint Allocation
 
-Rough split:
-
 ## Sprint 1:
 
 **GOAL**: Define all the essential game types needed for describing a
