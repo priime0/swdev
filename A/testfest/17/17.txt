@@ -1,0 +1,5 @@
+(testing /course/cs4500f23/ta/tedium-workdir/github/fearless-mice/A/xjson)
+(testing /course/cs4500f23/ta/tedium-workdir/testfest-results/A/17/Tests/0-in.json /course/cs4500f23/ta/tedium-workdir/testfest-results/A/17/Tests/0-out.json)
+((/course/cs4500f23/ta/tedium-workdir/testfest-results/A/17/Tests/0-in.json /course/cs4500f23/ta/tedium-workdir/testfest-results/A/17/Tests/0-out.json))
+((passed 1) (total 1) (partial-score 1))
+
