@@ -127,3 +127,22 @@
                                   #:color 'red))
   (define blue-star-tile (tile++ #:shape 'star
                                  #:color 'blue)))
+
+(module+ test
+  (require rackunit))
+
+(module+ test
+  (test-equal?
+   "normalize empty image into empty image"
+   (render-tile/normalize empty-image)
+   empty-image)
+
+  (test-equal?
+   "normalize big blue star into *game-size* width"
+   (image-width (render-tile/normalize (radial-star 4 80 360 'solid 'blue)))
+   (*game-size*))
+
+  (test-true
+   "different tiles normalized are the same width"
+   (equal? (image-width (render-tile/normalize (radial-star 4 80 360 'solid 'blue)))
+           (image-width (render-tile/normalize (circle 95 'solid 'red))))))
