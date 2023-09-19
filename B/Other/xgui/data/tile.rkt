@@ -92,12 +92,15 @@
   (rhombus side-length angle tile-shape-mode color))
 
 #; {Image -> Image}
-;; Normalizes the size of a tile image to be the defined *game-size*.
+;; Normalizes the size of a tile image to be the defined *game-size*. Images of either zero width or
+;; zero height maintain the same unaltered width or height, respectively.
 (define (render-tile/normalize tile-image)
   (define current-width (image-width tile-image))
   (define target-width (*game-size*))
-  (define scale-factor (/ target-width current-width))
-  (scale scale-factor tile-image))
+  (cond [(zero? current-width) tile-image]
+        [else
+         (define scale-factor (/ target-width current-width))
+         (scale scale-factor tile-image)]))
 
 #; {TileShape -> Color -> Image}
 ;; Given a TileShape, produce a function that takes in a color string and renders an image with the
