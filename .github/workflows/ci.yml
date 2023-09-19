@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  # Run Milestone A tests -- can delete once Milestone A is complete
+  test-A:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Install Racket
+        uses: Bogdanp/setup-racket@v1.10
+        with:
+          architecture: 'x64'
+          distribution: 'full'
+          variant: 'CS'
+          version: '8.9'
+
+      - name: Install Library and Dependencies
+        working-directory: ./B/Other/xgui
+        run: raco pkg install --auto --skip-installed
+
+      - name: Run Unit Tests
+        working-directory: ./B/Other/xgui
+        run: raco test util data
+
+      - name: Build Binary
+        working-directory: ./B
+        run: make
