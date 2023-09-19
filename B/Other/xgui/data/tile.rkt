@@ -122,7 +122,7 @@
   (render-tile/normalize (shape-function color)))
 
 
-(module+ examples
+(module+ test
   (define red-square-tile (tile++ #:shape 'square
                                   #:color 'red))
   (define blue-star-tile (tile++ #:shape 'star
@@ -146,3 +146,20 @@
    "different tiles normalized are the same width"
    (equal? (image-width (render-tile/normalize (radial-star 4 80 360 'solid 'blue)))
            (image-width (render-tile/normalize (circle 95 'solid 'red))))))
+
+(module+ test
+  (parameterize ([*game-size* 100])
+    (test-equal?
+     "render red square correctly"
+     (render-tile red-square-tile)
+     (square 100 'solid 'red))
+
+    (test-equal?
+     "render blue star width correctly"
+     (image-width (render-tile blue-star-tile))
+     (image-width (radial-star 4 125/7 500/7 'solid 'blue)))
+
+    (test-equal?
+     "render blue star height correctly"
+     (image-height (render-tile blue-star-tile))
+     (image-height (radial-star 4 125/7 500/7 'solid 'blue)))))
