@@ -9,8 +9,8 @@ on:
       - main
 
 jobs:
-  # Run Milestone A tests -- can delete once Milestone A is complete
-  test-A:
+  # Run Milestone B tests
+  test-B:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
