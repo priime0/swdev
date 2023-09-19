@@ -155,11 +155,6 @@
      (square 100 'solid 'red))
 
     (test-equal?
-     "render blue star width correctly"
-     (image-width (render-tile blue-star-tile))
-     (image-width (radial-star 4 125/7 500/7 'solid 'blue)))
-
-    (test-equal?
-     "render blue star height correctly"
-     (image-height (render-tile blue-star-tile))
-     (image-height (radial-star 4 125/7 500/7 'solid 'blue)))))
+     "render blue star correctly"
+     (render-tile blue-star-tile)
+     (scale 5/7 (radial-star 4 25 100 'solid 'blue)))))
