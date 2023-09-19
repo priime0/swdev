@@ -1,6 +1,6 @@
 #lang info
 
-(define collection "xgui")
+(define collection 'multi)
 (define deps '("base" "threading" "struct-plus-plus" "htdp"))
 (define build-deps '("racket-doc" "rackunit-lib"))
 (define pkg-desc "Extracting JSON values")
