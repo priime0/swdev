@@ -2,7 +2,7 @@
 
 present=$(raco pkg show -a | grep -i "Other" | wc -l)
 
-if [ "$present" -gt 0 ]; then
+if [ "$present" = "1" ]; then
     echo "removing"
     raco pkg remove Other
 else
