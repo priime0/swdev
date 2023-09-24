@@ -9,6 +9,7 @@
 
 (provide
  tile
+ tile?
  tile++
  tile-shape
  tile-color
