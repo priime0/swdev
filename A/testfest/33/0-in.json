@@ -1,0 +1,23 @@
+["abc",{"abb":"2","abc":1},
+1023492384234892,
+"999",
+{
+    "key1": ["zero"],
+    "key3": "It's key 3",
+    "key2": {
+        "subkey1": "zippy goat",
+        "subkey2": ["software dev"],
+        "subkey3": ""
+    },
+    "key4": {}
+}, 
+{
+    "newline": "This\tis a line\nThis is another line.\n"
+},
+[""],
+{},
+[],
+[{}],
+[{}, {}, []],
+[[[]]]
+]

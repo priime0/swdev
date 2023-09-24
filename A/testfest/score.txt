@@ -1,0 +1,10 @@
+Delivery
+10/10 pts: Deliverable A/xjson exists with the right permissions
+5/5 pts: Delivery of test files
+
+Functionality
+15/15 pts: Passed 3 out of 3 tests (see test-results.txt)
+5/5 pts: 1 valid tests (see test-audit-results.txt)
+10/10 bonus pts (other teams failing your tests)
+
+Total: 45/35 pts
