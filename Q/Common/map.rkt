@@ -49,7 +49,7 @@
 #; {Board [Pairof Integer] -> Boolean}
 ;; Is the given posn valid? That is, does the board have an empty space at the given posn, and is
 ;; the given posn adjacent to any existing tile?
-(define (board-can-place? board posn)
+(define (board-posn-empty+has-adjacent? board posn)
   ((conjoin board-empty-space? board-posn-has-adjacent?)
    board posn))
 
@@ -90,7 +90,7 @@
 ;; Places the new tile at the given posn on the board's map.
 ;; EXCEPT: Throws an error if the given position is invalid.
 (define (board-add-tile board posn new-tile)
-  (unless (board-can-place? board posn)
+  (unless (board-posn-empty+has-adjacent? board posn)
     (error 'board-add-tile
            "posn ~a invalid position to place on board"
            posn))
