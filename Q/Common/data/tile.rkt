@@ -4,8 +4,9 @@
 (require threading)
 (require 2htdp/image)
 
-(require "../config.rkt")
-(require "../util/list.rkt")
+(require Q/Common/config)
+(require Q/Common/util/list)
+(require Q/Common/util/struct)
 
 (provide
  tile
@@ -15,18 +16,20 @@
  tile-color
  set-tile-shape
  set-tile-color
- (contract-out
-  #:unprotected-submodule no-contract
-  [tile-shapes (listof symbol?)]
-  [tile-colors (listof symbol?)]
-  [tile-shape? (any/c . -> . boolean?)]
-  [tile-color? (any/c . -> . boolean?)]
+ tiles-equal-color?
+ tiles-equal-shape?
+(contract-out
+ #:unprotected-submodule no-contract
+ [tile-shapes (listof symbol?)]
+ [tile-colors (listof symbol?)]
+ [tile-shape? (any/c . -> . boolean?)]
+ [tile-color? (any/c . -> . boolean?)]
 
-  [render-tile (tile? . -> . image?)]))
+ [render-tile (tile? . -> . image?)]))
 
 #; {type TileShape = (U 'star '8star 'square 'circle 'diamond)}
 ;; A TileShape is an enumeration of possible shapes, a distinguishing feature of a tile.
-(define tile-shapes '(star 8star square circle diamond))
+(define tile-shapes '(star 8star square circle diamond clover))
 
 #; {type TileColor = (U 'red 'green 'blue 'yellow 'orange 'purple)}
 ;; A TileColor is an enumeration of possible colors, a distinguishing feature of a tile.
@@ -46,9 +49,19 @@
 ;; A Tile is a distinguishable object by shapes and colors, placed and held by players in the Q
 ;; board game.
 (struct++ tile
-          ([shape tile-shape?]
-           [color tile-color?])
+          ([color tile-color?]
+           [shape tile-shape?])
           #:transparent)
+
+#; {Tile ... -> Boolean}
+;; Do both tiles have equal colors?
+(define (tiles-equal-color? . tiles)
+  (struct-equal-field? tile-color tiles))
+
+#; {Tile Tile -> Boolean}
+;; Do both tiles have equal shapes?
+(define (tiles-equal-shape? . tiles)
+  (struct-equal-field? tile-shape tiles))
 
 ;; Whether the shape is filled in ('solid) or not ('outline)
 (define tile-shape-mode 'solid)
@@ -92,6 +105,14 @@
   (define angle 90)
   (rhombus side-length angle tile-shape-mode color))
 
+#; {Color -> Image}
+;; Produces an image of a clover with the given color.
+(define (render-tile/clover color)
+  (define major-radius (*game-size*))
+  (define minor-radius (/ (*game-size*) 2))
+  (overlay (ellipse major-radius minor-radius 'solid color)
+           (ellipse minor-radius major-radius 'solid color)))
+
 #; {Image -> Image}
 ;; Normalizes the size of a tile image to be the defined *game-size*. Images of either zero width or
 ;; zero height maintain the same unaltered width or height, respectively.
@@ -112,7 +133,8 @@
     ['8star   render-tile/8star]
     ['square  render-tile/square]
     ['circle  render-tile/circle]
-    ['diamond render-tile/diamond]))
+    ['diamond render-tile/diamond]
+    ['clover  render-tile/clover]))
 
 #; {Tile -> Image}
 ;; Produce an image of the tile, clearly displaying its shape and color. Normalizes images produced
