@@ -40,6 +40,23 @@
           ([map hash?])
           #:transparent)
 
+#; {type Direction = (U 'up 'down 'left 'right)}
+;; A Direction represents a pair of (δr . δc), i.e. a translation in one of the four directions
+;; in a square grid.
+(define directions
+  #hash([up    . (-1 . 0)]
+        [down  . (1 . 0)]
+        [left  . (0 . -1)]
+        [right . (0 . 1)]))
+
+#; {[Pairof Integer] Direction -> [Pairof Integer]}
+;; Produce a new posn representing the given posn translated towards the given direction.
+(define (posn-translate posn dir)
+  (match-define (cons base-r base-c) posn)
+  (match-define (cons dr dc) (hash-ref directions dir))
+  (cons (+ base-r dr)
+        (+ base-c dc)))
+
 #; {Tile -> Board}
 ;; Create a Board with the given Tile placed at position (0, 0) -- the Tile represents the *root*
 ;; tile of a game, which is the only referee-placed tile.
@@ -69,9 +86,8 @@
 ;; Get all numerically adjacent positions for the given posn.
 (define (board-get-all-adjacent posn)
   (match-define (cons row col) posn)
-  (define relative-directions '((0 . 1) (1 . 0) (0 . -1) (-1 . 0)))
   (define neighboring-positions
-    (for/list ([relative-direction relative-directions])
+    (for/list ([relative-direction (hash-values directions)])
       (match-define (cons relative-row relative-col) relative-direction)
       (cons (+ row relative-row)
             (+ col relative-col))))
@@ -113,17 +129,44 @@
          (filter not-existing-tile?)))
   open-posns)
 
+#; {Board [Pairof Integer] Direction -> [Listof Tile]}
+;; Collect the contigious sequence of tiles towards the given direction starting from but not
+;; including the given position.
+(define (board-collect-sequence board posn dir)
+  (define start-posn (posn-translate posn dir))
+
+  ;; generative: produce a list of tiles along the contiguous sequence
+  ;; terminates: when we find a posn along the direction unoccupied by a tile
+  (let loop ([current-posn start-posn]
+             [tile-list '()])
+    (cond
+      [(not (board-empty-space? board current-posn))
+       (define next-posn (posn-translate current-posn dir))
+       (define current-tile (hash-ref (board-map board) current-posn))
+       (define new-tile-list (cons current-tile tile-list))
+       (loop next-posn new-tile-list)]
+      [else tile-list])))
+
+#; {[Listof Tile] -> Boolean}
+;; Do the list of tiles share either the same color or (inclusive) same shape?
+(define (valid-tile-sequence? tiles)
+  (or (apply tiles-equal-color? tiles)
+      (apply tiles-equal-shape? tiles)))
+
 #; {Board Tile [Pairof Integer] -> [Maybe [Pairof Integer]]}
 ;; Returns the given `target-posn` if it's a valid position to place the tile, otherwise `#f`.
-;; A valid Q position is one where all immediate neighbours all have the same color as the given
-;; tile, or (inclusive) all have the same shape as the given tile.
+;; A valid Q position is one where, for a contiguous row/column (including the candidate posn), all
+;; tiles in the contiguous row/column share either the same shape or (inclusive) same color.
 (define (board-valid-posn board tile target-posn)
-  (define tiles-map           (board-map board))
-  (define adjacent-tile-posns (board-get-occupied-adjacent-posns board target-posn))
-  (define adjacent-tiles      (map (curry hash-ref tiles-map) adjacent-tile-posns))
-  (define tiles-same-color?   (apply tiles-equal-color? (cons tile adjacent-tiles)))
-  (define tiles-same-shape?   (apply tiles-equal-shape? (cons tile adjacent-tiles)))
-  (define valid-placement?    (or tiles-same-color? tiles-same-shape?))
+  (define board-collect-sequence+ (curry board-collect-sequence board target-posn))
+  (define horizontal-sequence (append (list tile)
+                                      (board-collect-sequence+ 'left)
+                                      (board-collect-sequence+ 'right)))
+  (define vertical-sequence (append (list tile)
+                                    (board-collect-sequence+ 'up)
+                                    (board-collect-sequence+ 'down)))
+  (define valid-placement? (and (valid-tile-sequence? horizontal-sequence)
+                                (valid-tile-sequence? vertical-sequence)))
 
   (and valid-placement? target-posn))
 
