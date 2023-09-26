@@ -12,25 +12,28 @@
  board-map
  set-board-map
 
- board-can-place?
- board-empty-space?
- board-posn-has-adjacent?
- board-get-all-adjacent
- board-get-occupied-adjacent-posns
- board-add-tile
  (contract-out
   #:unprotected-submodule no-contract
-  [make-board (-> tile? board?)]))
+  [make-board (-> tile? board?)]
+  [board-add-tile
+   (-> board?
+       (cons/c integer? integer?)
+       tile?
+       board?)]
+  [board-possible-tile-posns
+   (-> board?
+       tile?
+       (listof (cons/c integer? integer?)))]))
 
 #; {type Board = (board [HashTable [Pairof Integer]
                                    Tile])}
 ;; A Board represents a square grid map in Q, implemented as a hash table where the keys are 2D
 ;; coordinates relative to the root tile, and the values are the tiles at the given coordinate.
 ;; INVARIANT: A Board is a connected graph.
-;; INVARIANT: No other tile will be placed on an existing tile -- that is, two tiles cannot share
-;;            the same key/coordinates, and a tile cannot replace a tile that is already on the map.
 ;; INVARIANT: The Tile placed at (0, 0) is the *root* tile of the game, which is the only referee
 ;;            placed-tile. All other tiles have coordinates that are relative to this tile.
+;; INVARIANT: No other tile will be placed on an existing tile -- that is, two tiles cannot share
+;;            the same key/coordinates, and a tile cannot replace a tile that is already on the map.
 ;; INVARIANT: A position on the board is occupied by a tile IFF the position is a key in the hash
 ;;            map.
 (struct++ board
@@ -75,7 +78,8 @@
   neighboring-positions)
 
 #; {Board [Pairof Integer] -> [Listof [Pairof Integer]]}
-;; Get adjacent positions for the given posn where the adjacent positions are occupied by a tile.
+;; Get tile-occupied adjacent positions for the given posn.
+;; ASSUME `(board-can-place? board posn)`
 (define (board-get-occupied-adjacent-posns board posn)
   (define map (board-map board))
   (define neighboring-positions (board-get-all-adjacent posn))
@@ -95,31 +99,36 @@
   (define new-map (hash-set existing-map posn new-tile))
   (set-board-map board new-map))
 
-#; {Board Tile -> [Listof [Pairof Integer]]}
-;; Produce a list of valid posns where the tile can be placed in the board.
-(define (board-possible-tile-posns board tile)
-  (define tiles-map (board-map board))
-  (define insert-tile-shape (tile-shape tile))
-  (define insert-tile-color (tile-color tile))
-  (define existing-posns (hash-keys tiles-map))
+#; {Board -> [Listof [Pairof Integer]]}
+;; Produce a list of open positions adjacent to existing tiles.
+(define (board-open-posns board)
+  (define tiles-map          (board-map board))
+  (define placed-tile-posns  (hash-keys tiles-map))
   (define not-existing-tile? (curry (negate hash-has-key?) tiles-map))
   (define open-posns
-    (~>> existing-posns
-         (map board-get-all-adjacent _)
+    (~>> placed-tile-posns
+         (map board-get-all-adjacent)
          (apply append)
          remove-duplicates
          (filter not-existing-tile?)))
-  (define satisfying-tiles
-    (for/list ([open-posn open-posns])
-      (define adjacent-tile-posns (board-get-occupied-adjacent-posns board open-posn))
-      (define adjacent-tiles (map (curry hash-ref tiles-map) adjacent-tile-posns))
-      (define adjacent-tiles-shapes (remove-duplicates (map tile-shape adjacent-tiles)))
-      (define adjacent-tiles-colors (remove-duplicates (map tile-color adjacent-tiles)))
-      (match (cons adjacent-tiles-shapes adjacent-tiles-colors)
-        [(or (cons (list (== insert-tile-shape))
-                   (list (== insert-tile-color)))
-             (cons (list (== insert-tile-shape)) _)
-             (cons _ (list (== insert-tile-color))))
-         (list open-posn)]
-        [_ '()])))
-  (remove-duplicates (apply append satisfying-tiles)))
+  open-posns)
+
+#; {Board Tile [Pairof Integer] -> [Maybe [Pairof Integer]]}
+;; Returns the given `target-posn` if it's a valid position to place the tile, otherwise `#f`.
+;; A valid Q position is one where all immediate neighbours all have the same color as the given
+;; tile, or (inclusive) all have the same shape as the given tile.
+(define (board-valid-posn board tile target-posn)
+  (define tiles-map           (board-map board))
+  (define adjacent-tile-posns (board-get-occupied-adjacent-posns board target-posn))
+  (define adjacent-tiles      (map (curry hash-ref tiles-map) adjacent-tile-posns))
+  (define tiles-same-color?   (apply tiles-equal-color? (cons tile adjacent-tiles)))
+  (define tiles-same-shape?   (apply tiles-equal-shape? (cons tile adjacent-tiles)))
+  (define valid-placement?    (or tiles-same-color? tiles-same-shape?))
+
+  (and valid-placement? target-posn))
+
+#; {Board Tile -> [Listof [Pairof Integer]]}
+;; Produce a list of valid posns where the tile can be placed in the board.
+(define (board-possible-tile-posns board tile)
+  (define open-posns (board-open-posns board))
+  (filter-map (curry board-valid-posn board tile) open-posns))
