@@ -146,10 +146,10 @@
 
 
 (module+ test
-  (define red-square-tile (tile++ #:shape 'square
-                                  #:color 'red))
-  (define blue-star-tile (tile++ #:shape 'star
-                                 #:color 'blue)))
+  (define red-square-tile (tile 'red 'square))
+  (define red-star-tile (tile 'red 'star))
+  (define blue-star-tile (tile 'blue 'star))
+  (define blue-square-tile (tile 'blue 'square)))
 
 (module+ test
   (require rackunit))
@@ -181,3 +181,20 @@
      "render blue star correctly"
      (render-tile blue-star-tile)
      (scale 5/7 (radial-star 4 25 100 'solid 'blue)))))
+
+(module+ test
+  (test-true
+   "equal color of tiles"
+   (tiles-equal-color? (list red-square-tile red-star-tile)))
+
+  (test-false
+   "unequal color of tiles"
+   (tiles-equal-color? (list red-square-tile blue-star-tile)))
+
+  (test-true
+   "equal shape of tiles"
+   (tiles-equal-shape? (list red-square-tile blue-square-tile)))
+
+  (test-false
+   "unequal shape of tiles"
+   (tiles-equal-shape? (list red-square-tile blue-star-tile))))
