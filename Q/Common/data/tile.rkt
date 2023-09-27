@@ -53,14 +53,14 @@
            [shape tile-shape?])
           #:transparent)
 
-#; {Tile ... -> Boolean}
-;; Do both tiles have equal colors?
-(define (tiles-equal-color? . tiles)
+#; {[Listof Tile] -> Boolean}
+;; Do all the tiles have equal colors?
+(define (tiles-equal-color? tiles)
   (struct-equal-field? tile-color tiles))
 
-#; {Tile Tile -> Boolean}
-;; Do both tiles have equal shapes?
-(define (tiles-equal-shape? . tiles)
+#; {[Listof Tile] -> Boolean}
+;; Do all the tiles have equal shapes?
+(define (tiles-equal-shape? tiles)
   (struct-equal-field? tile-shape tiles))
 
 ;; Whether the shape is filled in ('solid) or not ('outline)

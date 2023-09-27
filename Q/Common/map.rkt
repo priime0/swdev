@@ -25,7 +25,7 @@
        tile?
        (listof (cons/c integer? integer?)))]))
 
-#; {type Board = (board [HashTable [Pairof Integer]
+#; {type Board = (board [HashTable Posn
                                    Tile])}
 ;; A Board represents a square grid map in Q, implemented as a hash table where the keys are 2D
 ;; coordinates relative to the root tile, and the values are the tiles at the given coordinate.
@@ -40,8 +40,11 @@
           ([map hash?])
           #:transparent)
 
+#; {type Posn = Posn}
+;; A Posn is a pair of '(r . c), which represent a row and column in the Board.
+
 #; {type Direction = (U 'up 'down 'left 'right)}
-;; A Direction represents a pair of (δr . δc), i.e. a translation in one of the four directions
+;; A Direction represents a pair of '(δr . δc), i.e. a translation in one of the four directions
 ;; in a square grid.
 (define directions
   #hash([up    . (-1 . 0)]
@@ -49,7 +52,7 @@
         [left  . (0 . -1)]
         [right . (0 . 1)]))
 
-#; {[Pairof Integer] Direction -> [Pairof Integer]}
+#; {Posn Direction -> Posn}
 ;; Produce a new posn representing the given posn translated towards the given direction.
 (define (posn-translate posn dir)
   (match-define (cons base-r base-c) posn)
@@ -63,53 +66,41 @@
 (define (make-board root-tile)
   (board++ #:map (hash '(0 . 0) root-tile)))
 
-#; {Board [Pairof Integer] -> [Maybe Tile]}
+#; {Board Posn -> [Maybe Tile]}
 ;; Gets the tile at `posn` if it exists, otherwise #f
 (define (board-tile-at board posn)
   (define tiles-map (board-map board))
   ((conjoin hash-has-key? hash-ref) 
    tiles-map posn))
 
-#; {Board [Pairof Integer] -> Boolean}
+#; {Board Posn -> Boolean}
 ;; Is the given posn valid? That is, does the board have an empty space at the given posn, and is
 ;; the given posn adjacent to any existing tile?
 (define (board-posn-empty+has-adjacent? board posn)
-  ((conjoin board-empty-space? board-posn-has-adjacent?)
+  ((conjoin (negate board-tile-at) board-posn-has-adjacent?)
    board posn))
 
-#; {Board [Pairof Integer] -> Boolean}
-;; Does the board have an empty space at the given posn?
-(define (board-empty-space? board posn)
-  (define map (board-map board))
-  (not (hash-has-key? map posn)))
-
-#; {Board [Pairof Integer] -> Boolean}
+#; {Board Posn -> Boolean}
 ;; Is the given posn adjacent to any existing tile?
 ;; ASSUME: the given posn has no tile at its location.
 (define (board-posn-has-adjacent? board posn)
   (pair? (board-get-occupied-adjacent-posns board posn)))
 
-#; {[Pairof Integer] -> [Listof [Pairof Integer]]}
-;; Get all numerically adjacent positions for the given posn.
-(define (board-get-all-adjacent posn)
-  (match-define (cons row col) posn)
-  (define neighboring-positions
-    (for/list ([relative-direction (hash-values directions)])
-      (match-define (cons relative-row relative-col) relative-direction)
-      (cons (+ row relative-row)
-            (+ col relative-col))))
-  neighboring-positions)
-
-#; {Board [Pairof Integer] -> [Listof [Pairof Integer]]}
+#; {Posn [Listof Direction] -> [Listof Posn]}
+;; Produces the list of adjacent positions for the given posn for each direction in the given list.
+(define (posn-adjacent/dirs posn dir-list)
+  (define posn-translate+ (curry posn-translate posn))
+  (map posn-translate+ dir-list))
+                      
+#; {Board Posn -> [Listof Posn]}
 ;; Get tile-occupied adjacent positions for the given posn.
 ;; ASSUME `(board-can-place? board posn)`
 (define (board-get-occupied-adjacent-posns board posn)
+  (define adjacent-posns (posn-adjacent/dirs (hash-keys directions) posn))
   (define map (board-map board))
-  (define neighboring-positions (board-get-all-adjacent posn))
-  (filter (curry hash-has-key? map)
-          neighboring-positions))
+  (filter (curry hash-has-key? map) adjacent-posns))
 
-#; {Board [Pairof Integer] Tile -> Board}
+#; {Board Posn Tile -> Board}
 ;; Places the new tile at the given posn on the board's map.
 ;; EXCEPT: Throws an error if the given position is invalid.
 (define (board-add-tile board posn new-tile)
@@ -122,46 +113,45 @@
   (define new-map (hash-set existing-map posn new-tile))
   (set-board-map board new-map))
 
-#; {Board -> [Listof [Pairof Integer]]}
+#; {Board -> [Listof Posn]}
 ;; Produce a list of open positions adjacent to existing tiles.
 (define (board-open-posns board)
   (define tiles-map          (board-map board))
   (define placed-tile-posns  (hash-keys tiles-map))
-  (define not-existing-tile? (curry (negate hash-has-key?) tiles-map))
+  (define not-existing-tile? (curry (negate board-tile-at) board))
+  (define get-all-adjacent   (curryr posn-adjacent/dirs (hash-keys directions)))
   (define open-posns
     (~>> placed-tile-posns
-         (map board-get-all-adjacent)
+         (map get-all-adjacent)
          (apply append)
          remove-duplicates
          (filter not-existing-tile?)))
   open-posns)
 
 #; {[Listof Tile] -> Boolean}
-;; Do the list of tiles share either the same color or (inclusive) same shape?
+;; Do the lits of tiles share either the same color or (inclusive) same shape?
 (define (valid-tile-sequence? tiles)
-  (or (apply tiles-equal-color? tiles)
-      (apply tiles-equal-shape? tiles)))
+  ((disjoin tiles-equal-color? tiles-equal-shape?)
+   tiles))
 
-
-
-  
-#; {Board Tile [Pairof Integer] -> [Maybe [Pairof Integer]]}
+#; {Board Tile Posn -> [Maybe Posn]}
 ;; Returns the given `target-posn` if it's a valid position to place the tile, otherwise `#f`.
-;; A valid Q position is one where, for a contiguous row/column (including the candidate posn), all
-;; tiles in the contiguous row/column share either the same shape or (inclusive) same color.
+;; A valid Q position is one where the left and right neighbors share the same shape or (inclusive)
+;; the same color, and the up and down neighbors share the same shape or (inclusive) same color.
 (define (board-valid-posn board tile target-posn)
-  (define (tile-in-dir dir)
-    (board-tile-at board (posn-translate posn dir)))
-  (define horizontal-sequence
-    (filter identity (list tile (tile-in-dir 'left) (tile-in-dir 'right))))
-  (define vertical-sequence
-    (filter identity (list tile (tile-in-dir 'up) (tile-in-dir 'down))))
-  (define valid-placement? (and (valid-tile-sequence? horizontal-sequence)
-                                (valid-tile-sequence? vertical-sequence)))
+  (define tile-at                   (curry board-tile-at board))
+  (define target-posn-adjacent/dirs (curry posn-adjacent/dirs target-posn))
+  (define row-neighbor-posns        (target-posn-adjacent/dirs '(left right)))
+  (define col-neighbor-posns        (target-posn-adjacent/dirs '(up down)))
+  (define row-neighbor-tiles        (cons tile (filter-map tile-at row-neighbor-posns)))
+  (define col-neighbor-tiles        (cons tile (filter-map tile-at col-neighbor-posns)))
+
+  (define valid-placement?
+    (andmap valid-tile-sequence? (list row-neighbor-tiles col-neighbor-tiles)))
 
   (and valid-placement? target-posn))
 
-#; {Board Tile -> [Listof [Pairof Integer]]}
+#; {Board Tile -> [Listof Posn]}
 ;; Produce a list of valid posns where the tile can be placed in the board.
 (define (board-possible-tile-posns board tile)
   (define open-posns (board-open-posns board))
