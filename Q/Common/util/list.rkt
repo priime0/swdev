@@ -30,3 +30,21 @@
    "y is member"
    (member? 'y '(x y z))
    #t))
+
+
+(module+ test
+  (test-true
+   "all number elements are the same"
+   (all-same? '(1 1 1 1 1 1 1 1 1 1 1 1 1 1 1)))
+
+  (test-false
+   "all number elements are not the same"
+   (all-same? '(1 1 1 1 1 1 2 1 1 1 1 1 1 1 2)))
+
+  (test-true
+    "all string elements are the same"
+    (all-same? '("a" "a" "a" "a" "a" "a" "a" "a" "a" "a")))
+
+  (test-false
+   "all string elements are not the same"
+   (all-same? '("a" "d" "a" "c" "a" "a" "a" "a" "a" "b"))))
