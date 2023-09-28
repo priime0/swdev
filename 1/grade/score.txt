@@ -1,0 +1,8 @@
+Delivery
+5/5 pts: Deliverable Q/Planning/questions-about-the-game.md exists
+5/5 pts: Deliverable Q/Planning/sprints.md exists
+
+Inspection
+18/20 pts: See inspection.md
+
+Total: 28/30 pts

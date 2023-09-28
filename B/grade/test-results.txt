@@ -1,0 +1,78 @@
+(testing /course/cs4500f23/ta/tedium-workdir/github/fearless-mice/B/xgui)
+(testing /course/cs4500f23/ta/23SwDev/Code/B/Tests/0-in.json /course/cs4500f23/ta/23SwDev/Code/B/Tests/0-out.json)
+---------------------------------
+(*** score 0)
+(*** on)
+'(("file is:"
+   "Ab2.png"
+   #hasheq((color . "orange") (shape . "diamond"))
+   #hasheq((color . "green") (shape . "8star")))
+  ("file is:"
+   "Bb2.png"
+   #hasheq((color . "red") (shape . "star"))
+   #hasheq((color . "blue") (shape . "square"))
+   #hasheq((color . "green") (shape . "8star")))
+  ("file is:"
+   "1b2.png"
+   #hasheq((color . "blue") (shape . "square"))
+   #hasheq((color . "blue") (shape . "square"))
+   #hasheq((color . "green") (shape . "8star"))))
+(*** expected)
+'("done" "done" "done")
+(*** but received)
+'(((plain fast with-newline plain-unicode)
+   ("Timed out waiting for reading to start.")))
+
+
+(testing /course/cs4500f23/ta/23SwDev/Code/B/Tests/1-in.json /course/cs4500f23/ta/23SwDev/Code/B/Tests/1-out.json)
+---------------------------------
+(*** score 0)
+(*** on)
+'(("file is:"
+   "2b2.png"
+   #hasheq((color . "orange") (shape . "diamond"))
+   #hasheq((color . "green") (shape . "8star")))
+  ("file is:"
+   "3b2.png"
+   #hasheq((color . "red") (shape . "star"))
+   #hasheq((color . "blue") (shape . "square"))
+   #hasheq((color . "green") (shape . "8star")))
+  ("file is:"
+   "zb2.png"
+   #hasheq((color . "blue") (shape . "square"))
+   #hasheq((color . "blue") (shape . "square"))
+   #hasheq((color . "green") (shape . "8star"))))
+(*** expected)
+'("done" "done" "done")
+(*** but received)
+'(((plain fast with-newline plain-unicode)
+   ("Timed out waiting for reading to start.")))
+
+
+(testing /course/cs4500f23/ta/23SwDev/Code/B/Tests/2-in.json /course/cs4500f23/ta/23SwDev/Code/B/Tests/2-out.json)
+---------------------------------
+(*** score 0)
+(*** on)
+'(("file is:"
+   "Cb2.png"
+   #hasheq((color . "orange") (shape . "diamond"))
+   #hasheq((color . "green") (shape . "8star")))
+  ("file is:"
+   "Db2.png"
+   #hasheq((color . "red") (shape . "star"))
+   #hasheq((color . "blue") (shape . "square"))
+   #hasheq((color . "green") (shape . "8star")))
+  ("file is:"
+   "Eb2.png"
+   #hasheq((color . "blue") (shape . "square"))
+   #hasheq((color . "blue") (shape . "square"))
+   #hasheq((color . "green") (shape . "8star"))))
+(*** expected)
+'("done" "done" "done")
+(*** but received)
+'(((plain fast with-newline plain-unicode)
+   ("Timed out waiting for reading to start.")))
+
+
+()
+((passed 0) (total 3) (partial-score 0))
