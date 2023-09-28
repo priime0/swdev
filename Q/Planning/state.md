@@ -43,9 +43,8 @@
 ;; Produce the current turn request from the given game state.
 
 #; {GameState TurnAction -> GameState}
-;; Apply the given action to the current game state, creating a new game state.
-;; That is, update the current player whose turn it is, points, tiles in hand,
-;; tiles remaining, and board.
+;; Apply the given action to the current game state, creating a new game state. That is, update the
+;; current player whose turn it is, points, tiles in hand, tiles remaining, and board.
 ;; ASSUME: The referee, using information from the turn request and returned player action,
 ;; has already validated the request action, or kicked the player.
 ```
