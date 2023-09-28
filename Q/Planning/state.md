@@ -1,7 +1,6 @@
 **TO:** Matthias Felleisen <matthias@ccs.neu.edu>, Benjamin Lerner <blerner@ccs.neu.edu>
 
-**FROM:** Andrey Piterkin <piterkin.a@northeastern.edu>, Lucas Sta Maria
-<lucas@priime.dev>
+**FROM:** Andrey Piterkin <piterkin.a@northeastern.edu>, Lucas Sta Maria <lucas@priime.dev>
 
 **DATE:** 2023-09-27
 
