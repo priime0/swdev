@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+raco test -q -t -p Q
