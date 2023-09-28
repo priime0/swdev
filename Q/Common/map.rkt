@@ -80,9 +80,9 @@
            "posn ~a invalid position to place on board"
            posn))
 
-  (define existing-map (board-map board))
-  (define new-map (hash-set existing-map posn new-tile))
-  (set-board-map board new-map))
+  (define tiles-map (board-map board))
+  (define tiles-map+ (hash-set tiles-map posn new-tile))
+  (set-board-map board tiles-map+))
 
 
 #; {Board Tile -> [Listof Posn]}
