@@ -48,8 +48,7 @@
         [right . (0 . 1)]))
 
 
-#; {type Board = (board [HashTable Posn
-                                   Tile])}
+#; {type Board = (board [HashTable Posn Tile])}
 ;; A Board represents a square grid map in Q, implemented as a hash table where the keys are 2D
 ;; coordinates relative to the root tile, and the values are the tiles at the given coordinate.
 ;; INVARIANT: A Board is a connected graph.
