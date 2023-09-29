@@ -1,0 +1,10 @@
+Delivery
+10/10 pts: Deliverable B/xgui exists with the right permissions
+
+Functionality
+0/15 pts: Passed 0 out of 3 tests (see test-results.txt)
+
+Inspection
+15/25 pts: See inspection.md
+
+Total: 25/50 pts
