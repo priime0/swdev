@@ -26,7 +26,7 @@
        (listof (cons/c integer? integer?)))]))
 
 
-#; {type Posn = Posn}
+#; {type Posn = [Pairof Integer]}
 ;; A Posn is a pair of '(r . c), which represent a row and column in the Board.
 
 #; {Posn Direction -> Posn}
