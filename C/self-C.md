@@ -17,15 +17,17 @@ So, indicate below each bullet which file/unit takes care of each task:
 
 1. dealing with the command-line argument (PORT)
 
+Yes.
 
+https://github.khoury.northeastern.edu/CS4500-F23/fearless-mice/blob/0a00a1fd9b2a77e1a9ce1f3b6fd4ccaddb83372c/C/Other/xtcp/xtcp.rkt#L67-L68
 
 2. connecting the client on the specified port to the functionality
 
-
+https://github.khoury.northeastern.edu/CS4500-F23/fearless-mice/blob/0a00a1fd9b2a77e1a9ce1f3b6fd4ccaddb83372c/C/Other/xtcp/xtcp.rkt#L55
 
 3. core functionality (either copied or imported from `A`)
 
-
+https://github.khoury.northeastern.edu/CS4500-F23/fearless-mice/blob/0a00a1fd9b2a77e1a9ce1f3b6fd4ccaddb83372c/C/Other/xtcp/xtcp.rkt#L6-L49
 
 The ideal feedback for each of these three points is a GitHub
 perma-link to the range of lines in a specific file or a collection of
