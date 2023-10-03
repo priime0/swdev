@@ -4,7 +4,9 @@
  (contract-out
   #:unprotected-submodule no-contract
   [member? (any/c (or/c list? any/c) . -> . boolean?)]
-  [all-same? (list? . -> . boolean?)]))
+  [all-same? (list? . -> . boolean?)]
+  [rotate-left (natural? list? . -> . list?)]
+  [rotate-left-1 (list? . -> . list?)]))
 
 #; {(X) X [Listof X] -> Boolean}
 ;; Is the given element `v` a member of the given list `lst`?
@@ -17,6 +19,17 @@
   (or (null? lst)
       (andmap (curry equal? (first lst))
               (rest lst))))
+
+#; {(X) Natural [Listof X] -> [Listof X]}
+;; Rotates the given list _n_ times, moving the first _n_ elements to the end.
+(define (rotate-left n lst)
+  (define-values (hd tl) (split-at lst n))
+  (append tl hd))
+
+#; {(X) [Listof X] -> [Listof X]}
+;; Rotates the given list by one, moving the first element to the end.
+(define (rotate-left-1 lst)
+  (rotate-left 1 lst))
 
 (module+ test
   (require rackunit)
