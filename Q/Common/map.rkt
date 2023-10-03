@@ -6,11 +6,7 @@
 (require Q/Common/data/tile)
 
 (provide
- board
  board?
- board++
- board-map
- set-board-map
 
  (contract-out
   #:unprotected-submodule no-contract
@@ -72,7 +68,7 @@
 
 #; {Board Posn Tile -> Board}
 ;; Places the new tile at the given posn on the board's map.
-;; EXCEPT: Throws an error if the given position is invalid.
+;; EXCEPT: Throws an error if the given position is invalid, preserving INVARIANT 0.
 (define (board-add-tile board posn new-tile)
   (unless (board-posn-empty+has-adjacent? board posn)
     (error 'board-add-tile
