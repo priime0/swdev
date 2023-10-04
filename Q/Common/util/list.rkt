@@ -37,14 +37,29 @@
 #; {(X) [Listof X] [Listof X] -> [Listof X]}
 ;; Remove the elements in `l1` from `l2`.
 (define (remove-from l1 l2)
+  (define expected-length (- (length l2) (length l1)))
+
+  (when (negative? expected-length)
+    (error 'remove-from
+           "l1 is greater in size than l2"))
+
   (define counter (list->count l1))
-  (for/fold ([lst '()]
-             #:result (reverse lst))
-            ([el l2])
-    (cond [(not (zero? (hash-ref counter el 0)))
-           (hash-update! counter el sub1)
-           lst]
-          [else (cons el lst)])))
+  (define-values (pruned-list pruned-list-length)
+    (for/fold ([lst '()]
+               [len 0]
+               #:result (values (reverse lst) len))
+              ([el l2])
+      (cond [(not (zero? (hash-ref counter el 0)))
+             (hash-update! counter el sub1)
+             (values lst len)]
+            [else
+             (values (cons el lst) (add1 len))])))
+
+  (unless (= pruned-list-length expected-length)
+    (error 'remove-from
+           "l1 is not contained in l2"))
+
+  pruned-list)
 
 (module+ test
   (require rackunit)
