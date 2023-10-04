@@ -1,12 +1,15 @@
 #lang racket
 
+(require Q/Common/util/hash)
+
 (provide
  (contract-out
   #:unprotected-submodule no-contract
-  [member? (any/c (or/c list? any/c) . -> . boolean?)]
-  [all-same? (list? . -> . boolean?)]
-  [rotate-left (natural? list? . -> . list?)]
-  [rotate-left-1 (list? . -> . list?)]))
+  [member?       (any/c (or/c list? any/c) . -> . boolean?)]
+  [all-same?     (list? . -> . boolean?)]
+  [rotate-left   (natural? list? . -> . list?)]
+  [rotate-left-1 (list? . -> . list?)]
+  [remove-from   (list? list? . -> . list?)]))
 
 #; {(X) X [Listof X] -> Boolean}
 ;; Is the given element `v` a member of the given list `lst`?
@@ -30,6 +33,18 @@
 ;; Rotates the given list by one, moving the first element to the end.
 (define (rotate-left-1 lst)
   (rotate-left 1 lst))
+
+#; {(X) [Listof X] [Listof X] -> [Listof X]}
+;; Remove the elements in `l1` from `l2`.
+(define (remove-from l1 l2)
+  (define counter (list->count l1))
+  (for/fold ([lst '()]
+             #:result (reverse lst))
+            ([el l2])
+    (cond [(not (zero? (hash-ref counter el 0)))
+           (hash-update! counter el sub1)
+           lst]
+          [else (cons el lst)])))
 
 (module+ test
   (require rackunit)
