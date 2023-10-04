@@ -61,7 +61,7 @@
 (define (tiles-equal-shape? tiles)
   (struct-equal-field? tile-shape tiles))
 
-#; {Natural Color -> Image}
+#; {Natural TileColor -> Image}
 ;; Produces a function that consumes a color and generates an image of a star with the given
 ;; `point-count`, the number of points the star has.
 (define (render-tile/nstar point-count color)
@@ -69,38 +69,38 @@
   (define outer-radius (*game-size*))
   (radial-star point-count inner-radius outer-radius (*tile-shape-mode*) color))
 
-#; {Color -> Image}
+#; {TileColor -> Image}
 ;; Produces an image of a 4-side star with the given color.
 (define (render-tile/star color)
   (define point-count 4)
   (render-tile/nstar point-count color))
 
-#; {Color -> Image}
+#; {TileColor -> Image}
 ;; Produces an image of a 8-side star with the given color.
 (define (render-tile/8star color)
   (define point-count 8)
   (render-tile/nstar point-count color))
 
-#; {Color -> Image}
+#; {TileColor -> Image}
 ;; Produces an image of a square with the given color.
 (define (render-tile/square color)
   (define side-length (*game-size*))
   (square side-length (*tile-shape-mode*) color))
 
-#; {Color -> Image}
+#; {TileColor -> Image}
 ;; Produces an image of a circle with the given color.
 (define (render-tile/circle color)
   (define radius (*game-size*))
   (circle radius (*tile-shape-mode*) color))
 
-#; {Color -> Image}
+#; {TileColor -> Image}
 ;; Produces an image of a circle with the given color.
 (define (render-tile/diamond color)
   (define side-length (*game-size*))
   (define angle 90)
   (rhombus side-length angle (*tile-shape-mode*) color))
 
-#; {Color -> Image}
+#; {TileColor -> Image}
 ;; Produces an image of a clover with the given color.
 (define (render-tile/clover color)
   (define major-radius (*game-size*))
@@ -119,8 +119,8 @@
          (define scale-factor (/ target-width current-width))
          (scale scale-factor tile-image)]))
 
-#; {TileShape -> Color -> Image}
-;; Given a TileShape, produce a function that takes in a color string and renders an image with the
+#; {TileShape -> TileColor -> Image}
+;; Given a TileShape, produce a function that takes in a tile color and renders an image with the
 ;; given shape and color.
 (define (render-tile/shape-function tile-shape)
   (match tile-shape
