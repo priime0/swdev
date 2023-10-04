@@ -40,9 +40,10 @@
 #; {type PlayerState = (player-state Natural [Listof Tile])}
 ;; A PlayerState represents a participating player's state during any instant of time, containing
 ;; the points the player accrued during the game, along with the tiles in their hand during a move.
-;; INVARIANT: The hand of a player state has a length L such that 0 ≤ L ≤ 6.
-(struct++ player-state ([score  natural?]
-                        [hand   (listof tile?)])
+;; INVARIANT: The hand of a player state has a length L such that 0 ≤ L ≤ (*hand-size*).
+(struct++ player-state
+          ([score  natural?]
+           [hand   (listof tile?)])
           #:transparent)
 
 
@@ -82,21 +83,16 @@
                 #:turn-queue player-ids))
 
 
-#; {GameState PlayerId [Listof TilePlacement] -> GameState}
+#; {[HashTable PlayerId PlayerState] PlayerId [Listof Tile] -> [HashTable PlayerId PlayerState]}
+;;
 ;; ASSUME: `placements` contains all valid placements of tiles.
-(define (remove-from-hand gs p-id placements)
-  (define states       (game-state-player-states gs))
+(define (remove-from-hand states p-id player-tiles)
   (define state        (hash-ref states p-id))
   (define hand         (player-state-hand state))
-  (define placed-tiles (map cdr placements))
-  (define hand+
-    (for/fold ([hand^ hand])
-              ([tile placed-tiles])
-      (remove tile hand^)))
-  (define state+ (set-player-state-hand state hand+))
-  (define states+ (hash-set states p-id state+))
+  (define hand+        (remove-from player-tiles hand))
+  (define state+       (set-player-state-hand state hand+))
 
-  (set-game-state-player-states gs states+))
+  (hash-set states p-id state+))
 
 
 #; {[HashTable PlayerId PlayerState] -> [HashTable PlayerId Natural]}
@@ -151,17 +147,18 @@
 #; {GameState [Listof TilePlacement] -> GameState}
 (define (take-turn/placement gs placements)
   (match-define [game-state board tiles states turn-queue] gs)
+  (define current-player (first turn-queue))
 
-  ;; TODO: Add scoring
   (define board+
     (for/fold ([board^ board])
               ([placement placements])
       (match-define [cons posn tile] placement)
-      (board-add-tile board^ posn tile)))
-  (define tiles+ (take (length placements) tiles))
-  ;; TODO: Remove tiles from player's hand
+      (add-tile board^ posn tile)))
+  (define tiles+ (take tiles (length placements)))
 
-  (game-state board+ tiles states turn-queue))
+  (define states+ (remove-from-hand states current-player placements))
+
+  (game-state board+ tiles+ states+ turn-queue))
 
 #; {GameState -> GameState}
 ;; Exchange the current player's tiles for new ones from the game state's tiles.
