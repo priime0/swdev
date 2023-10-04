@@ -14,8 +14,6 @@
  tile++
  tile-shape
  tile-color
- set-tile-shape
- set-tile-color
  tiles-equal-color?
  tiles-equal-shape?
 (contract-out
@@ -63,16 +61,13 @@
 (define (tiles-equal-shape? tiles)
   (struct-equal-field? tile-shape tiles))
 
-;; Whether the shape is filled in ('solid) or not ('outline)
-(define tile-shape-mode 'solid)
-
 #; {Natural Color -> Image}
 ;; Produces a function that consumes a color and generates an image of a star with the given
 ;; `point-count`, the number of points the star has.
 (define (render-tile/nstar point-count color)
   (define inner-radius (/ (*game-size*) 4))
   (define outer-radius (*game-size*))
-  (radial-star point-count inner-radius outer-radius tile-shape-mode color))
+  (radial-star point-count inner-radius outer-radius (*tile-shape-mode*) color))
 
 #; {Color -> Image}
 ;; Produces an image of a 4-side star with the given color.
@@ -90,20 +85,20 @@
 ;; Produces an image of a square with the given color.
 (define (render-tile/square color)
   (define side-length (*game-size*))
-  (square side-length tile-shape-mode color))
+  (square side-length (*tile-shape-mode*) color))
 
 #; {Color -> Image}
 ;; Produces an image of a circle with the given color.
 (define (render-tile/circle color)
   (define radius (*game-size*))
-  (circle radius tile-shape-mode color))
+  (circle radius (*tile-shape-mode*) color))
 
 #; {Color -> Image}
 ;; Produces an image of a circle with the given color.
 (define (render-tile/diamond color)
   (define side-length (*game-size*))
   (define angle 90)
-  (rhombus side-length angle tile-shape-mode color))
+  (rhombus side-length angle (*tile-shape-mode*) color))
 
 #; {Color -> Image}
 ;; Produces an image of a clover with the given color.
