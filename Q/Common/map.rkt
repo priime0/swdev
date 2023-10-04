@@ -4,6 +4,7 @@
 (require threading)
 
 (require Q/Common/data/tile)
+(require Q/Common/data/posn)
 
 (provide
  board?
@@ -21,34 +22,6 @@
        tile?
        (listof (cons/c integer? integer?)))]))
 
-
-#; {type Posn = [Pairof Integer]}
-;; A Posn is a pair of '(r . c), which represent a row and column in the infinite Board.
-
-
-#; {type Direction = (U 'up 'down 'left 'right)}
-;; A Direction is a pair of '(Δr . Δc), representing a unit vector translation in one of the four
-;; distinct directions in a square grid.
-;; A Direction thus has two axes, vertical and horizontal. A Direction is a translation in only one
-;; axis. For the vertical axis, up is negative and down is positive. For the horizontal axes, left
-;; is negative and right is positive.
-(define directions
-  #hash([up    . (-1 . 0)]
-        [down  . (1 . 0)]
-        [left  . (0 . -1)]
-        [right . (0 . 1)]))
-(define direction-names (hash-keys directions))
-
-;; DEFINITION: Two `Posn`s α, β are _neighbors_ IFF WLOG there exists some direction Δ such that
-;;             `(posn-translate α Δ)` produces β.
-
-#; {Posn Direction -> Posn}
-;; Produce a new posn representing the given posn translated in the given direction.
-(define (posn-translate posn dir)
-  (match-define (cons base-r base-c) posn)
-  (match-define (cons dr dc) (hash-ref directions dir))
-  (cons (+ base-r dr)
-        (+ base-c dc)))
 
 
 #; {type Board = (board [HashTable Posn Tile])}
@@ -73,7 +46,7 @@
 ;; Create a Board with the given Tile placed at position (0, 0) -- the Tile represents the *root*
 ;; tile of a game, which is the only referee-placed tile.
 (define (make-board root-tile)
-  (board++ #:map (hash '(0 . 0) root-tile)))
+  (board++ #:map (hash (posn 0 0) root-tile)))
 
 
 #; {Board Posn Tile -> Board}
@@ -124,14 +97,6 @@
   (define occupied-adjacent-tiles (filter-map tile-at^ neighbor-posns))
 
   (pair? occupied-adjacent-tiles))
-
-
-#; {Posn [Listof Direction] -> [Listof Posn]}
-;; Produces the list of neighboring posns for the given posn for each direction in the given list.
-;; Does not filter out duplicate positions.
-(define (posn-neighbors/dirs posn dir-list)
-  (define posn-translate^ (curry posn-translate posn))
-  (map posn-translate^ dir-list))
 
 
 #; {Board -> [Listof Posn]}
@@ -186,101 +151,101 @@
   (require rackunit)
 
   (define example-board
-    (board (hash '(0 . 0) (tile 'red 'square)
-                 '(1 . 0) (tile 'red 'circle)
-                 '(0 . 1) (tile 'green 'square)
-                 '(2 . 0) (tile 'red 'star)))))
+    (board (hash (posn 0 0) (tile 'red 'square)
+                 (posn 1 0) (tile 'red 'circle)
+                 (posn 0 1) (tile 'green 'square)
+                 (posn 2 0) (tile 'red 'star)))))
 
 (module+ test
   (test-equal?
    "create a board with the referees tile being a red square"
    (make-board (tile 'red 'square))
-   (board++ #:map (hash '(0 . 0) (tile 'red 'square))))
+   (board++ #:map (hash (posn 0 0) (tile 'red 'square))))
 
   (test-equal?
    "create a board with the referees tile being a blue circle"
    (make-board (tile 'blue 'circle))
-   (board++ #:map (hash '(0 . 0) (tile 'blue 'circle))))
+   (board++ #:map (hash (posn 0 0) (tile 'blue 'circle))))
 
   (test-equal?
    "board tile at (0, 0) with existing tile"
-   (tile-at example-board '(0 . 0))
+   (tile-at example-board (posn 0 0))
    (tile 'red 'square))
 
   (test-false
    "board tile at (-1, 0) without existing tile"
-   (tile-at example-board '(-1 . 0)))
+   (tile-at example-board (posn -1 0)))
 
   (test-true
    "board tile at (1, 1) has adjacent"
-   (has-adjacent-tiles? example-board '(1 . 1)))
+   (has-adjacent-tiles? example-board (posn 1 1)))
 
   (test-false
    "board tile at (-2, -2) does not have adjacent"
-   (has-adjacent-tiles? example-board '(-2 . -2)))
+   (has-adjacent-tiles? example-board (posn -2 -2)))
 
   (test-equal?
    "posn adjacent dirs at (0, 0) with no directions given"
-   (posn-neighbors/dirs '(0 . 0) '())
+   (posn-neighbors/dirs (posn 0 0) '())
    '())
 
   (test-equal?
    "posn adjacent dirs at (0, 0) with every direction given"
-   (posn-neighbors/dirs '(0 . 0) '(left right up down))
-   '((0 . -1) (0 . 1) (-1 . 0) (1 . 0)))
+   (posn-neighbors/dirs (posn 0 0) '(left right up down))
+   (list (posn 0 -1) (posn 0 1) (posn -1 0) (posn 1 0)))
 
   (test-equal?
     "posn adjacent dirs at (1, 1) with some directions given"
-    (posn-neighbors/dirs '(1 . 1) '(left up down))
-    '((1 . 0) (0 . 1) (2 . 1)))
+    (posn-neighbors/dirs (posn 1 1) '(left up down))
+    (list (posn 1 0) (posn 0 1) (posn 2 1)))
 
   (test-equal?
    "posn adjacent dirs at (1, 1) with duplicate directions given"
-   (posn-neighbors/dirs '(1 . 1) '(left left))
-   '((1 . 0) (1 . 0)))
+   (posn-neighbors/dirs (posn 1 1) '(left left))
+   (list (posn 1 0) (posn 1 0)))
 
   (test-true
    "posn is empty and has adjacent tiles at (1, 1)"
-   (posn-empty+has-adjacent? example-board '(1 . 1)))
+   (posn-empty+has-adjacent? example-board (posn 1 1)))
 
   (test-false
    "posn is empty and has no adjacent tiles at (2, 2)"
-   (posn-empty+has-adjacent? example-board '(2 . 2)))
+   (posn-empty+has-adjacent? example-board (posn 2 2)))
 
   (test-false
    "posn is not empty and has adjacent tiles at (0, 0)"
-   (posn-empty+has-adjacent? example-board '(0 . 0)))
+   (posn-empty+has-adjacent? example-board (posn 0 0)))
 
   (test-equal?
    "add a tile to the board at (1, 1)"
-   (board-map (add-tile example-board '(1 . 1) (tile 'blue 'square)))
-   (hash '(0 . 0) (tile 'red 'square)
-         '(1 . 0) (tile 'red 'circle)
-         '(0 . 1) (tile 'green 'square)
-         '(2 . 0) (tile 'red 'star)
-         '(1 . 1) (tile 'blue 'square)))
+   (board-map (add-tile example-board (posn 1 1) (tile 'blue 'square)))
+   (hash (posn 0 0) (tile 'red 'square)
+         (posn 1 0) (tile 'red 'circle)
+         (posn 0 1) (tile 'green 'square)
+         (posn 2 0) (tile 'red 'star)
+         (posn 1 1) (tile 'blue 'square)))
 
   (test-exn
    "add a tile to the board at (0, 0) with an existing tile"
    exn:fail?
-   (thunk (add-tile example-board '(0 . 0) (tile 'blue 'square))))
+   (thunk (add-tile example-board (posn 0 0) (tile 'blue 'square))))
 
   (test-exn
    "add a tile to the board at (2, 2) with no adjacent tiles"
    exn:fail?
-   (thunk (add-tile example-board '(2 . 2) (tile 'blue 'square))))
+   (thunk (add-tile example-board (posn 2 2) (tile 'blue 'square))))
 
   (test-check
    "board open posns of example board"
    set=?
    (board-open-posns example-board)
-   '((0 . -1) (-1 . 0) (3 . 0) (2 . -1) (2 . 1) (1 . -1) (1 . 1) (-1 . 1) (0 . 2)))
+   (list (posn 0 -1) (posn -1 0) (posn 3 0) (posn 2 -1) (posn 2 1) (posn 1 -1) (posn 1 1) (posn -1 1) (posn 0 2)))
 
   (test-check
    "board open posns of starting board"
    set=?
    (board-open-posns (make-board (tile 'red 'square)))
-   '((1 . 0) (0 . -1) (-1 . 0) (0 . 1)))
+   (list (posn 1 0) (posn 0 -1) (posn -1 0) (posn 0 1)))
 
   (test-true
    "valid tile sequence with same color"
@@ -306,26 +271,25 @@
                          (list (tile 'blue 'circle)
                                (tile 'green 'star))))
 
-  (test-equal?
+  (test-true
    "board valid position for a valid tile at (1, 1)"
-   (valid-placement? example-board (tile 'green 'circle) '(1 . 1))
-   '(1 . 1))
+   (valid-placement? example-board (tile 'green 'circle) (posn 1 1)))
 
   (test-false
    "board invalid position for an invalid tile at (1, 1)"
-   (valid-placement? example-board (tile 'green 'square) '(1 . 1)))
+   (valid-placement? example-board (tile 'green 'square) (posn 1 1)))
 
   (test-check
    "possible tile positions for a red clover"
    set=?
    (valid-tile-placements (tile 'red 'clover) example-board)
-   '((0 . -1) (-1 . 0) (3 . 0) (2 . -1) (2 . 1) (1 . -1)))
+   (list (posn 0 -1) (posn -1 0) (posn 3 0) (posn 2 -1) (posn 2 1) (posn 1 -1)))
 
   (test-check
    "possible tile positions for a green square"
    set=?
    (valid-tile-placements (tile 'green 'square) example-board)
-   '((0 . -1) (-1 . 0) (-1 . 1) (0 . 2)))
+   (list (posn 0 -1) (posn -1 0) (posn -1 1) (posn 0 2)))
 
   (test-check
    "no possible tile positions for a blue 8star"
