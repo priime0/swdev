@@ -39,11 +39,16 @@ The project is structured as follows:
   - `xtest`: The test script for running unit and integration tests
   - `Common/`: Contains components used by players and referees
     - `map.rkt`: The representation of the board and its functions
+    - `game-state.rkt`: The representation of the all of the public
+      and private knowledge in a game of Q
     - `config.rkt`: The configuration of the game, including globals
     - `data/`:
       - `tile.rkt`: The representation of tiles and its functions
+      - `posn.rkt`: The representation of an arbitrary positions and
+        concrete directions
     - `util/`:
       - `list.rkt`: List function utilities
+      - `hash.rkt`: Hashtable function utilities
       - `struct.rkt`: struct function utilities
 
 ## Roadmap
