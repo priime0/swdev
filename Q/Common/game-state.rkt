@@ -54,7 +54,8 @@
 ;; A GameState represents the state of a game at any instant of time, containing the board's current
 ;; state at that instant, along with the list of remaining tiles, state of participating players and
 ;; their turn orders.
-;; INVARIANT: A player β is in the `players` hashtable iff β is in the `turn-queue` deque.
+;; INVARIANT: A player β is in the `players` hashtable iff β is in the `turn-queue` deque. That is,
+;; there is a bijection between (hash-keys `players`) and `turn-queue`.
 (struct++ game-state
           ([board board?]
            [tiles (listof tile?)]
