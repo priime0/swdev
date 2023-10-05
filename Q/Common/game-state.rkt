@@ -15,6 +15,22 @@
 #; {Any -> Boolean}
 (define player-id? symbol?)
 
+#; {type TurnAction = (U [List 'place-tile [Listof TilePlacement]]
+                         [List 'exchange]
+                         [List 'pass])}
+;; A TurnAction represents a possible action during a player turn, and is one of:
+;; - A placement of tiles onto the board at the corresponding locations in the given order
+;; - An exchange of all tiles in a player's hand
+;; - Skipping a player's turn (withdrawing from performing any actions)
+
+#; {Any -> Boolean}
+(define (turn-action? a)
+  (match a
+    [(list 'place-tile placements)
+     (andmap tile-placement? placements)]
+    [(or '(exchange) '(pass)) #t]
+    [_                        #f]))
+
 #; {type TurnInfo = (turn-info PlayerId
                                [Listof Tile]
                                [HashTable PlayerId Natural]
@@ -40,21 +56,7 @@
        (posn? (car a))
        (tile? (cdr a))))
 
-#; {type TurnAction = (U [List 'place-tile [Listof TilePlacement]]
-                         [List 'exchange]
-                         [List 'pass])}
-;; A TurnAction represents a possible action during a player turn, and is one of:
-;; - A placement of tiles onto the board at the corresponding locations in the given order
-;; - An exchange of all tiles in a player's hand
-;; - Skipping a player's turn (withdrawing from performing any actions)
 
-#; {Any -> Boolean}
-(define (turn-action? a)
-  (match a
-    [(list 'place-tile placements)
-     (andmap tile-placement? placements)]
-    [(or '(exchange) '(pass)) #t]
-    [_                        #f]))
 
 #; {type PlayerState = (player-state Natural [Listof Tile])}
 ;; A PlayerState represents a participating player's state during any instant of time, containing
@@ -79,12 +81,12 @@
 (struct++ game-state
           ([board         board?]
            [tiles         (listof tile?)]
-           [player-states (hash/c string? player-state?)]
+           [player-states (hash/c player-id? player-state?)]
            [history       (listof turn-action?)]
            [turn-queue    (listof symbol?)])
           #:transparent)
 
-#; {Tile [Listof PlayerId] -> GameState}
+#; {Tile [Listof Tile] [Listof PlayerId] -> GameState}
 ;; Creates a fresh game state with the given referee tile, set of tiles (shuffling them), and the
 ;; player IDs.
 ;; ASSUME: the players are sorted by age in non-increasing order.
@@ -106,23 +108,12 @@
                 #:turn-queue player-ids))
 
 
-#; {[HashTable PlayerId PlayerState] PlayerId [Listof Tile] -> [HashTable PlayerId PlayerState]}
-;;
-;; ASSUME: `placements` contains all valid placements of tiles.
-(define (remove-from-hand states p-id player-tiles)
-  (define state        (hash-ref states p-id))
-  (define hand         (player-state-hand state))
-  (define hand+        (remove-from player-tiles hand))
-  (define state+       (set-player-state-hand state hand+))
-
-  (hash-set states p-id state+))
-
-
 #; {[HashTable PlayerId PlayerState] -> [HashTable PlayerId Natural]}
+;; Extract the score of each player from the given player states map.
 (define (player-states->player-scores states)
   (define (extract-score name state)
     (values name (player-state-score state)))
-  (hash-map extract-score states))
+  (hash-map/copy states extract-score))
 
 
 #; {GameState -> TurnInfo}
@@ -136,13 +127,13 @@
 
   (define scores (player-states->player-scores states))
 
-  (turn-info player-id player-tiles scores board))
+  (turn-info player-id player-tiles scores history board))
 
 #; {GameState PlayerId -> GameState}
 ;; Kick the player from the current game state.
 ;; EXCEPT: When the given player id is not in the game.
 (define (kick-player gs p-id)
-  (match-define [game-state board tiles states turn-queue] gs)
+  (match-define [game-state board tiles states history turn-queue] gs)
 
   (unless (member? p-id turn-queue)
     (error 'kick-player
@@ -157,7 +148,41 @@
 
   (game-state board tiles+ states+ turn-queue+))
 
+#; {PlayerState [Listof Tile] -> PlayerState}
+;; Removes the given tiles from the hand of the given player state.
+(define (remove-from-hand state tiles)
+  (define hand (player-state-hand state))
+  (define hand+ (remove-from tiles hand))
+  (set-player-state-hand state hand+))
+
+#; {PlayerState -> (values PlayerState [Listof Tile])}
+;; Empties the hand of the given player state, returning the new empty-handed player state,
+;; and its former tiles.
+(define (clear-hand state)
+  (define hand (player-state-hand state))
+  (define state+ (set-player-state-hand state '()))
+  (values state+ hand))
+
+#; {PlayerState [Listof Tiles] -> (values PlayerState [Listof Tiles])}
+;; Repenlishes the hand of the given player state from the given list of tiles, returning
+;; the new player state and the remaining tiles.
+(define (refill-hand state tiles)
+  (define hand        (player-state-hand state))
+  (define hand-length (length hand))
+  (define missing     (- (*hand-size*) hand-length))
+  (define available   (length tiles))
+
+  (define-values (new-tiles tiles+)
+    (split-at tiles
+              (min missing available)))
+  (define hand+ (append hand new-tiles))
+
+  (define state+ (set-player-state-hand state hand+))
+  (values state+ tiles+))
+
 #; {GameState TurnAction -> GameState}
+;; Performs the given turn action for the current player in this game state, and updates the turn
+;; queue.
 ;; ASSUME: the given game state has a non-zero amount of players.
 (define (take-turn gs action)
   (define gs+
@@ -167,39 +192,58 @@
       [(list 'pass)                  (identity gs)]))
   (end-turn gs+))
 
+#; {Board [Listof TilePlacement] -> Board}
+;; Constructs a new board with all of the given tile placements.
+;; ASSUME each tile placement is valid.
+(define (place-tiles board placements)
+  (for/fold ([board^ board])
+            ([placement placements])
+    (match-define [cons posn tile] placement)
+    (add-tile board^ posn tile)))
+          
 #; {GameState [Listof TilePlacement] -> GameState}
+;; Places the given list of placements, updating the board, player hand, and remaining tiles.
 (define (take-turn/placement gs placements)
-  (match-define [game-state board tiles states turn-queue] gs)
-  (define current-player (first turn-queue))
+  (match-define [game-state board tiles states history turn-queue] gs)
+  (define player       (first turn-queue))
+  (define state        (hash-ref states player))
 
-  (define board+
-    (for/fold ([board^ board])
-              ([placement placements])
-      (match-define [cons posn tile] placement)
-      (add-tile board^ posn tile)))
-  (define tiles+ (take tiles (length placements)))
+  (define board+       (place-tiles board placements))
 
-  (define states+ (remove-from-hand states current-player placements))
+  (define placed-tiles (map cdr placements))
+  (define state+       (remove-from-hand state placed-tiles))
+  (define-values       (state++ tiles+) (refill-hand state+ tiles))
+  (define states+      (hash-set states player state++))
 
-  (game-state board+ tiles+ states+ turn-queue))
+  (game-state board+ tiles+ states+ history turn-queue))
 
 #; {GameState -> GameState}
 ;; Exchange the current player's tiles for new ones from the game state's tiles.
+;; 
 (define (take-turn/exchange gs)
-  (match-define [game-state board tiles states turn-queue] gs)
-  (define player-id (first turn-queue))
-  (define player-state (hash-ref states player-id))
-  (define hand (player-state-hand player-state))
+  (match-define [game-state board tiles states history turn-queue] gs)
+  (define player (first turn-queue))
+  (define state  (hash-ref states player))
+  (define-values (state+ hand) (clear-hand state))
 
-  (define-values (hand+ tiles+) (split-at tiles (*hand-size*)))
+  (define-values (state++ tiles+) (refill-hand state+ tiles))
   (define tiles++ (append tiles+ hand))
-  (define player-state+ (set-player-state-hand hand+))
-  (define states+ (hash-set states player-id player-state+))
+  (define states+ (hash-set states player state++))
 
-  (game-state board tiles++ states+ turn-queue))
+  (game-state board tiles++ states+ history turn-queue))
 
 #; {GameState -> GameState}
 ;; Updates the turn queue, moving the current player to the end.
 (define (end-turn gs)
   (define turn-queue (game-state-turn-queue gs))
   (set-game-state-turn-queue gs (rotate-left-1 turn-queue)))
+
+(module+ test
+  (define tilecart (cartesian-product tile-colors tile-shapes))
+  (define tile-set (map (curry apply tile) tilecart))
+  (define all-tiles (make-list 10 tile-set))
+  (define all-tiles+ (flatten all-tiles))
+  (define gs (make-game-state (tile 'red 'square)
+                              all-tiles+
+                              (list 'lucas 'andrey)))
+  (define turn-info-1 (game-state->turn-info gs)))
