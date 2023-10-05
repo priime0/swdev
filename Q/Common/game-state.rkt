@@ -6,27 +6,39 @@
 (require Q/Common/map)
 (require Q/Common/config)
 (require Q/Common/data/tile)
+(require Q/Common/data/posn)
 (require Q/Common/util/list)
 
-#; {type PlayerId = String}
+#; {type PlayerId = Symbol}
 ;; A PlayerId represents a _unique_ identifier for a player during a game.
+
+#; {Any -> Boolean}
+(define player-id? symbol?)
 
 #; {type TurnInfo = (turn-info PlayerId
                                [Listof Tile]
                                [HashTable PlayerId Natural]
                                Board)};
 ;; A TurnInfo represents all the data necessary for a player to take their turn, containing their
-;; player id, their tiles, the points of every player, and the current board state.
+;; player id, their tiles, the points of every player, the history of moves made, and the current
+;; board state.
 (struct++ turn-info
-          ([player-id    string?]
+          ([player-id    player-id?]
            [player-tiles (listof tile?)]
            [scores       (hash/c string? natural?)]
+           [history      (listof (cons/c player-id? turn-action?))]
            [board        board?])
           #:transparent)
 
 #; {type TilePlacement = [Pair Posn Tile]}
 ;; A TilePlacement represents a request from the player to place the given tile at the given
 ;; position.
+
+#; {Any -> Boolean}
+(define (tile-placement? a)
+  (and (pair? a)
+       (posn? (car a))
+       (tile? (cdr a))))
 
 #; {type TurnAction = (U [List 'place-tile [Listof TilePlacement]]
                          [List 'exchange]
@@ -36,6 +48,13 @@
 ;; - An exchange of all tiles in a player's hand
 ;; - Skipping a player's turn (withdrawing from performing any actions)
 
+#; {Any -> Boolean}
+(define (turn-action? a)
+  (match a
+    [(list 'place-tile placements)
+     (andmap tile-placement? placements)]
+    [(or '(exchange) '(pass)) #t]
+    [_                        #f]))
 
 #; {type PlayerState = (player-state Natural [Listof Tile])}
 ;; A PlayerState represents a participating player's state during any instant of time, containing
@@ -50,17 +69,19 @@
 #; {type GameState = (game-state Board
                                  [Dequeof Tile]
                                  [HashTable PlayerId PlayerState]
+                                 [Listof [Pairof PlayerId TurnAction]]
                                  [Dequeof PlayerId])}
 ;; A GameState represents the state of a game at any instant of time, containing the board's current
-;; state at that instant, along with the list of remaining tiles, state of participating players and
-;; their turn orders.
+;; state at that instant, along with the list of remaining tiles, state of participating players,
+;; history of moves made in order of recency, and their turn orders.
 ;; INVARIANT: A player β is in the `players` hashtable iff β is in the `turn-queue` deque. That is,
 ;; there is a bijection between (hash-keys `players`) and `turn-queue`.
 (struct++ game-state
-          ([board board?]
-           [tiles (listof tile?)]
+          ([board         board?]
+           [tiles         (listof tile?)]
            [player-states (hash/c string? player-state?)]
-           turn-queue)
+           [history       (listof turn-action?)]
+           [turn-queue    (listof symbol?)])
           #:transparent)
 
 #; {Tile [Listof PlayerId] -> GameState}
@@ -81,6 +102,7 @@
   (game-state++ #:board (make-board start-tile)
                 #:tiles tiles^^
                 #:player-states states^^
+                #:history '()
                 #:turn-queue player-ids))
 
 
@@ -106,7 +128,7 @@
 #; {GameState -> TurnInfo}
 ;; Produce the TurnInfo for the current player to make a decision from, using the given game state.
 (define (game-state->turn-info gs)
-  (match-define [game-state board _ states turn-queue] gs)
+  (match-define [game-state board _ states history turn-queue] gs)
 
   (define player-id (first turn-queue))
   (define state (hash-ref states player-id))
