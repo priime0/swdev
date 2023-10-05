@@ -114,7 +114,7 @@
   (define all-open-posns
     (~>> placed-tile-posns
          (map get-all-neighbors)
-         (apply append)
+         flatten
          remove-duplicates
          (filter not-existing-tile?)))
   all-open-posns)
@@ -134,6 +134,7 @@
 ;; or (inclusive) the same color, and the up and down adjacent tiles, if any, share the same shape
 ;; or (inclusive) same color.
 (define (valid-placement? board tile target-posn)
+  #; {[Listof Direction] -> [Listof Tile]}
   ;; Gets the existing tiles in the given directions.
   (define (adjacent-tiles dirs)
     (define tile-at^          (curry tile-at board))
