@@ -16,14 +16,15 @@
  tile-color
  tiles-equal-color?
  tiles-equal-shape?
-(contract-out
- #:unprotected-submodule no-contract
- [tile-shapes (listof symbol?)]
- [tile-colors (listof symbol?)]
- [tile-shape? (any/c . -> . boolean?)]
- [tile-color? (any/c . -> . boolean?)]
+ hash->tile++
+ (contract-out
+  #:unprotected-submodule no-contract
+  [tile-shapes (listof symbol?)]
+  [tile-colors (listof symbol?)]
+  [tile-shape? (any/c . -> . boolean?)]
+  [tile-color? (any/c . -> . boolean?)]
 
- [render-tile (tile? . -> . image?)]))
+  [render-tile (tile? . -> . image?)]))
 
 #; {type TileShape = (U 'star '8star 'square 'circle 'diamond)}
 ;; A TileShape is an enumeration of possible shapes, a distinguishing feature of a tile.
