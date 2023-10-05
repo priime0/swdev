@@ -1,5 +1,8 @@
 #lang racket
 
+(require (rename-in (only-in lazy define)
+                    (define define/lazy)))
+
 (require struct-plus-plus)
 (require threading)
 
@@ -14,13 +17,13 @@
   [make-board (-> tile? board?)]
   [add-tile
    (-> board?
-       (cons/c integer? integer?)
+       posn?
        tile?
        board?)]
   [valid-tile-placements
    (-> board?
        tile?
-       (listof (cons/c integer? integer?)))]))
+       (listof posn?))]))
 
 
 
@@ -46,7 +49,8 @@
 ;; Create a Board with the given Tile placed at position (0, 0) -- the Tile represents the *root*
 ;; tile of a game, which is the only referee-placed tile.
 (define (make-board root-tile)
-  (board++ #:map (hash (posn 0 0) root-tile)))
+  (define root-posn (posn 0 0))
+  (board++ #:map (hash root-posn root-tile)))
 
 
 #; {Board Posn Tile -> Board}
@@ -66,9 +70,9 @@
 #; {Tile Board -> [Listof Posn]}
 ;; Produce a list of placements (posns) that are valid for this tile on the given board.
 (define (valid-tile-placements tile board)
-  (define open-posns (board-open-posns board))
+  (define all-open-posns (open-posns board))
   (define valid-posn? (curry valid-placement? board tile))
-  (filter valid-posn? open-posns))
+  (filter valid-posn? all-open-posns))
 
 
 #; {Board Posn -> [Maybe Tile]}
@@ -101,18 +105,19 @@
 
 #; {Board -> [Listof Posn]}
 ;; Produce a list of open positions neighboring the posns of existing tiles.
-(define (board-open-posns board)
+(define (open-posns board)
   (define tiles-map          (board-map board))
   (define placed-tile-posns  (hash-keys tiles-map))
-  (define not-existing-tile? (curry (negate tile-at) board))
-  (define get-all-neighbors  (curryr posn-neighbors/dirs (hash-keys directions)))
-  (define open-posns
+  (define get-all-neighbors  (curryr posn-neighbors/dirs direction-names))
+  (define not-existing-tile? (negate (curry tile-at board)))
+
+  (define all-open-posns
     (~>> placed-tile-posns
          (map get-all-neighbors)
          (apply append)
          remove-duplicates
          (filter not-existing-tile?)))
-  open-posns)
+  all-open-posns)
 
 
 #; {Tile [Listof Tile] -> Boolean}
@@ -135,11 +140,11 @@
     (define target-neighbors  (curry posn-neighbors/dirs target-posn))
     (filter-map tile-at^      (target-neighbors dirs)))
 
-  (define row-adjacent-tiles (adjacent-tiles '(left right)))
-  (define col-adjacent-tiles (adjacent-tiles '(up down)))
+  (define row-adjacent-tiles (adjacent-tiles (hash-keys horizontal-directions)))
+  (define col-adjacent-tiles (adjacent-tiles (hash-keys vertical-directions)))
 
-  (define adjacent-tiles? (has-adjacent-tiles? board target-posn))
-  (define matches-neighbors?
+  (define/lazy adjacent-tiles? (has-adjacent-tiles? board target-posn))
+  (define/lazy matches-neighbors?
     (andmap (curry valid-tile-sequence? tile)
             (list row-adjacent-tiles col-adjacent-tiles)))
 
@@ -238,13 +243,13 @@
   (test-check
    "board open posns of example board"
    set=?
-   (board-open-posns example-board)
+   (open-posns example-board)
    (list (posn 0 -1) (posn -1 0) (posn 3 0) (posn 2 -1) (posn 2 1) (posn 1 -1) (posn 1 1) (posn -1 1) (posn 0 2)))
 
   (test-check
    "board open posns of starting board"
    set=?
-   (board-open-posns (make-board (tile 'red 'square)))
+   (open-posns (make-board (tile 'red 'square)))
    (list (posn 1 0) (posn 0 -1) (posn -1 0) (posn 0 1)))
 
   (test-true
