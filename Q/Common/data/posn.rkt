@@ -24,7 +24,8 @@
   [neighbors?
    (-> posn? posn? boolean?)]
   [posn-neighbors/dirs
-   (-> posn? (listof direction-name?) (listof posn?))]))
+   (->i ([p posn?] [dirs (listof direction-name?)])
+        [result (p) (listof (flat-contract (curry neighbors? p)))])]))
 
 #; {type Posn = (posn Integer Integer)}
 ;; A Posn is a (posn r c), which represent a row and column.
@@ -68,15 +69,16 @@
 #; {Posn Direction -> Posn}
 ;; Produce a new posn representing the given posn translated in the given direction.
 (define (posn-translate p dir)
-  (match-define [posn row col] p)
+  (match-define [posn row column] p)
   (match-define [cons dr dc] (hash-ref directions dir))
   (posn (+ row dr)
-        (+ col dc)))
+        (+ column dc)))
 
 
 #; {Posn [Listof Direction] -> [Listof Posn]}
 ;; Produces the list of neighboring posns for the given posn for each direction in the given list.
 ;; Does not filter out duplicate positions.
+
 (define (posn-neighbors/dirs posn dir-list)
   (define posn-translate^ (curry posn-translate posn))
   (map posn-translate^ dir-list))
