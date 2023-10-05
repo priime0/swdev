@@ -49,6 +49,12 @@
 (struct++ tile
           ([color tile-color?]
            [shape tile-shape?])
+          (#:convert-from
+           (hash
+            [hash?
+             (hash-table ('color (app string->symbol color))
+                         ('shape (app string->symbol shape)))
+             (color shape)]))
           #:transparent)
 
 #; {[Listof Tile] -> Boolean}
