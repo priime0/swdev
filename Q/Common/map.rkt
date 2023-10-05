@@ -13,13 +13,16 @@
  board?
 
  (contract-out
-  #:unprotected-submodule no-contract
   [make-board (-> tile? board?)]
   [add-tile
-   (-> board?
-       posn?
-       tile?
-       board?)]
+   (->i ([b board?] [p posn?] [t tile?])
+        #:pre/name (b p)
+        "given posn isn't empty"
+        ((negate tile-at) b p)
+        #:pre/name (b p)
+        "given posn has no adjacent tiles"
+        (has-adjacent-tiles? b p)
+        [result board?])]
   [valid-tile-placements
    (-> board?
        tile?
@@ -33,12 +36,10 @@
 ;; DEFINITION: Two tiles are considered _adjacent_ IFF WLOG the posns where the tiles are placed are
 ;;             neighbors.
 ;; INVARIANT 0: A Board is a connected graph.
-;; INVARIANT 1: The Tile placed at (0, 0) is the *root* tile of the game, which is the only referee
-;;              placed-tile. All other tiles have coordinates that are relative to this tile.
-;; INVARIANT 2: No other tile will be placed on an existing tile -- that is, two tiles cannot share
+;; INVARIANT 1: No other tile will be placed on an existing tile -- that is, two tiles cannot share
 ;;              the same key/coordinates, and a tile cannot replace a tile that is already on the
 ;;              map.
-;; INVARIANT 3: A position on the board is occupied by a tile IFF the position is a key in the hash
+;; INVARIANT 2: A position on the board is occupied by a tile IFF the position is a key in the hash
 ;;              map.
 (struct++ board
           ([map hash?])
@@ -55,13 +56,7 @@
 
 #; {Board Posn Tile -> Board}
 ;; Places the new tile at the given posn on the board's map.
-;; EXCEPT: Throws an error if the given position is invalid, preserving INVARIANT 0, 2, 3.
 (define (add-tile board posn new-tile)
-  (unless (posn-empty+has-adjacent? board posn)
-    (error 'board-add-tile
-           "posn ~a invalid position to place on board"
-           posn))
-
   (define tiles-map (board-map board))
   (define tiles-map+ (hash-set tiles-map posn new-tile))
   (set-board-map board tiles-map+))
