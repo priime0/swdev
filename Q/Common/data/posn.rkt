@@ -1,5 +1,7 @@
 #lang racket
 
+(require racket/hash)
+
 (require struct-plus-plus)
 
 (require Q/Common/util/list)
@@ -9,21 +11,26 @@
  posn++
  posn?
  posn-row
- posn-col
+ posn-column
  directions
+ vertical-directions
+ horizontal-directions
  direction-names
+ direction-name?
  (contract-out
   #:unprotected-submodule no-contract
   [posn-translate
    (-> posn? direction-name? posn?)]
+  [neighbors?
+   (-> posn? posn? boolean?)]
   [posn-neighbors/dirs
    (-> posn? (listof direction-name?) (listof posn?))]))
 
 #; {type Posn = (posn Integer Integer)}
 ;; A Posn is a (posn r c), which represent a row and column.
 (struct++ posn
-          ([row integer?]
-           [col integer?])
+          ([row    integer?]
+           [column integer?])
           #:transparent)
 
 
@@ -33,11 +40,17 @@
 ;; A Direction thus has two axes, vertical and horizontal. A Direction is a translation in only one
 ;; axis. For the vertical axis, up is negative and down is positive. For the horizontal axes, left
 ;; is negative and right is positive.
-(define directions
+(define vertical-directions
   #hash([up    . (-1 . 0)]
-        [down  . (1 . 0)]
-        [left  . (0 . -1)]
+        [down  . (1 . 0)]))
+
+(define horizontal-directions
+  #hash([left  . (0 . -1)]
         [right . (0 . 1)]))
+
+(define directions
+  (hash-union vertical-directions horizontal-directions))
+
 (define direction-names (hash-keys directions))
 
 #; {Any -> Boolean}
@@ -46,12 +59,17 @@
 
 ;; DEFINITION: Two `Posn`s α, β are _neighbors_ IFF WLOG there exists some direction Δ such that
 ;;             `(posn-translate α Δ)` produces β.
+;;             - _neighbors_ is commutative: neighbors(α, β) = neighbors(β, α)
+(define (neighbors? a b)
+  (for/or ([d direction-names])
+    (equal? a (posn-translate b d))))
+
 
 #; {Posn Direction -> Posn}
 ;; Produce a new posn representing the given posn translated in the given direction.
 (define (posn-translate p dir)
   (match-define [posn row col] p)
-  (match-define (cons dr dc) (hash-ref directions dir))
+  (match-define [cons dr dc] (hash-ref directions dir))
   (posn (+ row dr)
         (+ col dc)))
 
