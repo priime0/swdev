@@ -32,6 +32,11 @@
 (struct++ posn
           ([row    integer?]
            [column integer?])
+          (#:convert-from
+           (hash
+            [hash?
+             (hash-table ('row row) ('column column))
+             (row column)]))
           #:transparent)
 
 
