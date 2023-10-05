@@ -45,6 +45,17 @@
           ([map hash?])
           #:transparent)
 
+(define (hash->board++ rows)
+  (define h (make-hash))
+  (for* ([row rows] [cell (rest row)])
+    (define r (first row))
+    (match-define [list c jtile] cell)
+    (define p (posn r c))
+    (define t (hash->tile++ jtile))
+    (hash-set! h p t))
+
+  h)
+
 
 #; {Tile -> Board}
 ;; Create a Board with the given Tile placed at position (0, 0) -- the Tile represents the *root*
