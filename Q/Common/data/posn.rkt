@@ -36,8 +36,8 @@
 
 
 #; {type Direction = (U 'up 'down 'left 'right)}
-;; A Direction is a pair of '(Δr . Δc), representing a unit vector translation in one of the four
-;; distinct directions in a square grid.
+;; A Direction represents a pair of '(Δr . Δc) that are unit vector translations in one of the
+;; four distinct directions in a square grid.
 ;; A Direction thus has two axes, vertical and horizontal. A Direction is a translation in only one
 ;; axis. For the vertical axis, up is negative and down is positive. For the horizontal axes, left
 ;; is negative and right is positive.
@@ -78,7 +78,6 @@
 #; {Posn [Listof Direction] -> [Listof Posn]}
 ;; Produces the list of neighboring posns for the given posn for each direction in the given list.
 ;; Does not filter out duplicate positions.
-
 (define (posn-neighbors/dirs posn dir-list)
   (define posn-translate^ (curry posn-translate posn))
   (map posn-translate^ dir-list))
