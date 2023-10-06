@@ -29,8 +29,9 @@
        posn?
        boolean?)]
   [valid-tile-placements
-   (->i ([b board?] [t tile?])
-        [result (b t) (listof (and/c posn? (flat-contract (curry valid-placement? b t))))])]
+   (-> tile?
+       board?
+       (listof posn?))]
   [hash->board++
    (-> (listof (cons/c integer? (listof (cons/c integer? any/c))))
        board?)]))
