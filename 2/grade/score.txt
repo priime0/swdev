@@ -1,0 +1,8 @@
+Delivery
+5/5 pts: Deliverable Q/Common/map.pp exists
+5/5 pts: Deliverable Q/Planning/state.md exists
+
+Inspection
+75/95 pts: See inspection.md
+
+Total: 85/105 pts
