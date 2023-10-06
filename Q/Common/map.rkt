@@ -24,9 +24,12 @@
         (has-adjacent-tiles? b p)
         [result board?])]
   [valid-tile-placements
-   (-> board?
-       tile?
-       (listof posn?))]))
+   (-> tile?
+       board?
+       (listof posn?))]
+  [hash->board++
+   (-> (listof (cons/c integer? (listof (cons/c integer? any/c))))
+       board?)]))
 
 
 
@@ -54,7 +57,7 @@
     (define t (hash->tile++ jtile))
     (hash-set! h p t))
 
-  h)
+  (board h))
 
 
 #; {Tile -> Board}
