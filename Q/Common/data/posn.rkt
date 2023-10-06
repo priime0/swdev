@@ -5,6 +5,7 @@
 (require struct-plus-plus)
 
 (require Q/Common/util/list)
+(require Q/Common/util/struct)
 
 (provide
  posn
@@ -23,6 +24,10 @@
    (-> posn? direction-name? posn?)]
   [neighbors?
    (-> posn? posn? boolean?)]
+  [posns-same-row?
+   (-> (listof posn?) boolean?)]
+  [posns-same-column?
+   (-> (listof posn?) boolean?)]
   [posn-neighbors/dirs
    (->i ([p posn?] [dirs (listof direction-name?)])
         [result (p) (listof (flat-contract (curry neighbors? p)))])]))
@@ -86,3 +91,13 @@
 (define (posn-neighbors/dirs posn dir-list)
   (define posn-translate^ (curry posn-translate posn))
   (map posn-translate^ dir-list))
+
+#; {[Listof Posn] -> Boolean}
+;; Does every posn in the given list share the same row?
+(define (posns-same-row? posns)
+  (struct-equal-field? posn-row posns))
+
+#; {[Listof Posn] -> Boolean}
+;; Does every posn in the given list share the same column?
+(define (posns-same-column? posns)
+  (struct-equal-field? posn-column posns))

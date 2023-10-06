@@ -11,7 +11,7 @@
 
 (provide
  board?
-
+ 
  (contract-out
   [make-board (-> tile? board?)]
   [add-tile
@@ -23,14 +23,17 @@
         "given posn has no adjacent tiles"
         (has-adjacent-tiles? b p)
         [result board?])]
+  [valid-placement?
+   (-> board?
+       tile?
+       posn?
+       boolean?)]
   [valid-tile-placements
-   (-> tile?
-       board?
-       (listof posn?))]
+   (->i ([b board?] [t tile?])
+        [result (b t) (listof (and/c posn? (flat-contract (curry valid-placement? b t))))])]
   [hash->board++
    (-> (listof (cons/c integer? (listof (cons/c integer? any/c))))
        board?)]))
-
 
 
 #; {type Board = (board [HashTable Posn Tile])}
