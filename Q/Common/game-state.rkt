@@ -9,6 +9,43 @@
 (require Q/Common/data/posn)
 (require Q/Common/util/list)
 
+(provide
+ player-id?
+ turn-action?
+ turn-info?
+ turn-info-player-id
+ turn-info-player-tiles
+ turn-info-board
+ turn-info-scores
+ turn-info-history
+ tile-placement?
+ game-state?
+ (contract-out
+  [make-game-state (-> tile? (listof tile?) (listof player-id?) game-state?)]
+  [empty-game? (-> game-state? boolean?)]
+  [valid-placements?
+   (-> game-state? (listof (cons/c posn? tile?)) boolean?)]
+  [valid-turn?
+   (-> game-state? turn-action? boolean?)]
+  [game-state->turn-info
+   (->i ([gs game-state?])
+        #:pre/name (gs)
+        "game has no players left!"
+        (empty-game? gs)
+        [result turn-info?])]
+  [take-turn
+   (->i ([gs game-state?] [action turn-action?])
+        #:pre/name (gs action)
+        "invalid action for the current player"
+        (valid-turn? gs action)
+        [result game-state?])]
+  [kick-player
+   (->i ([gs game-state?] [player player-id?])
+        #:pre/name (gs player)
+        "player not in game!"
+        (player-in-game? gs player)
+        [result game-state?])]))
+
 #; {type PlayerId = Symbol}
 ;; A PlayerId represents a _unique_ identifier for a player during a game.
 
@@ -41,7 +78,7 @@
 (struct++ turn-info
           ([player-id    player-id?]
            [player-tiles (listof tile?)]
-           [scores       (hash/c string? natural?)]
+           [scores       (hash/c player-id? natural?)]
            [history      (listof (cons/c player-id? turn-action?))]
            [board        board?])
           #:transparent)
@@ -115,38 +152,49 @@
     (values name (player-state-score state)))
   (hash-map/copy states extract-score))
 
+#; {GameState -> PlayerState}
+;; Extracts the current player's state
+(define (current-player-state gs)
+  (match-define [game-state _board  _tiles states _history turn-queue] gs)
+  (define player (first turn-queue))
+  (define state (hash-ref player states))
+  state)
 
 #; {GameState -> TurnInfo}
 ;; Produce the TurnInfo for the current player to make a decision from, using the given game state.
 (define (game-state->turn-info gs)
   (match-define [game-state board _ states history turn-queue] gs)
-
-  (define player-id (first turn-queue))
-  (define state (hash-ref states player-id))
+  
+  (define player (first turn-queue))
+  (define state (hash-ref states player))
   (define player-tiles (player-state-hand state))
 
   (define scores (player-states->player-scores states))
 
-  (turn-info player-id player-tiles scores history board))
+  (turn-info player player-tiles scores history board))
+
+#; {GameState PlayerId -> Boolean}
+;; Is the given player in the current game state?
+(define (player-in-game? gs player)
+  (member? player (game-state-turn-queue gs)))
+
+#; {GameState -> Boolean}
+;; Does the given game state have any players remaining?
+(define (empty-game? gs)
+  (null? (game-state-turn-queue gs)))
 
 #; {GameState PlayerId -> GameState}
 ;; Kick the player from the current game state.
 ;; EXCEPT: When the given player id is not in the game.
 (define (kick-player gs p-id)
   (match-define [game-state board tiles states history turn-queue] gs)
-
-  (unless (member? p-id turn-queue)
-    (error 'kick-player
-           "player ~a does not exist!"
-           p-id))
-
   (define hand (player-state-hand (hash-ref states p-id)))
 
   (define tiles+      (append tiles hand))
   (define states+     (hash-remove states p-id))
   (define turn-queue+ (remf (curry string=? p-id) turn-queue))
 
-  (game-state board tiles+ states+ turn-queue+))
+  (game-state board tiles+ states+ history turn-queue+))
 
 #; {PlayerState [Listof Tile] -> PlayerState}
 ;; Removes the given tiles from the hand of the given player state.
@@ -164,7 +212,7 @@
   (values state+ hand))
 
 #; {PlayerState [Listof Tiles] -> (values PlayerState [Listof Tiles])}
-;; Repenlishes the hand of the given player state from the given list of tiles, returning
+;; Replenishes the hand of the given player state from the given list of tiles, returning
 ;; the new player state and the remaining tiles.
 (define (refill-hand state tiles)
   (define hand        (player-state-hand state))
@@ -179,6 +227,41 @@
 
   (define state+ (set-player-state-hand state hand+))
   (values state+ tiles+))
+
+#; {GameState TurnAction -> Boolean}
+;; Is the given turn action a valid turn for the current player in the given game state?
+(define (valid-turn? gs action)
+  (match action
+    [(list 'place-tile placements) (valid-placements? gs placements)]
+    [(list 'exchange) (valid-exchange? gs)]
+    [(list 'pass) #t]))
+
+#; {GameState [Listof TilePlacement] -> Boolean}
+;; Is the proposed placement for the current player valid in the rules of Q game?
+(define (valid-placements? gs placements)
+  (define board (game-state-board gs))
+  (define state (current-player-state gs))
+  (define hand (player-state-hand state))
+  (define posns (map car placements))
+  (define placed-tiles (map cdr placements))
+  (define same-axis?
+    (or (posns-same-row? posns)
+        (posns-same-column? posns)))
+  (define all-valid-placements?
+    (andmap (curry valid-placement? board) placed-tiles posns))
+  (define all-tiles-in-hand?
+    (contains-all? hand placed-tiles))
+
+  (and same-axis?
+       all-valid-placements?
+       all-tiles-in-hand?))
+
+#; {GameState -> Boolean}
+;; Is an exchange action valid for the current player in the rules of Q?
+(define (valid-exchange? gs)
+  (define tiles (game-state-tiles gs))
+  (define num-available (length tiles))
+  (>= num-available (*hand-size*)))
 
 #; {GameState TurnAction -> GameState}
 ;; Performs the given turn action for the current player in this game state, and updates the turn
@@ -200,7 +283,8 @@
             ([placement placements])
     (match-define [cons posn tile] placement)
     (add-tile board^ posn tile)))
-          
+
+
 #; {GameState [Listof TilePlacement] -> GameState}
 ;; Places the given list of placements, updating the board, player hand, and remaining tiles.
 (define (take-turn/placement gs placements)
@@ -219,7 +303,6 @@
 
 #; {GameState -> GameState}
 ;; Exchange the current player's tiles for new ones from the game state's tiles.
-;; 
 (define (take-turn/exchange gs)
   (match-define [game-state board tiles states history turn-queue] gs)
   (define player (first turn-queue))
