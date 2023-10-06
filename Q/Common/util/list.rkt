@@ -9,7 +9,8 @@
   [all-same?     (list? . -> . boolean?)]
   [rotate-left   (natural? list? . -> . list?)]
   [rotate-left-1 (list? . -> . list?)]
-  [remove-from   (list? list? . -> . list?)]))
+  [remove-from   (list? list? . -> . list?)]
+  [contains-all? (list? list? . -> . boolean?)]))
 
 #; {(X) X [Listof X] -> Boolean}
 ;; Is the given element `v` a member of the given list `lst`?
@@ -33,6 +34,16 @@
 ;; Rotates the given list by one, moving the first element to the end.
 (define (rotate-left-1 lst)
   (rotate-left 1 lst))
+
+#; {(X) [Listof X] [Listof X] -> Boolean}
+;; Does `l1` contain every element of `l2`?
+(define (contains-all? l1 l2)
+  (define l1-counter (list->count l1))
+  (define l2-counter (list->count l2))
+
+  (for/and ([el (hash-keys l2-counter)])
+    (and (hash-has-key? l1-counter el)
+         (<= (hash-ref l2-counter el) (hash-ref l1-counter el)))))
 
 #; {(X) [Listof X] [Listof X] -> [Listof X]}
 ;; Remove the elements in `l1` from `l2`.
