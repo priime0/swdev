@@ -34,10 +34,15 @@ https://github.khoury.northeastern.edu/CS4500-F23/fearless-mice/blob/ae630a50bd6
       They are factored out into separate functions, `posns-same-row?`, `posns-same-column?`, which are defined in `posn.rkt`, `contains-all?`, which is in `util/list.rkt`, 
       and we utilized `valid-placement?` for each individual placement on the board (defined in `map.rkt`), and use an andmap to check that all placements are valid.
       Then, we combine those results in this function using composition.
+
       `posns-same-row?`: https://github.khoury.northeastern.edu/CS4500-F23/fearless-mice/blob/ae630a50bd6f70dcb4aded32c9789859388dec59/Q/Common/data/posn.rkt#L95-L98
+
       `posns-same-column?`: https://github.khoury.northeastern.edu/CS4500-F23/fearless-mice/blob/ae630a50bd6f70dcb4aded32c9789859388dec59/Q/Common/data/posn.rkt#L100-L103
+
       `contains-all?`: https://github.khoury.northeastern.edu/CS4500-F23/fearless-mice/blob/ae630a50bd6f70dcb4aded32c9789859388dec59/Q/Common/util/list.rkt#L38-L46
+
       `valid-placement?`: https://github.khoury.northeastern.edu/CS4500-F23/fearless-mice/blob/ae630a50bd6f70dcb4aded32c9789859388dec59/Q/Common/map.rkt#L144-L165
+
    
 The ideal feedback for each of these points is a GitHub
 perma-link to the range of lines in a specific file or a collection of
