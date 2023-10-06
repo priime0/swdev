@@ -64,7 +64,8 @@
 (define (turn-action? a)
   (match a
     [(list 'place-tile placements)
-     (andmap tile-placement? placements)]
+     (and (pair? placements)
+          (andmap tile-placement? placements))]
     [(or '(exchange) '(pass)) #t]
     [_                        #f]))
 
@@ -322,11 +323,44 @@
   (set-game-state-turn-queue gs (rotate-left-1 turn-queue)))
 
 (module+ test
-  (define tilecart (cartesian-product tile-colors tile-shapes))
-  (define tile-set (map (curry apply tile) tilecart))
+  (require rackunit)
+  (define tile-product (cartesian-product tile-colors tile-shapes))
+  (define tile-set (map (curry apply tile) tile-product))
   (define all-tiles (make-list 10 tile-set))
   (define all-tiles+ (flatten all-tiles))
   (define gs (make-game-state (tile 'red 'square)
                               all-tiles+
                               (list 'lucas 'andrey)))
   (define turn-info-1 (game-state->turn-info gs)))
+
+(module+ test
+
+  (test-true
+   "turn action exchange"
+   (turn-action? '(exchange)))
+
+  (test-true
+   "turn action pass"
+   (turn-action? '(pass)))
+
+  (test-true
+   "turn action place tile"
+   (turn-action? `(place-tile ( (,(posn 1 0) . ,(tile 'red 'square))))))
+
+  (test-false
+   "not a turn action"
+   (turn-action? 'lucas))
+
+  (test-false
+   "invalid turn action place tile"
+   (turn-action? '(place-tile ())))
+
+  (test-true
+   "valid tile placement"
+   (tile-placement? `(,(posn 1 0) . ,(tile 'red 'clover))))
+
+  (test-true
+   "not a tile placement"
+   (tile-placement? 123)))
+
+
