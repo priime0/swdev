@@ -2,12 +2,14 @@
 
 (require struct-plus-plus)
 (require threading)
+(require 2htdp/image)
 
 (require Q/Common/map)
 (require Q/Common/config)
 (require Q/Common/data/tile)
 (require Q/Common/data/posn)
 (require Q/Common/util/list)
+(require Q/Common/util/image)
 
 (provide
  player-id?
@@ -28,10 +30,10 @@
   [valid-turn?
    (-> game-state? turn-action? boolean?)]
   [game-state->turn-info
-   (->i ([gs game-state?])
+   (->i ([gs game-state?])        
         #:pre/name (gs)
         "game has no players left!"
-        (empty-game? gs)
+        (not (empty-game? gs))
         [result turn-info?])]
   [take-turn
    (->i ([gs game-state?] [action turn-action?])
@@ -106,6 +108,12 @@
           #:transparent)
 
 
+#; {type GameStateStatus = (U 'ongoing 'over)}
+;; The status of the game for the given game state -- whether it is ongoing or finished (over).
+(define (game-state-status? a)
+  (member? a '(ongoing over)))
+
+
 #; {type GameState = (game-state Board
                                  [Dequeof Tile]
                                  [HashTable PlayerId PlayerState]
@@ -121,7 +129,8 @@
            [tiles         (listof tile?)]
            [player-states (hash/c player-id? player-state?)]
            [history       (listof turn-action?)]
-           [turn-queue    (listof symbol?)])
+           [turn-queue    (listof symbol?)]
+           [status        game-state-status?])
           #:transparent)
 
 #; {Tile [Listof Tile] [Listof PlayerId] -> GameState}
@@ -139,11 +148,12 @@
       (define state (player-state default-score hand))
       (define states+ (hash-set states^ player-id state))
       (values states+ tiles+)))
-  (game-state++ #:board (make-board start-tile)
-                #:tiles tiles^^
+  (game-state++ #:board         (make-board start-tile)
+                #:tiles         tiles^^
                 #:player-states states^^
-                #:history '()
-                #:turn-queue player-ids))
+                #:history       '()
+                #:turn-queue    player-ids
+                #:status        'ongoing))
 
 
 #; {[HashTable PlayerId PlayerState] -> [HashTable PlayerId Natural]}
@@ -156,7 +166,7 @@
 #; {GameState -> PlayerState}
 ;; Extracts the current player's state
 (define (current-player-state gs)
-  (match-define [game-state _board  _tiles states _history turn-queue] gs)
+  (match-define [game-state _board  _tiles states _history turn-queue _status] gs)
   (define player (first turn-queue))
   (define state (hash-ref player states))
   state)
@@ -164,7 +174,7 @@
 #; {GameState -> TurnInfo}
 ;; Produce the TurnInfo for the current player to make a decision from, using the given game state.
 (define (game-state->turn-info gs)
-  (match-define [game-state board _ states history turn-queue] gs)
+  (match-define [game-state board _ states history turn-queue _status] gs)
   
   (define player (first turn-queue))
   (define state (hash-ref states player))
@@ -188,14 +198,14 @@
 ;; Kick the player from the current game state.
 ;; EXCEPT: When the given player id is not in the game.
 (define (kick-player gs p-id)
-  (match-define [game-state board tiles states history turn-queue] gs)
+  (match-define [game-state board tiles states history turn-queue status] gs)
   (define hand (player-state-hand (hash-ref states p-id)))
 
   (define tiles+      (append tiles hand))
   (define states+     (hash-remove states p-id))
   (define turn-queue+ (remf (curry string=? p-id) turn-queue))
 
-  (game-state board tiles+ states+ history turn-queue+))
+  (game-state board tiles+ states+ history turn-queue+ status))
 
 #; {PlayerState [Listof Tile] -> PlayerState}
 ;; Removes the given tiles from the hand of the given player state.
@@ -274,6 +284,9 @@
       [(list 'place-tile placements) (take-turn/placement gs placements)]
       [(list 'exchange)              (take-turn/exchange gs)]
       [(list 'pass)                  (identity gs)]))
+
+  (match-define [game-state _board _tiles _states history [cons player _players] _status] gs+)
+  (define history+ (cons (cons player action) history))
   (end-turn gs+))
 
 #; {Board [Listof TilePlacement] -> Board}
@@ -289,7 +302,7 @@
 #; {GameState [Listof TilePlacement] -> GameState}
 ;; Places the given list of placements, updating the board, player hand, and remaining tiles.
 (define (take-turn/placement gs placements)
-  (match-define [game-state board tiles states history turn-queue] gs)
+  (match-define [game-state board tiles states history turn-queue status] gs)
   (define player       (first turn-queue))
   (define state        (hash-ref states player))
 
@@ -300,12 +313,12 @@
   (define-values       (state++ tiles+) (refill-hand state+ tiles))
   (define states+      (hash-set states player state++))
 
-  (game-state board+ tiles+ states+ history turn-queue))
+  (game-state board+ tiles+ states+ history turn-queue status))
 
 #; {GameState -> GameState}
 ;; Exchange the current player's tiles for new ones from the game state's tiles.
 (define (take-turn/exchange gs)
-  (match-define [game-state board tiles states history turn-queue] gs)
+  (match-define [game-state board tiles states history turn-queue status] gs)
   (define player (first turn-queue))
   (define state  (hash-ref states player))
   (define-values (state+ hand) (clear-hand state))
@@ -314,13 +327,41 @@
   (define tiles++ (append tiles+ hand))
   (define states+ (hash-set states player state++))
 
-  (game-state board tiles++ states+ history turn-queue))
+  (game-state board tiles++ states+ history turn-queue status))
 
 #; {GameState -> GameState}
 ;; Updates the turn queue, moving the current player to the end.
 (define (end-turn gs)
   (define turn-queue (game-state-turn-queue gs))
   (set-game-state-turn-queue gs (rotate-left-1 turn-queue)))
+
+
+#; {PlayerId PlayerState -> Image}
+(define (render-player-state pid ps)
+  (match-define [player-state score hand] ps)
+  (define size (/ (*game-size*) 2))
+  (define tiles-size (* (*game-size*) 2/3))
+  (define text-image (text (~a pid ": " score) size 'black))
+  (define tiles-image
+    (parameterize ([*game-size* tiles-size])
+      (for/fold ([img empty-image])
+                ([t (map render-tile hand)])
+        (beside img t))))
+
+  (above/align 'left text-image tiles-image))
+
+#; {GameState -> Image}
+(define (render-game-state gs)
+  (match-define [game-state board  tiles states history turn-queue status] gs)
+  (define states-image
+    (for/fold ([img empty-image])
+              ([(pid state) (in-hash states)])
+      (beside img
+              (render-player-state pid state)
+              (empty-space 20 20))))
+  (define board-image (render-board board))
+  (above board-image (empty-space 20 20) states-image))
+
 
 (module+ test
   (require rackunit)
@@ -362,5 +403,3 @@
   (test-true
    "not a tile placement"
    (tile-placement? 123)))
-
-
