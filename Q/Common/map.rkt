@@ -5,6 +5,7 @@
 
 (require struct-plus-plus)
 (require threading)
+(require 2htdp/image)
 
 (require Q/Common/data/tile)
 (require Q/Common/data/posn)
@@ -34,7 +35,9 @@
        (listof posn?))]
   [hash->board++
    (-> (listof (cons/c integer? (listof (cons/c integer? any/c))))
-       board?)]))
+       board?)]
+  [render-board
+   (-> board? image?)]))
 
 
 #; {type Board = (board [HashTable Posn Tile])}
@@ -164,6 +167,32 @@
 
   (and adjacent-tiles? matches-neighbors?))
 
+
+#; {Board -> (values Integer Integer Integer Integer)}
+;; Retrieve the top, bottom, left, and right bounds (inclusive) of the board.
+(define (bounds b)
+  (define bmap (board-map b))
+  (for/fold ([top 0] [bot 0] [left 0] [right 0])
+            ([(p _) (in-hash bmap)])
+    (match-define [posn r c] p)
+    (values (min top r)
+            (max bot r)
+            (min left c)
+            (max right c))))
+
+#; {Board -> Image}
+(define (render-board b)
+  (define-values (top-bound bot-bound left-bound right-bound)
+    (bounds b))
+
+  (for/fold ([image empty-image])
+            ([r (in-inclusive-range top-bound bot-bound)])
+    (above image
+           (for/fold ([row-image empty-image])
+                     ([c (in-inclusive-range left-bound right-bound)])
+             (define t (tile-at b (posn r c)))
+             (beside row-image
+                     (if t (render-tile t) empty-tile-image))))))
 
 
 (module+ test
