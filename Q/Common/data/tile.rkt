@@ -17,6 +17,7 @@
  tiles-equal-color?
  tiles-equal-shape?
  hash->tile++
+ empty-tile-image
  (contract-out
   #:unprotected-submodule no-contract
   [tile-shapes (listof symbol?)]
@@ -25,6 +26,7 @@
   [tile-color? (any/c . -> . boolean?)]
 
   [render-tile (tile? . -> . image?)]))
+
 
 #; {type TileShape = (U 'star '8star 'square 'circle 'diamond)}
 ;; A TileShape is an enumeration of possible shapes, a distinguishing feature of a tile.
@@ -144,7 +146,11 @@
 (define (render-tile tile)
   (define shape-function (~> tile tile-shape render-tile/shape-function))
   (define color (tile-color tile))
-  (render-tile/normalize (shape-function color)))
+  (frame (render-tile/normalize (shape-function color))))
+
+
+;; An empty tile image used for rendering posns in the board with no tiles on them.
+(define empty-tile-image (square (*game-size*) 'solid (*background-color*)))
 
 
 (module+ test
