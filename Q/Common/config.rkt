@@ -10,6 +10,9 @@
 ;; Controls whether tiles will be rendered as outlines or solids.
 (define *tile-shape-mode* (make-parameter 'solid))
 
+;; The background color of the board
+
+(define *background-color* (make-parameter 'white))
 
 ;;;; GAME CONFIGURATION
 
