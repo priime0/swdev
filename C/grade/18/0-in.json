@@ -1,0 +1,2 @@
+["abc",{"abb":"2","abc":1}, {"nestedArray": [[1, 2, 3]], "emptyObject": {}, "emptyArray": [], "emptyString": "", "negativeNum": -1, "doubleNum": 2.005}]
+

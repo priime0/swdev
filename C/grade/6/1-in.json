@@ -1,0 +1,26 @@
+[
+  {
+    "string_value": "text",
+    "number_value": 42,
+    "object_value": {
+      "nested_object_string": "",
+      "nested_object_string_2": "woah, we just had an empty string before and it wont show",
+      "nested_array_value": [
+        {
+          "number_value_for_a_key_in_an_object_in_an_array_in_an_object_in_an_object_in_an_array": 50
+        }
+      ]
+    },
+    "array_value": [
+      1,
+      "string",
+      3
+    ]
+  },
+  "main array-level string value",
+  4,
+  [
+    "this is a string in an array in an array"
+  ]
+]
+

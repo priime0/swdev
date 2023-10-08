@@ -1,0 +1,129 @@
+["abc",{"abb":"2","abc":1,"abd":{"45":-37,"bbc":"hello","abc":["all","is","well"]}}]
+["a",{"b":
+	2}]
+{
+    "b": 100,
+    "a": "foo",
+    "c": [
+        {
+            "foo": "bar"
+        },
+
+        5,
+        [],
+        "foobar"
+    ]
+}
+
+[
+
+  "abc",
+  {
+    "abb": "2",
+    "aba": "word",
+    "abd": "the",
+    "abc": 1
+  },
+
+
+  4,
+  [
+    5,
+    "ffs",
+    {
+      "B": "That",
+      "A": "This",
+      "C": {
+
+        "y": [
+          4,
+          "Now"
+        ],
+        "x": "Then"
+      }
+    }
+
+
+  ]
+]
+
+[
+    "abc",
+    {
+
+        "abb" : "2",
+        "abc" : "abc",
+        "hello" : 1.234
+    },
+    {
+        "hi" : "hi",
+        "abcd" : 
+        {
+            "test" : "test",
+            "3" : 4,
+            "test2" : "test2"
+        }
+    },
+
+
+    2,
+    "good bye"
+]
+
+["a",
+	{"a":"a","b":2}]
+
+[
+	"just one"]
+
+["and",
+	2,"many",2,"count"]
+
+{
+    "apple": "orange",
+    "house": "cat",
+    "dog": "tree",
+    "aardvark": "pineapple",
+    "people": 10,
+    "zebras": 34321.213123,
+    "trees": 0,
+    "planets": -23112,
+    "power lines": "15",
+    "candy": "-123",
+    "miniscule": "0.0021224",
+    "yellow": [],
+    "yikes": {},
+    "zen": "  ",
+    "zzz": "        ",
+    "zzzzz": "TERM",
+    "tree trunk": [
+        1,
+        4,
+        5,
+        
+	"xenomorph",
+        "winter",
+        "banana",
+        "coconut",
+        
+	3,
+        2
+    ],
+    "dream": {
+        "wonder":
+	[
+            "gold",
+        
+	    {
+                "blue": 2,
+                "frost": 3
+            },
+            16
+        ],
+        "empty": [],
+
+	"zero": "0"
+    }
+
+}
+

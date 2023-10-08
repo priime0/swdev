@@ -1,0 +1,6 @@
+[12, ["hello", {
+  "a": " world",
+  "k": ["arraybegin", {"key": "value"}, "arrayend"],
+  "z": "!"
+}], 24]
+

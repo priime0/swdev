@@ -1,0 +1,21 @@
+[
+    "stringOne",
+    1,
+    "stringTwo",
+    {
+        "keyOne": 2,
+        "keyTwo": "stringThree"
+    },
+    "stringFour",
+    {
+        "keyThree": 
+            ["stringFive",
+            {
+                "z": "stringSeven",
+                "a": "stringSix"
+            }],
+        "keyFour": 4.1
+    }
+
+]
+

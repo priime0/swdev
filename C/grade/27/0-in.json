@@ -1,0 +1,77 @@
+[
+  "abc",
+  {
+    "fg": "2",
+    "sd": 1
+  },
+  {
+    "xcb": "5",
+    "abc": 9,
+    "sv": "qwerty",
+    "XCB": "6",
+    "ABC": 10,
+    "SV": "qwertyTwo"
+  },
+  12,
+  "lol",
+  {
+    "a": "2",
+    "w": 1,
+    "z": "qwerty"
+  },
+  {
+    "32": 453,
+    "12324": "1234",
+    "arrayOfThings": [
+      "a",
+      13,
+      "l"
+    ],
+    "rrayOfThingsTwo": [
+      5,
+      "e",
+      "b"
+    ],
+    "a2b3": "nameOne",
+    "ArrayOfThingsThree": [
+      "h",
+      "g",
+      "w"
+    ],
+    "THINGS": "things123",
+    "A2B3": "nameThree",
+    "7B3A": "nameFour",
+    "7b3a": "name Two",
+    "arrayOfThingsThree": [
+      "h",
+      "g",
+      "w"
+    ]
+  },
+  "nestedArrayFour",
+  [
+    "python",
+    76,
+    [
+      "test42",
+      "test43"
+    ],
+    "java",
+    [
+      "lol",
+      "strange",
+      [
+        "test32",
+        "test33"
+      ],
+      "from",
+      123
+    ],
+    829
+  ],
+  [
+    "test1234",
+    "test24232"
+  ],
+  891932
+]

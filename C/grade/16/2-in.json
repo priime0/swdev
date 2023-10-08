@@ -1,0 +1,44 @@
+[
+ "abc",
+ 1,
+ "1",
+ {
+  "cb": 2,
+  "ca": ["in array", {"a":  "in array in obj"}],
+  "a": "letter"
+ },
+ 6,
+ "",
+ [],
+ {}
+]
+[
+ "abc",
+ 1,
+ "1",
+ {
+  "cb": 2,
+  "ca": ["in array", {"a":  "in array in obj"}],
+  "a": "letter"
+ },
+ 6,
+ "",
+ [],
+ {}
+]
+
+[
+ "abc",
+ 1,
+ "1",
+ {
+  "cb": 2,
+  "ca": ["in array", {"a":  "in array in obj"}],
+  "a": "letter"
+ },
+ 6,
+ "",
+ [],
+ {}
+]
+

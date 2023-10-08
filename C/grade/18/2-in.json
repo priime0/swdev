@@ -1,0 +1,24 @@
+{
+  "a":"1",
+  "ab":2,
+  "abc":[1, 2, 3],
+  "nest1": {
+    "nest2": {
+      "abc": "nested abc",
+      "def": "nested def"
+    },
+    "nestedArray": ["a", "b", "c"]
+  }
+}
+{
+  "a":"1",
+  "ab":2,
+  "abc":[1, 2, 3],
+  "nest1": {
+    "nest2": {
+      "abc": "nested abc",
+      "def": "nested def"
+    },
+    "nestedArray": ["a", "b", "c"]
+  }
+}
