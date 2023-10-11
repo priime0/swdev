@@ -55,6 +55,7 @@
           ([map hash?])
           #:transparent)
 
+#; {JMap -> Board}
 (define (hash->board++ rows)
   (define h (make-hash))
   (for* ([row rows] [cell (rest row)])
