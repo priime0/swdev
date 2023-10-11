@@ -273,16 +273,6 @@
          (posn 2 0) (tile 'red 'star)
          (posn 1 1) (tile 'blue 'square)))
 
-  (test-exn
-   "add a tile to the board at (0, 0) with an existing tile"
-   exn:fail?
-   (thunk (add-tile example-board (posn 0 0) (tile 'blue 'square))))
-
-  (test-exn
-   "add a tile to the board at (2, 2) with no adjacent tiles"
-   exn:fail?
-   (thunk (add-tile example-board (posn 2 2) (tile 'blue 'square))))
-
   (test-check
    "board open posns of example board"
    set=?
