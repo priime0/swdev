@@ -1,0 +1,6 @@
+[
+  [-1, [0, {"color" : "blue", "shape" :  "circle"}]],
+  [0,[-1, {"color" : "red", "shape" :  "circle"}], [0, {"color" : "green", "shape" :  "circle"}]]
+]
+{"color" : "orange", "shape" :  "circle"}
+

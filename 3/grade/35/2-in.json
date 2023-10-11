@@ -1,0 +1,13 @@
+[[-100,
+[2, {"color": "red", "shape": "star"}],
+[4, {"color": "red", "shape": "star"}]
+],
+
+[-99,
+[0, {"color": "red", "shape": "clover"}],
+[1, {"color": "red", "shape": "star"}],
+[2, {"color": "red", "shape": "square"}],
+[3, {"color": "red", "shape": "circle"}],
+[4, {"color": "red", "shape": "diamond"}]
+]]
+{ "color": "blue", "shape": "circle" }

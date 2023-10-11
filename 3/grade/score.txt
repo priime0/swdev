@@ -1,0 +1,15 @@
+Delivery
+5/5 pts: Deliverable 3/xmap exists with the right permissions
+5/5 pts: Deliverable Q/Common/game-state.PP exists
+5/5 pts: Deliverable Q/Planning/player-interface.md exists
+5/5 pts: Delivery of test files
+
+Functionality
+15/15 pts: Passed 3 out of 3 tests (see test-results.txt)
+10/15 pts: 2 valid tests (see test-audit-results.txt)
+15/15 bonus pts (other teams failing your tests)
+
+Inspection
+60/80 pts: See inspection.md
+
+Total: 120/130 pts

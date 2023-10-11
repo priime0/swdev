@@ -1,0 +1,33 @@
+[
+    [
+        0,
+        [
+            0,
+            {
+                "color": "red",
+                "shape": "star"
+            }
+        ],
+        [
+            1,
+            {
+                "color": "blue",
+                "shape": "star"
+            }
+        ]
+    ],
+    [
+        1,
+        [
+            0,
+            {
+                "color": "blue",
+                "shape": "square"
+            }
+        ]
+    ]
+]
+{
+    "color": "red",
+    "shape": "square"
+}
