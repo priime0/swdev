@@ -3,41 +3,44 @@
 (require (rename-in (only-in lazy define)
                     [define define/lazy]))
 
+(require (rename-in data/functor
+                    [map fmap]))
+
 (require struct-plus-plus)
 (require threading)
 (require 2htdp/image)
 
 (require Q/Common/data/tile)
 (require Q/Common/data/posn)
+(require Q/Common/util/misc)
 
 (provide
- board?
- 
+ (rename-out [valid-board? board?])
  (contract-out
-  [make-board (-> tile? board?)]
+  [make-board (-> tile? valid-board?)]
   [add-tile
-   (->i ([b board?] [p posn?] [t tile?])
+   (->i ([b valid-board?] [p posn?] [t tile?])
         #:pre/name (b p)
         "given posn isn't empty"
         ((negate tile-at) b p)
         #:pre/name (b p)
         "given posn has no adjacent tiles"
         (has-adjacent-tiles? b p)
-        [result board?])]
+        [result valid-board?])]
   [valid-placement?
-   (-> board?
+   (-> valid-board?
        tile?
        posn?
        boolean?)]
   [valid-tile-placements
    (-> tile?
-       board?
+       valid-board?
        (listof posn?))]
   [hash->board++
    (-> (listof (cons/c integer? (listof (cons/c integer? any/c))))
-       board?)]
+       valid-board?)]
   [render-board
-   (-> board? image?)]))
+   (-> valid-board? image?)]))
 
 
 #; {type Board = (board [HashTable Posn Tile])}
@@ -53,7 +56,34 @@
 ;;              map.
 (struct++ board
           ([map hash?])
-          #:transparent)
+          #:transparent
+          #:methods gen:functor
+          [(define (map f x)
+             (define b (board (f (board-map x))))
+             (unless (valid-board? b)
+               (error 'fmap "fmap produced an invalid board"))
+             b)])
+
+
+#; {Any -> Boolean}
+(define (valid-board? a)
+  (let/ec return
+    (unless (board? a)
+      (return #f))
+    
+    (define bmap (board-map a))
+    (define root-posn (posn 0 0))
+    (define initial-state?
+      (and (one? (hash-count bmap))
+           (hash-has-key? bmap root-posn)
+           (tile? (hash-ref bmap root-posn))))
+    
+    (or initial-state?
+        (and (positive? (hash-count bmap))
+             (andmap posn? (hash-keys bmap))
+             (andmap tile? (hash-values bmap))
+             (andmap (curry has-adjacent-tiles? a) (hash-keys bmap))))))
+
 
 #; {JMap -> Board}
 (define (hash->board++ rows)
@@ -79,9 +109,8 @@
 #; {Board Posn Tile -> Board}
 ;; Places the new tile at the given posn on the board's map.
 (define (add-tile board posn new-tile)
-  (define tiles-map (board-map board))
-  (define tiles-map+ (hash-set tiles-map posn new-tile))
-  (set-board-map board tiles-map+))
+  (define add-tile+ (curryr hash-set posn new-tile))
+  (fmap add-tile+ board))
 
 
 #; {Tile Board -> [Listof Posn]}
@@ -198,73 +227,81 @@
 
 (module+ test
   (require rackunit)
+  (require Q/Common/util/test)
 
   (define example-board
     (board (hash (posn 0 0) (tile 'red 'square)
                  (posn 1 0) (tile 'red 'circle)
                  (posn 0 1) (tile 'green 'square)
-                 (posn 2 0) (tile 'red 'star)))))
+                 (posn 2 0) (tile 'red 'star))))
+  (define example-board2
+    (board (hash (posn 0 0)   (tile 'red 'square)
+                 (posn 0 -1)  (tile 'red 'circle)
+                 (posn -1 -1) (tile 'green 'square)
+                 (posn 1 0)   (tile 'green 'star)
+                 (posn 2 0)   (tile 'blue 'star)
+                 (posn 2 1)   (tile 'blue '8star)))))
 
 (module+ test
   (test-equal?
    "create a board with the referees tile being a red square"
    (make-board (tile 'red 'square))
    (board++ #:map (hash (posn 0 0) (tile 'red 'square))))
-
+  
   (test-equal?
    "create a board with the referees tile being a blue circle"
    (make-board (tile 'blue 'circle))
    (board++ #:map (hash (posn 0 0) (tile 'blue 'circle))))
-
+  
   (test-equal?
    "board tile at (0, 0) with existing tile"
    (tile-at example-board (posn 0 0))
    (tile 'red 'square))
-
+  
   (test-false
    "board tile at (-1, 0) without existing tile"
    (tile-at example-board (posn -1 0)))
-
+  
   (test-true
    "board tile at (1, 1) has adjacent"
    (has-adjacent-tiles? example-board (posn 1 1)))
-
+  
   (test-false
    "board tile at (-2, -2) does not have adjacent"
    (has-adjacent-tiles? example-board (posn -2 -2)))
-
+  
   (test-equal?
    "posn adjacent dirs at (0, 0) with no directions given"
    (posn-neighbors/dirs (posn 0 0) '())
    '())
-
+  
   (test-equal?
    "posn adjacent dirs at (0, 0) with every direction given"
    (posn-neighbors/dirs (posn 0 0) '(left right up down))
    (list (posn 0 -1) (posn 0 1) (posn -1 0) (posn 1 0)))
-
+  
   (test-equal?
-    "posn adjacent dirs at (1, 1) with some directions given"
-    (posn-neighbors/dirs (posn 1 1) '(left up down))
-    (list (posn 1 0) (posn 0 1) (posn 2 1)))
-
+   "posn adjacent dirs at (1, 1) with some directions given"
+   (posn-neighbors/dirs (posn 1 1) '(left up down))
+   (list (posn 1 0) (posn 0 1) (posn 2 1)))
+  
   (test-equal?
    "posn adjacent dirs at (1, 1) with duplicate directions given"
    (posn-neighbors/dirs (posn 1 1) '(left left))
    (list (posn 1 0) (posn 1 0)))
-
+  
   (test-true
    "posn is empty and has adjacent tiles at (1, 1)"
    (posn-empty+has-adjacent? example-board (posn 1 1)))
-
+  
   (test-false
    "posn is empty and has no adjacent tiles at (2, 2)"
    (posn-empty+has-adjacent? example-board (posn 2 2)))
-
+  
   (test-false
    "posn is not empty and has adjacent tiles at (0, 0)"
    (posn-empty+has-adjacent? example-board (posn 0 0)))
-
+  
   (test-equal?
    "add a tile to the board at (1, 1)"
    (board-map (add-tile example-board (posn 1 1) (tile 'blue 'square)))
@@ -273,65 +310,80 @@
          (posn 0 1) (tile 'green 'square)
          (posn 2 0) (tile 'red 'star)
          (posn 1 1) (tile 'blue 'square)))
-
+  
   (test-check
    "board open posns of example board"
    set=?
    (open-posns example-board)
    (list (posn 0 -1) (posn -1 0) (posn 3 0) (posn 2 -1) (posn 2 1) (posn 1 -1) (posn 1 1) (posn -1 1) (posn 0 2)))
-
+  
   (test-check
    "board open posns of starting board"
    set=?
    (open-posns (make-board (tile 'red 'square)))
    (list (posn 1 0) (posn 0 -1) (posn -1 0) (posn 0 1)))
-
+  
   (test-true
    "valid tile sequence with same color"
    (valid-tile-sequence? (tile 'red 'square)
                          (list (tile 'red 'circle)
                                (tile 'red 'star))))
-
+  
   (test-true
    "valid tile sequence with same shape"
    (valid-tile-sequence? (tile 'red 'square)
                          (list (tile 'blue 'square)
                                (tile 'green 'square))))
-
+  
   (test-true
    "valid tile sequence with same color and shape"
    (valid-tile-sequence? (tile 'red 'square)
                          (list (tile 'red 'square)
                                (tile 'red 'square))))
-
+  
   (test-false
    "invalid tile sequence with different color and shape"
    (valid-tile-sequence? (tile 'red 'square)
                          (list (tile 'blue 'circle)
                                (tile 'green 'star))))
-
+  
   (test-true
    "board valid position for a valid tile at (1, 1)"
    (valid-placement? example-board (tile 'green 'circle) (posn 1 1)))
-
+  
   (test-false
    "board invalid position for an invalid tile at (1, 1)"
    (valid-placement? example-board (tile 'green 'square) (posn 1 1)))
-
+  
   (test-check
    "possible tile positions for a red clover"
    set=?
    (valid-tile-placements (tile 'red 'clover) example-board)
    (list (posn 0 -1) (posn -1 0) (posn 3 0) (posn 2 -1) (posn 2 1) (posn 1 -1)))
-
+  
   (test-check
    "possible tile positions for a green square"
    set=?
    (valid-tile-placements (tile 'green 'square) example-board)
    (list (posn 0 -1) (posn -1 0) (posn -1 1) (posn 0 2)))
-
+  
   (test-check
    "no possible tile positions for a blue 8star"
    set=?
    (valid-tile-placements (tile 'blue '8star) example-board)
-   '()))
+   '())
+  
+  (test-values-equal?
+   "bounds of example board"
+   (bounds example-board)
+   (values 0 2 0 1))
+
+  (test-values-equal?
+   "bounds of starter board"
+   (bounds (make-board (tile 'red 'square)))
+   (values 0 0 0 0))
+
+  (test-values-equal?
+   "bounds of a elongated board"
+   (bounds example-board2)
+   (values -1 2 -1 1)))
