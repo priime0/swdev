@@ -1,7 +1,7 @@
 #lang racket
 
 (require (rename-in (only-in lazy define)
-                    (define define/lazy)))
+                    [define define/lazy]))
 
 (require struct-plus-plus)
 (require threading)
@@ -126,14 +126,14 @@
   (define tiles-map          (board-map board))
   (define placed-tile-posns  (hash-keys tiles-map))
   (define get-all-neighbors  (curryr posn-neighbors/dirs direction-names))
-  (define not-existing-tile? (negate (curry tile-at board)))
+  (define tile-at^           (curry tile-at board))
 
   (define all-open-posns
     (~>> placed-tile-posns
          (map get-all-neighbors)
          flatten
          remove-duplicates
-         (filter not-existing-tile?)))
+         (filter-not tile-at^)))
   all-open-posns)
 
 
