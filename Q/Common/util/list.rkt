@@ -1,8 +1,10 @@
 #lang racket
 
 (require Q/Common/util/hash)
+(require Q/Common/util/function)
 
 (provide
+ find-remf
  (contract-out
   #:unprotected-submodule no-contract
   [member?       (any/c (or/c list? any/c) . -> . boolean?)]
@@ -10,7 +12,8 @@
   [rotate-left   (natural? list? . -> . list?)]
   [rotate-left-1 (list? . -> . list?)]
   [remove-from   (list? list? . -> . list?)]
-  [contains-all? (list? list? . -> . boolean?)]))
+  [contains-all? (list? list? . -> . boolean?)]
+  [segment       (natural? list? . -> . list?)]))
 
 #; {(X) X [Listof X] -> Boolean}
 ;; Is the given element `v` a member of the given list `lst`?
@@ -71,6 +74,33 @@
            "l1 is not contained in l2"))
 
   pruned-list)
+
+#; {(X) Natural [Listof X] -> [Listof [Listof X]]}
+;; Segments the list into multiple lists of size _size_. If the length of the given list is not
+;; divisible by _size_, then the first list in the result will be shorter.
+(define (segment size lst)
+  (for/foldr ([acc  '()]
+              [curr '()]
+              [len  0]
+              #:result (cons curr acc))
+            ([el lst])
+    (if (= len size)
+        (values (cons curr acc)
+                (list el)
+                1)
+        (values acc
+                (cons el curr)
+                (add1 len)))))
+
+
+#; {(X) [X -> Boolean] [Listof X] -> (values X [Listof X])}
+;; Find and remove the first element of the given list that satisfies the given predicate, returning
+;; both the removed element and the new list.
+(define (find-remf pred lst)
+  ((fjoin findf remf)
+   pred lst))
+
+
 
 (module+ test
   (require rackunit)
