@@ -262,31 +262,39 @@
 
 (module+ test
   (require rackunit)
+  (require Q/Common/util/test)
   (define tile-product (cartesian-product tile-colors tile-shapes))
-  (define tile-set (map (curry apply tile) tile-product))
-  (define all-tiles (make-list 30 (stream->list tile-set)))
-  (define all-tiles+ (flatten all-tiles))
-  (define gs (make-game-state all-tiles+
-                              '(lucas andrey jake josh)))
-  (define turn-info-1 (game-state->turn-info gs)))
+  (define tile-set (map (curry apply tile) tile-product)))
 
 (module+ test
-  (test-true
-   "turn action exchange"
-   (turn-action? '(exchange)))
+  (test-case
+   "make-game-state hands out the correct number of tiles and removes them from the full tile collection"
+   (define tile-set-seeded       (apply/seed 0 shuffle tile-set))
+   (define game-state-seeded     (apply/seed 0 make-game-state tile-set '(lucas andrey josh john)))
+   (match-define [game-state board tiles history players] game-state-seeded)
 
-  (test-true
-   "turn action pass"
-   (turn-action? '(pass)))
+   (check-equal? board
+                 (make-board (first tile-set-seeded))
+                 "")
 
-  (test-true
-   "turn action place tile"
-   (turn-action? `(place-tile ( (,(posn 1 0) . ,(tile 'red 'square))))))
+   (check-equal? history
+                 '())
 
-  (test-false
-   "not a turn action"
-   (turn-action? 'lucas))
+   (define num-tiles-used (+ (* (*hand-size*) (length players))
+                             1))
 
-  (test-false
-   "invalid turn action place tile"
-   (turn-action? '(place-tile ()))))
+   (check-equal? (length tiles)
+                 (- (length tile-set-seeded)
+                    num-tiles-used))
+
+   (define all-player-tiles (map player-state-hand players))
+   (define all-gs-tiles     (append (flatten all-player-tiles)
+                                    tiles))
+   (check set=?
+          all-gs-tiles
+          (rest tile-set-seeded)
+          "all tiles are accounted for in the game state that were passed in")
+   
+   )
+
+  )
