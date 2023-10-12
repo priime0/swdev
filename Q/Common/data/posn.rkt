@@ -14,8 +14,8 @@
  posn-row
  posn-column
  directions
- vertical-directions
- horizontal-directions
+ vertical-axis
+ horizontal-axis
  direction-names
  direction-name?
  (contract-out
@@ -24,13 +24,15 @@
    (-> posn? direction-name? posn?)]
   [neighbors?
    (-> posn? posn? boolean?)]
+  [posn-neighbors/dirs
+   (->i ([p posn?] [dirs (listof direction-name?)])
+        [result (p) (listof (flat-contract (curry neighbors? p)))])]
   [posns-same-row?
    (-> (listof posn?) boolean?)]
   [posns-same-column?
    (-> (listof posn?) boolean?)]
-  [posn-neighbors/dirs
-   (->i ([p posn?] [dirs (listof direction-name?)])
-        [result (p) (listof (flat-contract (curry neighbors? p)))])]))
+  [same-axis?
+   (-> (listof posn?) boolean?)]))
 
 #; {type Posn = (posn Integer Integer)}
 ;; A Posn is a (posn r c), which represent a row and column.
@@ -51,13 +53,17 @@
 ;; A Direction thus has two axes, vertical and horizontal. A Direction is a translation in only one
 ;; axis. For the vertical axis, up is negative and down is positive. For the horizontal axes, left
 ;; is negative and right is positive.
+;; An Axis is a 2-list of distinct directions (list α β) such that, for any position φ,
+;; (posn-translate (posn-translate φ α) β) = φ
 (define vertical-directions
   #hash([up    . (-1 . 0)]
         [down  . (1 . 0)]))
+(define vertical-axis (hash-keys vertical-directions))
 
 (define horizontal-directions
   #hash([left  . (0 . -1)]
         [right . (0 . 1)]))
+(define horizontal-axis (hash-keys horizontal-directions))
 
 (define directions
   (hash-union vertical-directions horizontal-directions))
@@ -101,3 +107,9 @@
 ;; Does every posn in the given list share the same column?
 (define (posns-same-column? posns)
   (struct-equal-field? posn-column posns))
+
+#; {[Listof Posn] -> Boolean}
+;; Do the posns belong on the same axis?
+(define (same-axis? posns)
+  ((disjoin posns-same-row? posns-same-column?)
+   posns))
