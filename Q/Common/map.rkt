@@ -99,7 +99,7 @@
     (define p (posn r c))
     (define t (hash->tile++ jtile))
     (hash-set! h p t))
-
+  
   (board h))
 
 
@@ -130,7 +130,7 @@
 ;; Gets the tile at `posn` if it exists, otherwise #f
 (define (tile-at board posn)
   (define tiles-map (board-map board))
-  ((conjoin hash-has-key? hash-ref) 
+  ((conjoin hash-has-key? hash-ref)
    tiles-map posn))
 
 
@@ -150,7 +150,7 @@
   (define neighbor-posns          (posn-neighbors/dirs posn direction-names))
   (define tile-at^                (curry tile-at board))
   (define occupied-adjacent-tiles (filter-map tile-at^ neighbor-posns))
-
+  
   (pair? occupied-adjacent-tiles))
 
 
@@ -161,7 +161,7 @@
   (define placed-tile-posns  (hash-keys tiles-map))
   (define get-all-neighbors  (curryr posn-neighbors/dirs direction-names))
   (define tile-at^           (curry tile-at board))
-
+  
   (define all-open-posns
     (~>> placed-tile-posns
          (map get-all-neighbors)
@@ -191,15 +191,15 @@
     (define tile-at^          (curry tile-at board))
     (define target-neighbors  (curry posn-neighbors/dirs target-posn))
     (filter-map tile-at^      (target-neighbors dirs)))
-
+  
   (define row-adjacent-tiles (adjacent-tiles horizontal-axis))
   (define col-adjacent-tiles (adjacent-tiles vertical-axis))
-
+  
   (define/lazy adjacent-tiles? (has-adjacent-tiles? board target-posn))
   (define/lazy matches-neighbors?
     (andmap (curry valid-tile-sequence? tile)
             (list row-adjacent-tiles col-adjacent-tiles)))
-
+  
   (and adjacent-tiles? matches-neighbors?))
 
 
@@ -221,12 +221,23 @@
               (define seq+ (cons t seq))
               (loop posn+ seq+))]
         [else seq])))
-
+  
   (reverse seq))
 
-
+#; {Board Posn Axis -> [Listof Tile]}
+;; Collect the sequence of tiles that runs along the given axis,
+;; rooted at the tile at the given position, or return empty list if
+;; there is no such tile
 (define (collect-sequence board posn axis)
-  ())
+  (cond
+    [(tile-at board posn)
+     => (lambda (t)
+          (define dir1-seq (collect-sequence/dir board posn (car axis)))
+          (define dir2-seq (collect-sequence/dir board posn (cadr axis)))
+          (append (reverse dir1-seq)
+                  (list t)
+                  dir2-seq))]
+    [else '()]))
 
 
 #; {Board -> (values Integer Integer Integer Integer)}
