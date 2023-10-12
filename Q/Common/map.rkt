@@ -36,6 +36,11 @@
    (-> tile?
        valid-board?
        (listof posn?))]
+  [collect-sequence
+   (-> valid-board?
+       posn?
+       direction-name?
+       (listof tile?))]
   [hash->board++
    (-> (listof (cons/c integer? (listof (cons/c integer? any/c))))
        valid-board?)]
@@ -187,8 +192,8 @@
     (define target-neighbors  (curry posn-neighbors/dirs target-posn))
     (filter-map tile-at^      (target-neighbors dirs)))
 
-  (define row-adjacent-tiles (adjacent-tiles (hash-keys horizontal-directions)))
-  (define col-adjacent-tiles (adjacent-tiles (hash-keys vertical-directions)))
+  (define row-adjacent-tiles (adjacent-tiles horizontal-axis))
+  (define col-adjacent-tiles (adjacent-tiles vertical-axis))
 
   (define/lazy adjacent-tiles? (has-adjacent-tiles? board target-posn))
   (define/lazy matches-neighbors?
@@ -196,6 +201,32 @@
             (list row-adjacent-tiles col-adjacent-tiles)))
 
   (and adjacent-tiles? matches-neighbors?))
+
+
+#; {Board [Pairof Integer] Direction -> [Listof Tile]}
+;; Collect the contiguous sequence of tiles towards the given direction starting from but not
+;; including the given position.
+(define (collect-sequence/dir board posn dir)
+  (define start-posn (posn-translate posn dir))
+  ;; generative: produce a list of tiles along the contiguous sequence in reverse order
+  ;; terminates: when we find a posn along the direction unoccupied by a tile, since there exists a
+  ;;             finite amount of tiles on the board at any moment.
+  (define seq
+    (let loop ([current-posn start-posn]
+               [seq '()])
+      (cond
+        [(tile-at board current-posn)
+         => (lambda (t)
+              (define posn+ (posn-translate current-posn dir))
+              (define seq+ (cons t seq))
+              (loop posn+ seq+))]
+        [else seq])))
+
+  (reverse seq))
+
+
+(define (collect-sequence board posn axis)
+  ())
 
 
 #; {Board -> (values Integer Integer Integer Integer)}
@@ -236,9 +267,9 @@
                  (posn 2 0) (tile 'red 'star))))
   (define example-board2
     (board (hash (posn 0 0)   (tile 'red 'square)
-                 (posn 0 -1)  (tile 'red 'circle)
+                 (posn 0 -1)  (tile 'green 'circle)
                  (posn -1 -1) (tile 'green 'square)
-                 (posn 1 0)   (tile 'green 'star)
+                 (posn 1 0)   (tile 'red 'star)
                  (posn 2 0)   (tile 'blue 'star)
                  (posn 2 1)   (tile 'blue '8star)))))
 
