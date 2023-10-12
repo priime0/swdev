@@ -8,6 +8,7 @@
 (require Q/Common/config)
 (require Q/Common/data/tile)
 (require Q/Common/util/list)
+(require Q/Common/util/test)
 
 (provide
  player-id?
@@ -104,12 +105,12 @@
   (define hand-length (length hand))
   (define missing     (- (*hand-size*) hand-length))
   (define available   (length tiles))
-
+  
   (define-values (refill tiles+)
     (split-at tiles
               (min missing available)))
   (define hand+ (append hand refill))
-
+  
   (define state+ (set-player-state-hand state hand+))
   (values state+ tiles+))
 
@@ -118,3 +119,136 @@
 (define (player-state->pair ps)
   (match-define [player-state id score _] ps)
   (cons id score))
+
+
+(module+ test
+  (require rackunit)
+  (define ps1 (player-state 'lucas 0 (list (tile 'red 'square)
+                                           (tile 'blue 'circle)
+                                           (tile 'green 'star)
+                                           (tile 'purple '8star)
+                                           (tile 'yellow 'clover)
+                                           (tile 'orange 'diamond))))
+  (define sample-tiles (list (tile 'red 'square)
+                             (tile 'blue 'square)
+                             (tile 'green 'square)
+                             (tile 'purple 'square)
+                             (tile 'orange 'square)
+                             (tile 'yellow 'square)
+                             (tile 'red 'circle))))
+
+
+(module+ test
+  (test-true
+   "is a player-id"
+   (player-id? 'lucas))
+  
+  (test-false
+   "is not a player-id"
+   (player-id? "andrey"))
+  
+  (test-true
+   "valid hand"
+   (parameterize ([*hand-size* 6])
+     (valid-hand? '())))
+  
+  (test-false
+   "invalid hand"
+   (parameterize ([*hand-size* 6])
+     (valid-hand? (list (tile 'yellow 'square)
+                        (tile 'blue 'square)
+                        (tile 'red 'square)
+                        (tile 'purple 'square)
+                        (tile 'green 'square)
+                        (tile 'orange 'square)
+                        (tile 'orange 'circle)))))
+  (test-equal?
+   "remove tile list from hand"
+   (remove-from-hand ps1 (list (tile 'red 'square)
+                               (tile 'green 'star)))
+   (player-state 'lucas 0 (list (tile 'blue 'circle)
+                                (tile 'purple '8star)
+                                (tile 'yellow 'clover)
+                                (tile 'orange 'diamond))))
+  (test-equal?
+   "remove empty tile list from hand"
+   (remove-from-hand ps1 '())
+   ps1)
+  
+  (test-equal?
+   "make player state with empty tiles"
+   (make-player-state 'andrey '())
+   (player-state 'andrey 0 '()))
+  
+  (test-equal?
+   "make player state with some tiles"
+   (make-player-state 'lucas (list (tile 'red 'square)
+                                   (tile 'blue 'circle)
+                                   (tile 'green 'star)
+                                   (tile 'purple '8star)
+                                   (tile 'yellow 'clover)
+                                   (tile 'orange 'diamond)))
+   (player-state 'lucas 0 (list (tile 'red 'square)
+                                (tile 'blue 'circle)
+                                (tile 'green 'star)
+                                (tile 'purple '8star)
+                                (tile 'yellow 'clover)
+                                (tile 'orange 'diamond))))
+  
+  (test-true
+   "is player"
+   (is-player? 'lucas ps1))
+  
+  (test-false
+   "is not player"
+   (is-player? 'andrey ps1))
+  
+  (test-equal?
+   "player state to pair"
+   (player-state->pair (make-player-state 'can '()))
+   (cons 'can 0))
+  
+  (test-equal?
+   "player state with non zero score to pair"
+   (player-state->pair (player-state 'nishil 10 '()))
+   (cons 'nishil 10))
+  
+  (test-equal?
+   "player state with non-empty hand"
+   (player-state->pair (make-player-state 'jamie (list (tile 'red 'square)
+                                                       (tile 'blue 'circle)
+                                                       (tile 'green 'star)
+                                                       (tile 'purple '8star)
+                                                       (tile 'yellow 'clover)
+                                                       (tile 'orange 'diamond))))
+   (cons 'jamie 0))
+  
+  (test-values-equal?
+   "clear empty hand"
+   (clear-hand (make-player-state 'rohan '()))
+   (values (player-state 'rohan 0 '())
+           '()))
+  
+  (test-values-equal?
+   "clear non-empty hand"
+   (clear-hand ps1)
+   (values (player-state (player-state-id ps1)
+                         (player-state-score ps1)
+                         '())
+           (player-state-hand ps1)))
+  
+  (test-values-equal?
+   "refill empty hand"
+   (refill-hand (make-player-state 'andrey '()) sample-tiles)
+   
+   (values (make-player-state 'andrey (take sample-tiles (*hand-size*)))
+           (drop sample-tiles (*hand-size*))))
+  
+  (test-values-equal?
+   "refill non-empty hand"
+   (refill-hand (make-player-state 'andrey (list (tile 'red 'square))) sample-tiles)
+   
+   (values (make-player-state 'andrey
+                              (append (list (tile 'red 'square))
+                                      (take sample-tiles (- (*hand-size*) 1))))
+           (drop sample-tiles (- (*hand-size*) 1)))))
