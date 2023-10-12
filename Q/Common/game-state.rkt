@@ -152,15 +152,12 @@
   (define posns        (map placement-posn placements))
   (define placed-tiles (map placement-tile placements))
 
-  (define/lazy same-axis?
-    (or (posns-same-row? posns)
-        (posns-same-column? posns)))
   (define/lazy all-valid-placements?
     (andmap (curry valid-placement? board) placed-tiles posns))
   (define/lazy all-tiles-in-hand?
     (contains-all? hand placed-tiles))
 
-  (and same-axis?
+  (and (same-axis? posns)
        all-valid-placements?
        all-tiles-in-hand?))
 
@@ -231,6 +228,14 @@
   (define history+ (cons (turn id action) history))
 
   (game-state board tiles history+ (rotate-left-1 players)))
+
+
+#; {PlayerState [Listof Placement] -> PlayerState}
+;; ASSUME the placements are valid.
+(define (score-placement ps placements)
+  (define acc-points (length placements))
+
+  )
 
 
 #; {PlayerState -> Image}
