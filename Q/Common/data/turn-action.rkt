@@ -38,3 +38,20 @@
 #; {Any -> Boolean}
 (define (turn-action? a)
   ((disjoin place-tile? exchange? pass?) a))
+
+
+(module+ test
+  (require rackunit))
+
+(module+ test
+  (test-true
+   "valid turn action"
+   (turn-action? (exchange)))
+
+  (test-true
+   "valid pass turn action"
+   (turn-action? (pass)))
+
+  (test-false
+   "invalid turn action"
+   (turn-action? '())))
