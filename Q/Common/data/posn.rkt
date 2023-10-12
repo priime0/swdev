@@ -55,15 +55,11 @@
 ;; is negative and right is positive.
 ;; An Axis is a 2-list of distinct directions (list α β) such that, for any position φ,
 ;; (posn-translate (posn-translate φ α) β) = φ
-(define vertical-directions
-  #hash([up    . (-1 . 0)]
-        [down  . (1 . 0)]))
-(define vertical-axis (hash-keys vertical-directions))
+(define vertical-directions '((up . (-1 . 0)) (down . (1 . 0))))
+(define vertical-axis (map car vertical-directions))
 
-(define horizontal-directions
-  #hash([left  . (0 . -1)]
-        [right . (0 . 1)]))
-(define horizontal-axis (hash-keys horizontal-directions))
+(define horizontal-directions '((left . (0 . -1)) (down . (0 . 1))))
+(define horizontal-axis (map cdr horizontal-directions))
 
 (define directions
   (hash-union vertical-directions horizontal-directions))
