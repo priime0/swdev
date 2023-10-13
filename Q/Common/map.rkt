@@ -18,7 +18,10 @@
 (provide
  (rename-out [valid-board? board?])
  sequence?
+ board-map
+ bounds
  place-tiles
+ tile-at
  (contract-out
   [make-board (-> tile? valid-board?)]
   [add-tile

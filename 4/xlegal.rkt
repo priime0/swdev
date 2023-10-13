@@ -11,6 +11,7 @@
 (require Q/Common/data/turn-action)
 (require Q/Common/data/posn)
 (require Q/Common/player)
+(require Q/Common/data/tile)
 (require Q/Common/util/list)
 
 (define jpub        (read-json (current-input-port)))
@@ -18,9 +19,6 @@
 
 (define info (hash->turn-info++ jpub))
 (define placements (map hash->placement++ jplacements))
-
-(println info)
-(println placements)
 
 (define (valid-placements? info placements)
   (match-define [turn-info state _scores _history board _tiles-left] info)
@@ -42,10 +40,6 @@
   (define/lazy all-tiles-in-hand?
     (contains-all? hand placed-tiles))
 
-  (println (same-axis? posns))
-  (println all-valid-placements?)
-  (println all-tiles-in-hand?)
-
   (and (same-axis? posns)
        all-valid-placements?
        all-tiles-in-hand?))
@@ -58,11 +52,26 @@
 
 (define b+ (place-tiles (turn-info-board info) placements))
 
-(println b+)
+(define (map-list b)
+  (define-values (top-bound bot-bound left-bound right-bound)
+    (bounds b))
 
-(define out-json (void))
+  (for/fold ([rows '()])
+            ([r (in-inclusive-range top-bound bot-bound)])
+    (append rows
+            (list (list r
+                        (for/fold ([cells '()])
+                                  ([c (in-inclusive-range left-bound right-bound)])
+                          (define t (tile-at b (posn r c)))
+                          (if t
+                              (append cells
+                                      (list (list c (hash 'color (symbol->string (tile-color t))
+                                                          'shape (symbol->string (tile-shape t))))))
+                              cells)))))))
+
+
+(define out-json (map-list b+))
 
 (write-json out-json (current-output-port))
 (displayln "")
 (flush-output)
-
