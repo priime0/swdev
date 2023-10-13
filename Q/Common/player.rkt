@@ -82,9 +82,9 @@
 
 #; {JPlayer -> PlayerState}
 (define (hash->player-state++ jp)
-  (make-player-state '|0|
-                     (hash-ref jp 'score)
-                     (hash-ref jp 'tile*)))
+  (player-state '|0|
+                (hash-ref jp 'score)
+                (map hash->tile++ (hash-ref jp 'tile*))))
 
 
 #; {PlayerId PlayerState -> Boolean}
