@@ -12,6 +12,7 @@
 
 (require Q/Common/data/tile)
 (require Q/Common/data/posn)
+(require Q/Common/data/turn-action)
 (require Q/Common/util/misc)
 
 (provide
@@ -39,8 +40,8 @@
   [collect-sequence
    (-> valid-board?
        posn?
-       direction-name?
-       (listof tile?))]
+       axis?
+       (listof placement?))]
   [hash->board++
    (-> (listof (cons/c integer? (listof (cons/c integer? any/c))))
        valid-board?)]
@@ -203,7 +204,7 @@
   (and adjacent-tiles? matches-neighbors?))
 
 
-#; {Board [Pairof Integer] Direction -> [Listof Tile]}
+#; {Board [Pairof Integer] Direction -> [Listof TilePlacement]}
 ;; Collect the contiguous sequence of tiles towards the given direction starting from but not
 ;; including the given position.
 (define (collect-sequence/dir board posn dir)
@@ -218,13 +219,13 @@
         [(tile-at board current-posn)
          => (lambda (t)
               (define posn+ (posn-translate current-posn dir))
-              (define seq+ (cons t seq))
+              (define seq+ (cons (placement current-posn t) seq))
               (loop posn+ seq+))]
         [else seq])))
   
   (reverse seq))
 
-#; {Board Posn Axis -> [Listof Tile]}
+#; {Board Posn Axis -> [Listof TilePlacement]}
 ;; Collect the sequence of tiles that runs along the given axis,
 ;; rooted at the tile at the given position, or return empty list if
 ;; there is no such tile
@@ -235,7 +236,7 @@
           (define dir1-seq (collect-sequence/dir board posn (car axis)))
           (define dir2-seq (collect-sequence/dir board posn (cadr axis)))
           (append (reverse dir1-seq)
-                  (list t)
+                  (list (placement posn t))
                   dir2-seq))]
     [else '()]))
 
