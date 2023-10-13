@@ -14,6 +14,8 @@
  player-id?
  player-state++
  valid-hand?
+ set-player-state-score
+ set-player-state-hand
  (struct-out player-state)
  (contract-out
   [make-player-state
