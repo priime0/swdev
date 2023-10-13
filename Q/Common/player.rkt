@@ -16,6 +16,7 @@
  valid-hand?
  set-player-state-score
  set-player-state-hand
+ hash->player-state++
  (struct-out player-state)
  (contract-out
   [make-player-state
@@ -77,6 +78,13 @@
 ;; Creates a player with the given player id, hand, and a default score of 0.
 (define (make-player-state id hand)
   (player-state++ #:id id #:hand hand))
+
+
+#; {JPlayer -> PlayerState}
+(define (hash->player-state++ jp)
+  (make-player-state '|0|
+                     (hash-ref jp 'score)
+                     (hash-ref jp 'tile*)))
 
 
 #; {PlayerId PlayerState -> Boolean}

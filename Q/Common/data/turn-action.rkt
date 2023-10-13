@@ -22,6 +22,12 @@
           #:transparent)
 
 
+(define (hash->placement++ h)
+  (define p (hash->struct++ posn++ (hash-ref h 'coordinate)))
+  (define t (hash->tile++ (hash-ref h '1tile)))
+  (placement p t))
+
+
 #; {type TurnAction = (U (place-tile [Listof TilePlacement])
                          (exchange)
                          (pass)

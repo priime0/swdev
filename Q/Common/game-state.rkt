@@ -59,11 +59,27 @@
 ;; private knowledge, along with the public knowledge of turn order, scores, history, and the board.
 ;; INVARIANT: `scores` contains about every other player, and is ordered in the order of turns.
 (struct++ turn-info
-          ([state    player-state?]
-           [scores   (listof (cons/c player-id? natural?))]
-           [history  history?]
-           [board    board?])
+          ([state      player-state?]
+           [scores     (listof (cons/c player-id? natural?))]
+           [history    history?]
+           [board      board?]
+           [tiles-left natural?])
           #:transparent)
+
+#; {JPub -> TurnInfo}
+(define (hash->turn-info++ jpub)
+  (define jmap (hash-ref jpub 'map))
+  (define tile* (hash-ref jmap 'tile*))
+  (define players (hash-ref jmap 'players))
+  (define-values (jplayer scores*) (split-at players 1))
+  
+  (define state (hash->player-state++ jplayer))
+  (define board (hash->board++ jmap))
+  (define scores
+    (for/list ([score scores*] [i (in-naturals)])
+      (cons (string->symbol (number->string i)) score)))
+  
+  (turn-info state scores '() board tile*))
 
 
 #; {type GameState = (game-state Board
