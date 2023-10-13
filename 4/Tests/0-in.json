@@ -1,0 +1,33 @@
+{
+    "map": [[0, [0, {"color": "red", "shape": "square"}]]],
+    "tile*": 16,
+    "players": [{
+        "score": 0,
+        "tile*": [
+            {
+                "color": "red",
+                "shape": "circle"
+            },
+            {
+                "color": "blue",
+                "shape": "square"
+            },
+            {
+                "color": "green",
+                "shape": "circle"
+            },
+            {
+                "color": "purple",
+                "shape": "circle"
+            },
+            {
+                "color": "yellow",
+                "shape": "circle"
+            },
+            {
+                "color": "red",
+                "shape": "star"
+            }
+        ]
+    }, 0, 0, 0]
+}
