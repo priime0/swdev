@@ -13,6 +13,7 @@
   [rotate-left-1 (list? . -> . list?)]
   [remove-from   (list? list? . -> . list?)]
   [contains-all? (list? list? . -> . boolean?)]
+  [same-elements? (list? list? . -> . boolean?)]
   [segment       (natural? list? . -> . list?)]))
 
 #; {(X) X [Listof X] -> Boolean}
@@ -47,6 +48,14 @@
   (for/and ([el (hash-keys l2-counter)])
     (and (hash-has-key? l1-counter el)
          (<= (hash-ref l2-counter el) (hash-ref l1-counter el)))))
+
+
+#; {(X) [Listof X] [Listof X] -> Boolean}
+;; Do both lists contain the same number of each element?
+(define (same-elements? l1 l2)
+  (and (contains-all? l1 l2)
+       (contains-all? l2 l1)))
+
 
 #; {(X) [Listof X] [Listof X] -> [Listof X]}
 ;; Remove the elements in `l1` from `l2`.
