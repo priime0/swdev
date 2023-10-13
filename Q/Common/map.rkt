@@ -18,6 +18,7 @@
 (provide
  (rename-out [valid-board? board?])
  sequence?
+ place-tiles
  (contract-out
   [make-board (-> tile? valid-board?)]
   [add-tile
@@ -116,7 +117,7 @@
     (define t (hash->tile++ jtile))
     (hash-set! h p t))
   
-  (board h))
+  (board (make-immutable-hash (hash->list h))))
 
 
 #; {Tile -> Board}
@@ -125,6 +126,16 @@
 (define (make-board root-tile)
   (define root-posn (posn 0 0))
   (board++ #:map (hash root-posn root-tile)))
+
+
+#; {Board [Listof TilePlacement] -> Board}
+;; Constructs a new board with all of the given tile placements.
+;; ASSUME each tile placement is valid.
+(define (place-tiles board placements)
+  (for/fold ([board^ board])
+            ([pment placements])
+    (match-define [placement posn tile] pment)
+    (add-tile board^ posn tile)))
 
 
 #; {Board Posn Tile -> Board}
