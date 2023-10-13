@@ -20,7 +20,10 @@ During setup, a player will:
 This marks the setup period, where the player registers with the
 referee, giving it the age and its id (like a name), waits for an
 acknowledgment, and then waits for a list of its tiles, to signify
-both the beginning of a game, and to tell it of its tiles.
+both the beginning of a game, and to tell it of its tiles. If a player
+tries to register twice, the referee will accept that and create an
+additional player. The ID passed in the join request doesn't have to be
+unique, but the referee will make it unique.
 
 During game play, a player will:
 
@@ -38,7 +41,9 @@ The communication between a player and a referee during normal play looks like
 a wait loop, where the player waits for its next turn, gets the necessary info,
 sends back a turn, and gets its new score and tiles, or receives a message that
 it has been terminated for an invalid action, and will either stop or wait for
-its next turn.
+its next turn. If a player sends a message to a referee while another
+player is taking their turn, or when the referee isn't expecting a
+response, the referee will ignore the message. 
 
 During teardown, a player will:
 
