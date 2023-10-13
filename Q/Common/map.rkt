@@ -17,6 +17,7 @@
 
 (provide
  (rename-out [valid-board? board?])
+ sequence?
  (contract-out
   [make-board (-> tile? valid-board?)]
   [add-tile
@@ -41,7 +42,7 @@
    (-> valid-board?
        posn?
        axis?
-       (listof placement?))]
+       sequence?)]
   [hash->board++
    (-> (listof (cons/c integer? (listof (cons/c integer? any/c))))
        valid-board?)]
@@ -69,6 +70,20 @@
              (unless (valid-board? b)
                (error 'fmap "fmap produced an invalid board"))
              b)])
+
+
+;; {type Sequence = [Listof TilePlacement]}
+;; A Sequence is a a collection of distinct posn-tile pairs
+;; such that for any two different posn-tile pairs α, β in the sequence,
+;; reachable?(α, β).
+
+;; We define two distinct posn-tile pairs α, β to be _reachable_ IFF WLOG
+;; they share one axis and for all posns φ between the posns of α and β,
+;; φ is occupied by a tile.
+(define (sequence? a)
+  (and (list? a)
+       (andmap placement? a)
+       (same-axis? (map placement-posn a))))
 
 
 #; {Any -> Boolean}
@@ -204,7 +219,7 @@
   (and adjacent-tiles? matches-neighbors?))
 
 
-#; {Board [Pairof Integer] Direction -> [Listof TilePlacement]}
+#; {Board [Pairof Integer] Direction -> Sequence}
 ;; Collect the contiguous sequence of tiles towards the given direction starting from but not
 ;; including the given position.
 (define (collect-sequence/dir board posn dir)
@@ -225,7 +240,7 @@
   
   (reverse seq))
 
-#; {Board Posn Axis -> [Listof TilePlacement]}
+#; {Board Posn Axis -> Sequence}
 ;; Collect the sequence of tiles that runs along the given axis,
 ;; rooted at the tile at the given position, or return empty list if
 ;; there is no such tile
