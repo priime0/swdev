@@ -127,7 +127,7 @@
 (define (game-state->turn-info gs)
   (match-define [game-state board tiles history [cons state others]] gs)
   (define player-alist (map player-state->pair others))
-  (turn-info state tiles history board))
+  (turn-info state player-alist history board (length tiles)))
 
 
 #; {GameState PlayerId -> Boolean}
@@ -285,7 +285,6 @@
     (~>> (score/sequences b placements)
          set->list
          (filter-not (compose one? length))))
-  (println seqs)
 
   ;; A player receives one point per tile in a contiguous sequence of tiles (in a row or column)
   ;; that contains at least one of its newly placed tiles.
@@ -353,10 +352,15 @@
   (require Q/Common/util/test)
   (define tile-product (cartesian-product tile-colors tile-shapes))
   (define tile-set (map (curry apply tile) tile-product))
-  (define gs (apply/seed 0 make-game-state tile-set '(lucas andrey luke)))
-  (define gs+ (take-turn gs (place-tile (list (placement (posn 1 0) (tile 'green 'clover))
+  (define players1 '(lucas andrey luke))
+  (define players2 '(lucas andrey luke john))
+  (define gs1 (apply/seed 0 make-game-state tile-set players1))
+  (define gs2 (apply/seed 0 make-game-state tile-set players2))
+  (define tile-set-seeded (apply/seed 0 shuffle tile-set))
+
+  (define gs1+ (take-turn gs1 (place-tile (list (placement (posn 1 0) (tile 'green 'clover))
                                               (placement (posn 1 1) (tile 'blue 'clover))))))
-  (define gs++ (take-turn gs+ (place-tile (list (placement (posn 1 2) (tile 'red 'clover))
+  (define gs1++ (take-turn gs1+ (place-tile (list (placement (posn 1 2) (tile 'red 'clover))
                                                 (placement (posn 1 -1) (tile 'green 'star))
                                                 (placement (posn 1 -2) (tile 'yellow 'star))
                                                 (placement (posn 1 -3) (tile 'blue 'star))
@@ -364,29 +368,105 @@
 
 (module+ test
   (test-case
-   "make-game-state hands out the correct number of tiles and removes them from the full tile collection"
-   (define tile-set-seeded       (apply/seed 0 shuffle tile-set))
-   (define game-state-seeded     (apply/seed 0 make-game-state tile-set '(lucas andrey josh john)))
-   (match-define [game-state board tiles history players] game-state-seeded)
-
+   "make-game-state with 3 players"
+   (match-define [game-state board tiles history players] gs1)
    (check-equal? board
                  (make-board (first tile-set-seeded))
-                 "")
+                 "board is created with one tile")
 
    (check-equal? history
-                 '())
+                 '()
+                 "history starts empty")
 
-   (define num-tiles-used (+ (* (*hand-size*) (length players))
-                             1))
+   (check-equal? (length players)
+                 (length players1)
+                 "players queue has the same length contains 3 players")
+   (check-equal? (map player-state-id players)
+                 players1
+                 "players queue contains all players in the order given")
+   (check-equal? (map player-state-score players)
+                 (make-list (length players1) 0)
+                 "players start with 0 points")
+   (check-equal? (map (compose length player-state-hand) players)
+                 (make-list (length players1) (*hand-size*))
+                 "players start with *hand-size* tiles in hand")
 
-   (check-equal? (length tiles)
-                 (- (length tile-set-seeded)
-                    num-tiles-used))
 
    (define all-player-tiles (map player-state-hand players))
+   (define board-tile       (placement-tile (first (collect-sequence board (posn 0 0) vertical-axis))))
    (define all-gs-tiles     (append (flatten all-player-tiles)
-                                    tiles))
-   (check set=?
+                                    tiles
+                                    (list board-tile)))
+   (check same-elements?
           all-gs-tiles
-          (rest tile-set-seeded)
-          "all tiles are accounted for in the game state that were passed in")))
+          tile-set-seeded
+          "all game state tiles is the same set as all tiles passed into game state"))
+
+  (test-case
+   "make-game-state with 4 players"
+   (match-define [game-state board tiles history players] gs2)
+   (check-equal? board
+                 (make-board (first tile-set-seeded))
+                 "board is created with one tile")
+
+   (check-equal? history
+                 '()
+                 "history starts empty")
+
+   (check-equal? (length players)
+                 (length players2)
+                 "players queue has the same length contains 3 players")
+   (check-equal? (map player-state-id players)
+                 players2
+                 "players queue contains all players in the order given")
+   (check-equal? (map player-state-score players)
+                 (make-list (length players2) 0)
+                 "players start with 0 points")
+   (check-equal? (map (compose length player-state-hand) players)
+                 (make-list (length players2) (*hand-size*))
+                 "players start with *hand-size* tiles in hand")
+
+
+   (define all-player-tiles (map player-state-hand players))
+   (define board-tile       (placement-tile (first (collect-sequence board (posn 0 0) vertical-axis))))
+   (define all-gs-tiles     (append (flatten all-player-tiles)
+                                    tiles
+                                    (list board-tile)))
+   (check same-elements?
+          all-gs-tiles
+          tile-set-seeded
+          "all game state tiles is the same set as all tiles passed into game state"))
+
+  (test-case
+   "game state -> turn info"
+   (match-define [game-state board tiles history [cons curr-player others]] gs1)
+   (check-equal? (game-state->turn-info gs1)
+                 (turn-info++ #:state curr-player
+                              #:scores (map player-state->pair others)
+                              #:history history
+                              #:board board
+                              #:tiles-left (length tiles))))
+
+  (test-case
+   "player in game?"
+   (check-true (player-in-game? gs1 'lucas) "lucas in game")
+   (check-false (player-in-game? gs2 'nishil) "nishil not in game"))
+
+  (test-case
+   "remove player"
+   (match-define [game-state board tiles history players] gs1)
+   (define new-history (list (banish 'lucas 0)))
+   (define new-tiles (append tiles (player-state-hand (findf (curry is-player? 'lucas) players))))
+   (check-equal? (remove-player gs1 'lucas)
+                 (game-state board new-tiles new-history (remf (curry is-player? 'lucas) players))
+                 "removing lucas returns his tiles and removes him from the queue"))
+
+
+  (test-case
+   "valid exchange?"
+   (check-true (valid-exchange? gs1)
+              "game state has enough tiles for exchange")
+   (check-false (valid-exchange? (make-game-state (drop tile-set-seeded 19) players1))
+               "game state doesnt have enough tiles"))
+
+  )
