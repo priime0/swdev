@@ -10,6 +10,7 @@
  (struct-out exchange)
  (struct-out pass)
  turn-action?
+ hash->placement++
  (struct-out placement))
 
 
