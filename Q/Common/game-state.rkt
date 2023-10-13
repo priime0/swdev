@@ -25,10 +25,11 @@
  turn-action?
  (struct-out turn-info)
  (struct-out game-state)
+ hash->turn-info++
  (contract-out
   [make-game-state (-> (listof tile?) (listof player-id?) game-state?)]
   [valid-placements?
-   (-> game-state? (listof (cons/c posn? tile?)) boolean?)]
+   (-> game-state? (listof placement?) boolean?)]
   [valid-turn?
    (-> game-state? turn-action? boolean?)]
   [game-state->turn-info
@@ -69,9 +70,10 @@
 #; {JPub -> TurnInfo}
 (define (hash->turn-info++ jpub)
   (define jmap (hash-ref jpub 'map))
-  (define tile* (hash-ref jmap 'tile*))
-  (define players (hash-ref jmap 'players))
-  (define-values (jplayer scores*) (split-at players 1))
+  (define tile* (hash-ref jpub 'tile*))
+  (define players (hash-ref jpub 'players))
+  (define jplayer (first players))
+  (define scores* (rest players))
   
   (define state (hash->player-state++ jplayer))
   (define board (hash->board++ jmap))
@@ -198,16 +200,6 @@
       [(exchange)           (take-turn/exchange gs)]
       [(pass)               gs]))
   (end-turn gs+ action))
-
-
-#; {Board [Listof TilePlacement] -> Board}
-;; Constructs a new board with all of the given tile placements.
-;; ASSUME each tile placement is valid.
-(define (place-tiles board placements)
-  (for/fold ([board^ board])
-            ([pment placements])
-    (match-define [placement posn tile] pment)
-    (add-tile board^ posn tile)))
 
 
 #; {GameState [Listof TilePlacement] -> GameState}
