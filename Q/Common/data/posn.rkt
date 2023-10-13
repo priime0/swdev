@@ -14,10 +14,12 @@
  posn-row
  posn-column
  directions
+ axes
  vertical-axis
  horizontal-axis
  direction-names
  direction-name?
+ axis?
  (contract-out
   #:unprotected-submodule no-contract
   [posn-translate
@@ -32,7 +34,16 @@
   [posns-same-column?
    (-> (listof posn?) boolean?)]
   [same-axis?
-   (-> (listof posn?) boolean?)]))
+   (-> (listof posn?) boolean?)]
+  [axis-of
+   (->i ([pns (listof posn?)])
+        #:pre/name (pns)
+        "must be more than one posn in the list"
+        (>= (length pns) 2)
+        #:pre/name (pns)
+        "posns must be aligned on an axis"
+        (same-axis? pns)
+        [result axis?])]))
 
 #; {type Posn = (posn Integer Integer)}
 ;; A Posn is a (posn r c), which represent a row and column.
@@ -53,22 +64,34 @@
 ;; A Direction thus has two axes, vertical and horizontal. A Direction is a translation in only one
 ;; axis. For the vertical axis, up is negative and down is positive. For the horizontal axes, left
 ;; is negative and right is positive.
+
+#; {type Axis = (U '(up down) '(left right))}
 ;; An Axis is a 2-list of distinct directions (list α β) such that, for any position φ,
 ;; (posn-translate (posn-translate φ α) β) = φ
+
 (define vertical-directions '((up . (-1 . 0)) (down . (1 . 0))))
 (define vertical-axis (map car vertical-directions))
 
-(define horizontal-directions '((left . (0 . -1)) (down . (0 . 1))))
-(define horizontal-axis (map cdr horizontal-directions))
+(define horizontal-directions '((left . (0 . -1)) (right . (0 . 1))))
+(define horizontal-axis (map car horizontal-directions))
 
 (define directions
-  (hash-union vertical-directions horizontal-directions))
+  (append vertical-directions horizontal-directions))
+(define axes
+  (list vertical-axis horizontal-axis))
 
-(define direction-names (hash-keys directions))
+(define direction-names (map car directions))
 
 #; {Any -> Boolean}
 (define (direction-name? a)
   (member? a direction-names))
+
+#; {Any -> Boolean}
+(define (axis? a)
+  (and (list? a)
+       (= 2 (length a))
+       (ormap (curry equal? a)
+              (list vertical-axis horizontal-axis))))
 
 ;; DEFINITION: Two `Posn`s α, β are _neighbors_ IFF WLOG there exists some direction Δ such that
 ;;             `(posn-translate α Δ)` produces β.
@@ -82,7 +105,7 @@
 ;; Produce a new posn representing the given posn translated in the given direction.
 (define (posn-translate p dir)
   (match-define [posn row column] p)
-  (match-define [cons dr dc] (hash-ref directions dir))
+  (match-define [cons dr dc] (cdr (assoc dir directions)))
   (posn (+ row dr)
         (+ column dc)))
 
@@ -109,3 +132,9 @@
 (define (same-axis? posns)
   ((disjoin posns-same-row? posns-same-column?)
    posns))
+
+#; {[Listof Posn] -> Axis}
+;; Retrieve the axis the posns align on
+(define (axis-of posns)
+  (cond [(posns-same-row? posns)    horizontal-axis]
+        [(posns-same-column? posns) vertical-axis]))
