@@ -2,8 +2,8 @@
 
 (require (rename-in (only-in lazy define)
                     [define define/lazy]))
-(require (rename-in data/functor
-                    [map fmap]))
+(require racket/set)
+(require math/base)
 
 (require struct-plus-plus)
 (require threading)
@@ -18,6 +18,7 @@
 (require Q/Common/data/event)
 (require Q/Common/util/list)
 (require Q/Common/util/image)
+(require Q/Common/util/misc)
 
 (provide
  player-id?
@@ -31,7 +32,7 @@
   [valid-turn?
    (-> game-state? turn-action? boolean?)]
   [game-state->turn-info
-   (->i ([gs game-state?])        
+   (->i ([gs game-state?])
         #:pre/name (gs)
         "game has no players left!"
         (not (null? (game-state-players gs)))
@@ -198,13 +199,14 @@
 (define (take-turn/placement gs placements)
   (match-define [game-state board tiles history [cons state others]] gs)
   (define board+        (place-tiles board placements))
-
   (define placed-tiles  (map placement-tile placements))
   (define state+        (remove-from-hand state placed-tiles))
   (define-values (state++ tiles+)
     (refill-hand state+ tiles))
 
-  (game-state board+ tiles+ history (cons state++ others)))
+  (define state+++ (score-turn state++ board+ placements))
+
+  (game-state board+ tiles+ history (cons state+++ others)))
 
 
 #; {GameState -> GameState}
@@ -230,12 +232,85 @@
   (game-state board tiles history+ (rotate-left-1 players)))
 
 
-#; {PlayerState [Listof Placement] -> PlayerState}
+#; {Board [Listof TilePlacement] -> Natural}
+;; Score all of the sequences that lie on orthogonal axes to the axis of the placements.
+;; Since all of the placements lie on a single axis, then any sequence with an axis orthogonal will
+;; only intersect at one and only one posn in the placements -- thus entire sequences are not doubly
+;; counted unless the sequences are singletons, which still satisfies rule 2 of Q scoring.
+(define (score/orthogonals b placements)
+  (define posns      (map placement-posn placements))
+  (define axis       (axis-of posns))
+  (define other-axes (remove axis axes))
+
+  (for*/sum ([p     posns]
+             [axis* other-axes])
+
+    (length (collect-sequence b p axis*))))
+
+
+#; {Board [Listof TilePlacement] -> Natural}
+(define (score/placement-axis b placements)
+  (define posns (map placement-posn placements))
+  (define axis  (axis-of posns))
+
+  (define seqs
+    (for/set ([p posns])
+      (collect-sequence b p axis)))
+
+  (sum (map length (set->list seqs))))
+
+#; {Board [Listof TilePlacement] -> [Setof [Listof TilePlacement]]}
+;; Produce a set of sequences for each posn along every axis.
+(define (score/sequences b placements)
+  (define posns (map placement-posn placements))
+  (for*/set ([p posns] [axis axes])
+    (collect-sequence b p axis)))
+
+
+#; {Board [Listof TilePlacement] -> Natural}
 ;; ASSUME the placements are valid.
-(define (score-placement ps placements)
+(define (score/placement b placements)
+  ;; A player receives one point per tile placed.
   (define acc-points (length placements))
 
-  )
+  (define seqs
+    (~>> (score/sequences b placements)
+         set->list
+         (filter-not (compose one? length))))
+  (println seqs)
+
+  ;; A player receives one point per tile in a contiguous sequence of tiles (in a row or column)
+  ;; that contains at least one of its newly placed tiles.
+  (set! acc-points (+ acc-points (sum (map length seqs))))
+
+  (define q-seqs
+    (filter (lambda (seq)
+              (define tiles  (map placement-tile seq))
+              (define colors (map tile-color tiles))
+              (define shapes (map tile-shape tiles))
+              (or (same-elements? colors tile-colors)
+                  (same-elements? shapes tile-shapes)))
+            seqs))
+
+  ;; A player receives 6 bonus points for completing a Q, which is a contiguous sequence of tiles
+  ;; that contains all shapes or all colors and nothing else.
+  (define points-per-Q 6)
+  (set! acc-points (+ acc-points (* points-per-Q (length q-seqs))))
+
+  (define all-placed-points 6)
+  ;; A player also receives 6 bonus points for placing all tiles in its possession.
+  (when (= (length placements) (*hand-size*))
+    (set! acc-points (+ acc-points all-placed-points)))
+
+  acc-points)
+
+
+#; {PlayerState Board [Listof TilePlacement] -> PlayerState}
+;; Score the turn of a player for the given placement of tiles.
+(define (score-turn ps b placements)
+  (define score  (player-state-score ps))
+  (define score+ (+ score (score/placement b placements)))
+  (set-player-state-score ps score+))
 
 
 #; {PlayerState -> Image}
@@ -269,7 +344,15 @@
   (require rackunit)
   (require Q/Common/util/test)
   (define tile-product (cartesian-product tile-colors tile-shapes))
-  (define tile-set (map (curry apply tile) tile-product)))
+  (define tile-set (map (curry apply tile) tile-product))
+  (define gs (apply/seed 0 make-game-state tile-set '(lucas andrey luke)))
+  (define gs+ (take-turn gs (place-tile (list (placement (posn 1 0) (tile 'green 'clover))
+                                              (placement (posn 1 1) (tile 'blue 'clover))))))
+  (define gs++ (take-turn gs+ (place-tile (list (placement (posn 1 2) (tile 'red 'clover))
+                                                (placement (posn 1 -1) (tile 'green 'star))
+                                                (placement (posn 1 -2) (tile 'yellow 'star))
+                                                (placement (posn 1 -3) (tile 'blue 'star))
+                                                (placement (posn 1 -4) (tile 'blue 'circle)))))))
 
 (module+ test
   (test-case
@@ -298,8 +381,4 @@
    (check set=?
           all-gs-tiles
           (rest tile-set-seeded)
-          "all tiles are accounted for in the game state that were passed in")
-   
-   )
-
-  )
+          "all tiles are accounted for in the game state that were passed in")))
