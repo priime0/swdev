@@ -1,0 +1,60 @@
+[
+  [
+    0,
+    [
+      0,
+      {
+        "color": "red",
+        "shape": "square"
+      }
+    ],
+    [
+      1,
+      {
+        "color": "red",
+        "shape": "circle"
+      }
+    ],
+    [
+      2,
+      {
+        "color": "red",
+        "shape": "circle"
+      }
+    ]
+  ],
+  [
+    1,
+    [
+      0,
+      {
+        "color": "green",
+        "shape": "square"
+      }
+    ]
+  ],
+  [
+    2,
+    [
+      0,
+      {
+        "color": "blue",
+        "shape": "square"
+      }
+    ],
+    [
+      1,
+      {
+        "color": "blue",
+        "shape": "8star"
+      }
+    ],
+    [
+      2,
+      {
+        "color": "blue",
+        "shape": "square"
+      }
+    ]
+  ]
+]
