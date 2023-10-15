@@ -1,9 +1,12 @@
 #lang racket
 
+(require racket/generic)
+
 (require struct-plus-plus)
 
 (require Q/Common/data/posn)
 (require Q/Common/data/tile)
+(require Q/Common/interfaces/serializable)
 
 (provide
  (struct-out place-tile)
@@ -20,7 +23,13 @@
 (struct++ placement
           ([posn posn?]
            [tile tile?])
-          #:transparent)
+          #:transparent
+          #:methods gen:serializable
+          [(define/generic ->jsexpr* ->jsexpr)
+           (define (->jsexpr pment)
+             (match-define [placement posn tile] pment)
+             (hash 'coordinate (->jsexpr* posn)
+                   '1tile      (->jsexpr* tile)))])
 
 
 (define (hash->placement++ h)

@@ -1,5 +1,7 @@
 #lang racket
 
+(require racket/generic)
+
 (require (rename-in data/functor
                     [map fmap]))
 
@@ -9,6 +11,7 @@
 (require Q/Common/data/tile)
 (require Q/Common/util/list)
 (require Q/Common/util/test)
+(require Q/Common/interfaces/serializable)
 
 (provide
  player-id?
@@ -71,7 +74,13 @@
           #:methods gen:functor
           [(define (map f x)
              (match-define [player-state id score hand] x)
-             (player-state id score (f hand)))])
+             (player-state id score (f hand)))]
+          #:methods gen:serializable
+          [(define/generic ->jsexpr* ->jsexpr)
+           (define (->jsexpr ps)
+             (match-define [player-state _id score hand] ps)
+             (hash 'score score
+                   'tile* (map ->jsexpr* hand)))])
 
 
 #; {PlayerId [Listof Tile] -> PlayerState}

@@ -6,6 +6,7 @@
 
 (require Q/Common/util/list)
 (require Q/Common/util/struct)
+(require Q/Common/interfaces/serializable)
 
 (provide
  posn
@@ -55,7 +56,11 @@
             [hash?
              (hash-table ('row row) ('column column))
              (row column)]))
-          #:transparent)
+          #:transparent
+          #:methods gen:serializable
+          [(define (->jsexpr p)
+             (match-define [posn row column] p)
+             (hash 'row row 'column column))])
 
 
 #; {type Direction = (U 'up 'down 'left 'right)}

@@ -1,5 +1,7 @@
 #lang racket
 
+(require racket/generic)
+
 (require (rename-in (only-in lazy define)
                     [define define/lazy]))
 
@@ -14,6 +16,7 @@
 (require Q/Common/data/posn)
 (require Q/Common/data/turn-action)
 (require Q/Common/util/misc)
+(require Q/Common/interfaces/serializable)
 
 (provide
  (rename-out [valid-board? board?])
@@ -66,14 +69,25 @@
 ;; INVARIANT 2: A position on the board is occupied by a tile IFF the position is a key in the hash
 ;;              map.
 (struct++ board
-          ([map hash?])
+          ([map (hash/c posn? tile?)])
           #:transparent
           #:methods gen:functor
           [(define (map f x)
              (define b (board (f (board-map x))))
              (unless (valid-board? b)
                (error 'fmap "fmap produced an invalid board"))
-             b)])
+             b)]
+          #:methods gen:serializable
+          [(define/generic ->jsexpr* ->jsexpr)
+           (define (->jsexpr b)
+             (define h (make-hash))
+             (for ([(p t) (in-hash (board-map b))])
+               (match-define [posn row column] p)
+               (define t^ (->jsexpr* t))
+               (hash-set! h row (cons (list column t^)
+                                      (hash-ref h row '()))))
+             (for/list ([(row cells) (in-hash h)])
+               (cons row cells)))])
 
 
 ;; {type Sequence = [Listof TilePlacement]}

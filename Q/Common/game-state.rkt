@@ -3,6 +3,7 @@
 (require (rename-in (only-in lazy define)
                     [define define/lazy]))
 (require racket/set)
+(require racket/generic)
 (require math/base)
 
 (require struct-plus-plus)
@@ -19,6 +20,7 @@
 (require Q/Common/util/list)
 (require Q/Common/util/image)
 (require Q/Common/util/misc)
+(require Q/Common/interfaces/serializable)
 
 (provide
  player-id?
@@ -65,7 +67,15 @@
            [history    history?]
            [board      board?]
            [tiles-left natural?])
-          #:transparent)
+          #:transparent
+          #:methods gen:serializable
+          [(define/generic ->jsexpr* ->jsexpr)
+           (define (->jsexpr ti)
+             (match-define [turn-info state scores _history board tiles-left] ti)
+             (hash 'map     (->jsexpr* board)
+                   'tile*   tiles-left
+                   'players (cons (->jsexpr* state)
+                                  (rest scores))))])
 
 #; {JPub -> TurnInfo}
 (define (hash->turn-info++ jpub)

@@ -7,6 +7,7 @@
 (require Q/Common/config)
 (require Q/Common/util/list)
 (require Q/Common/util/struct)
+(require Q/Common/interfaces/serializable)
 
 (provide
  tile
@@ -58,7 +59,12 @@
              (hash-table ('color (app string->symbol color))
                          ('shape (app string->symbol shape)))
              (color shape)]))
-          #:transparent)
+          #:transparent
+          #:methods gen:serializable
+          [(define (->jsexpr t)
+             (match-define [tile color shape] t)
+             (hash 'color (symbol->string color)
+                   'shape (symbol->string shape)))])
 
 #; {[Listof Tile] -> Boolean}
 ;; Do all the tiles have equal colors?
