@@ -1,0 +1,6 @@
+[
+    [-5,[100,{"color" : "blue", "shape" : "clover"}]],
+    [-4,[100, {"color" : "red", "shape" : "clover"}], [101, {"color" : "red", "shape" : "8star"}], [102, {"color" : "red", "shape" : "diamond"}]],
+    [-3, [101, {"color" : "green", "shape" : "8star"}]]
+]
+{"color" : "red", "shape" : "8star"}

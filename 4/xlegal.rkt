@@ -52,6 +52,7 @@
 
 (define b+ (place-tiles (turn-info-board info) placements))
 
+
 (define (map-list b)
   (define-values (top-bound bot-bound left-bound right-bound)
     (bounds b))
@@ -59,7 +60,7 @@
   (for/fold ([rows '()])
             ([r (in-inclusive-range top-bound bot-bound)])
     (append rows
-            (list (list r
+            (list (cons r
                         (for/fold ([cells '()])
                                   ([c (in-inclusive-range left-bound right-bound)])
                           (define t (tile-at b (posn r c)))
@@ -68,7 +69,6 @@
                                       (list (list c (hash 'color (symbol->string (tile-color t))
                                                           'shape (symbol->string (tile-shape t))))))
                               cells)))))))
-
 
 (define out-json (map-list b+))
 

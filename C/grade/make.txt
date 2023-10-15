@@ -1,0 +1,2 @@
+cd Other/xtcp && raco pkg install --auto --skip-installed && raco exe -o xtcp xtcp.rkt && mv xtcp ../../
+Linking current directory as a package

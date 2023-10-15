@@ -1,0 +1,223 @@
+["a",{"b":2}]
+["a",{"b":2}]
+[
+
+	"abc", { "abb": "2", "abc": 1 }
+]
+{ 
+    "b": "fifth",
+
+    "a": [
+
+        "first",
+        {
+
+            "aba": "second",
+
+            "abc": 1,
+        
+            "abb": "third"
+
+
+
+        },
+
+        "fourth"
+
+    ]
+}
+
+["a",{"b":2}, {"b":3, "a":0, "c":"2"}, 2, ["c", "1"]]
+
+["str", {"zzz": "123"
+	, "list": ["arr", "bar"]}, 3]
+
+{
+    "z": {
+        "a": [
+            1,
+            "nested",
+            {
+                "x": "deep"
+            }
+        ],
+        "c": {
+            "b": [
+                2,
+                3,
+                [
+                    {
+                        "y": "innermost"
+                    },
+                    "string"
+                ]
+            ]
+        }
+    },
+    "d": {
+        "e": {
+            "f": [
+                {
+                    "g": [
+                        {
+                            "h": [
+                                {
+                                    "i": [
+                                        {
+                                            "j": [
+                                                {
+                                                    "k": "complex"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}
+
+
+[
+  {
+    "string_value": "text",
+    "number_value": 42,
+    "object_value": {
+      "nested_object_string": "",
+      "nested_object_string_2": "woah, we just had an empty string before and it wont show",
+      "nested_array_value": [
+        {
+          "number_value_for_a_key_in_an_object_in_an_array_in_an_object_in_an_object_in_an_array": 50
+        }
+      ]
+    },
+    "array_value": [
+      1,
+      "string",
+      3
+    ]
+  },
+  "main array-level string value",
+  4,
+  [
+    "this is a string in an array in an array"
+  ]
+]
+
+
+{"start": {
+
+  "a": "hello",
+
+
+  "window": {
+    "title": "ex1",
+    "name": "ex1_name",
+    "width": 500,
+
+    "height": 500
+  },
+
+  "image": {
+    "src": "ex2.png",
+    "name":"ex2_name",
+    "hOffset": 250,
+    "vOffset": 250,
+    "alignment": "center",
+    "imageDimensions" :
+      {
+        "y": "200",
+        "x": 100
+      }
+  },
+  "text": {
+    "data": "data",
+    "size": 36,
+    "style": "bold",
+    "name": "text3",
+    "hOffset": 250,
+    "vOffset": 
+
+
+100,
+    "alignment": "center"
+  },
+  "list": [
+    {
+      "hello": "world",
+      "lang": "java"
+    },
+    {
+      "world": "hello",
+      "number": 1
+    },
+    "1",
+    2 ,
+    [3, "4"]
+  ]
+}}
+
+[
+  "abc",
+  {
+
+
+    "abb": "2",
+
+    "abc": 1
+
+  },
+  1023492384234892,
+  "999",
+  {
+    "key1": [
+      "zero"
+    ],
+    "key3": "It's key 3",
+    "key2": {
+      "subkey1": "zippy goat",
+      "subkey2": [
+        "software dev"
+      ],
+      "subkey3": ""
+    },
+    "key4": {}
+  },
+  {
+    "newline": "This\tis a line\nThis is another line.\n"
+  },
+  [
+    ""
+  ],
+  {
+
+},
+  [],
+
+
+  [
+    {}
+
+  ],
+  [
+    {},
+    {},
+    []
+  ],
+  [
+    [
+      []
+    ]
+  ]
+]
+
+["abc",{"abb":"2","abc":1}, "cde"]
+
+["abc",{"abb":"2","abc":1}]
+
+["abc",{"abb":"2","abc":1}, {"nestedArray": [[1, 2, 3]], "emptyObject": {}, "emptyArray": [], "emptyString": "", "negativeNum": -1, "doubleNum": 2.005}]
+

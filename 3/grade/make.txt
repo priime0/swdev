@@ -1,0 +1,36 @@
+cd ../Q/ && raco pkg install --auto --skip-installed && cd ../3/ && raco exe xmap.rkt && chmod +x xmap
+Linking current directory as a package
+raco setup: version: 8.10
+raco setup: platform: x86_64-linux [cs]
+raco setup: target machine: ta6le
+raco setup: installation name: 8.10
+raco setup: variants: cs
+raco setup: main collects: /proj/racket/plt-released/recent/collects/
+raco setup: collects paths: 
+raco setup:   /home/mballantyne/.racket/8.10/collects
+raco setup:   /proj/racket/plt-released/recent/collects/
+raco setup: main pkgs: /proj/racket/plt-released/recent/share/pkgs
+raco setup: pkgs paths: 
+raco setup:   /proj/racket/plt-released/recent/share/pkgs
+raco setup:   /home/mballantyne/.racket/8.10/pkgs
+raco setup: links files: 
+raco setup:   /proj/racket/plt-released/recent/share/links.rktd
+raco setup:   /home/mballantyne/.racket/8.10/links.rktd
+raco setup: main docs: /proj/racket/plt-released/recent/doc
+raco setup: --- updating info-domain tables ---                    [20:18:39]
+raco setup: updating: /home/mballantyne/.racket/8.10/share/info-cache.rktd
+raco setup: --- pre-installing collections ---                     [20:18:39]
+raco setup: --- installing foreign libraries ---                   [20:18:39]
+raco setup: --- installing shared files ---                        [20:18:39]
+raco setup: --- compiling collections ---                          [20:18:39]
+raco setup: --- parallel build using 4 jobs ---                    [20:18:39]
+raco setup: 3 making: <pkgs>/Q
+raco setup: 3 making: <pkgs>/Q/Common
+raco setup: 3 making: <pkgs>/Q/Common/data
+raco setup: 3 making: <pkgs>/Q/Common/util
+raco setup: 3 making: <pkgs>/Q/Planning
+raco setup: --- creating launchers ---                             [20:18:48]
+raco setup: --- installing man pages ---                           [20:18:48]
+raco setup: --- building documentation ---                         [20:18:48]
+raco setup: --- installing collections ---                         [20:19:01]
+raco setup: --- post-installing collections ---                    [20:19:01]
