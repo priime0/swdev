@@ -249,34 +249,6 @@
 
   (game-state board tiles history+ (rotate-left-1 players)))
 
-
-#; {Board [Listof TilePlacement] -> Natural}
-;; Score all of the sequences that lie on orthogonal axes to the axis of the placements.
-;; Since all of the placements lie on a single axis, then any sequence with an axis orthogonal will
-;; only intersect at one and only one posn in the placements -- thus entire sequences are not doubly
-;; counted unless the sequences are singletons, which still satisfies rule 2 of Q scoring.
-(define (score/orthogonals b placements)
-  (define posns      (map placement-posn placements))
-  (define axis       (axis-of posns))
-  (define other-axes (remove axis axes))
-
-  (for*/sum ([p     posns]
-             [axis* other-axes])
-
-    (length (collect-sequence b p axis*))))
-
-
-#; {Board [Listof TilePlacement] -> Natural}
-(define (score/placement-axis b placements)
-  (define posns (map placement-posn placements))
-  (define axis  (axis-of posns))
-
-  (define seqs
-    (for/set ([p posns])
-      (collect-sequence b p axis)))
-
-  (sum (map length (set->list seqs))))
-
 #; {Board [Listof TilePlacement] -> [Setof [Listof TilePlacement]]}
 ;; Produce a set of sequences for each posn along every axis.
 (define (score/sequences b placements)
