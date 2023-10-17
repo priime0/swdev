@@ -6,6 +6,7 @@
                     [map fmap]))
 
 (require struct-plus-plus)
+(require 2htdp/image)
 
 (require Q/Common/config)
 (require Q/Common/data/tile)
@@ -29,8 +30,6 @@
         "hand must be valid!"
         (valid-hand? hnd)
         [result player-state?])]
-  [is-player?
-   (-> player-id? player-state? boolean?)]
   [remove-from-hand
    (->i ([ps  player-state?]
          [tls (listof tile?)])
@@ -47,9 +46,16 @@
        (listof tile?)
        (values player-state?
                (listof tile?)))]
+  [add-points
+   (-> player-state?
+       natural?
+       player-state?)]
   [player-state->pair
    (-> player-state?
-       (cons/c player-id? natural?))]))
+       (cons/c player-id? natural?))]
+  [render-player-state
+   (-> player-state?
+       image?)]))
 
 #; {type PlayerId = Symbol}
 ;; A PlayerId represents a _unique_ identifier for a player during a game.
@@ -95,13 +101,6 @@
                 (hash-ref jp 'score)
                 (map hash->tile++ (hash-ref jp 'tile*))))
 
-
-#; {PlayerId PlayerState -> Boolean}
-;; Does the given player id correspond to this player?
-(define (is-player? id ps)
-  (symbol=? id (player-state-id ps)))
-
-
 #; {PlayerState [Listof Tile] -> PlayerState}
 ;; Removes the given tiles from the hand of the given player state.
 (define (remove-from-hand state tiles)
@@ -115,29 +114,58 @@
   (values (fmap (thunk* '()) state)
           (player-state-hand state)))
 
+#; {PlayerState [Listof Tiles] Natural -> (values PlayerState [Listof Tiles])}
+;; Vends the given number of tiles from the list to the player
+(define (vend-n-tiles state tiles n)
+  (define-values (refill tiles+) (split-at tiles n))
+  (define state+ (fmap (curryr append refill) state))
+  (values state+
+          tiles+))
+
+#; {PlayerState -> Natural}
+;; Computes the deficit in the hand
+(define (deficit state)
+  (define hand        (player-state-hand state))
+  (define hand-length (length hand))
+  (- (*hand-size*) hand-length))
+
 
 #; {PlayerState [Listof Tiles] -> (values PlayerState [Listof Tiles])}
 ;; Replenishes the hand of the given player state from the given list of tiles, returning
 ;; the new player state and the remaining tiles.
 (define (refill-hand state tiles)
-  (define hand        (player-state-hand state))
-  (define hand-length (length hand))
-  (define missing     (- (*hand-size*) hand-length))
+  (define missing     (deficit state))
   (define available   (length tiles))
-  
-  (define-values (refill tiles+)
-    (split-at tiles
-              (min missing available)))
-  (define hand+ (append hand refill))
-  
-  (define state+ (set-player-state-hand state hand+))
-  (values state+ tiles+))
+  (define vendable    (min missing available))
+
+  (vend-n-tiles state tiles vendable))
+
+#; {PlayerState Natural -> PlayerState}
+;; Add the given number of points to the player state
+(define (add-points state points)
+  (define score (player-state-score state))
+  (set-player-state-score state (+ score points)))
 
 
 #; {PlayerState -> [Pairof PlayerId Natural]}
 (define (player-state->pair ps)
   (match-define [player-state id score _] ps)
   (cons id score))
+
+
+#; {PlayerState -> Image}
+(define (render-player-state ps)
+  (match-define [player-state id score hand] ps)
+  (define size (/ (*game-size*) 2))
+  (define tiles-size (* (*game-size*) 2/3))
+  (define text-image (text (~a id ": " score) size 'black))
+  (define tiles-image
+    (parameterize ([*game-size* tiles-size])
+      (for/fold ([img empty-image])
+                ([t (map render-tile hand)])
+        (beside img t))))
+
+  (above/align 'left text-image tiles-image))
 
 
 (module+ test
@@ -213,14 +241,6 @@
                                 (tile 'purple '8star)
                                 (tile 'yellow 'clover)
                                 (tile 'orange 'diamond))))
-  
-  (test-true
-   "is player"
-   (is-player? 'lucas ps1))
-  
-  (test-false
-   "is not player"
-   (is-player? 'andrey ps1))
   
   (test-equal?
    "player state to pair"
