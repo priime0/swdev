@@ -73,10 +73,10 @@
 (define (valid-place? info placements)
   (match-define [turn-info [player-state _ _ hand] _ _ board _] info)
 
-  (define in-hand?
-    (contains-all? hand (map placement-tile placements)))
-  (define aligned?
+  (define/lazy aligned?
     (same-axis? (map placement-posn placements)))
+  (define/lazy in-hand?
+    (contains-all? hand (map placement-tile placements)))
 
   (and (pair? placements)
        aligned?
