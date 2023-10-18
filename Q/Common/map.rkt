@@ -1,21 +1,23 @@
 #lang racket
 
 (require racket/generic)
-
-(require (rename-in (only-in lazy define)
-                    [define define/lazy]))
-
-(require (rename-in data/functor
-                    [map fmap]))
+(require racket/set)
 
 (require struct-plus-plus)
 (require threading)
 (require 2htdp/image)
+(require (rename-in (only-in lazy define)
+                    [define define/lazy]))
+(require (rename-in data/functor
+                    [map fmap]))
+(require (rename-in (prefix-in deque- pfds/deque/real-time)
+                    [deque-deque deque]
+                    [deque-enqueue enqueue]))
 
 (require Q/Common/data/tile)
 (require Q/Common/data/posn)
 (require Q/Common/data/turn-action)
-(require Q/Common/util/misc)
+(require Q/Common/util/function)
 (require Q/Common/interfaces/serializable)
 
 (provide
@@ -28,13 +30,13 @@
  (contract-out
   [make-board (-> tile? valid-board?)]
   [add-tile
-   (->i ([b valid-board?] [p posn?] [t tile?])
-        #:pre/name (b p)
+   (->i ([b valid-board?] [pment placement?])
+        #:pre/name (b pment)
         "given posn isn't empty"
-        ((negate tile-at) b p)
-        #:pre/name (b p)
+        ((negate tile-at) b (placement-posn pment))
+        #:pre/name (b pment)
         "given posn has no adjacent tiles"
-        (has-adjacent-tiles? b p)
+        (has-adjacent-tiles? b (placement-posn pment))
         [result valid-board?])]
   [valid-placement?
    (-> valid-board?
@@ -57,6 +59,20 @@
    (-> valid-board? image?)]))
 
 
+;; {type Sequence = [Listof TilePlacement]}
+;; A Sequence is a a collection of distinct posn-tile pairs
+;; such that for any two different posn-tile pairs α, β in the sequence,
+;; reachable?(α, β).
+
+;; We define two distinct posn-tile pairs α, β to be _reachable_ IFF WLOG
+;; they share one axis and for all posns φ between the posns of α and β,
+;; φ is occupied by a tile.
+(define (sequence? a)
+  (and (list? a)
+       (andmap placement? a)
+       (same-axis? (map placement-posn a))))
+
+
 #; {type Board = (board [HashTable Posn Tile])}
 ;; A Board represents a map, implemented as a hash table where the keys are 2D coordinates relative
 ;; to the root tile, and the values are the tiles at the given coordinate.
@@ -68,8 +84,9 @@
 ;;              map.
 ;; INVARIANT 2: A position on the board is occupied by a tile IFF the position is a key in the hash
 ;;              map.
+;; INVARIANT 3: If there is at least one tile on the board, then the root posn is occupied.
 (struct++ board
-          ([map (hash/c posn? tile?)])
+          ([map hash?])
           #:transparent
           #:methods gen:functor
           [(define (map f x)
@@ -89,39 +106,29 @@
              (for/list ([(row cells) (in-hash h)])
                (cons row cells)))])
 
-
-;; {type Sequence = [Listof TilePlacement]}
-;; A Sequence is a a collection of distinct posn-tile pairs
-;; such that for any two different posn-tile pairs α, β in the sequence,
-;; reachable?(α, β).
-
-;; We define two distinct posn-tile pairs α, β to be _reachable_ IFF WLOG
-;; they share one axis and for all posns φ between the posns of α and β,
-;; φ is occupied by a tile.
-(define (sequence? a)
-  (and (list? a)
-       (andmap placement? a)
-       (same-axis? (map placement-posn a))))
-
-
 #; {Any -> Boolean}
+;; Is the given object a `board?` that satisfies the board's invariants?
 (define (valid-board? a)
-  (let/ec return
-    (unless (board? a)
-      (return #f))
-    
-    (define bmap (board-map a))
-    (define root-posn (posn 0 0))
-    (define initial-state?
-      (and (one? (hash-count bmap))
-           (hash-has-key? bmap root-posn)
-           (tile? (hash-ref bmap root-posn))))
-    
-    (or initial-state?
-        (and (positive? (hash-count bmap))
-             (andmap posn? (hash-keys bmap))
-             (andmap tile? (hash-values bmap))
-             (andmap (curry has-adjacent-tiles? a) (hash-keys bmap))))))
+  (define root-posn (posn 0 0))
+  (define (has-root-posn? b)
+    (tile-at a root-posn))
+  (define (continuous? b)
+    (define num-tiles (length (hash-keys (board-map b))))
+     (let loop ([dq (deque root-posn)] [visited (set)])
+       (cond
+         [(deque-empty? dq)
+          (= (set-count visited) num-tiles)]
+         [(set-member? visited (deque-head dq))
+          (loop (deque-tail dq) visited)]
+         [else
+          (match-define (cons p dq+) (deque-head+tail dq))
+          (define adj-posns (adjacent-posns a p))
+          (define dq++ (foldl enqueue dq+ adj-posns))
+          (define visited+ (set-add visited p))
+          (loop dq++ visited+)])))
+
+  ((conjoin board? has-root-posn? continuous?)
+   a))
 
 
 #; {JMap -> Board}
@@ -149,15 +156,13 @@
 ;; Constructs a new board with all of the given tile placements.
 ;; ASSUME each tile placement is valid.
 (define (place-tiles board placements)
-  (for/fold ([board^ board])
-            ([pment placements])
-    (match-define [placement posn tile] pment)
-    (add-tile board^ posn tile)))
+  (foldl (flip add-tile) board placements))
 
 
-#; {Board Posn Tile -> Board}
+#; {Board Placement -> Board}
 ;; Places the new tile at the given posn on the board's map.
-(define (add-tile board posn new-tile)
+(define (add-tile board pment)
+  (match-define [placement posn new-tile] pment)
   (define add-tile+ (curryr hash-set posn new-tile))
   (fmap add-tile+ board))
 
@@ -187,15 +192,26 @@
    board posn))
 
 
+#; {Board Posn -> [Listof Posn]}
+;; Retrieve neighboring posns of the given posn that are occupied by a tile.
+(define (adjacent-posns board posn)
+  (define neighbor-posns  (posn-neighbors/dirs posn direction-names))
+  (define tile-at^        (curry tile-at board))
+  (filter tile-at^ neighbor-posns))
+
+
+#; {Board Posn -> [Listof Tile]}
+;; Produce a list of tiles for the neighboring posns of the given posn.
+(define (adjacent-tiles board posn)
+  (define tile-at^ (curry tile-at board))
+  (map tile-at^ (adjacent-posns board posn)))
+
+
 #; {Board Posn -> Boolean}
 ;; For the given board, does this posn have any directly adjacent tiles?
 ;; ASSUME: the given posn has no tile at its location.
 (define (has-adjacent-tiles? board posn)
-  (define neighbor-posns          (posn-neighbors/dirs posn direction-names))
-  (define tile-at^                (curry tile-at board))
-  (define occupied-adjacent-tiles (filter-map tile-at^ neighbor-posns))
-  
-  (pair? occupied-adjacent-tiles))
+  (pair? (adjacent-tiles board posn)))
 
 
 #; {Board -> [Listof Posn]}
@@ -390,7 +406,7 @@
   
   (test-equal?
    "add a tile to the board at (1, 1)"
-   (board-map (add-tile example-board (posn 1 1) (tile 'blue 'square)))
+   (board-map (add-tile example-board (placement (posn 1 1) (tile 'blue 'square))))
    (hash (posn 0 0) (tile 'red 'square)
          (posn 1 0) (tile 'red 'circle)
          (posn 0 1) (tile 'green 'square)
