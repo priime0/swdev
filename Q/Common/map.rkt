@@ -25,10 +25,10 @@
  sequence?
  board-map
  bounds
- tile-at
  (contract-out
   [make-board (-> tile? valid-board?)]
   [has-adjacent-tiles? (-> board? posn? boolean?)]
+  [tile-at (-> valid-board? posn? (or/c tile? #f))]
   [add-tiles
    (->i ([b valid-board?] [pments (listof placement?)])
         #:pre/name (b pments)
