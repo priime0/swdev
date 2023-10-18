@@ -155,15 +155,16 @@
 ;; Performs the given turn action for the current player in this game state, and updates the turn
 ;; queue, or kicks the current players and reclaims their tiles if the move is invalid according to
 ;; the provided rule.
+;;TODO: valid-action? is imported from qrules, and not a param rn
 (define (take-turn gs action)
   (define info (game-state->turn-info gs))
-  (if (not (valid-action? info action))
-      (remove-player gs)
-      (let ()
-        (define gs+        (apply-turn gs action))
-        (define turn-score (score-turn (game-state->turn-info gs+) action))
-        (define gs++       (update-score gs+ turn-score))
-        (end-turn gs++ action))))
+  (cond [(valid-action? info action)
+         (define gs+        (apply-turn gs action))
+         (define turn-score (score-turn (game-state->turn-info gs+) action))
+         (define gs++       (update-score gs+ turn-score))
+         (end-turn gs++ action)]
+        [else
+         (remove-player gs)]))
 
 #; {GameState TurnAction -> GameState}
 ;; Apply the turn action to the game state
