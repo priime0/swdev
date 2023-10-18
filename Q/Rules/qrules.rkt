@@ -89,7 +89,8 @@
              #:result b^)
             ([pment placements]
              #:break (not b^))
-    (add-tile b^ pment)))
+    (and (valid-placement? b^ pment)
+         (add-tile b^ pment))))
 
 
 #; {TurnInfo -> Boolean}
