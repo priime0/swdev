@@ -9,7 +9,7 @@
 (require Q/Common/interfaces/serializable)
 
 (provide
- (struct-out place-tile)
+ (struct-out place)
  (struct-out exchange)
  (struct-out pass)
  turn-action?
@@ -46,14 +46,14 @@
 ;; - A placement of tiles onto the board at the corresponding locations in the given order
 ;; - An exchange of all tiles in a player's hand
 ;; - Skipping a player's turn (withdrawing from performing any actions)
-(struct++ place-tile ([placements (listof placement?)]) #:transparent)
-(struct   exchange   ()                                 #:transparent)
-(struct   pass       ()                                 #:transparent)
+(struct++ place     ([placements (listof placement?)]) #:transparent)
+(struct   exchange  ()                                 #:transparent)
+(struct   pass      ()                                 #:transparent)
 
 
 #; {Any -> Boolean}
 (define (turn-action? a)
-  ((disjoin place-tile? exchange? pass?) a))
+  ((disjoin place? exchange? pass?) a))
 
 
 (module+ test

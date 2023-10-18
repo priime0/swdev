@@ -9,9 +9,11 @@
 (require struct-plus-plus)
 (require threading)
 (require 2htdp/image)
+(require predicates)
 
 (require Q/Common/map)
 (require Q/Common/player)
+(require Q/Common/turn-info)
 (require Q/Common/config)
 (require Q/Common/data/turn-action)
 (require Q/Common/data/tile)
@@ -20,62 +22,34 @@
 (require Q/Common/util/list)
 (require Q/Common/util/image)
 (require Q/Common/util/misc)
+(require Q/Rules/qrules)
 (require Q/Common/interfaces/serializable)
 
 (provide
  player-id?
  turn-action?
- (struct-out turn-info)
  (struct-out game-state)
  hash->turn-info++
  (contract-out
   [make-game-state (-> (listof tile?) (listof player-id?) game-state?)]
-  [valid-placements?
-   (-> game-state? (listof placement?) boolean?)]
-  [valid-turn?
-   (-> game-state? turn-action? boolean?)]
   [game-state->turn-info
    (->i ([gs game-state?])
         #:pre/name (gs)
-        "game has no players left!"
-        (not (null? (game-state-players gs)))
+        "game is over!"
+        (not (game-over? gs))
         [result turn-info?])]
   [take-turn
    (->i ([gs game-state?] [action turn-action?])
-        #:pre/name (gs action)
-        "invalid action for the current player"
-        (valid-turn? gs action)
+        #:pre/name (gs)
+        "game is over!"
+        (not (game-over? gs))
         [result game-state?])]
   [remove-player
-   (->i ([gs game-state?] [player player-id?])
-        #:pre/name (gs player)
-        "player not in game!"
-        (player-in-game? gs player)
+   (->i ([gs game-state?])
+        #:pre/name (gs)
+        "game is over!"
+        (not (game-over? gs))
         [result game-state?])]))
-
-
-#; {type TurnInfo = (turn-info PlayerState
-                               [Listof [Pairof PlayerId Natural]]
-                               History
-                               Board)}
-;; A TurnInfo represents all the data necessary for a player to take their turn, including their
-;; private knowledge, along with the public knowledge of turn order, scores, history, and the board.
-;; INVARIANT: `scores` contains about every other player, and is ordered in the order of turns.
-(struct++ turn-info
-          ([state      player-state?]
-           [scores     (listof (cons/c player-id? natural?))]
-           [history    history?]
-           [board      board?]
-           [tiles-left natural?])
-          #:transparent
-          #:methods gen:serializable
-          [(define/generic ->jsexpr* ->jsexpr)
-           (define (->jsexpr ti)
-             (match-define [turn-info state scores _history board tiles-left] ti)
-             (hash 'map     (->jsexpr* board)
-                   'tile*   tiles-left
-                   'players (cons (->jsexpr* state)
-                                  (rest scores))))])
 
 #; {JPub -> TurnInfo}
 (define (hash->turn-info++ jpub)
@@ -108,6 +82,31 @@
            [players  (listof player-state?)])
           #:transparent)
 
+#; {GameState -> Boolean}
+;; Is the game over?
+(define (game-over? gs)
+  (member? (game-end) (game-state-history gs)))
+
+#; {GameEvent GameState -> GameState}
+;; Updates the history of the given game state with the provided procedure
+(define (add-to-history evt gs)
+  (set-game-state-history gs (cons evt (game-state-history gs))))
+
+#; {([Listof Tile] -> [Listof Tile]) GameState -> GameState}
+;; Updates the tiles of the given game state with the provided procedure
+(define (map-tiles f gs)
+  (set-game-state-tiles gs (f (game-state-tiles gs))))
+
+#; {(Board -> Board) GameState -> GameState}
+;; Updates the board of the given game state with the provided procedure
+(define (map-board f gs)
+  (set-game-state-board gs (f (game-state-board gs))))
+
+#; {([Listof PlayerState] -> [Listof PlayerState]) GameState -> GameState}
+;; Updates the player state queue of the given game state with the provided procedure
+(define (map-players f gs)
+  (set-game-state-players gs (f (game-state-players gs))))
+
 
 #; {[Listof Tile] [Listof PlayerId] -> GameState}
 ;; Creates a fresh game state with the given referee tile, set of tiles (shuffling them), and the
@@ -139,92 +138,60 @@
   (define player-alist (map player-state->pair others))
   (turn-info state player-alist history board (length tiles)))
 
+#; {GameState  -> GameState}
+;; Remove the current player from the game state.
+(define (remove-player gs)
+  (define player (first (game-state-players gs)))
+  (match-define [player-state id score hand] player)
 
-#; {GameState PlayerId -> Boolean}
-;; Is the given player in the current game state?
-(define (player-in-game? gs player)
   (~>> gs
-       game-state-players
-       (map player-state-id)
-       (member? player)))
-
-
-#; {GameState PlayerId -> GameState}
-;; Remove the player from the current game state.
-(define (remove-player gs p-id)
-  (match-define [game-state board tiles history players] gs)
-  (define is-player?^ (curry is-player? p-id))
-  (define-values (player players+)
-    (find-remf is-player?^ players))
-  (match-define [player-state _ score hand] player)
-
-  (define tiles+   (append tiles hand))
-  (define history+ (cons (banish p-id score) history))
-
-  (game-state board tiles+ history+ players+))
-
-
-#; {GameState TurnAction -> Boolean}
-;; Is the given turn action a valid turn for the current player in the given game state?
-(define (valid-turn? gs action)
-  (match action
-    [(place-tile placements) (valid-placements? gs placements)]
-    [(exchange)              (valid-exchange? gs)]
-    [(pass)                  #t]))
-
-
-#; {GameState [Listof TilePlacement] -> Boolean}
-;; Is the proposed placement for the current player valid in the rules of Q game?
-(define (valid-placements? gs placements)
-  (match-define [game-state board tiles history [cons state others]] gs)
-  (define hand         (player-state-hand state))
-  (define posns        (map placement-posn placements))
-  (define placed-tiles (map placement-tile placements))
-
-  (define/lazy all-valid-placements?
-    (andmap (curry valid-placement? board) placed-tiles posns))
-  (define/lazy all-tiles-in-hand?
-    (contains-all? hand placed-tiles))
-
-  (and (same-axis? posns)
-       all-valid-placements?
-       all-tiles-in-hand?))
-
-
-#; {GameState -> Boolean}
-;; Is an exchange action valid for the current player in the rules of Q?
-(define (valid-exchange? gs)
-  (define tiles (game-state-tiles gs))
-  (define num-available (length tiles))
-  (>= num-available (*hand-size*)))
+       (map-tiles (curryr append hand))
+       (add-to-history (banish id score))
+       (map-players rest)
+       ((if? game-over? (curry add-to-history (game-end))))))
 
 
 #; {GameState TurnAction -> GameState}
 ;; Performs the given turn action for the current player in this game state, and updates the turn
-;; queue.
-;; ASSUME: the given game state has a non-zero amount of players.
+;; queue, or kicks the current players and reclaims their tiles if the move is invalid according to
+;; the provided rule.
 (define (take-turn gs action)
-  (define gs+
-    (match action
-      [(place-tile placements) (take-turn/placement gs placements)]
-      [(exchange)           (take-turn/exchange gs)]
-      [(pass)               gs]))
-  (end-turn gs+ action))
+  (define info (game-state->turn-info gs))
+  (if (not (valid-action? info action))
+      (remove-player gs)
+      (let ()
+        (define gs+        (apply-turn gs action))
+        (define turn-score (score-turn (game-state->turn-info gs+) action))
+        (define gs++       (update-score gs+ turn-score))
+        (end-turn gs++ action))))
+
+#; {GameState TurnAction -> GameState}
+;; Apply the turn action to the game state
+(define (apply-turn gs action)
+  (match action
+    [(place placements)  (take-turn/placement gs placements)]
+    [(exchange)          (take-turn/exchange gs)]
+    [(pass)              gs]))
+
+#; {GameState Natural -> GameState}
+;; Update current player's score
+(define (update-score gs points)
+  (match-define [game-state board tiles history [cons state others]] gs)
+  (define state+ (add-points state points))
+  (game-state board tiles history (cons state+ others)))
 
 
 #; {GameState [Listof TilePlacement] -> GameState}
 ;; Places the given list of placements, updating the board, player hand, and remaining tiles.
 (define (take-turn/placement gs placements)
   (match-define [game-state board tiles history [cons state others]] gs)
-  (define board+        (place-tiles board placements))
+  (define board+        (add-tiles board placements))
   (define placed-tiles  (map placement-tile placements))
   (define state+        (remove-from-hand state placed-tiles))
   (define-values (state++ tiles+)
     (refill-hand state+ tiles))
 
-  (define state+++ (score-turn state++ board+ placements))
-
-  (game-state board+ tiles+ history (cons state+++ others)))
+  (game-state board+ tiles+ history (cons state++ others)))
 
 
 #; {GameState -> GameState}
@@ -243,78 +210,13 @@
 ;; Ends the current turn, moving the current player to the end and adding the given turn action to
 ;; the history.
 (define (end-turn gs action)
-  (match-define [game-state board tiles history players] gs)
-  (define id (player-state-id (first players)))
-  (define history+ (cons (turn id action) history))
+  (define player (first (game-state-players gs)))
+  (define id (player-state-id player))
 
-  (game-state board tiles history+ (rotate-left-1 players)))
+  (~>> gs
+       (add-to-history (turn id action))
+       (map-players rotate-left-1)))
 
-#; {Board [Listof TilePlacement] -> [Setof [Listof TilePlacement]]}
-;; Produce a set of sequences for each posn along every axis.
-(define (score/sequences b placements)
-  (define posns (map placement-posn placements))
-  (for*/set ([p posns] [axis axes])
-    (collect-sequence b p axis)))
-
-
-#; {Board [Listof TilePlacement] -> Natural}
-;; ASSUME the placements are valid.
-(define (score/placement b placements)
-  ;; A player receives one point per tile placed.
-  (define acc-points (length placements))
-
-  (define seqs
-    (~>> (score/sequences b placements)
-         set->list
-         (filter-not (compose one? length))))
-
-  ;; A player receives one point per tile in a contiguous sequence of tiles (in a row or column)
-  ;; that contains at least one of its newly placed tiles.
-  (set! acc-points (+ acc-points (sum (map length seqs))))
-
-  (define q-seqs
-    (filter (lambda (seq)
-              (define tiles  (map placement-tile seq))
-              (define colors (map tile-color tiles))
-              (define shapes (map tile-shape tiles))
-              (or (same-elements? colors tile-colors)
-                  (same-elements? shapes tile-shapes)))
-            seqs))
-
-  ;; A player receives 6 bonus points for completing a Q, which is a contiguous sequence of tiles
-  ;; that contains all shapes or all colors and nothing else.
-  (define points-per-Q 6)
-  (set! acc-points (+ acc-points (* points-per-Q (length q-seqs))))
-
-  (define all-placed-points 6)
-  ;; A player also receives 6 bonus points for placing all tiles in its possession.
-  (when (= (length placements) (*hand-size*))
-    (set! acc-points (+ acc-points all-placed-points)))
-
-  acc-points)
-
-
-#; {PlayerState Board [Listof TilePlacement] -> PlayerState}
-;; Score the turn of a player for the given placement of tiles.
-(define (score-turn ps b placements)
-  (define score  (player-state-score ps))
-  (define score+ (+ score (score/placement b placements)))
-  (set-player-state-score ps score+))
-
-
-#; {PlayerState -> Image}
-(define (render-player-state ps)
-  (match-define [player-state id score hand] ps)
-  (define size (/ (*game-size*) 2))
-  (define tiles-size (* (*game-size*) 2/3))
-  (define text-image (text (~a id ": " score) size 'black))
-  (define tiles-image
-    (parameterize ([*game-size* tiles-size])
-      (for/fold ([img empty-image])
-                ([t (map render-tile hand)])
-        (beside img t))))
-
-  (above/align 'left text-image tiles-image))
 
 #; {GameState -> Image}
 (define (render-game-state gs)
@@ -340,13 +242,15 @@
   (define gs2 (apply/seed 0 make-game-state tile-set players2))
   (define tile-set-seeded (apply/seed 0 shuffle tile-set))
 
-  (define gs1+ (take-turn gs1 (place-tile (list (placement (posn 1 0) (tile 'green 'clover))
-                                              (placement (posn 1 1) (tile 'blue 'clover))))))
-  (define gs1++ (take-turn gs1+ (place-tile (list (placement (posn 1 2) (tile 'red 'clover))
-                                                (placement (posn 1 -1) (tile 'green 'star))
-                                                (placement (posn 1 -2) (tile 'yellow 'star))
-                                                (placement (posn 1 -3) (tile 'blue 'star))
-                                                (placement (posn 1 -4) (tile 'blue 'circle)))))))
+ 
+  (define gs1+ (take-turn gs1 (place (list (placement (posn 1 0) (tile 'green 'clover))
+                                           (placement (posn 1 1) (tile 'blue 'clover))))))
+ 
+  (define gs1++ (take-turn gs1+ (place (list (placement (posn 1 2) (tile 'red 'clover))
+                                             (placement (posn 1 -1) (tile 'green 'star))
+                                             (placement (posn 1 -2) (tile 'yellow 'star))
+                                             (placement (posn 1 -3) (tile 'blue 'star))
+                                             (placement (posn 1 -4) (tile 'blue 'circle)))))))
 
 (module+ test
   (test-case
@@ -428,27 +332,11 @@
                               #:history history
                               #:board board
                               #:tiles-left (length tiles))))
-
-  (test-case
-   "player in game?"
-   (check-true (player-in-game? gs1 'lucas) "lucas in game")
-   (check-false (player-in-game? gs2 'nishil) "nishil not in game"))
-
   (test-case
    "remove player"
    (match-define [game-state board tiles history players] gs1)
    (define new-history (list (banish 'lucas 0)))
-   (define new-tiles (append tiles (player-state-hand (findf (curry is-player? 'lucas) players))))
-   (check-equal? (remove-player gs1 'lucas)
-                 (game-state board new-tiles new-history (remf (curry is-player? 'lucas) players))
-                 "removing lucas returns his tiles and removes him from the queue"))
-
-
-  (test-case
-   "valid exchange?"
-   (check-true (valid-exchange? gs1)
-              "game state has enough tiles for exchange")
-   (check-false (valid-exchange? (make-game-state (drop tile-set-seeded 19) players1))
-               "game state doesnt have enough tiles"))
-
-  )
+   (define new-tiles (append tiles (player-state-hand (first players))))
+   (check-equal? (remove-player gs1)
+                 (game-state board new-tiles new-history (rest players))
+                 "removing lucas returns his tiles and removes him from the queue")))
