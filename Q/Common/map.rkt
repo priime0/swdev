@@ -29,6 +29,13 @@
  (contract-out
   [make-board (-> tile? valid-board?)]
   [has-adjacent-tiles? (-> board? posn? boolean?)]
+  [add-tiles
+   (->i ([b valid-board?] [pments (listof placement?)])
+        #:pre/name (b pments)
+        "posns aren't empty"
+        (andmap (negate (curry tile-at b))
+                pments)
+        [result valid-board?])]
   [add-tile
    (->i ([b valid-board?] [pment placement?])
         #:pre/name (b pment)
