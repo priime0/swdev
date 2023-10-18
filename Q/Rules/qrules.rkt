@@ -72,17 +72,24 @@
 ;; Is the proposed placement for the given turn valid?
 (define (valid-place? info placements)
   (match-define [turn-info [player-state _ _ hand] _ _ board _] info)
-   
-  (define legal?
-    (andmap (curry valid-placement? board) placements))
+
   (define in-hand?
     (contains-all? hand (map placement-tile placements)))
   (define aligned?
     (same-axis? (map placement-posn placements)))
 
-  (and aligned?
-       legal?
+  (and (pair? placements)
+       aligned?
+       (legal-placements? info placements)
        in-hand?))
+
+(define (legal-placements? info placements)
+  (match-define [turn-info [player-state _ _ hand] _ _ board _] info)
+  (for/fold ([b^ board]
+             #:result b^)
+            ([pment placements]
+             #:break (not b^))
+    (add-tile b^ pment)))
 
 
 #; {TurnInfo -> Boolean}
