@@ -1,0 +1,53 @@
+(testing /course/cs4500f23/ta/tedium-workdir/github/fearless-mice/4/xlegal)
+(testing /course/cs4500f23/ta/tedium-workdir/testfest-results/4/27/Tests/0-in.json /course/cs4500f23/ta/tedium-workdir/testfest-results/4/27/Tests/0-out.json)
+(testing /course/cs4500f23/ta/tedium-workdir/testfest-results/4/27/Tests/1-in.json /course/cs4500f23/ta/tedium-workdir/testfest-results/4/27/Tests/1-out.json)
+(testing /course/cs4500f23/ta/tedium-workdir/testfest-results/4/27/Tests/2-in.json /course/cs4500f23/ta/tedium-workdir/testfest-results/4/27/Tests/2-out.json)
+(testing /course/cs4500f23/ta/tedium-workdir/testfest-results/4/27/Tests/3-in.json /course/cs4500f23/ta/tedium-workdir/testfest-results/4/27/Tests/3-out.json)
+---------------------------------
+(*** score 0)
+(*** on)
+'(#hasheq((map
+           .
+           ((-5
+             (0 #hasheq((color . "red") (shape . "circle")))
+             (1 #hasheq((color . "blue") (shape . "circle"))))))
+          (players
+           .
+           (#hasheq((score . 0)
+                    (tile*
+                     .
+                     (#hasheq((color . "blue") (shape . "square"))
+                      #hasheq((color . "red") (shape . "square")))))
+            0
+            0
+            0))
+          (tile* . 500))
+  (#hasheq((1tile . #hasheq((color . "blue") (shape . "square")))
+           (coordinate . #hasheq((column . 1) (row . -4))))
+   #hasheq((1tile . #hasheq((color . "red") (shape . "square")))
+           (coordinate . #hasheq((column . 0) (row . -4))))))
+(*** expected)
+'(((-5
+    (0 #hasheq((color . "red") (shape . "circle")))
+    (1 #hasheq((color . "blue") (shape . "circle"))))
+   (-4
+    (0 #hasheq((color . "red") (shape . "square")))
+    (1 #hasheq((color . "blue") (shape . "square"))))))
+(*** but received)
+'(((plain fast with-newline plain-unicode)
+   (((-5
+      (0 #hasheq((color . "red") (shape . "circle")))
+      (1 #hasheq((color . "blue") (shape . "circle"))))
+     (-4
+      (0 #hasheq((color . "red") (shape . "square")))
+      (1 #hasheq((color . "blue") (shape . "square"))))
+     (-3)
+     (-2)
+     (-1)
+     (0)))))
+
+
+(testing /course/cs4500f23/ta/tedium-workdir/testfest-results/4/27/Tests/4-in.json /course/cs4500f23/ta/tedium-workdir/testfest-results/4/27/Tests/4-out.json)
+((/course/cs4500f23/ta/tedium-workdir/testfest-results/4/27/Tests/0-in.json /course/cs4500f23/ta/tedium-workdir/testfest-results/4/27/Tests/0-out.json) (/course/cs4500f23/ta/tedium-workdir/testfest-results/4/27/Tests/1-in.json /course/cs4500f23/ta/tedium-workdir/testfest-results/4/27/Tests/1-out.json) (/course/cs4500f23/ta/tedium-workdir/testfest-results/4/27/Tests/2-in.json /course/cs4500f23/ta/tedium-workdir/testfest-results/4/27/Tests/2-out.json) (/course/cs4500f23/ta/tedium-workdir/testfest-results/4/27/Tests/4-in.json /course/cs4500f23/ta/tedium-workdir/testfest-results/4/27/Tests/4-out.json))
+((passed 4) (total 5) (partial-score 4))
+

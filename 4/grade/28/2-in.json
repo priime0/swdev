@@ -1,0 +1,65 @@
+{
+  "map": [
+    [
+      -1,
+      [
+        1,
+        {
+          "color": "green",
+          "shape": "star"
+        }
+      ]
+    ],
+    [
+      0,
+      [
+        0,
+        {
+          "color": "red",
+          "shape": "diamond"
+        }
+      ],
+      [
+        1,
+        {
+          "color": "red",
+          "shape": "star"
+        }
+      ]
+    ]
+  ],
+  "tile*": 941,
+  "players": [
+    {
+      "score": 14,
+      "tile*": [
+        {
+          "color": "orange",
+          "shape": "diamond"
+        },
+        {
+          "color": "green",
+          "shape": "circle"
+        },
+        {
+          "color": "yellow",
+          "shape": "clover"
+        }
+      ]
+    },
+    27
+  ]
+}
+
+[
+    {
+      "coordinate": {
+        "row": -1,
+        "column": 0
+      },
+      "1tile": {
+        "color": "green",
+        "shape": "diamond"
+      }
+    }
+  ]

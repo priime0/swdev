@@ -1,0 +1,15 @@
+Delivery
+5/5 pts: Deliverable 4/xlegal exists with the right permissions
+5/5 pts: Deliverable Q/Common/game-state.PP exists
+5/5 pts: Deliverable Q/Planning/player-protocol.md exists
+5/5 pts: Delivery of test files
+
+Functionality
+10/25 pts: Passed 2 out of 3 tests (see test-results.txt)
+25/25 pts: 5 valid tests (see test-audit-results.txt)
+25/25 bonus pts (other teams failing your tests)
+
+Inspection
+60/70 pts: See inspection.md
+
+Total: 140/140 pts

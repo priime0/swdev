@@ -1,0 +1,255 @@
+{
+  "map": [
+    [
+      -10,
+      [
+        -3,
+        {
+          "color": "orange",
+          "shape": "square"
+        }
+      ],
+      [
+        -2,
+        {
+          "color": "blue",
+          "shape": "8star"
+        }
+      ],
+      [
+        -1,
+        {
+          "color": "green",
+          "shape": "square"
+        }
+      ],
+      [
+        0,
+        {
+          "color": "yellow",
+          "shape": "square"
+        }
+      ],
+      [
+        1,
+        {
+          "color": "blue",
+          "shape": "circle"
+        }
+      ]
+    ],
+    [
+      -9,
+      [
+        -3,
+        {
+          "color": "orange",
+          "shape": "square"
+        }
+      ],
+      [
+        -1,
+        {
+          "color": "red",
+          "shape": "8star"
+        }
+      ],
+      [
+        1,
+        {
+          "color": "red",
+          "shape": "circle"
+        }
+      ]
+    ],
+    [
+      -8,
+      [
+        -3,
+        {
+          "color": "green",
+          "shape": "star"
+        }
+      ],
+      [
+        -2,
+        {
+          "color": "green",
+          "shape": "square"
+        }
+      ],
+      [
+        -1,
+        {
+          "color": "purple",
+          "shape": "star"
+        }
+      ],
+      [
+        0,
+        {
+          "color": "blue",
+          "shape": "square"
+        }
+      ],
+      [
+        1,
+        {
+          "color": "green",
+          "shape": "8star"
+        }
+      ]
+    ],
+    [
+      -7,
+      [
+        -3,
+        {
+          "color": "blue",
+          "shape": "square"
+        }
+      ],
+      [
+        1,
+        {
+          "color": "red",
+          "shape": "square"
+        }
+      ]
+    ],
+    [
+      -6,
+      [
+        -3,
+        {
+          "color": "blue",
+          "shape": "diamond"
+        }
+      ],
+      [
+        -2,
+        {
+          "color": "blue",
+          "shape": "square"
+        }
+      ],
+      [
+        -1,
+        {
+          "color": "red",
+          "shape": "square"
+        }
+      ]
+    ],
+    [
+      -5,
+      [
+        -3,
+        {
+          "color": "blue",
+          "shape": "square"
+        }
+      ],
+      [
+        -1,
+        {
+          "color": "red",
+          "shape": "circle"
+        }
+      ],
+      [
+        0,
+        {
+          "color": "blue",
+          "shape": "star"
+        }
+      ],
+      [
+        1,
+        {
+          "color": "red",
+          "shape": "star"
+        }
+      ]
+    ]
+  ],
+  "tile*": 5,
+  "players": [
+    {
+      "score": 100,
+      "tile*": [
+        {
+          "shape": "star",
+          "color": "blue"
+        },
+        {
+          "shape": "star",
+          "color": "blue"
+        },
+        {
+          "shape": "circle",
+          "color": "blue"
+        },
+        {
+          "shape": "circle",
+          "color": "blue"
+        }
+      ]
+    },
+    1,
+    2
+  ]
+}
+[
+  {
+    "coordinate": {
+      "row": -4,
+      "column": -3
+    },
+    "1tile": {
+      "color": "blue",
+      "shape": "square"
+    }
+  },
+  {
+    "coordinate": {
+      "row": -4,
+      "column": -2
+    },
+    "1tile": {
+      "shape": "star",
+      "color": "blue"
+    }
+  },
+  {
+    "coordinate": {
+      "row": -4,
+      "column": -1
+    },
+    "1tile": {
+      "shape": "circle",
+      "color": "blue"
+    }
+  },
+  {
+    "coordinate": {
+      "row": -4,
+      "column": 0
+    },
+    "1tile": {
+      "shape": "circle",
+      "color": "blue"
+    }
+  },
+  {
+    "coordinate": {
+      "row": -4,
+      "column": 1
+    },
+    "1tile": {
+      "shape": "star",
+      "color": "blue"
+    }
+  }
+]
+

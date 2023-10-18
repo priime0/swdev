@@ -1,0 +1,13 @@
+{"map":
+  [
+    [-100,
+      [100,{"color":"purple","shape":"square"}]],
+    [-99,
+      [100,{"color":"green","shape":"clover"}],
+      [99,{"color":"blue","shape":"diamond"}]]],
+  "players":
+  [{"score":100000,"tile*":[
+    {"color":"blue","shape":"square"}]}],
+  "tile*":100}
+[{"1tile":{"color":"blue","shape":"square"},"coordinate":{"column":99,"row":-100}}]
+

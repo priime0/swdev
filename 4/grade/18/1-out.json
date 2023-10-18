@@ -1,0 +1,17 @@
+[
+    [-2, [1, { "color": "purple", "shape": "8star" }]],
+    [
+        -1,
+        [0, { "color": "green", "shape": "circle" }],
+        [1, { "color": "green", "shape": "8star" }],
+        [2, { "color": "green", "shape": "diamond" }]
+    ],
+    [
+        0,
+        [0, { "color": "red", "shape": "circle" }],
+        [1, { "color": "red", "shape": "8star" }],
+        [2, { "color": "red", "shape": "diamond" }]
+    ],
+    [1, [1, { "color": "orange", "shape": "8star" }]]
+]
+

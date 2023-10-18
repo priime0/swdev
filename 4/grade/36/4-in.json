@@ -1,0 +1,2 @@
+{"tile*" :  1, "players":  [{"score": 2, "tile*": [{"color": "green", "shape": "square"}, {"color": "purple", "shape": "clover"}, {"color": "purple", "shape": "circle"}]}, 0, 1, 2], "map": [[0, [0, {"color":  "purple", "shape":  "star"}], [1, {"shape":  "square", "color": "purple" }]]]}
+[{"1tile": {"color": "green", "shape": "clover"}, "coordinate": {"row":  1, "column":  1}}]

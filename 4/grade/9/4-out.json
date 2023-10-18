@@ -1,0 +1,67 @@
+[
+    [
+        -1,
+        [
+            0,
+            {
+                "color": "orange",
+                "shape": "circle"
+            }
+        ]
+    ],
+    [
+        0,
+        [
+            -1,
+            {
+                "color": "green",
+                "shape": "circle"
+            }
+        ],
+        [
+            0,
+            {
+                "color": "blue",
+                "shape": "circle"
+            }
+        ],
+        [
+            1,
+            {
+                "color": "purple",
+                "shape": "circle"
+            }
+        ],
+        [
+            2,
+            {
+                "color": "purple",
+                "shape": "8star"
+            }
+        ],
+        [
+            3,
+            {
+                "color": "green",
+                "shape": "8star"
+            }
+        ],
+        [
+            4,
+            {
+                "color": "green",
+                "shape": "diamond"
+            }
+        ]
+    ],
+    [
+        1,
+        [
+            0,
+            {
+                "color": "red",
+                "shape": "circle"
+            }
+        ]
+    ]
+]

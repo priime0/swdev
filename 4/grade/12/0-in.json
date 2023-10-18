@@ -1,0 +1,10 @@
+{"map":[[-1,[0,{"color":"blue","shape":"circle"}]],
+[0,[0,{"color":"red","shape":"circle"}],[1,{"color":"red","shape":"star"}]],
+[1,[1,{"color":"orange","shape":"star"}]]],
+"players":[{"score":0,"tile*":[{"color":"orange","shape":"star"},
+{"color":"red","shape":"star"}]},0],
+"tile*":0}
+
+[{"1tile":{"color":"orange","shape":"circle"}, "coordinate":{"column":2,"row":1}},
+{"1tile":{"color":"blue","shape":"8star"}, "coordinate":{"column":3,"row":1}}]
+

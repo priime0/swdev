@@ -1,0 +1,33 @@
+{"map":
+[
+  [0,
+    [0,{"color":"purple","shape":"square"}]],
+  [1,
+    [0,{"color":"green","shape":"clover"}],
+    [1,{"color":"blue","shape":"diamond"}]],
+  [2,
+    [0,{"color":"red","shape":"8star"}],
+    [1,{"color":"green","shape":"star"}]],
+  [3,
+    [0,{"color":"orange","shape":"square"}],
+    [1,{"color":"purple","shape":"star"}]],
+  [4,
+    [0,{"color":"green","shape":"clover"}],
+    [1,{"color":"blue","shape":"8star"}]],
+  [5,
+    [0,{"color":"red","shape":"circle"}],
+    [1,{"color":"green","shape":"square"}]]],
+  "players":
+  [{"score":2,"tile*":[
+    {"color":"blue","shape":"square"},
+    {"color":"red","shape":"square"},
+    {"color":"green","shape":"square"},
+    {"color":"yellow","shape":"square"},
+    {"color":"orange","shape":"square"}]}],
+  "tile*":100}
+[{"1tile":{"color":"blue","shape":"square"},"coordinate":{"column":1,"row":0}},
+  {"1tile":{"color":"orange","shape":"square"},"coordinate":{"column":2,"row":0}},
+  {"1tile":{"color":"green","shape":"square"},"coordinate":{"column":3,"row":0}},
+  {"1tile":{"color":"yellow","shape":"square"},"coordinate":{"column":4,"row":0}},
+  {"1tile":{"color":"red","shape":"square"},"coordinate":{"column":5,"row":0}}]
+

@@ -1,0 +1,19 @@
+{ "map" : [
+  [-2,
+    [-1,
+      {"color" : "green" , "shape" : "star"}
+    ],
+    [0,
+      {"color" : "green" , "shape" : "square"}
+    ]
+   ]
+  ],
+  "tile*": 20,
+  "players" : [
+    {"score":  5, "tile*":  [{"color" : "purple" , "shape" : "star"}]},
+    5,
+    8 ]
+}
+
+[{"1tile": {"color" : "purple" , "shape" : "star"},  "coordinate": {"row": -1, "column" : -1}}]
+

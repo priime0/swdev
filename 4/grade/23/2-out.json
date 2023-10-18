@@ -1,0 +1,111 @@
+[
+    [
+      -3,
+      [
+        2,
+        {
+          "color": "purple",
+          "shape": "square"
+        }
+      ],
+      [
+        3,
+        {
+          "color": "purple",
+          "shape": "circle"
+        }
+      ],
+      [
+        4,
+        {
+          "color": "green",
+          "shape": "circle"
+        }
+      ]
+    ],
+    [
+      -2,
+      [
+        2,
+        {
+          "color": "red",
+          "shape": "square"
+        }
+      ]
+    ],
+    [
+      -1,
+      [
+        2,
+        {
+          "color": "red",
+          "shape": "circle"
+        }
+      ]
+    ],
+    [
+      0,
+      [
+        0,
+        {
+          "color": "blue",
+          "shape": "circle"
+        }
+      ],
+      [
+        1,
+        {
+          "color": "blue",
+          "shape": "star"
+        }
+      ],
+      [
+        2,
+        {
+          "color": "blue",
+          "shape": "circle"
+        }
+      ],
+      [
+        3,
+        {
+          "color": "blue",
+          "shape": "8star"
+        }
+      ],
+      [
+        4,
+        {
+          "color": "blue",
+          "shape": "star"
+        }
+      ]
+    ],
+    [
+      1,
+      [
+        1,
+        {
+          "color": "green",
+          "shape": "star"
+        }
+      ],
+      [
+        2,
+        {
+          "color": "green",
+          "shape": "circle"
+        }
+      ]
+    ],
+    [
+      2,
+      [
+        2,
+        {
+          "color": "yellow",
+          "shape": "circle"
+        }
+      ]
+    ]
+  ]
