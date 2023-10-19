@@ -8,8 +8,6 @@
 (require 2htdp/image)
 (require (rename-in (only-in lazy define)
                     [define define/lazy]))
-(require (rename-in data/functor
-                    [map fmap]))
 (require (rename-in (prefix-in deque- pfds/deque/real-time)
                     [deque-deque deque]
                     [deque-enqueue enqueue]))
@@ -21,27 +19,28 @@
 (require Q/Common/interfaces/serializable)
 
 (provide
- (rename-out [valid-board? board?])
+ board?
  sequence?
  board-map
  bounds
  (contract-out
+  #:unprotected-submodule no-contract
   [make-board (-> tile? valid-board?)]
   [has-adjacent-tiles? (-> board? posn? boolean?)]
-  [tile-at (-> valid-board? posn? (or/c tile? #f))]
+  [tile-at (-> board? posn? (or/c tile? #f))]
   [valid-placement?
-   (-> valid-board?
+   (-> board?
        placement?
        boolean?)]
   [add-tiles
-   (->i ([b valid-board?] [pments (listof placement?)])
+   (->i ([b board?] [pments (listof placement?)])
         #:pre/name (b pments)
         "posns aren't empty"
         (andmap (negate (curry tile-at b))
                 pments)
         [result valid-board?])]
   [add-tile
-   (->i ([b valid-board?] [pment placement?])
+   (->i ([b board?] [pment placement?])
         #:pre/name (b pment)
         "given posn isn't empty"
         ((negate tile-at) b (placement-posn pment))
@@ -51,18 +50,18 @@
         [result valid-board?])]
   [valid-tile-placements
    (-> tile?
-       valid-board?
+       board?
        (listof posn?))]
   [collect-sequence
-   (-> valid-board?
+   (-> board?
        posn?
        axis?
        sequence?)]
   [hash->board++
    (-> (listof (cons/c integer? (listof (cons/c integer? any/c))))
-       valid-board?)]
+       board?)]
   [render-board
-   (-> valid-board? image?)]))
+   (-> board? image?)]))
 
 
 ;; {type Sequence = [Listof TilePlacement]}
@@ -94,12 +93,6 @@
 (struct++ board
           ([map hash?])
           #:transparent
-          #:methods gen:functor
-          [(define (map f x)
-             (define b (board (f (board-map x))))
-             (unless (valid-board? b)
-               (error 'fmap "fmap produced an invalid board"))
-             b)]
           #:methods gen:serializable
           [(define/generic ->jsexpr* ->jsexpr)
            (define (->jsexpr b)
@@ -111,6 +104,11 @@
                                       (hash-ref h row '()))))
              (for/list ([(row cells) (in-hash h)])
                (cons row cells)))])
+
+#; {(HashTable -> HashTable) Board -> Board}
+;; Applies the given procedure to the given board's map, returning a new board
+(define (apply-map f b)
+  (board (f (board-map b))))
 
 #; {Any -> Boolean}
 ;; Is the given object a `board?` that satisfies the board's invariants?
@@ -129,7 +127,8 @@
          [else
           (match-define (cons p dq+) (deque-head+tail dq))
           (define adj-posns (adjacent-posns a p))
-          (define dq++ (foldl enqueue dq+ adj-posns))
+          (define adj-posns+ (filter-not (curry set-member? visited) adj-posns))
+          (define dq++ (foldl enqueue dq+ adj-posns+))
           (define visited+ (set-add visited p))
           (loop dq++ visited+)])))
 
@@ -170,7 +169,7 @@
 (define (add-tile board pment)
   (match-define [placement posn tile] pment)
   (define add-tile+ (curryr hash-set posn tile))
-  (fmap add-tile+ board))
+  (apply-map add-tile+ board))
 
 
 #; {Tile Board -> [Listof Posn]}

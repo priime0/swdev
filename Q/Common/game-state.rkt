@@ -30,7 +30,14 @@
  (struct-out game-state)
  hash->turn-info++
  (contract-out
-  [make-game-state (-> (listof tile?) (listof player-id?) game-state?)]
+  [make-game-state
+   (->i ([tiles (listof tile?)] [players (listof player-id?)])
+        #:pre/name (tiles players)
+        "not enough tiles!"
+        (< (length tiles)
+           (add1 (* (length players)
+                    (*hand-size*))))
+        [result game-state?])]
   [game-state->turn-info gs->gs/c]
   [take-turn
    (->i ([gs game-state?] [t turn-action?])
@@ -130,7 +137,6 @@
 ;; ASSUME: the players are sorted by age in non-increasing order.
 ;; ASSUME: the `start-tiles` comprise all the tiles in the game, and there are enough tiles to place
 ;;         on the board and hand out to players.
-;; TODO: validate above assumption in contract
 (define (make-game-state start-tiles player-ids)
   (match-define [cons start-tile rest-tiles] (shuffle start-tiles))
   (define handout-size           (* (length player-ids) (*hand-size*)))
@@ -171,7 +177,6 @@
 ;; Performs the given turn action for the current player in this game state, and updates the turn
 ;; queue, or kicks the current players and reclaims their tiles if the move is invalid according to
 ;; the provided rule.
-;; TODO: Add `unit`s (first class modules, racket/unit)
 (define (take-turn gs action)
   (define info (game-state->turn-info gs))
   (cond [(valid-action? info action)
