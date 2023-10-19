@@ -25,13 +25,14 @@
   [tile-colors (listof symbol?)]
   [tile-shape? (any/c . -> . boolean?)]
   [tile-color? (any/c . -> . boolean?)]
-
+  [sort-tiles  ((listof tile?) . -> . (listof tile?))]
   [render-tile (tile? . -> . image?)]))
 
 
-#; {type TileShape = (U 'star '8star 'square 'circle 'diamond)}
+#; {type TileShape = (U 'star '8star 'square 'circle 'clover 'diamond)}
 ;; A TileShape is an enumeration of possible shapes, a distinguishing feature of a tile.
-(define tile-shapes '(star 8star square circle diamond clover))
+;; The ordering of TileShapes is from smallest to largest for the game of Q.
+(define tile-shapes '(star 8star square circle clover diamond))
 
 #; {type TileColor = (U 'red 'green 'blue 'yellow 'orange 'purple)}
 ;; A TileColor is an enumeration of possible colors, a distinguishing feature of a tile.
@@ -46,6 +47,7 @@
 ;; Is the given item a TileColor?
 (define (tile-color? item)
   (member? item tile-colors))
+
 
 #; {type Tile = (tile TileShape TileColor)}
 ;; A Tile is a distinguishable object by shapes and colors, placed and held by players in the Q
@@ -65,6 +67,16 @@
              (match-define [tile color shape] t)
              (hash 'color (symbol->string color)
                    'shape (symbol->string shape)))])
+
+#; {[Listof Tile] -> [Listof Tile]}
+;; Sorts the tiles in terms of ascending lexicographic ordering of
+;; shapes then colors based on the definition of tile-shapes and
+;; tile-colors, which represent the canonical low->high ordering of
+;; tiles.
+(define (sort-tiles tiles)
+  ((sort-by (list (cons (curry index<? tile-colors) tile-color)
+                  (cons (curry index<? tile-shapes) tile-shape)))
+   tiles))
 
 #; {[Listof Tile] -> Boolean}
 ;; Do all the tiles have equal colors?

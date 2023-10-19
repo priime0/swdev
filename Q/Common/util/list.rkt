@@ -14,12 +14,34 @@
   [remove-from   (list? list? . -> . list?)]
   [contains-all? (list? list? . -> . boolean?)]
   [same-elements? (list? list? . -> . boolean?)]
-  [segment       (natural? list? . -> . list?)]))
+  [segment       (natural? list? . -> . list?)]
+  [index<?       (list? any/c any/c . -> . boolean?)]
+  [sort-by       ((listof (cons/c (any/c any/c . -> . any/c) (any/c . -> . any/c))) . -> . ((listof any/c) . -> . (listof any/c)))]))
 
 #; {(X) X [Listof X] -> Boolean}
 ;; Is the given element `v` a member of the given list `lst`?
 (define (member? v lst)
   (cons? (member v lst)))
+
+#; {(X) [Listof X] X X -> Boolean}
+;; Is the index of the first element less than the index of the second element in the given list?
+;; ASSUME both items are in the list.
+(define (index<? lst el1 el2)
+  (< (index-of lst el1)
+     (index-of lst el2)))
+
+#; {(X Y) [Listof [Pair (Y Y -> Boolean) (X -> Y)]] -> ([Listof X] -> [Listof X])}
+;; Produces a function that sorts by every constraint specified in the association list
+;; of function to key extracter. Specifically, produces a function that sorts the list it is given
+;; by every constraint in the assoc list, producing an ordering where the last function in the assoc list
+;; is the most "major" sorting constraint, i.e. for sorting by row then column, you would provide
+;; (list (... col-accessor) (... row_accessor)), and this makes the row sorting most important, and breaks
+;; ties with columns.
+(define (sort-by fkey-asoc)
+  (define (wrap-sort fkey f)
+    (lambda (lst)
+      (sort (f lst) (car fkey) #:key (cdr fkey))))
+  (foldl wrap-sort identity fkey-asoc))
 
 #; {(X) [Listof X] -> Boolean}
 ;; Are all elements in the list `equal?`

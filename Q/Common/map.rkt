@@ -48,6 +48,10 @@
         "given posn has no adjacent tiles"
         (has-adjacent-tiles? b (placement-posn pment))
         [result valid-board?])]
+  [adjacent-tiles
+   (-> board?
+       posn?
+       (listof tile?))]
   [valid-tile-placements
    (-> tile?
        board?
