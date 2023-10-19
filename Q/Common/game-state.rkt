@@ -32,24 +32,33 @@
  hash->turn-info++
  (contract-out
   [make-game-state (-> (listof tile?) (listof player-id?) game-state?)]
-  [game-state->turn-info
-   (->i ([gs game-state?])
+  [game-state->turn-info gs->gs/c]
+  [take-turn
+   (->i ([gs game-state?] [t turn-action?])
         #:pre/name (gs)
         "game is over!"
         (not (game-over? gs))
         [result turn-info?])]
-  [take-turn
-   (->i ([gs game-state?] [action turn-action?])
-        #:pre/name (gs)
-        "game is over!"
-        (not (game-over? gs))
-        [result game-state?])]
-  [remove-player
-   (->i ([gs game-state?])
-        #:pre/name (gs)
-        "game is over!"
-        (not (game-over? gs))
-        [result game-state?])]))
+  [remove-player gs->gs/c]))
+
+;; 1) End of game? (export game-over?)  ^ referee now has to be able to
+;; check the round-based game-over rules (could delegate this to
+;; game-state) (maybe)
+;;
+;; 2) Referee could store list of past
+;; game states to resume from any point--or we could make this history
+;;
+;; 3) Create the game state with players - sort by age, then pass in to game state (make-game-state)
+;;
+;; 4) (def gs+ (take-turn ...)) ... (your-new-tiles (first (game-state-players gs+)))
+;; Define (new-tiles ...) helper (public) for referee to inform the player who just took their turn
+;; of their new hand
+;;
+;; 5) EOG - produce final message for each player (win/lose, final score, etc)
+;;
+;; we have partial (1) (3), no functionality for (2), (4), (5)
+
+
 
 #; {JPub -> TurnInfo}
 (define (hash->turn-info++ jpub)
@@ -75,6 +84,7 @@
 ;; A GameState represents the state of a game at any instant of time, containing the board's current
 ;; state at that instant, along with the list of remaining tiles, history of moves made in order of
 ;; recency, and the player states in order of turns to take.
+;; TODO: Remove history and change game-over? 
 (struct++ game-state
           ([board    board?]
            [tiles    (listof tile?)]
@@ -87,6 +97,13 @@
 (define (game-over? gs)
   (member? (game-end) (game-state-history gs)))
 
+(define gs->gs/c
+  (->i ([gs game-state?])
+        #:pre/name (gs)
+        "game is over!"
+        (not (game-over? gs))
+        [result turn-info?]))
+
 #; {GameEvent GameState -> GameState}
 ;; Updates the history of the given game state with the provided procedure
 (define (add-to-history evt gs)
@@ -94,17 +111,17 @@
 
 #; {([Listof Tile] -> [Listof Tile]) GameState -> GameState}
 ;; Updates the tiles of the given game state with the provided procedure
-(define (map-tiles f gs)
+(define (apply-tiles f gs)
   (set-game-state-tiles gs (f (game-state-tiles gs))))
 
 #; {(Board -> Board) GameState -> GameState}
 ;; Updates the board of the given game state with the provided procedure
-(define (map-board f gs)
+(define (apply-board f gs)
   (set-game-state-board gs (f (game-state-board gs))))
 
 #; {([Listof PlayerState] -> [Listof PlayerState]) GameState -> GameState}
 ;; Updates the player state queue of the given game state with the provided procedure
-(define (map-players f gs)
+(define (apply-players f gs)
   (set-game-state-players gs (f (game-state-players gs))))
 
 
@@ -145,9 +162,9 @@
   (match-define [player-state id score hand] player)
 
   (~>> gs
-       (map-tiles (curryr append hand))
+       (apply-tiles (curryr append hand))
        (add-to-history (banish id score))
-       (map-players rest)
+       (apply-players rest)
        ((if? game-over? (curry add-to-history (game-end))))))
 
 
@@ -155,7 +172,7 @@
 ;; Performs the given turn action for the current player in this game state, and updates the turn
 ;; queue, or kicks the current players and reclaims their tiles if the move is invalid according to
 ;; the provided rule.
-;;TODO: valid-action? is imported from qrules, and not a param rn
+;; TODO: Add `unit`s (first class modules, racket/unit)
 (define (take-turn gs action)
   (define info (game-state->turn-info gs))
   (cond [(valid-action? info action)
@@ -216,7 +233,7 @@
 
   (~>> gs
        (add-to-history (turn id action))
-       (map-players rotate-left-1)))
+       (apply-players rotate-left-1)))
 
 
 #; {GameState -> Image}

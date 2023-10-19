@@ -59,6 +59,8 @@
 
 #; {TurnInfo [Listof TilePlacement] -> Natural}
 ;; Score the given placements for this turn
+
+;; Testing Task: have to ignore EOG bonus-could parameterize *hand-size* to be -1 so its never true, scuffed
 (define (score/placement info pments)
   (match-define [turn-info _ _ _ board _] info)
   (define base-points   (length pments))
