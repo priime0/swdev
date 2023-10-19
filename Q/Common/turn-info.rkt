@@ -1,5 +1,8 @@
 #lang racket
 
+(require (rename-in (only-in lazy define)
+                    [define define/lazy]))
+
 (require racket/generic)
 (require math/base)
 
@@ -22,7 +25,9 @@
  (struct-out turn-info)
  (contract-out
   [score-turn
-   (-> turn-info? turn-action? natural?)]))
+   (-> turn-info? turn-action? natural?)]
+  [valid-action?
+   (-> turn-info? turn-action? boolean?)]))
 
 
 #; {type TurnInfo = (turn-info PlayerState
@@ -47,6 +52,44 @@
                    'tile*   tiles-left
                    'players (cons (->jsexpr* state)
                                   (rest scores))))])
+
+#; {TurnInfo TurnAction -> Boolean}
+;; Is the given action on this turn valid?
+(define (valid-action? info action)
+  (match action
+    [(place pments) (valid-place? info pments)]
+    [(exchange)     (valid-exchange? info)]
+    [(pass)         #t]))
+
+#; {TurnInfo [Listof TilePlacement] -> Boolean}
+;; Is the proposed placement for the given turn valid?
+(define (valid-place? info placements)
+  (match-define [turn-info [player-state _ _ hand] _ _ board _] info)
+
+  (define/lazy aligned?
+    (same-axis? (map placement-posn placements)))
+  (define/lazy in-hand?
+    (contains-all? hand (map placement-tile placements)))
+
+  (and (pair? placements)
+       aligned?
+       (legal-placements? info placements)
+       in-hand?))
+
+(define (legal-placements? info placements)
+  (match-define [turn-info [player-state _ _ hand] _ _ board _] info)
+  (for/fold ([b^ board]
+             #:result b^)
+            ([pment placements]
+             #:break (not b^))
+    (and (valid-placement? b^ pment)
+         (add-tile b^ pment))))
+
+
+#; {TurnInfo -> Boolean}
+;; Is an exchange a valid move for this turn?
+(define (valid-exchange? info)
+  (>= (turn-info-tiles-left info) (*hand-size*)))
 
 
 #; {TurnInfo TurnAction -> Natural}

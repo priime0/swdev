@@ -22,7 +22,6 @@
 (require Q/Common/util/list)
 (require Q/Common/util/image)
 (require Q/Common/util/misc)
-(require Q/Rules/qrules)
 (require Q/Common/interfaces/serializable)
 
 (provide

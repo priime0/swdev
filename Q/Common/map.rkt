@@ -29,6 +29,10 @@
   [make-board (-> tile? valid-board?)]
   [has-adjacent-tiles? (-> board? posn? boolean?)]
   [tile-at (-> valid-board? posn? (or/c tile? #f))]
+  [valid-placement?
+   (-> valid-board?
+       placement?
+       boolean?)]
   [add-tiles
    (->i ([b valid-board?] [pments (listof placement?)])
         #:pre/name (b pments)
@@ -48,7 +52,6 @@
   [valid-tile-placements
    (-> tile?
        valid-board?
-       (-> board? placement? boolean?)
        (listof posn?))]
   [collect-sequence
    (-> valid-board?
@@ -170,13 +173,45 @@
   (fmap add-tile+ board))
 
 
-#; {Tile Board (Board TilePlacement -> Boolean) -> [Listof Posn]}
-;; Produce a list of placements (posns) that are valid for this tile on the given board given a rule.
-(define (valid-tile-placements tile board valid-placement?)
+#; {Tile Board -> [Listof Posn]}
+;; Produce a list of placements (posns) that are valid for this tile on the given board.
+(define (valid-tile-placements tile board)
   (~>> (open-posns board)
        (map (curryr placement tile))
        (filter (curry valid-placement? board))
        (map placement-posn)))
+
+#; {Tile [Listof Tile] -> Boolean}
+;; Does the given tile share the same color or (inclusive) same color as every tile in the given
+;; list?
+(define (valid-tile-sequence? tile tiles)
+  ((disjoin tiles-equal-color? tiles-equal-shape?)
+   (cons tile tiles)))
+
+
+#; {Board TilePlacement -> Boolean}
+;; Is the given placement valid in the game of Q?
+;; A valid Q position is one where the left and right adjacent tiles, if any, share the same shape
+;; or (inclusive) the same color, and the up and down adjacent tiles, if any, share the same shape
+;; or (inclusive) same color.
+(define (valid-placement? board pment)
+  (match-define [placement posn tile] pment)
+  #; {[Listof Direction] -> [Listof Tile]}
+  ;; Gets the existing tiles in the given directions.
+  (define (adjacent-tiles dirs)
+    (define tile-at^          (curry tile-at board))
+    (define target-neighbors  (curry posn-neighbors/dirs posn))
+    (filter-map tile-at^      (target-neighbors dirs)))
+  
+  (define row-adjacent-tiles (adjacent-tiles horizontal-axis))
+  (define col-adjacent-tiles (adjacent-tiles vertical-axis))
+  
+  (define/lazy adjacent-tiles? (has-adjacent-tiles? board posn))
+  (define/lazy matches-neighbors?
+    (andmap (curry valid-tile-sequence? tile)
+            (list row-adjacent-tiles col-adjacent-tiles)))
+  
+  (and adjacent-tiles? matches-neighbors?))
 
 
 #; {Board Posn -> [Maybe Tile]}
@@ -412,4 +447,54 @@
   (test-values-equal?
    "bounds of a elongated board"
    (bounds example-board2)
-   (values -1 2 -1 1)))
+   (values -1 2 -1 1))
+
+  (test-true
+   "valid tile sequence with same color"
+   (valid-tile-sequence? (tile 'red 'square)
+                         (list (tile 'red 'circle)
+                               (tile 'red 'star))))
+
+  (test-true
+   "valid tile sequence with same shape"
+   (valid-tile-sequence? (tile 'red 'square)
+                         (list (tile 'blue 'square)
+                               (tile 'green 'square))))
+
+  (test-true
+   "valid tile sequence with same color and shape"
+   (valid-tile-sequence? (tile 'red 'square)
+                         (list (tile 'red 'square)
+                               (tile 'red 'square))))
+
+  (test-false
+   "invalid tile sequence with different color and shape"
+   (valid-tile-sequence? (tile 'red 'square)
+                         (list (tile 'blue 'circle)
+                               (tile 'green 'star))))
+
+  (test-true
+   "board valid position for a valid tile at (1, 1)"
+   (valid-placement? example-board (placement (posn 1 1) (tile 'green 'circle))))
+
+  (test-false
+   "board invalid position for an invalid tile at (1, 1)"
+   (valid-placement? example-board (placement (posn 1 1) (tile 'green 'square))))
+
+  (test-check
+   "possible tile positions for a red clover"
+   set=?
+   (valid-tile-placements (tile 'red 'clover) example-board)
+   (list (posn 0 -1) (posn -1 0) (posn 3 0) (posn 2 -1) (posn 2 1) (posn 1 -1)))
+
+  (test-check
+   "possible tile positions for a green square"
+   set=?
+   (valid-tile-placements (tile 'green 'square) example-board)
+   (list (posn 0 -1) (posn -1 0) (posn -1 1) (posn 0 2)))
+
+  (test-check
+   "no possible tile positions for a blue 8star"
+   set=?
+   (valid-tile-placements (tile 'blue '8star) example-board)
+   '()))
