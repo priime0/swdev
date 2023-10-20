@@ -31,17 +31,19 @@
      (index-of lst el2)))
 
 #; {(X Y) [Listof [Pair (Y Y -> Boolean) (X -> Y)]] -> ([Listof X] -> [Listof X])}
-;; Produces a function that sorts by every constraint specified in the association list
-;; of function to key extracter. Specifically, produces a function that sorts the list it is given
-;; by every constraint in the assoc list, producing an ordering where the last function in the assoc list
-;; is the most "major" sorting constraint, i.e. for sorting by row then column, you would provide
-;; (list (... col-accessor) (... row_accessor)), and this makes the row sorting most important, and breaks
-;; ties with columns.
+;; Produce a sorting function that sorts some list by the given functions in the list. Each element
+;; in the list is a pair of a binary comparison function and accessor function, where the accessor
+;; function is applied on each element in the list, then the values produced by the accessor
+;; function are compared by the binary comparison function. Elements are ordered from most important
+;; comparison-accessor pairs first to least important last.
+;; ASSUME: the provided binary comparison functions maintain stable-sorting.
 (define (sort-by fkey-asoc)
-  (define (wrap-sort fkey f)
-    (lambda (lst)
-      (sort (f lst) (car fkey) #:key (cdr fkey))))
-  (foldl wrap-sort identity fkey-asoc))
+  (define ((wrap-sort fkey acc-f) lst)
+    (match-define [cons f accessor] fkey)
+    (sort (acc-f lst)
+          f
+          #:key accessor))
+  (foldl wrap-sort identity (reverse fkey-asoc)))
 
 #; {(X) [Listof X] -> Boolean}
 ;; Are all elements in the list `equal?`
