@@ -12,7 +12,33 @@
 (require Q/Common/data/turn-action)
 (require Q/Common/util/list)
 
-;; TODO: THIS IS AWFUL CODE. THIS WAS WRITTEN TO TEST STRATEGY LOGIC
+
+(provide
+ player-strategy
+ (contract-out
+  [choose-tile
+   (-> (listof tile?)
+       board?
+       (or/c (cons/c tile? (listof placement?))
+             #f))]
+  [choose-placement
+   (-> tile?
+       (listof posn?)
+       procedure?
+       turn-action?)]
+  [remove-placed
+   (-> player-state?
+       tile?
+       player-state?)]
+  [update-turn-info
+   (-> turn-info?
+       placement?
+       turn-info?)]
+  [combine-actions
+   (-> turn-action?
+       turn-action?
+       turn-action?)]))
+
 
 ;; A PlayerStrategy is an interface that represents the functionality that any player strategy will
 ;; have to support, namely, choosing an action to perform given some turn information.
