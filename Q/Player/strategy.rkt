@@ -14,84 +14,130 @@
 
 ;; TODO: THIS IS AWFUL CODE. THIS WAS WRITTEN TO TEST STRATEGY LOGIC
 
-;; A Player Strategy is an interface that represents the functionality that
-;; any player strategy will have to support, namely, choosing an action to perform.
-(define player-strategy (interface () choose-action))
+;; A PlayerStrategy is an interface that represents the functionality that any player strategy will
+;; have to support, namely, choosing an action to perform given some turn information.
+(define player-strategy
+  (interface ()
+    #; {PlayerStrategy TurnInfo -> TurnAction}
+    ;; Given some turn information for the player, produce a valid action to influence the game
+    ;; state.
+    [choose-action (->m turn-info? turn-action?)]))
 
+
+#; {[Listof Tile] Board -> [Maybe [Pairof Tile [Listof TilePlacement]]]}
+;; Choose the first tile lexicographically that can be placed on the board.
 (define (choose-tile hand board)
+  (define (tile-and-placements t)
+    (cons t (valid-tile-placements t board)))
+  (define (has-possible-placement? tp)
+    (nonempty-list? (cdr tp)))
   (~>> hand
        sort-tiles
-       (map (lambda (t) (cons t (valid-tile-placements t board))))
-       (findf (lambda (p) (nonempty-list? (cdr p))))))
+       (map tile-and-placements)
+       (findf has-possible-placement?)))
 
-(define (choose-placement t posns sort-func)
-  (place (list (placement (first (sort-func posns))
-                          t))))
 
+#; {Tile [Listof Posn] ([Listof Posn] -> [Listof Posn]) -> TurnAction}
+;; Choose the first placement by the given `posns-sort` function.
+;; ASSUME: `posns` is a non-empty list.
+(define (choose-placement tile posns posns-sort)
+  (define first-posn (first (posns-sort posns)))
+  (define pment (placement first-posn tile))
+  (place (list pment)))
+
+
+#; {PlayerState Tile -> PlayerState}
+;; Remove a single tile from the player's hand.
 (define (remove-placed state t)
   (remove-from-hand state (list t)))
 
+
+#; {TurnInfo Placement -> TurnInfo}
+;; Update the turn information with the given placement, removing the tile from the player's hand.
 (define (update-turn-info info pment)
   (match-define [turn-info state _scores _history board _tiles*] info)
   (define b+ (add-tile board pment))
   (define s+ (remove-placed state (placement-tile pment)))
   (turn-info s+ _scores _history b+ _tiles*))
 
-(define (combine-1act a1 a2)
+
+#; {TurnAction TurnAction -> TurnAction}
+;; Combine two turn actions into one, where the first action is performed first.
+(define (combine-actions a1 a2)
   (match (cons a1 a2)
-    [(cons (place pments1) (place pments2)) (place (append pments1 pments2))]
-    [(cons (place (list pment pments ...)) _) (place (cons pment pments))]
-    [(cons (place '()) a)  a]))
+    [(cons (pass) action)
+     action]
+    [(cons (exchange) act)
+     (if (place? act)
+         act
+         (exchange))]
+    [(cons (place pments) (pass))
+     (place pments)]
+    [(cons (place pments) (exchange))
+     (place pments)]
+    [(cons (place p1) (place p2))
+     (place (append p1 p2))]))
 
 
+(define greedy-select-strategy%
+  (class* object% (player-strategy)
+    (super-new)
+
+    #; {-> [Listof [Pair Procedure Procedure]]}
+    ;; Produces an association list of binary comparison functions and accessor functions, so lists
+    ;; can be stable-sorted by extracting values from list elements with the accessor functions, and
+    ;; comparing them with the binary comparison functions.
+    (abstract get-compare-accessor-list)
+
+    #; {TurnInfo -> TurnAction}
+    (define/public (choose-action info)
+      (match-define [turn-info state _scores _history board tiles*] info)
+
+      (define first-maybe-tile-pair
+        (choose-tile (player-state-hand state) board))
+
+      (cond
+        [(cons? first-maybe-tile-pair)
+         (match-define [cons t posns] first-maybe-tile-pair)
+         (define compare-accessor-list
+           (send this get-compare-accessor-list))
+         (define posns-sort
+           (sort-by compare-accessor-list))
+         (choose-placement t posns posns-sort)]
+        [(>= tiles* (*hand-size*))
+         (exchange)]
+        [else
+         pass]))))
+
+
+;; The "dumb and greedy" strategy selects the smallest placeable tile from the player's hand, sorted
+;; lexicographically, and placed at the row-column order in smallest position for the tile on the
+;; board.
 (define dag%
-  (class* object% (player-strategy)
+  (class greedy-select-strategy%
     (super-new)
 
-    #; {TurnInfo -> TurnAction}
-    ;; Produces a turn action, which is pass, exchange, or a placement of 1 tile
-    ;; choosing the lexicographically smallest tile, if possible to place any.
-    ;; Prefers place > exchange > pass. Breaks ties with row-column order.
-    (define/public (choose-action info)
-      (match-define [turn-info state scores history board tiles*] info)
+    (define/override (get-compare-accessor-list)
+      (list (cons < posn-row)
+            (cons < posn-column)))))
 
-      (define first-maybe-tile-pair
-        (choose-tile (player-state-hand state) board))
 
-      (match first-maybe-tile-pair
-        [(cons t posns)
-         (choose-placement t posns (sort-by (list (cons < posn-column)
-                                                  (cons < posn-row))))]
-        [_ (if (>= tiles* (*hand-size*))
-               (exchange)
-               (pass))]))))
-
+;; The "less dumb and still greedy" strategy selects the smallest placeable tile from the player's
+;; hand, sorted lexicographically, and placed in the position with the most neighbors, breaking ties
+;; with row-column order for coordinates.
 (define ldasg%
-  (class* object% (player-strategy)
+  (class dag%
     (super-new)
 
-    #; {TurnInfo -> TurnAction}
-    ;; Produces a turn action, which is pass, exchange, or a placement of 1 tile
-    ;; choosing the lexicographically smallest tile, if possible to place any.
-    ;; Prefers place > exchange > pass. Breaks ties with most neighbors, then with
-    ;; row-column order.
-    (define/public (choose-action info)
-      (match-define [turn-info state scores history board tiles*] info)
+    (define/override (get-compare-accessor-list)
+      (cons (cons > (lambda~> adjacent-tiles length))
+            (super get-compare-accessor-list)))))
 
-      (define first-maybe-tile-pair
-        (choose-tile (player-state-hand state) board))
 
-      (match first-maybe-tile-pair
-        [(cons t posns)
-         (choose-placement t posns (sort-by (list (cons < posn-column)
-                                                  (cons < posn-row)
-                                                  (cons > (lambda~> adjacent-tiles length)))))]
-        [_ (if (>= tiles* (*hand-size*))
-               (exchange)
-               (pass))]))))
+;; iterative strategy TODO: doesnt always produce valid moves -- it has to
 
-;; iterative strategy
-;; TODO: doesnt always produce valid moves -- it has to 
+;; An "iterative strategy" contains some given strategy, accumulating an action by continuously
+;; applying the strategy until the next possible accumulated action is invalid.
 (define itstrat%
   (class* object% (player-strategy)
     (init s)
@@ -101,16 +147,26 @@
     (super-new)
 
     (define/public (choose-action info)
+      ;; generative: produces an accumulated turn action
+      ;; terminates: when the last action is not a placement, or the produced new action is not
+      ;;             valid. Continues iterating until the hand is empty -- the hand is finite, so it
+      ;;             will terminate.
       (let/ec return
-        (let loop ([action (place '())] [info^ info])
-          (define 1act (send strat choose-action info^))
-          (define new-total-act (combine-1act action 1act))
-          (unless (place? 1act)
-            (return new-total-act))
+        (let loop ([action^ (pass)]
+                   [info^ info])
+          (define action  (send strat choose-action info^))
+          (define action+ (combine-actions action^ action))
 
-          (define pment (first (place-placements 1act)))
+          (unless (valid-action? info action+)
+            (return action^))
+
+          (unless (place? action)
+            (return action+))
+
+          (define pment (first (place-placements action)))
           (define info+ (update-turn-info info^ pment))
-          (loop new-total-act info+))))))
+          (loop action+ info+))))))
+
 
 (module+ test
   (require rackunit)
