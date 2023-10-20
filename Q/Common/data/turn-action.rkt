@@ -60,6 +60,11 @@
   (require rackunit))
 
 (module+ test
+
+  (test-true
+   "valid place turn action"
+   (turn-action? (place (list (placement (posn 0 0) (tile 'red 'square))))))
+
   (test-true
    "valid turn action"
    (turn-action? (exchange)))

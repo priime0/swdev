@@ -77,10 +77,12 @@
        (legal-placements? info placements)
        in-hand?))
 
+#; {TurnInfo [Listof TilePlacement] -> Boolean}
+;; Is the given sequence of placements a valid 
 (define (legal-placements? info placements)
-  (match-define [turn-info [player-state _ _ hand] _ _ board _] info)
+  (define board (turn-info-board info))
   (for/fold ([b^ board]
-             #:result b^)
+             #:result (not (false? b^)))
             ([pment placements]
              #:break (not b^))
     (and (valid-placement? b^ pment)
@@ -166,3 +168,219 @@
       (cons (string->symbol (number->string i)) score)))
   
   (turn-info state scores '() board tile*))
+
+
+(module+ test
+  (require rackunit)
+
+  (define hand1  (list (tile 'red 'square)
+                       (tile 'blue 'clover)
+                       (tile 'blue 'square)
+                       (tile 'green 'star)
+                       (tile 'green '8star)
+                       (tile 'orange 'diamond)))
+  (define ps1 (player-state '|0| 0 hand1))
+  (define b1  (~>> (make-board (tile 'red 'diamond))
+                   (add-tile _ (placement (posn 0 1) (tile 'red 'circle)))
+                   (add-tile _ (placement (posn 1 1) (tile 'blue 'circle)))))
+
+  ;;;; Example turn infos
+  (define ti1 (turn-info ps1 '() '() b1 10))
+  (define ti2 (turn-info ps1 '() '() b1 5))
+  (define ti3 (turn-info ps1 '() '() b1 6))
+
+  (define all-placement (list (placement (posn 0 2) (tile 'red 'square))
+                              (placement (posn 0 3) (tile 'blue 'clover))
+                              (placement (posn 0 4) (tile 'blue 'square))
+                              (placement (posn 0 5) (tile 'green 'star))
+                              (placement (posn 0 6) (tile 'green '8star))
+                              (placement (posn 0 7) (tile 'orange 'diamond))))
+  (define ti+ (set-turn-info-board ti1 (add-tiles b1 all-placement)))
+
+  ;;;; Example turn actions
+  (define passa (pass))
+  (define excha (exchange))
+  ;; invalid empty placement
+  (define empl '())
+  ;; valid placement
+  (define vpl (list (placement (posn 0 2) (tile 'red 'square))
+                    (placement (posn 1 2) (tile 'blue 'square))))
+  ;; placement with tile not in hand
+  (define not-hand (list (placement (posn 0 2) (tile 'red 'square))
+                         (placement (posn 1 2) (tile 'blue 'circle))))
+  ;; placement with tiles not in same axis
+  (define bad-axis (list (placement (posn 0 2) (tile 'red 'square))
+                         (placement (posn 2 0) (tile 'blue 'clover))))
+  ;; illegal placement by matching rules
+  (define illpl (list (placement (posn 0 2) (tile 'red 'square))
+                      (placement (posn 1 2) (tile 'blue 'clover))))
+
+  ;; new turn info, after applying vpl
+  (define ti1+ (set-turn-info-board ti1 (add-tiles b1 vpl)))
+
+  ;; board with two unfinished q's
+  (define b2 (~> (make-board (tile 'red 'diamond))
+                 (add-tiles (list (placement (posn 0 1) (tile 'red 'circle))
+                                  (placement (posn 0 2) (tile 'red 'clover))
+                                  (placement (posn 0 3) (tile 'red 'star))
+                                  (placement (posn 0 4) (tile 'red '8star))
+                                  (placement (posn 1 0) (tile 'green 'diamond))
+                                  (placement (posn 2 0) (tile 'blue 'diamond))
+                                  (placement (posn 2 1) (tile 'blue '8star))
+                                  (placement (posn 2 2) (tile 'blue '8star))
+                                  (placement (posn 2 3) (tile 'blue 'square))
+                                  (placement (posn 2 4) (tile 'blue 'circle))))))
+  (define ti4 (turn-info ps1 '() '() b2 10))
+  (define q-placements (list (placement (posn 0 5) (tile 'red 'square))
+                             (placement (posn 1 5) (tile 'blue 'square))
+                             (placement (posn 2 5) (tile 'blue 'clover))))
+  (define b2+ (add-tiles b2 q-placements))
+  (define ti4+ (set-turn-info-board ti4 b2+)))
+
+(module+ test
+
+  (test-false
+   "exchange when ref has < 6 tiles"
+   (valid-exchange? ti2))
+
+  (test-true
+   "exchange when ref has = 6 tiles"
+   (valid-exchange? ti3))
+
+  (test-true
+   "exchange when ref has > 6 tiles"
+   (valid-exchange? ti1))
+
+  (test-true
+   "valid placement is legal"
+   (legal-placements? ti1 vpl))
+
+  (test-false
+   "tile doesn't match placement rules, therefore is invalid"
+   (legal-placements? ti1 illpl))
+
+  (test-false
+   "tile not in hand is invalid action"
+   (valid-place? ti1 not-hand))
+
+  (test-false
+   "empty place is an invalid action"
+   (valid-place? ti1 empl))
+
+  (test-false
+   "tiles not aligned on axis is an invalid action"
+   (valid-place? ti1 bad-axis))
+
+  (test-false
+   "placement not matching neighbor-wise q matching is invalid"
+   (valid-place? ti1 illpl))
+
+  (test-true
+   "non-empty matching placement along same axis in hand is valid"
+   (valid-place? ti1 vpl))
+
+  (test-true
+   "valid placement is a valid action"
+   (valid-action? ti1 (place vpl)))
+
+  (test-true
+   "pass is a valid action"
+   (valid-action? ti1 passa))
+
+  (test-true
+   "exchange with >= 6 tiles is a valid action"
+   (valid-action? ti1 excha))
+
+  (test-false
+   "exchange with < 6 tiles is an invalid action"
+   (valid-action? ti2 excha))
+
+  (test-false
+   "empty placement is an invalid action"
+   (valid-action? ti1 (place empl)))
+
+  (test-false
+   "placement with tiles not in hand is invalid"
+   (valid-action? ti1 (place not-hand)))
+
+  (test-false
+   "placement with tiles that dont match neighbors is an invalid action"
+   (valid-action? ti1 (place illpl)))
+
+  (test-false
+   "placement not aligned along 1 axis is invalid"
+   (valid-action? ti1 (place bad-axis)))
+
+  ;;;; SCORING TESTS
+
+  (test-equal?
+   "test scoring for a valid placement"
+   (score-turn ti1+ (place vpl))
+   9)
+
+  (test-equal?
+   "exchange is worth 0 points"
+   (score-turn ti1 excha)
+   0)
+
+  (test-equal?
+   "pass is worth 0 points"
+   (score-turn ti1 passa)
+   0)
+
+  (test-false
+   "sequence on first row of b2 is not a q"
+   (q-sequence? (collect-sequence b2 (posn 0 0) horizontal-axis)))
+
+  (test-true
+   "sequence on first row of b2+ is a q"
+   (q-sequence? (collect-sequence b2+ (posn 0 0) horizontal-axis)))
+
+  (test-false
+   "sequence on first row of b2 is a not q"
+   (q-sequence? (collect-sequence b2 (posn 2 0) horizontal-axis)))
+
+  (test-false
+   "sequence on first row of b2+ is a not q"
+   (q-sequence? (collect-sequence b2+ (posn 2 0) horizontal-axis)))
+
+  (test-check
+   "get sequences returns correct sequences for placements"
+   set=?
+   (get-sequences b2+ q-placements)
+   (list (collect-sequence b2+ (posn 0 5) horizontal-axis)
+         (collect-sequence b2+ (posn 0 5) vertical-axis)
+         (collect-sequence b2+ (posn 1 5) horizontal-axis)
+         (collect-sequence b2+ (posn 1 5) vertical-axis)
+         (collect-sequence b2+ (posn 2 5) horizontal-axis)
+         (collect-sequence b2+ (posn 2 5) vertical-axis)))
+
+  (test-equal?
+   "score qs for a placement with one q"
+   (score/qs b2+ q-placements)
+   6)
+
+  (test-equal?
+   "score qs for a placement with one q"
+   (score/sequences b2+ q-placements)
+   15)
+
+  (test-equal?
+   "score placement"
+   (score/placement ti4+ q-placements)
+   24)
+
+  (test-equal?
+   "score entire hand placement"
+   (score/placement ti+ all-placement)
+   20)
+
+  (test-equal?
+   "score turn action of q placement"
+   (score-turn ti4+ (place q-placements))
+   24)
+
+  (test-equal?
+   "score turn action of entire hand placement"
+   (score-turn ti+ (place all-placement))
+   20))
