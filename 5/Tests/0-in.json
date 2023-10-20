@@ -1,0 +1,9 @@
+[[0,[2,{"color":"red","shape":"clover"}],[3,{"color":"red","shape":"star"}],[1,{"color":"red","shape":"circle"}],[0,{"color":"red","shape":"diamond"}],[5,{"color":"red","shape":"square"}],[4,{"color":"red","shape":"8star"}]],[1,[5,{"color":"blue","shape":"square"}],[0,{"color":"green","shape":"diamond"}]],[2,[0,{"color":"blue","shape":"diamond"}],[1,{"color":"blue","shape":"8star"}],[2,{"color":"blue","shape":"8star"}],[3,{"color":"blue","shape":"square"}],[4,{"color":"blue","shape":"circle"}],[5,{"color":"blue","shape":"clover"}],[-1,{"color":"blue","shape":"star"}]]]
+
+
+
+
+
+
+
+[{"1tile":{"color":"red","shape":"square"},"coordinate":{"column":5,"row":0}}, {"1tile":{"color":"blue","shape":"square"},"coordinate":{"column":5,"row":1}}, {"1tile":{"color":"blue","shape":"clover"},"coordinate":{"column":5,"row":2}}]

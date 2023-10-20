@@ -17,6 +17,7 @@
 
 (define ti (turn-info (player-state '|0| 0 '()) '() '() b 0))
 (parameterize ([*hand-size* -1])
-  (write-json (score-turn ti (place placements)))
+  (define score (score-turn ti (place placements)))
+  (write-json score)
   (displayln "")
   (flush-output))

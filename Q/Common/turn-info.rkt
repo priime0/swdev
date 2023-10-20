@@ -229,7 +229,8 @@
                                   (placement (posn 2 1) (tile 'blue '8star))
                                   (placement (posn 2 2) (tile 'blue '8star))
                                   (placement (posn 2 3) (tile 'blue 'square))
-                                  (placement (posn 2 4) (tile 'blue 'circle))))))
+                                  (placement (posn 2 4) (tile 'blue 'circle))
+                                  (placement (posn 2 -1) (tile 'blue 'star))))))
   (define ti4 (turn-info ps1 '() '() b2 10))
   (define q-placements (list (placement (posn 0 5) (tile 'red 'square))
                              (placement (posn 1 5) (tile 'blue 'square))
@@ -361,14 +362,14 @@
    6)
 
   (test-equal?
-   "score qs for a placement with one q"
-   (score/sequences b2+ q-placements)
-   15)
+   "score qs for a placement with one q" 
+  (score/sequences b2+ q-placements)
+   16)
 
   (test-equal?
    "score placement"
    (score/placement ti4+ q-placements)
-   24)
+   25)
 
   (test-equal?
    "score entire hand placement"
@@ -378,7 +379,7 @@
   (test-equal?
    "score turn action of q placement"
    (score-turn ti4+ (place q-placements))
-   24)
+   25)
 
   (test-equal?
    "score turn action of entire hand placement"
