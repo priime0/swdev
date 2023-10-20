@@ -208,7 +208,8 @@
   
   (define row-adjacent-tiles (adjacent-tiles horizontal-axis))
   (define col-adjacent-tiles (adjacent-tiles vertical-axis))
-  
+
+  (define/lazy empty-tile?     (not (tile-at board posn)))
   (define/lazy adjacent-tiles? (has-adjacent-tiles? board posn))
   (define/lazy matches-neighbors?
     (andmap (curry valid-tile-sequence? tile)
