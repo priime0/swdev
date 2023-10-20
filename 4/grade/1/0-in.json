@@ -1,0 +1,16 @@
+{ "map" : [
+  [0,
+    [0,
+      {"color" : "red" , "shape" : "circle"}
+    ]
+  ]
+],
+  "tile*" : 20,
+  "players" : [
+    {"score":  5, "tile*":  [{"color" : "green", "shape": "clover"}]},  
+    5,
+    8 ]
+}
+    
+[{"1tile": {"color" : "green", "shape": "clover"}, "coordinate": {"row": 1, "column" : 0}}]
+

@@ -1,0 +1,110 @@
+{
+  "map": [
+    [
+      -1,
+      [
+        0,
+        {
+          "color": "green",
+          "shape": "8star"
+        }
+      ],
+      [
+        1,
+        {
+          "color": "green",
+          "shape": "circle"
+        }
+      ]
+    ],
+    [
+      0,
+      [
+        -1,
+        {
+          "color": "yellow",
+          "shape": "8star"
+        }
+      ],
+      [
+        0,
+        {
+          "color": "orange",
+          "shape": "8star"
+        }
+      ],
+      [
+        1,
+        {
+          "color": "orange",
+          "shape": "circle"
+        }
+      ]
+    ],
+    [
+      1,
+      [
+        0,
+        {
+          "color": "orange",
+          "shape": "clover"
+        }
+      ]
+    ]
+  ],
+  "tile*": 453,
+  "players": [
+    {
+      "score": 21,
+      "tile*": [
+        {
+          "color": "green",
+          "shape": "square"
+        },
+        {
+          "color": "blue",
+          "shape": "circle"
+        },
+        {
+          "color": "purple",
+          "shape": "circle"
+        }
+      ]
+    },
+    3,
+    23
+  ]
+}
+
+[
+    {
+      "coordinate": {
+        "row": -1,
+        "column": 2
+      },
+      "1tile": {
+        "color": "blue",
+        "shape": "circle"
+      }
+    },
+    {
+      "coordinate": {
+        "row": -1,
+        "column": -1
+      },
+      "1tile": {
+        "color": "green",
+        "shape": "square"
+      }
+    },
+    {
+      "coordinate": {
+        "row": -1,
+        "column": 3
+      },
+      "1tile": {
+        "color": "purple",
+        "shape": "circle"
+      }
+    }
+  ]

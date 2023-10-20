@@ -1,0 +1,24 @@
+{
+    "map": 
+    [
+        [0, [0, {"color":"red", "shape":"circle"}], [1, {"color":"red", "shape":"diamond"}], [2, {"color":"red", "shape":"8star"}]],
+        [1, [0, {"color":"red", "shape":"square"}]]
+    ],
+    "tile*" : 20,
+    "players" : 
+    [
+        {
+            "score": 20,
+            "tile*" : [{"color":"blue", "shape":"8star"}, {"color":"blue", "shape":"diamond"}, {"color":"yellow", "shape":"diamond"}] 
+        },
+        13,
+        10,
+        11
+    ]
+}
+[
+    {"coordinate": {"row":1, "column":2}, "1tile":{"color":"blue", "shape":"8star"}}, 
+    {"coordinate": {"row":1, "column":3}, "1tile":{"color":"blue", "shape":"diamond"}},
+    {"coordinate": {"row":1, "column":4}, "1tile":{"color":"yellow", "shape":"diamond"}}
+]
+

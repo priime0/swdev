@@ -1,0 +1,159 @@
+(testing /course/cs4500f23/ta/tedium-workdir/github/fearless-mice/4/xlegal)
+(testing /course/cs4500f23/ta/tedium-workdir/testfest-results/4/38/Tests/0-in.json /course/cs4500f23/ta/tedium-workdir/testfest-results/4/38/Tests/0-out.json)
+hash->board++: broke its own contract
+  promised: valid-board?
+  produced: (board (hash (posn 1 1) (tile 'red 'star)))
+  in: the range of
+      (->
+       (listof
+        (cons/c
+         integer?
+         (listof (cons/c integer? any/c))))
+       valid-board?)
+  contract from: #%embedded:Q/Common/map:
+  blaming: #%embedded:Q/Common/map:
+   (assuming the contract is correct)
+  at: <pkgs>/Q/Common/map.rkt:50:3
+  context...:
+   .../private/blame.rkt:346:0: raise-blame-error
+   .../private/arrow-val-first.rkt:486:18
+   .../Common/game-state.rkt:71:0: hash->turn-info++
+   body of '#%mzc:xlegal
+---------------------------------
+(*** score 0)
+(*** on)
+'(#hasheq((map . ((1 (1 #hasheq((color . "red") (shape . "star"))))))
+          (players
+           .
+           (#hasheq((score . 0)
+                    (tile*
+                     .
+                     (#hasheq((color . "red") (shape . "clover"))
+                      #hasheq((color . "red") (shape . "circle"))
+                      #hasheq((color . "red") (shape . "diamond"))
+                      #hasheq((color . "green") (shape . "star"))
+                      #hasheq((color . "blue") (shape . "diamond"))
+                      #hasheq((color . "orange") (shape . "8star")))))
+            0
+            0
+            0))
+          (tile* . 1055))
+  (#hasheq((1tile . #hasheq((color . "red") (shape . "clover")))
+           (coordinate . #hasheq((column . 2) (row . 1))))
+   #hasheq((1tile . #hasheq((color . "red") (shape . "circle")))
+           (coordinate . #hasheq((column . 3) (row . 1))))
+   #hasheq((1tile . #hasheq((color . "red") (shape . "diamond")))
+           (coordinate . #hasheq((column . 4) (row . 1))))))
+(*** expected)
+'(((1
+    (1 #hasheq((color . "red") (shape . "star")))
+    (2 #hasheq((color . "red") (shape . "clover")))
+    (3 #hasheq((color . "red") (shape . "circle")))
+    (4 #hasheq((color . "red") (shape . "diamond"))))))
+(*** but received)
+'(((plain fast with-newline plain-unicode) ()))
+
+
+(testing /course/cs4500f23/ta/tedium-workdir/testfest-results/4/38/Tests/1-in.json /course/cs4500f23/ta/tedium-workdir/testfest-results/4/38/Tests/1-out.json)
+hash->board++: broke its own contract
+  promised: valid-board?
+  produced: (board (hash (posn 1 1) (tile 'red 'star)))
+  in: the range of
+      (->
+       (listof
+        (cons/c
+         integer?
+         (listof (cons/c integer? any/c))))
+       valid-board?)
+  contract from: #%embedded:Q/Common/map:
+  blaming: #%embedded:Q/Common/map:
+   (assuming the contract is correct)
+  at: <pkgs>/Q/Common/map.rkt:50:3
+  context...:
+   .../private/blame.rkt:346:0: raise-blame-error
+   .../private/arrow-val-first.rkt:486:18
+   .../Common/game-state.rkt:71:0: hash->turn-info++
+   body of '#%mzc:xlegal
+---------------------------------
+(*** score 0)
+(*** on)
+'(#hasheq((map . ((1 (1 #hasheq((color . "red") (shape . "star"))))))
+          (players
+           .
+           (#hasheq((score . 0)
+                    (tile*
+                     .
+                     (#hasheq((color . "red") (shape . "clover"))
+                      #hasheq((color . "red") (shape . "circle"))
+                      #hasheq((color . "red") (shape . "diamond"))
+                      #hasheq((color . "green") (shape . "star"))
+                      #hasheq((color . "blue") (shape . "diamond"))
+                      #hasheq((color . "orange") (shape . "8star")))))
+            0
+            0
+            0))
+          (tile* . 1055))
+  (#hasheq((1tile . #hasheq((color . "blue") (shape . "clover")))
+           (coordinate . #hasheq((column . 2) (row . 1))))
+   #hasheq((1tile . #hasheq((color . "red") (shape . "circle")))
+           (coordinate . #hasheq((column . 3) (row . 1))))
+   #hasheq((1tile . #hasheq((color . "red") (shape . "diamond")))
+           (coordinate . #hasheq((column . 4) (row . 1))))))
+(*** expected)
+'(#f)
+(*** but received)
+'(((plain fast with-newline plain-unicode) ()))
+
+
+(testing /course/cs4500f23/ta/tedium-workdir/testfest-results/4/38/Tests/4-in.json /course/cs4500f23/ta/tedium-workdir/testfest-results/4/38/Tests/4-out.json)
+---------------------------------
+(*** score 0)
+(*** on)
+'(#hasheq((map
+           .
+           ((1
+             (1 #hasheq((color . "red") (shape . "star")))
+             (2 #hasheq((color . "green") (shape . "star")))
+             (3 #hasheq((color . "blue") (shape . "star")))
+             (4 #hasheq((color . "orange") (shape . "star")))
+             (5 #hasheq((color . "yellow") (shape . "star"))))))
+          (players
+           .
+           (#hasheq((score . 3)
+                    (tile*
+                     .
+                     (#hasheq((color . "red") (shape . "8star"))
+                      #hasheq((color . "red") (shape . "circle"))
+                      #hasheq((color . "red") (shape . "square"))
+                      #hasheq((color . "green") (shape . "star"))
+                      #hasheq((color . "purple") (shape . "star"))
+                      #hasheq((color . "orange") (shape . "8star")))))
+            0
+            0
+            0))
+          (tile* . 1050))
+  (#hasheq((1tile . #hasheq((color . "purple") (shape . "star")))
+           (coordinate . #hasheq((column . 6) (row . 1))))))
+(*** expected)
+'(((1
+    (1 #hasheq((color . "red") (shape . "star")))
+    (2 #hasheq((color . "green") (shape . "star")))
+    (3 #hasheq((color . "blue") (shape . "star")))
+    (4 #hasheq((color . "orange") (shape . "star")))
+    (5 #hasheq((color . "yellow") (shape . "star")))
+    (6 #hasheq((color . "purple") (shape . "star"))))))
+(*** but received)
+'(((plain fast with-newline plain-unicode)
+   (((0)
+     (1
+      (1 #hasheq((color . "red") (shape . "star")))
+      (2 #hasheq((color . "green") (shape . "star")))
+      (3 #hasheq((color . "blue") (shape . "star")))
+      (4 #hasheq((color . "orange") (shape . "star")))
+      (5 #hasheq((color . "yellow") (shape . "star")))
+      (6 #hasheq((color . "purple") (shape . "star"))))))))
+
+
+()
+((passed 0) (total 3) (partial-score 0))
+

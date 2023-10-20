@@ -1,0 +1,22 @@
+[
+  [
+    -36,
+    [
+      -4,
+      {
+        "color": "red",
+        "shape": "square"
+      }
+    ]
+  ],
+  [
+    -35,
+    [
+      -4,
+      {
+        "color": "red",
+        "shape": "circle"
+      }
+    ]
+  ]
+]

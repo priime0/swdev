@@ -1,0 +1,22 @@
+{
+    "map": 
+    [
+        [0, [0, {"color":"red", "shape":"circle"}]]
+    ],   
+    "tile*" : 20,
+    "players" : 
+    [
+        {
+            "score": 20,
+            "tile*" : [{"color":"red", "shape":"diamond"}, {"color":"red", "shape":"8star"}] 
+        },
+        13,
+        10,
+        11
+    ]
+}
+[
+    {"coordinate": {"row":1, "column":0}, "1tile":{"color":"red", "shape":"diamond"}},
+    {"coordinate": {"row":2, "column":0}, "1tile":{"color":"red", "shape":"8star"}}
+]
+

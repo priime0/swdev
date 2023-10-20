@@ -1,0 +1,111 @@
+{
+    "map" : [
+                [
+                    -5,
+                    [
+                        0,
+                        {
+                            "color" : "red",
+                            "shape" : "circle"
+                        }
+                    ],
+                    [
+                        2,
+                        {
+                            "color" : "blue",
+                            "shape" : "square"
+                        }
+                    ]
+                ],
+                [
+                    -4,
+                    [
+                        0,
+                        {
+                            "color" : "red",
+                            "shape" : "circle"
+                        }
+                    ],
+                    [
+                        2,
+                        {
+                            "color" : "blue",
+                            "shape" : "square"
+                        }
+                    ]
+                ],
+                [
+                    -3,
+                    [
+                        0,
+                        {
+                            "color" : "red",
+                            "shape" : "square"
+                        }
+                    ],
+                    [
+                        2,
+                        {
+                            "color" : "blue",
+                            "shape" : "square"
+                        }
+                    ]
+                ],
+                [
+                    -2,
+                    [
+                        0,
+                        {
+                            "color" : "red",
+                            "shape" : "square"
+                        }
+                    ],
+                    [
+                        1,
+                        {
+                            "color" : "green",
+                            "shape" : "square"
+                        }
+                    ],
+                    [
+                        2,
+                        {
+                            "color" : "blue",
+                            "shape" : "square"
+                        }
+                    ]
+                ]
+            ],
+    "tile*" : 500,
+    "players" : [
+                    {
+                        "score" : 0,
+                        "tile*" : [
+                                    {
+                                        "color" : "blue",
+                                        "shape" : "square"
+                                    },
+                                    {
+                                        "color" : "red",
+                                        "shape" : "square"
+                                    }
+                                ]
+                    },
+                    0,
+                    0,
+                    0
+                ]
+}
+[
+    {
+        "coordinate" : {
+            "row" : -5,
+            "column" : 1
+        },
+        "1tile" : {
+            "color" : "red",
+            "shape" : "square"
+        }
+    }
+]
+
