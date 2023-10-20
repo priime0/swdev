@@ -1,0 +1,143 @@
+{
+  "map": [
+    [
+      0,
+      [
+        0,
+        {
+          "color": "blue",
+          "shape": "circle"
+        }
+      ]
+    ],
+    [
+      1,
+      [
+        0,
+        {
+          "color": "red",
+          "shape": "diamond"
+        }
+      ]
+    ],
+    [
+      2,
+      [
+        0,
+        {
+          "color": "red",
+          "shape": "diamond"
+        }
+      ]
+    ],
+    [
+      3,
+      [
+        0,
+        {
+          "color": "red",
+          "shape": "diamond"
+        }
+      ]
+    ],
+    [
+      4,
+      [
+        0,
+        {
+          "color": "red",
+          "shape": "diamond"
+        }
+      ]
+    ],
+    [
+      5,
+      [
+        -1,
+        {
+          "color": "blue",
+          "shape": "circle"
+        }
+      ],
+      [
+        0,
+        {
+          "color": "blue",
+          "shape": "circle"
+        }
+      ]
+    ]
+  ],
+  "tile*": 10,
+  "players": [
+    {
+      "score": 1232,
+      "tile*": [
+        {
+          "color": "blue",
+          "shape": "circle"
+        },
+        {
+          "color": "blue",
+          "shape": "square"
+        },
+        {
+          "shape": "diamond",
+          "color": "blue"
+        },
+        {
+          "shape": "diamond",
+          "color": "blue"
+        },
+        {
+          "shape": "8star",
+          "color": "orange"
+        }
+      ]
+    },
+    1230,
+    3249
+  ]
+}
+[
+  {
+    "coordinate": {
+      "row": 0,
+      "column": -1
+    },
+    "1tile": {
+      "color": "blue",
+      "shape": "square"
+    }
+  },
+  {
+    "coordinate": {
+      "row": -1,
+      "column": -1
+    },
+    "1tile": {
+      "color": "blue",
+      "shape": "circle"
+    }
+  },
+  {
+    "coordinate": {
+      "column": -1,
+      "row": 3
+    },
+    "1tile": {
+      "shape": "diamond",
+      "color": "blue"
+    }
+  },
+  {
+    "coordinate": {
+      "column": -1,
+      "row": 4
+    },
+    "1tile": {
+      "shape": "diamond",
+      "color": "blue"
+    }
+  }
+]

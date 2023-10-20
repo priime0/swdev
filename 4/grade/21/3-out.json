@@ -1,0 +1,221 @@
+[
+  [
+    -1,
+    [
+      1,
+      {
+        "color": "red",
+        "shape": "square"
+      }
+    ],
+    [
+      4,
+      {
+        "color": "blue",
+        "shape": "square"
+      }
+    ],
+    [
+      7,
+      {
+        "color": "green",
+        "shape": "clover"
+      }
+    ],
+    [
+      10,
+      {
+        "color": "blue",
+        "shape": "8star"
+      }
+    ],
+    [
+      13,
+      {
+        "color": "orange",
+        "shape": "square"
+      }
+    ],
+    [
+      16,
+      {
+        "color": "purple",
+        "shape": "star"
+      }
+    ]
+  ],
+  [
+    0,
+    [
+      0,
+      {
+        "color": "red",
+        "shape": "circle"
+      }
+    ],
+    [
+      1,
+      {
+        "color": "red",
+        "shape": "circle"
+      }
+    ],
+    [
+      2,
+      {
+        "color": "purple",
+        "shape": "circle"
+      }
+    ],
+    [
+      3,
+      {
+        "color": "blue",
+        "shape": "circle"
+      }
+    ],
+    [
+      4,
+      {
+        "color": "blue",
+        "shape": "square"
+      }
+    ],
+    [
+      5,
+      {
+        "color": "blue",
+        "shape": "star"
+      }
+    ],
+    [
+      6,
+      {
+        "color": "green",
+        "shape": "star"
+      }
+    ],
+    [
+      7,
+      {
+        "color": "green",
+        "shape": "diamond"
+      }
+    ],
+    [
+      8,
+      {
+        "color": "green",
+        "shape": "diamond"
+      }
+    ],
+    [
+      9,
+      {
+        "color": "red",
+        "shape": "8star"
+      }
+    ],
+    [
+      10,
+      {
+        "color": "yellow",
+        "shape": "8star"
+      }
+    ],
+    [
+      11,
+      {
+        "color": "yellow",
+        "shape": "8star"
+      }
+    ],
+    [
+      12,
+      {
+        "color": "orange",
+        "shape": "square"
+      }
+    ],
+    [
+      13,
+      {
+        "color": "orange",
+        "shape": "star"
+      }
+    ],
+    [
+      14,
+      {
+        "color": "orange",
+        "shape": "square"
+      }
+    ],
+    [
+      15,
+      {
+        "color": "purple",
+        "shape": "diamond"
+      }
+    ],
+    [
+      16,
+      {
+        "color": "purple",
+        "shape": "clover"
+      }
+    ],
+    [
+      17,
+      {
+        "color": "purple",
+        "shape": "circle"
+      }
+    ]
+  ],
+  [
+    1,
+    [
+      1,
+      {
+        "color": "red",
+        "shape": "8star"
+      }
+    ],
+    [
+      4,
+      {
+        "color": "blue",
+        "shape": "square"
+      }
+    ],
+    [
+      7,
+      {
+        "color": "green",
+        "shape": "clover"
+      }
+    ],
+    [
+      10,
+      {
+        "color": "blue",
+        "shape": "8star"
+      }
+    ],
+    [
+      13,
+      {
+        "color": "orange",
+        "shape": "square"
+      }
+    ],
+    [
+      16,
+      {
+        "color": "purple",
+        "shape": "8star"
+      }
+    ]
+  ]
+]

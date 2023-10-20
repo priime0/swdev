@@ -1,0 +1,52 @@
+(testing /course/cs4500f23/ta/tedium-workdir/github/fearless-mice/4/xlegal)
+(testing /course/cs4500f23/ta/23SwDev/Code/4/Tests/0-in.json /course/cs4500f23/ta/23SwDev/Code/4/Tests/0-out.json)
+add-tile: contract violation;
+ given posn isn't empty
+      b: (board (hash (posn 1 0) (tile 'red 'diamond) (posn 0 0) (tile 'red 'clover) (posn 2 0) (tile 'red 'circle)))
+      p: (posn 0 0)
+  in: (->i
+       ((b valid-board?) (p posn?) (t tile?))
+       #:pre/name
+       (b p)
+       "given posn isn't empty"
+       ((negate tile-at) b p)
+       #:pre/name
+       (b p)
+       "given posn has no adjacent tiles"
+       (has-adjacent-tiles? b p)
+       (result valid-board?))
+  contract from: #%embedded:Q/Common/map:
+  blaming: #%mzc:xlegal
+   (assuming the contract is correct)
+  at: <pkgs>/Q/Common/map.rkt:27:3
+  context...:
+   .../private/blame.rkt:346:0: raise-blame-error
+   .../private/arr-i.rkt:1086:19: ...ice/Q/Common/map.rkt:28:3
+   .../4/xlegal.rkt:23:0: valid-placements?
+   .../4/xlegal.rkt:47:0
+   body of '#%mzc:xlegal
+---------------------------------
+(*** score 0)
+(*** on)
+'(#hasheq((map
+           .
+           ((0 (0 #hasheq((color . "red") (shape . "clover"))))
+            (1 (0 #hasheq((color . "red") (shape . "diamond"))))
+            (2 (0 #hasheq((color . "red") (shape . "circle"))))))
+          (players
+           .
+           (#hasheq((score . 0)
+                    (tile* . (#hasheq((color . "red") (shape . "circle")))))))
+          (tile* . 0))
+  (#hasheq((1tile . #hasheq((color . "red") (shape . "circle")))
+           (coordinate . #hasheq((column . 0) (row . 0))))))
+(*** expected)
+'(#f)
+(*** but received)
+'(((plain fast with-newline plain-unicode) ()))
+
+
+(testing /course/cs4500f23/ta/23SwDev/Code/4/Tests/1-in.json /course/cs4500f23/ta/23SwDev/Code/4/Tests/1-out.json)
+(testing /course/cs4500f23/ta/23SwDev/Code/4/Tests/2-in.json /course/cs4500f23/ta/23SwDev/Code/4/Tests/2-out.json)
+((/course/cs4500f23/ta/23SwDev/Code/4/Tests/1-in.json /course/cs4500f23/ta/23SwDev/Code/4/Tests/1-out.json) (/course/cs4500f23/ta/23SwDev/Code/4/Tests/2-in.json /course/cs4500f23/ta/23SwDev/Code/4/Tests/2-out.json))
+((passed 2) (total 3) (partial-score 2))

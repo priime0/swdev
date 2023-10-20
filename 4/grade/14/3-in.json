@@ -1,0 +1,3 @@
+{"map":[[0,[0,{"color":"red","shape":"clover"}]]],"players":[{"score":0,"tile*":[{"color":"blue","shape":"clover"}, {"color":"orange","shape":"clover"}]}, 1, 1, 100000000],"tile*":20}
+[{"1tile":{"color":"blue","shape":"clover"},"coordinate":{"column":1,"row":0}},{"1tile":{"color":"orange","shape":"clover"},"coordinate":{"column":2,"row":0}}]
+

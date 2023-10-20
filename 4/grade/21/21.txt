@@ -1,0 +1,257 @@
+(testing /course/cs4500f23/ta/tedium-workdir/github/fearless-mice/4/xlegal)
+(testing /course/cs4500f23/ta/tedium-workdir/testfest-results/4/21/Tests/0-in.json /course/cs4500f23/ta/tedium-workdir/testfest-results/4/21/Tests/0-out.json)
+---------------------------------
+(*** score 0)
+(*** on)
+'(#hasheq((map
+           .
+           ((-10
+             (-3 #hasheq((color . "orange") (shape . "square")))
+             (-2 #hasheq((color . "blue") (shape . "8star")))
+             (-1 #hasheq((color . "green") (shape . "square")))
+             (0 #hasheq((color . "yellow") (shape . "square")))
+             (1 #hasheq((color . "blue") (shape . "circle"))))
+            (-9
+             (-3 #hasheq((color . "orange") (shape . "square")))
+             (-1 #hasheq((color . "red") (shape . "8star")))
+             (1 #hasheq((color . "red") (shape . "circle"))))
+            (-8
+             (-3 #hasheq((color . "green") (shape . "star")))
+             (-2 #hasheq((color . "green") (shape . "square")))
+             (-1 #hasheq((color . "purple") (shape . "star")))
+             (0 #hasheq((color . "blue") (shape . "square")))
+             (1 #hasheq((color . "green") (shape . "8star"))))
+            (-7
+             (-3 #hasheq((color . "blue") (shape . "square")))
+             (1 #hasheq((color . "red") (shape . "square"))))
+            (-6
+             (-3 #hasheq((color . "blue") (shape . "diamond")))
+             (-2 #hasheq((color . "blue") (shape . "square")))
+             (-1 #hasheq((color . "red") (shape . "square"))))
+            (-5
+             (-3 #hasheq((color . "blue") (shape . "square")))
+             (-1 #hasheq((color . "red") (shape . "circle")))
+             (0 #hasheq((color . "blue") (shape . "star")))
+             (1 #hasheq((color . "red") (shape . "star"))))))
+          (players
+           .
+           (#hasheq((score . 100)
+                    (tile*
+                     .
+                     (#hasheq((color . "blue") (shape . "star"))
+                      #hasheq((color . "blue") (shape . "star"))
+                      #hasheq((color . "blue") (shape . "square"))
+                      #hasheq((color . "blue") (shape . "circle"))
+                      #hasheq((color . "blue") (shape . "circle")))))
+            1
+            2))
+          (tile* . 5))
+  (#hasheq((1tile . #hasheq((color . "blue") (shape . "square")))
+           (coordinate . #hasheq((column . -3) (row . -4))))
+   #hasheq((1tile . #hasheq((color . "blue") (shape . "star")))
+           (coordinate . #hasheq((column . -2) (row . -4))))
+   #hasheq((1tile . #hasheq((color . "blue") (shape . "circle")))
+           (coordinate . #hasheq((column . -1) (row . -4))))
+   #hasheq((1tile . #hasheq((color . "blue") (shape . "circle")))
+           (coordinate . #hasheq((column . 0) (row . -4))))
+   #hasheq((1tile . #hasheq((color . "blue") (shape . "star")))
+           (coordinate . #hasheq((column . 1) (row . -4))))))
+(*** expected)
+'(((-10
+    (-3 #hasheq((color . "orange") (shape . "square")))
+    (-2 #hasheq((color . "blue") (shape . "8star")))
+    (-1 #hasheq((color . "green") (shape . "square")))
+    (0 #hasheq((color . "yellow") (shape . "square")))
+    (1 #hasheq((color . "blue") (shape . "circle"))))
+   (-9
+    (-3 #hasheq((color . "orange") (shape . "square")))
+    (-1 #hasheq((color . "red") (shape . "8star")))
+    (1 #hasheq((color . "red") (shape . "circle"))))
+   (-8
+    (-3 #hasheq((color . "green") (shape . "star")))
+    (-2 #hasheq((color . "green") (shape . "square")))
+    (-1 #hasheq((color . "purple") (shape . "star")))
+    (0 #hasheq((color . "blue") (shape . "square")))
+    (1 #hasheq((color . "green") (shape . "8star"))))
+   (-7
+    (-3 #hasheq((color . "blue") (shape . "square")))
+    (1 #hasheq((color . "red") (shape . "square"))))
+   (-6
+    (-3 #hasheq((color . "blue") (shape . "diamond")))
+    (-2 #hasheq((color . "blue") (shape . "square")))
+    (-1 #hasheq((color . "red") (shape . "square"))))
+   (-5
+    (-3 #hasheq((color . "blue") (shape . "square")))
+    (-1 #hasheq((color . "red") (shape . "circle")))
+    (0 #hasheq((color . "blue") (shape . "star")))
+    (1 #hasheq((color . "red") (shape . "star"))))
+   (-4
+    (-3 #hasheq((color . "blue") (shape . "square")))
+    (-2 #hasheq((color . "blue") (shape . "star")))
+    (-1 #hasheq((color . "blue") (shape . "circle")))
+    (0 #hasheq((color . "blue") (shape . "circle")))
+    (1 #hasheq((color . "blue") (shape . "star"))))))
+(*** but received)
+'(((plain fast with-newline plain-unicode)
+   (((-10
+      (-3 #hasheq((color . "orange") (shape . "square")))
+      (-2 #hasheq((color . "blue") (shape . "8star")))
+      (-1 #hasheq((color . "green") (shape . "square")))
+      (0 #hasheq((color . "yellow") (shape . "square")))
+      (1 #hasheq((color . "blue") (shape . "circle"))))
+     (-9
+      (-3 #hasheq((color . "orange") (shape . "square")))
+      (-1 #hasheq((color . "red") (shape . "8star")))
+      (1 #hasheq((color . "red") (shape . "circle"))))
+     (-8
+      (-3 #hasheq((color . "green") (shape . "star")))
+      (-2 #hasheq((color . "green") (shape . "square")))
+      (-1 #hasheq((color . "purple") (shape . "star")))
+      (0 #hasheq((color . "blue") (shape . "square")))
+      (1 #hasheq((color . "green") (shape . "8star"))))
+     (-7
+      (-3 #hasheq((color . "blue") (shape . "square")))
+      (1 #hasheq((color . "red") (shape . "square"))))
+     (-6
+      (-3 #hasheq((color . "blue") (shape . "diamond")))
+      (-2 #hasheq((color . "blue") (shape . "square")))
+      (-1 #hasheq((color . "red") (shape . "square"))))
+     (-5
+      (-3 #hasheq((color . "blue") (shape . "square")))
+      (-1 #hasheq((color . "red") (shape . "circle")))
+      (0 #hasheq((color . "blue") (shape . "star")))
+      (1 #hasheq((color . "red") (shape . "star"))))
+     (-4
+      (-3 #hasheq((color . "blue") (shape . "square")))
+      (-2 #hasheq((color . "blue") (shape . "star")))
+      (-1 #hasheq((color . "blue") (shape . "circle")))
+      (0 #hasheq((color . "blue") (shape . "circle")))
+      (1 #hasheq((color . "blue") (shape . "star"))))
+     (-3)
+     (-2)
+     (-1)
+     (0)))))
+
+
+(testing /course/cs4500f23/ta/tedium-workdir/testfest-results/4/21/Tests/1-in.json /course/cs4500f23/ta/tedium-workdir/testfest-results/4/21/Tests/1-out.json)
+(testing /course/cs4500f23/ta/tedium-workdir/testfest-results/4/21/Tests/2-in.json /course/cs4500f23/ta/tedium-workdir/testfest-results/4/21/Tests/2-out.json)
+(testing /course/cs4500f23/ta/tedium-workdir/testfest-results/4/21/Tests/3-in.json /course/cs4500f23/ta/tedium-workdir/testfest-results/4/21/Tests/3-out.json)
+hash->board++: broke its own contract
+  promised: valid-board?
+  produced: (board (hash (posn 1 16) (tile 'purple '8star) (posn 0 3) (tile 'blue 'circle) (posn 1 1) (tile 'red '8star) (posn 0 6) (tile 'green 'star) (posn 0 15) (tile 'purple 'diamond) (posn -1 7) (tile 'green 'clover) (posn 1 4) (tile 'blue 'square) (posn 0 2) ...
+  in: the range of
+      (->
+       (listof
+        (cons/c
+         integer?
+         (listof (cons/c integer? any/c))))
+       valid-board?)
+  contract from: #%embedded:Q/Common/map:
+  blaming: #%embedded:Q/Common/map:
+   (assuming the contract is correct)
+  at: <pkgs>/Q/Common/map.rkt:50:3
+  context...:
+   .../private/blame.rkt:346:0: raise-blame-error
+   .../private/arrow-val-first.rkt:486:18
+   .../Common/game-state.rkt:71:0: hash->turn-info++
+   body of '#%mzc:xlegal
+---------------------------------
+(*** score 0)
+(*** on)
+'(#hasheq((map
+           .
+           ((-1
+             (1 #hasheq((color . "red") (shape . "square")))
+             (4 #hasheq((color . "blue") (shape . "square")))
+             (7 #hasheq((color . "green") (shape . "clover")))
+             (10 #hasheq((color . "blue") (shape . "8star")))
+             (13 #hasheq((color . "orange") (shape . "square")))
+             (16 #hasheq((color . "purple") (shape . "star"))))
+            (0
+             (0 #hasheq((color . "red") (shape . "circle")))
+             (2 #hasheq((color . "purple") (shape . "circle")))
+             (3 #hasheq((color . "blue") (shape . "circle")))
+             (5 #hasheq((color . "blue") (shape . "star")))
+             (6 #hasheq((color . "green") (shape . "star")))
+             (8 #hasheq((color . "green") (shape . "diamond")))
+             (9 #hasheq((color . "red") (shape . "8star")))
+             (11 #hasheq((color . "yellow") (shape . "8star")))
+             (12 #hasheq((color . "orange") (shape . "square")))
+             (14 #hasheq((color . "orange") (shape . "square")))
+             (15 #hasheq((color . "purple") (shape . "diamond")))
+             (17 #hasheq((color . "purple") (shape . "circle"))))
+            (1
+             (1 #hasheq((color . "red") (shape . "8star")))
+             (4 #hasheq((color . "blue") (shape . "square")))
+             (7 #hasheq((color . "green") (shape . "clover")))
+             (10 #hasheq((color . "blue") (shape . "8star")))
+             (13 #hasheq((color . "orange") (shape . "square")))
+             (16 #hasheq((color . "purple") (shape . "8star"))))))
+          (players
+           .
+           (#hasheq((score . 1239)
+                    (tile*
+                     .
+                     (#hasheq((color . "red") (shape . "circle"))
+                      #hasheq((color . "blue") (shape . "square"))
+                      #hasheq((color . "green") (shape . "diamond"))
+                      #hasheq((color . "yellow") (shape . "8star"))
+                      #hasheq((color . "orange") (shape . "star"))
+                      #hasheq((color . "purple") (shape . "clover")))))
+            4
+            5))
+          (tile* . 120))
+  (#hasheq((1tile . #hasheq((color . "red") (shape . "circle")))
+           (coordinate . #hasheq((column . 1) (row . 0))))
+   #hasheq((1tile . #hasheq((color . "blue") (shape . "square")))
+           (coordinate . #hasheq((column . 4) (row . 0))))
+   #hasheq((1tile . #hasheq((color . "green") (shape . "diamond")))
+           (coordinate . #hasheq((column . 7) (row . 0))))
+   #hasheq((1tile . #hasheq((color . "yellow") (shape . "8star")))
+           (coordinate . #hasheq((column . 10) (row . 0))))
+   #hasheq((1tile . #hasheq((color . "orange") (shape . "star")))
+           (coordinate . #hasheq((column . 13) (row . 0))))
+   #hasheq((1tile . #hasheq((color . "purple") (shape . "clover")))
+           (coordinate . #hasheq((column . 16) (row . 0))))))
+(*** expected)
+'(((-1
+    (1 #hasheq((color . "red") (shape . "square")))
+    (4 #hasheq((color . "blue") (shape . "square")))
+    (7 #hasheq((color . "green") (shape . "clover")))
+    (10 #hasheq((color . "blue") (shape . "8star")))
+    (13 #hasheq((color . "orange") (shape . "square")))
+    (16 #hasheq((color . "purple") (shape . "star"))))
+   (0
+    (0 #hasheq((color . "red") (shape . "circle")))
+    (1 #hasheq((color . "red") (shape . "circle")))
+    (2 #hasheq((color . "purple") (shape . "circle")))
+    (3 #hasheq((color . "blue") (shape . "circle")))
+    (4 #hasheq((color . "blue") (shape . "square")))
+    (5 #hasheq((color . "blue") (shape . "star")))
+    (6 #hasheq((color . "green") (shape . "star")))
+    (7 #hasheq((color . "green") (shape . "diamond")))
+    (8 #hasheq((color . "green") (shape . "diamond")))
+    (9 #hasheq((color . "red") (shape . "8star")))
+    (10 #hasheq((color . "yellow") (shape . "8star")))
+    (11 #hasheq((color . "yellow") (shape . "8star")))
+    (12 #hasheq((color . "orange") (shape . "square")))
+    (13 #hasheq((color . "orange") (shape . "star")))
+    (14 #hasheq((color . "orange") (shape . "square")))
+    (15 #hasheq((color . "purple") (shape . "diamond")))
+    (16 #hasheq((color . "purple") (shape . "clover")))
+    (17 #hasheq((color . "purple") (shape . "circle"))))
+   (1
+    (1 #hasheq((color . "red") (shape . "8star")))
+    (4 #hasheq((color . "blue") (shape . "square")))
+    (7 #hasheq((color . "green") (shape . "clover")))
+    (10 #hasheq((color . "blue") (shape . "8star")))
+    (13 #hasheq((color . "orange") (shape . "square")))
+    (16 #hasheq((color . "purple") (shape . "8star"))))))
+(*** but received)
+'(((plain fast with-newline plain-unicode) ()))
+
+
+(testing /course/cs4500f23/ta/tedium-workdir/testfest-results/4/21/Tests/4-in.json /course/cs4500f23/ta/tedium-workdir/testfest-results/4/21/Tests/4-out.json)
+((/course/cs4500f23/ta/tedium-workdir/testfest-results/4/21/Tests/1-in.json /course/cs4500f23/ta/tedium-workdir/testfest-results/4/21/Tests/1-out.json) (/course/cs4500f23/ta/tedium-workdir/testfest-results/4/21/Tests/2-in.json /course/cs4500f23/ta/tedium-workdir/testfest-results/4/21/Tests/2-out.json) (/course/cs4500f23/ta/tedium-workdir/testfest-results/4/21/Tests/4-in.json /course/cs4500f23/ta/tedium-workdir/testfest-results/4/21/Tests/4-out.json))
+((passed 3) (total 5) (partial-score 3))
+

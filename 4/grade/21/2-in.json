@@ -1,0 +1,112 @@
+{
+  "map": [
+    [
+      100,
+      [
+        -8,
+        {
+          "color": "red",
+          "shape": "diamond"
+        }
+      ],
+      [
+        -7,
+        {
+          "color": "red",
+          "shape": "diamond"
+        }
+      ]
+    ],
+    [
+      101,
+      [
+        -8,
+        {
+          "color": "red",
+          "shape": "diamond"
+        }
+      ],
+      [
+        -7,
+        {
+          "color": "red",
+          "shape": "diamond"
+        }
+      ]
+    ]
+  ],
+  "tile*": 120,
+  "players": [
+    {
+      "score": 1239,
+      "tile*": [
+        {
+          "color": "blue",
+          "shape": "diamond"
+        },
+        {
+          "color": "blue",
+          "shape": "circle"
+        },
+        {
+          "color": "purple",
+          "shape": "circle"
+        },
+        {
+          "shape": "8star",
+          "color": "purple"
+        },
+        {
+          "shape": "8star",
+          "color": "orange"
+        },
+        {
+          "shape": "clover",
+          "color": "orange"
+        },
+        {
+          "shape": "clover",
+          "color": "yellow"
+        },
+        {
+          "shape": "clover",
+          "color": "yellow"
+        }
+      ]
+    },
+    4,
+    5
+  ]
+}
+[
+  {
+    "coordinate": {
+      "row": 100,
+      "column": -9
+    },
+    "1tile": {
+      "color": "blue",
+      "shape": "diamond"
+    }
+  },
+  {
+    "coordinate": {
+      "row": 100,
+      "column": -10
+    },
+    "1tile": {
+      "color": "blue",
+      "shape": "circle"
+    }
+  },
+  {
+    "coordinate": {
+      "row": 101,
+      "column": -10
+    },
+    "1tile": {
+      "color": "purple",
+      "shape": "circle"
+    }
+  }
+]

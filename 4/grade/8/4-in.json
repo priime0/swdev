@@ -1,0 +1,2 @@
+{"map": [[1, [0, {"color":  "red", "shape":  "star"}]], [2, [0, {"color":  "green", "shape":  "8star"}]], [3, [0, {"color":  "blue", "shape":  "square"}]], [4, [0, {"color":  "yellow", "shape":  "circle"}]], [5, [0, {"color":  "orange", "shape":  "clover"}]]], "tile*":  300, "players":  [{"score":  0, "tile*":  [{"color":  "purple", "shape":  "diamond"}]}]}
+[{ "coordinate":  { "row":  6, "column":  0}, "1tile":  {"color": "purple", "shape":  "diamond"}}]

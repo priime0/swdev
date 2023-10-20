@@ -1,0 +1,10 @@
+[[-1,[-4,{"color":"orange","shape":"8star"}],
+             [-3,{"color":"red","shape":"8star"}],
+             [-2,{"color":"blue","shape":"8star"}],
+						 [-1,{"color":"yellow","shape":"8star"}],
+             [0,{"color":"green","shape":"8star"}],
+						 [1,{"color":"purple","shape":"8star"}]],
+ [0,[0,{"color":"green","shape":"8star"}],
+             [1,{"color":"yellow","shape":"8star"}],
+             [2,{"color":"red","shape":"8star"}]],
+ [1,[0,{"color":"green","shape":"diamond"}]]]
