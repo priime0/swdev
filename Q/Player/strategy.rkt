@@ -14,7 +14,7 @@
 
 
 (provide
- player-strategy
+ player-strategy<%>
  (contract-out
   [choose-tile
    (-> (listof tile?)
@@ -42,7 +42,7 @@
 
 ;; A PlayerStrategy is an interface that represents the functionality that any player strategy will
 ;; have to support, namely, choosing an action to perform given some turn information.
-(define player-strategy
+(define player-strategy<%>
   (interface ()
     #; {PlayerStrategy TurnInfo -> TurnAction}
     ;; Given some turn information for the player, produce a valid action to influence the game
@@ -105,95 +105,7 @@
      (place (append p1 p2))]))
 
 
-(define greedy-select-strategy%
-  (class* object% (player-strategy)
-    (super-new)
-
-    #; {-> [Listof [Pair Procedure Procedure]]}
-    ;; Produces an association list of binary comparison functions and accessor functions, so lists
-    ;; can be stable-sorted by extracting values from list elements with the accessor functions, and
-    ;; comparing them with the binary comparison functions.
-    (abstract get-compare-accessor-list)
-
-    #; {TurnInfo -> TurnAction}
-    (define/public (choose-action info)
-      (match-define [turn-info state _scores _history board tiles*] info)
-
-      (define first-maybe-tile-pair
-        (choose-tile (player-state-hand state) board))
-
-      (cond
-        [(cons? first-maybe-tile-pair)
-         (match-define [cons t posns] first-maybe-tile-pair)
-         (define compare-accessor-list
-           (send this get-compare-accessor-list))
-         (define posns-sort
-           (sort-by compare-accessor-list))
-         (choose-placement t posns posns-sort)]
-        [(>= tiles* (*hand-size*))
-         (exchange)]
-        [else
-         pass]))))
-
-
-;; The "dumb and greedy" strategy selects the smallest placeable tile from the player's hand, sorted
-;; lexicographically, and placed at the row-column order in smallest position for the tile on the
-;; board.
-(define dag%
-  (class greedy-select-strategy%
-    (super-new)
-
-    (define/override (get-compare-accessor-list)
-      (list (cons < posn-row)
-            (cons < posn-column)))))
-
-
-;; The "less dumb and still greedy" strategy selects the smallest placeable tile from the player's
-;; hand, sorted lexicographically, and placed in the position with the most neighbors, breaking ties
-;; with row-column order for coordinates.
-(define ldasg%
-  (class dag%
-    (super-new)
-
-    (define/override (get-compare-accessor-list)
-      (cons (cons > (lambda~> adjacent-tiles length))
-            (super get-compare-accessor-list)))))
-
-
-;; iterative strategy TODO: doesnt always produce valid moves -- it has to
-
-;; An "iterative strategy" contains some given strategy, accumulating an action by continuously
-;; applying the strategy until the next possible accumulated action is invalid.
-(define itstrat%
-  (class* object% (player-strategy)
-    (init s)
-
-    (define strat s)
-
-    (super-new)
-
-    (define/public (choose-action info)
-      ;; generative: produces an accumulated turn action
-      ;; terminates: when the last action is not a placement, or the produced new action is not
-      ;;             valid. Continues iterating until the hand is empty -- the hand is finite, so it
-      ;;             will terminate.
-      (let/ec return
-        (let loop ([action^ (pass)]
-                   [info^ info])
-          (define action  (send strat choose-action info^))
-          (define action+ (combine-actions action^ action))
-
-          (unless (valid-action? info action+)
-            (return action^))
-
-          (unless (place? action)
-            (return action+))
-
-          (define pment (first (place-placements action)))
-          (define info+ (update-turn-info info^ pment))
-          (loop action+ info+))))))
-
-
+#;
 (module+ test
   (require rackunit)
 
@@ -217,5 +129,6 @@
   (define dag1 (new dag%))
   (define istrat1 (new itstrat% [s dag1])))
 
+#;
 (module+ test
   )
