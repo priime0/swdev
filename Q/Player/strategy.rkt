@@ -19,7 +19,7 @@
   [choose-tile
    (-> (listof tile?)
        board?
-       (or/c (cons/c tile? (listof placement?))
+       (or/c (cons/c tile? (listof posn?))
              #f))]
   [choose-placement
    (-> tile?
@@ -128,7 +128,3 @@
 
   (define dag1 (new dag%))
   (define istrat1 (new itstrat% [s dag1])))
-
-#;
-(module+ test
-  )

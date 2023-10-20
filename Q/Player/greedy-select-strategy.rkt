@@ -31,7 +31,7 @@
         [(cons? first-maybe-tile-pair)
          (match-define [cons t posns] first-maybe-tile-pair)
          (define compare-accessor-list
-           (send this get-compare-accessor-list))
+           (send this get-compare-accessor-list info))
          (define posns-sort
            (sort-by compare-accessor-list))
          (choose-placement t posns posns-sort)]
