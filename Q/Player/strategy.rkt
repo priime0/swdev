@@ -103,28 +103,3 @@
      (place pments)]
     [(cons (place p1) (place p2))
      (place (append p1 p2))]))
-
-
-#;
-(module+ test
-  (require rackunit)
-
-  (define turn-info-1
-    (turn-info
-     (player-state
-      'lucas
-      0
-      (list
-       (tile 'yellow 'clover)
-       (tile 'green 'diamond)
-       (tile 'yellow 'square)
-       (tile 'red 'clover)
-       (tile 'blue 'diamond)
-       (tile 'purple 'circle)))
-     '((andrey . 0) (luke . 0))
-     '()
-     (make-board (tile 'orange 'diamond))
-     17))
-
-  (define dag1 (new dag%))
-  (define istrat1 (new itstrat% [s dag1])))
