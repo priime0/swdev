@@ -40,8 +40,7 @@
 
 #; {type TurnAction = (U (place-tile [Listof TilePlacement])
                          (exchange)
-                         (pass)
-                         (round-end))}
+                         (pass))}
 ;; A TurnAction represents a possible action during a player turn, and is one of:
 ;; - A placement of tiles onto the board at the corresponding locations in the given order
 ;; - An exchange of all tiles in a player's hand
