@@ -2,7 +2,7 @@
 
 (require Q/Common/config)
 (require Q/Common/turn-info)
-(require Q/Common/player)
+(require Q/Common/player-state)
 (require Q/Common/data/turn-action)
 (require Q/Common/util/list)
 

@@ -12,7 +12,7 @@
 (require predicates)
 
 (require Q/Common/map)
-(require Q/Common/player)
+(require Q/Common/player-state)
 (require Q/Common/turn-info)
 (require Q/Common/config)
 (require Q/Common/data/turn-action)

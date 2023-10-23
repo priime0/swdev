@@ -5,7 +5,7 @@
 
 (require struct-plus-plus)
 
-(require Q/Common/player)
+(require Q/Common/player-state)
 (require Q/Common/data/turn-action)
 (require Q/Common/util/list)
 

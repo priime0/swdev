@@ -4,7 +4,7 @@
 (require predicates)
 
 (require Q/Common/turn-info)
-(require Q/Common/player)
+(require Q/Common/player-state)
 (require Q/Common/map)
 (require Q/Common/data/tile)
 (require Q/Common/data/posn)

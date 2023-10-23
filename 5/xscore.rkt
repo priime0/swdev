@@ -5,7 +5,7 @@
 (require Q/Common/turn-info)
 (require Q/Common/map)
 (require Q/Common/data/turn-action)
-(require Q/Common/player)
+(require Q/Common/player-state)
 (require Q/Common/config)
 
 (define jmap (read-json))

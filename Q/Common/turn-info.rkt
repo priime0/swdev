@@ -10,7 +10,7 @@
 (require threading)
 
 (require Q/Common/map)
-(require Q/Common/player)
+(require Q/Common/player-state)
 (require Q/Common/data/event)
 (require Q/Common/data/turn-action)
 (require Q/Common/data/posn)

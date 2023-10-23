@@ -11,7 +11,7 @@
 (require Q/Common/data/turn-action)
 (require Q/Common/turn-info)
 (require Q/Common/data/posn)
-(require Q/Common/player)
+(require Q/Common/player-state)
 (require Q/Common/data/tile)
 (require Q/Common/util/list)
 (require Q/Common/interfaces/serializable)
