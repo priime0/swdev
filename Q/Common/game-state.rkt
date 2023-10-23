@@ -28,7 +28,6 @@
  player-id?
  turn-action?
  (struct-out game-state)
- hash->turn-info++
  (contract-out
   [make-game-state
    (->i ([tiles (listof tile?)] [players (listof player-id?)])
@@ -46,24 +45,6 @@
         (not (game-over? gs))
         [result turn-info?])]
   [remove-player gs->gs/c]))
-
-;; 1) End of game? (export game-over?)  ^ referee now has to be able to
-;; check the round-based game-over rules (could delegate this to
-;; game-state) (maybe)
-;;
-;; 2) Referee could store list of past
-;; game states to resume from any point--or we could make this history
-;;
-;; 3) Create the game state with players - sort by age, then pass in to game state (make-game-state)
-;;
-;; 4) (def gs+ (take-turn ...)) ... (your-new-tiles (first (game-state-players gs+)))
-;; Define (new-tiles ...) helper (public) for referee to inform the player who just took their turn
-;; of their new hand
-;;
-;; 5) EOG - produce final message for each player (win/lose, final score, etc)
-;;
-;; we have partial (1) (3), no functionality for (2), (4), (5)
-
 
 
 #; {JPub -> TurnInfo}
@@ -146,6 +127,7 @@
     (~>> handout
          (segment (*hand-size*))
          (map make-player-state player-ids)))
+  
 
   (game-state++ #:board (make-board start-tile)
                 #:tiles tiles
