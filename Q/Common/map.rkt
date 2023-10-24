@@ -20,6 +20,7 @@
 
 (provide
  board?
+ valid-board?
  sequence?
  board-map
  bounds
