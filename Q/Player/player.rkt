@@ -1,0 +1,37 @@
+#lang racket
+
+(require racket/class)
+
+(require Q/Common/turn-info)
+(require Q/Common/map)
+(require Q/Common/interfaces/playable)
+(require Q/Common/data/turn-action)
+
+
+
+;; This Player is a concrete, stateless implementation of Playable with a name and a Strategy to act
+;; with.
+(define player%
+  (class* object% (playable<%>)
+    (init-field id)
+    (init-field strategy)
+    (super-new)
+
+    (define/public (name)
+      (symbol->string id))
+
+    (define/public (setup board tiles)
+      this%)
+
+    (define/public (take-turn info)
+      (unless (valid-board? (turn-info-board info))
+        (error 'take-turn
+               "invalid board received before taking turn"))
+
+      (send strategy choose-action info))
+
+    (define/public (new-tiles tiles)
+      (void))
+
+    (define/public (win won?)
+      (void))))
