@@ -92,7 +92,7 @@
         [result turn-info?]))
 
 #; {GameEvent GameState -> GameState}
-;; Updates the history of the given game state with the provided procedure
+;; Adds the given event to the history of the given game state
 (define (add-to-history evt gs)
   (set-game-state-history gs (cons evt (game-state-history gs))))
 
