@@ -2,9 +2,6 @@
 
 (require racket/generic)
 
-(require (rename-in data/functor
-                    [map fmap]))
-
 (require struct-plus-plus)
 (require 2htdp/image)
 
@@ -77,16 +74,16 @@
            [hand       (and/c (listof tile?)
                               valid-hand?)])
           #:transparent
-          #:methods gen:functor
-          [(define (map f x)
-             (match-define [player-state id score hand] x)
-             (player-state id score (f hand)))]
           #:methods gen:serializable
           [(define/generic ->jsexpr* ->jsexpr)
            (define (->jsexpr ps)
              (match-define [player-state _id score hand] ps)
              (hash 'score score
                    'tile* (map ->jsexpr* hand)))])
+
+#; {([Listof Tile] -> [Listof Tile]) PlayerState -> PlayerState}
+(define (apply-hand f ps)
+  (set-player-state-hand ps (f (player-state-hand ps))))
 
 
 #; {PlayerId [Listof Tile] -> PlayerState}
@@ -104,21 +101,19 @@
 #; {PlayerState [Listof Tile] -> PlayerState}
 ;; Removes the given tiles from the hand of the given player state.
 (define (remove-from-hand state tiles)
-  (fmap (curry remove-from tiles) state))
+  (apply-hand (curry remove-from tiles) state))
 
 
-#; {PlayerState -> (values PlayerState [Listof Tile])}
-;; Empties the hand of the given player state, returning the new empty-handed player state,
-;; and its former tiles.
+#; {PlayerState -> PlayerState}
+;; Empties the hand of the given player state
 (define (clear-hand state)
-  (values (fmap (thunk* '()) state)
-          (player-state-hand state)))
+  (apply-hand (thunk* '()) state))
 
 #; {PlayerState [Listof Tiles] Natural -> (values PlayerState [Listof Tiles])}
 ;; Vends the given number of tiles from the list to the player
 (define (vend-n-tiles state tiles n)
   (define-values (refill tiles+) (split-at tiles n))
-  (define state+ (fmap (curryr append refill) state))
+  (define state+ (apply-hand (curryr append refill) state))
   (values state+
           tiles+))
 
