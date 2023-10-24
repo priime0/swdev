@@ -10,6 +10,6 @@ Functionality
 15/15 bonus pts (other teams failing your tests)
 
 Inspection
-60/80 pts: See inspection.md
+65/80 pts: See inspection.md
 
-Total: 120/130 pts
+Total: 125/130 pts
