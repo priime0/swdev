@@ -1,0 +1,28 @@
+cd ../Q/ && raco pkg install --auto --skip-installed && cd ../5/ && raco exe xscore.rkt && chmod +x xscore
+Linking current directory as a package
+standard-module-name-resolver: collection not found
+  for module path: pfds/deque/real-time
+  collection: "pfds/deque"
+  in collection directories:
+   /home/mballantyne/.racket/8.10/collects
+   /proj/racket/plt-released/recent/collects/
+   ... [201 additional linked and package directories]
+  context...:
+   /proj/racket/plt-released/recent/collects/racket/require-transform.rkt:266:2: expand-import
+   /proj/racket/plt-released/recent/collects/racket/private/reqprov.rkt:746:5
+   /proj/racket/plt-released/recent/collects/racket/require-transform.rkt:266:2: expand-import
+   /proj/racket/plt-released/recent/collects/racket/private/reqprov.rkt:662:5
+   /proj/racket/plt-released/recent/collects/racket/require-transform.rkt:266:2: expand-import
+   /proj/racket/plt-released/recent/collects/racket/private/reqprov.rkt:287:21: try-next
+   /proj/racket/plt-released/recent/collects/racket/private/reqprov.rkt:258:2
+   /proj/racket/plt-released/recent/collects/syntax/wrap-modbeg.rkt:46:4
+   /proj/racket/plt-released/recent/collects/compiler/embed.rkt:445:0: get-code
+   /proj/racket/plt-released/recent/collects/racket/private/map.rkt:267:2: gen-for-each
+   /proj/racket/plt-released/recent/collects/compiler/embed.rkt:1183:0: do-write-module-bundle
+   /proj/racket/plt-released/recent/collects/compiler/embed.rkt:1663:15: write-module
+   /proj/racket/plt-released/recent/collects/compiler/embed.rkt:1798:29
+   /proj/racket/plt-released/recent/collects/compiler/private/elf.rkt:288:0: expand-elf
+   /proj/racket/plt-released/recent/collects/compiler/embed.rkt:1567:6
+   /proj/racket/plt-released/recent/share/pkgs/compiler-lib/compiler/commands/exe.rkt:100:0
+   ...
+make: *** [Makefile:2: xscore] Error 1

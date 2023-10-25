@@ -1,0 +1,59 @@
+[
+    [
+        0,
+        [
+            0,
+            {
+                "color": "green",
+                "shape": "circle"
+            }
+        ],
+        [
+            1,
+            {
+                "color": "blue",
+                "shape": "circle"
+            }
+        ],
+        [
+            2,
+            {
+                "color": "red",
+                "shape": "circle"
+            }
+        ],
+        [
+            3,
+            {
+                "color": "purple",
+                "shape": "circle"
+            }
+        ],
+        [
+            4,
+            {
+                "color": "orange",
+                "shape": "circle"
+            }
+        ],
+        [
+            5,
+            {
+                "color": "yellow",
+                "shape": "circle"
+            }
+        ]
+    ]
+]
+[
+    {
+        "coordinate": {
+            "row": 0,
+            "column": 5
+        },
+        "1tile": {
+            "color": "yellow",
+            "shape": "circle"
+        }
+    }
+]

@@ -1,0 +1,5 @@
+[[0,[0,{"color":"red","shape":"star"}],[1,{"color":"red","shape":"circle"}]], [1,[2, {"color": "purple", "shape":  "circle"}], [1, {"color": "purple", "shape":  "diamond"}], [0, {"color": "purple", "shape":  "star"}], [3, {"color": "purple", "shape":  "8star"}], [4, {"color": "purple", "shape":  "square"}], [5, {"color": "purple", "shape":  "clover"}]]]
+[{"1tile": {"color": "purple", "shape": "clover"}, "coordinate": {"row":  1, "column":  5}}, {"1tile": {"color": "purple", "shape": "8star"}, "coordinate": {"row":  1, "column":  3}},{"1tile": {"color": "purple", "shape": "circle"}, "coordinate": {"row":  1, "column":  2}},{"1tile": {"color": "purple", "shape": "star"}, "coordinate": {"row":  1, "column":  0}}]
+
+
+

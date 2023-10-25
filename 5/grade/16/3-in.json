@@ -1,0 +1,24 @@
+[
+[-1, 
+[-3, {"color": "purple", "shape": "star"}]],
+[0,
+[-3, {"color": "purple", "shape": "circle"}],
+[-2, {"color": "green", "shape": "circle"}],
+[-1, {"color": "yellow", "shape": "circle"}],
+[0, {"color": "red", "shape": "circle"}],
+[1, {"color": "orange", "shape": "circle"}],
+[2, {"color": "blue", "shape": "circle"}]],
+[1, 
+[-3, {"color": "purple", "shape": "diamond"}],
+[0, {"color": "red", "shape": "8star"}]],
+[2, 
+[-3, {"color": "purple", "shape": "square"}],
+[-2, {"color": "red", "shape": "square"}],
+[-1, {"color": "yellow", "shape": "square"}],
+[0, {"color": "red", "shape": "square"}]],
+[3, [-3, {"color": "purple", "shape": "8star"}]],
+[4, [-3, {"color": "purple", "shape": "clover"}]]
+]
+[{"1tile": {"color": "purple", "shape": "star"}, "coordinate": {"row": -1, "column": -3}},
+{"1tile": {"color": "purple", "shape": "circle"}, "coordinate": {"row": 0, "column": -3}},
+{"1tile": {"color": "purple", "shape": "diamond"}, "coordinate": {"row": 1, "column": -3}}]

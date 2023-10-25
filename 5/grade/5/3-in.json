@@ -1,0 +1,13 @@
+[
+  [-1,
+    [0,{"color":"purple","shape":"square"}],
+    [1,{"color":"green","shape":"diamond"}]],
+  [0,
+    [0,{"color":"green","shape":"clover"}],
+    [1,{"color": "green","shape":"square"} ]],
+  [1,
+    [0,{"color":"purple","shape":"clover"}],
+    [1,{"color":"blue","shape":"square"}]]]
+
+[{"1tile":{"color":"green","shape":"square"},"coordinate":{"column":1,"row":0}}]
+
