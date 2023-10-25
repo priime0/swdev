@@ -1,0 +1,8 @@
+[[-100,
+  [100,{"color":"purple","shape":"square"}]],
+[-99,
+  [100,{"color":"green","shape":"clover"}],
+  [99,{"color":"blue","shape":"diamond"}]]]
+
+[{"1tile":{"color":"blue","shape":"diamond"},"coordinate":{"column":99,"row":-99}}]
+

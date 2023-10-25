@@ -1,0 +1,3 @@
+[[0,[0,{"color":"red","shape":"circle"}],[1,{"color":"orange","shape":"circle"}],[2,{"color":"yellow","shape":"circle"}],[3,{"color":"green","shape":"circle"}],[4,{"color":"blue","shape":"circle"}],[5,{"color":"purple","shape":"circle"}]],[1,[5,{"color":"purple","shape":"square"}]],[2,[5,{"color":"purple","shape":"star"}]],[3,[5,{"color":"purple","shape":"8star"}]],[4,[5,{"color":"purple","shape":"diamond"}]],[5,[5,{"color":"purple","shape":"clover"}]]]
+[{"coordinate":{"row":0,"column":5},"1tile":{"color":"purple","shape":"circle"}}]
+

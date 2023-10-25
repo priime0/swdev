@@ -1,0 +1,16 @@
+[
+    [0,
+        [0, {"color" : "blue","shape" : "circle"}],
+        [1, {"color" : "green","shape" : "circle"}],
+        [2, {"color" : "purple","shape":"circle"}],
+        [3, {"color" : "red","shape" : "circle"}],
+        [4, {"color": "yellow","shape":"circle"}],
+        [5, {"color" : "orange","shape" : "circle"}],
+        [6, {"color" : "blue","shape" : "circle"}]
+    ]
+]
+[
+    {"coordinate": { "row":0, "column":6},
+    "1tile":{"color":"blue","shape":"circle"}}
+]
+

@@ -1,0 +1,4 @@
+[[0, [0, {"color":"green","shape":"circle"}],[1, {"color":"orange","shape":"circle"}]],
+[1, [0, {"color":"green","shape":"square"}], [1, {"color":"orange","shape":"square"}]],
+[2, [0, {"color":"green","shape":"diamond"}], [1, {"color":"orange","shape":"diamond"}], [2, {"color":"blue","shape":"diamond"}]]]
+[{"1tile":{"color":"green","shape":"diamond"},"coordinate":{"column":0,"row":2}}]

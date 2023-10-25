@@ -1,0 +1,11 @@
+[
+  [-1, [0, { "color": "yellow", "shape": "diamond" }]],
+  [0, [0, { "color": "orange", "shape": "diamond" }]],
+  [1, [0, { "color": "purple", "shape": "diamond" }]]
+]
+[
+  {
+    "coordinate": {"row": 1, "column": 0}, 
+    "1tile": {"color": "purple", "shape": "diamond"}
+  }
+]

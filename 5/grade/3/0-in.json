@@ -1,0 +1,15 @@
+[[-36,[-4,{"color":"red","shape":"square"}]],
+ [-35,[-4,{"color":"red","shape":"circle"}]]]
+[
+  {
+    "1tile": {
+      "color": "red",
+      "shape": "circle"
+    },
+    "coordinate": {
+      "row": -35,
+      "column": -4
+    }
+  }
+]
+

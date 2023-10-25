@@ -1,0 +1,182 @@
+[
+    [
+        0,
+        [
+            5,
+            {
+                "color" : "red",
+                "shape" : "circle"
+            }
+        ],
+        [
+            6,
+            {
+                "color" : "blue",
+                "shape" : "circle"
+            }
+        ],
+        [
+            7,
+            {
+                "color" : "red",
+                "shape" : "circle"
+            }
+        ]
+    ],
+    [
+        1,
+        [
+            0,
+            {
+                "color" : "red",
+                "shape" : "square"
+            }
+        ],
+        [
+            1,
+            {
+                "color" : "blue",
+                "shape" : "square"
+            }
+        ],
+        [
+            2,
+            {
+                "color" : "red",
+                "shape" : "square"
+            }
+        ],
+        [
+            3,
+            {
+                "color" : "blue",
+                "shape" : "square"
+            }
+        ],
+        [
+            4,
+            {
+                "color" : "blue",
+                "shape" : "square"
+            }
+        ],
+        [
+            5,
+            {
+                "color" : "red",
+                "shape" : "square"
+            }
+        ],
+        [
+            7,
+            {
+                "color" : "red",
+                "shape" : "square"
+            }
+        ],
+        [
+            8,
+            {
+                "color" : "blue",
+                "shape" : "square"
+            }
+        ],
+        [
+            9,
+            {
+                "color" : "red",
+                "shape" : "square"
+            }
+        ],
+        [
+            10,
+            {
+                "color" : "blue",
+                "shape" : "square"
+            }
+        ],
+        [
+            11,
+            {
+                "color" : "red",
+                "shape" : "square"
+            }
+        ],
+        [
+            12,
+            {
+                "color" : "blue",
+                "shape" : "square"
+            }
+        ],
+        [
+            13,
+            {
+                "color" : "red",
+                "shape" : "square"
+            }
+        ]
+    ]
+]
+[
+    {
+        "coordinate" : {
+            "row" : 1,
+            "column" : 1
+        },
+        "1tile" : {
+            "color" : "blue",
+            "shape" : "square"
+        }
+    },
+    {
+        "coordinate" : {
+            "row" : 1,
+            "column" : 2
+        },
+        "1tile" : {
+            "color" : "red",
+            "shape" : "square"
+        }
+    },
+    {
+        "coordinate" : {
+            "row" : 1,
+            "column" : 3
+        },
+        "1tile" : {
+            "color" : "blue",
+            "shape" : "square"
+        }
+    },
+    {
+        "coordinate" : {
+            "row" : 1,
+            "column" : 8
+        },
+        "1tile" : {
+            "color" : "blue",
+            "shape" : "square"
+        }
+    },
+    {
+        "coordinate" : {
+            "row" : 1,
+            "column" : 9
+        },
+        "1tile" : {
+            "color" : "red",
+            "shape" : "square"
+        }
+    },
+    {
+        "coordinate" : {
+            "row" : 1,
+            "column" : 10
+        },
+        "1tile" : {
+            "color" : "blue",
+            "shape" : "square"
+        }
+    }
+]

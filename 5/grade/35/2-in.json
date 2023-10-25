@@ -1,0 +1,53 @@
+[
+  [-2,
+    [-4,
+      {"color" : "green" , "shape" : "clover"}
+    ],
+    [-3,
+      {"color" : "blue" , "shape" : "clover"}
+    ],
+    [-2,
+      {"color" : "purple" , "shape" : "clover"}
+    ],
+    [-1,
+      {"color" : "green" , "shape" : "clover"}
+    ],
+    [0,
+      {"color" : "red" , "shape" : "clover"}
+    ],
+    [1,
+      {"color" : "yellow" , "shape" : "clover"}
+    ],
+    [2,
+      {"color" : "orange" , "shape" : "clover"}
+    ],
+    [3,
+      {"color" : "purple" , "shape" : "clover"}
+    ]
+  ],
+  [-1,
+    [-2,
+      {"color" : "purple" , "shape" : "8star"}
+    ],
+    [0,
+      {"color" : "red" , "shape" : "8star"}
+    ]
+  ],
+  [0,
+    [-2,
+      {"color" : "purple" , "shape" : "star"}
+    ],
+    [0,
+      {"color" : "red" , "shape" : "circle"}
+    ]
+  ],  
+  [1,
+    [-2,
+      {"color" : "purple" , "shape" : "square"}
+    ]
+  ]
+]
+
+[{"coordinate": {"row": -2, "column" : -4}, "1tile": {"color" : "green" , "shape" : "clover"}},
+ {"coordinate": {"row": -2, "column" : 3}, "1tile": {"color" : "purple" , "shape" : "clover"}}]
+

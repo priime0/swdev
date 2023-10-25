@@ -1,0 +1,57 @@
+[
+    [
+        -5,
+        [0, { "color": "red", "shape": "diamond" }],
+        [1, { "color": "green", "shape": "diamond" }],
+        [2, { "color": "blue", "shape": "diamond" }],
+        [3, { "color": "yellow", "shape": "diamond" }],
+        [4, { "color": "orange", "shape": "diamond" }],
+        [5, { "color": "purple", "shape": "diamond" }]
+    ],
+    [
+        -4,
+        [0, { "color": "red", "shape": "clover" }],
+        [1, { "color": "green", "shape": "clover" }],
+        [2, { "color": "blue", "shape": "clover" }],
+        [3, { "color": "yellow", "shape": "clover" }],
+        [4, { "color": "orange", "shape": "clover" }],
+        [5, { "color": "purple", "shape": "clover" }]
+    ],
+    [
+        -3,
+        [0, { "color": "red", "shape": "circle" }],
+        [1, { "color": "green", "shape": "circle" }],
+        [2, { "color": "blue", "shape": "circle" }],
+        [3, { "color": "yellow", "shape": "circle" }],
+        [4, { "color": "orange", "shape": "circle" }],
+        [5, { "color": "purple", "shape": "circle" }]
+    ],
+    [
+        -2,
+        [0, { "color": "red", "shape": "square" }],
+        [1, { "color": "green", "shape": "square" }],
+        [2, { "color": "blue", "shape": "square" }],
+        [3, { "color": "yellow", "shape": "square" }],
+        [4, { "color": "orange", "shape": "square" }],
+        [5, { "color": "purple", "shape": "square" }]
+    ],
+    [
+        -1,
+        [0, { "color": "red", "shape": "8star" }],
+        [1, { "color": "green", "shape": "8star" }],
+        [2, { "color": "blue", "shape": "8star" }],
+        [3, { "color": "yellow", "shape": "8star" }],
+        [4, { "color": "orange", "shape": "8star" }],
+        [5, { "color": "purple", "shape": "8star" }]
+    ],
+    [
+        0,
+        [-1, { "color": "blue", "shape": "star" }],
+        [0, { "color": "red", "shape": "star" }],
+        [1, { "color": "green", "shape": "star" }],
+        [3, { "color": "yellow", "shape": "star" }],
+        [4, { "color": "orange", "shape": "star" }],
+        [5, { "color": "purple", "shape": "star" }]
+    ]
+]
+[{"coordinate":{"row":0,"column":4},"1tile":{"color":"orange","shape":"star"}}, {"coordinate":{"row":0,"column":5},"1tile":{"color":"purple","shape":"star"}}]
