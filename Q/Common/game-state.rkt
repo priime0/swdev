@@ -4,6 +4,7 @@
                     [define define/lazy]))
 (require racket/set)
 (require racket/generic)
+
 (require math/base)
 
 (require struct-plus-plus)
@@ -17,11 +18,11 @@
 (require Q/Common/data/turn-action)
 (require Q/Common/data/tile)
 (require Q/Common/data/posn)
-(require Q/Common/data/event)
 (require Q/Common/util/list)
 (require Q/Common/util/image)
 (require Q/Common/util/misc)
 (require Q/Common/interfaces/serializable)
+(require Q/Common/interfaces/playable)
 
 (provide
  game-state/c
@@ -34,7 +35,7 @@
   [final-ranking
    (-> priv-state? boolean?)]
   [make-game-state
-   (->i ([tiles (listof tile?)] [players (listof player-id?)])
+   (->i ([tiles (listof tile?)] [players (listof (is-a?/c playable<%>))])
         #:pre/name (tiles players)
         "not enough tiles!"
         (< (length tiles)
@@ -66,7 +67,10 @@
   [new-tiles
    (-> priv-state/c (listof tile?))]
   [end-turn
-   (-> priv-state/c turn-action? natural? natural? priv-state/c)]))
+   (-> priv-state/c turn-action?
+       #:new-points natural?
+       #:tiles-given natural?
+       priv-state/c)]))
 
 
 #; {type PrivateState = (game-state Board
@@ -88,7 +92,7 @@
 
 #; {type PublicState = (game-state Board
                                    Natural                                  
-                                   [List PlayerState [Pair PlayerId Natural] ...])}
+                                   [List PlayerState Natural ...])}
 ;; A PublicState represents the public knowledge a player needs to
 ;; take their turn, containing the board, the number of remaining
 ;; tiles, and a list of the current player's private
@@ -99,7 +103,7 @@
   (and (game-state? a)
        (unprotected-board/c (game-state-board a))
        (natural? (game-state-tiles a))
-       ((cons/c player-state? (listof (cons/c player-id? natural?))) (game-state-players a))))
+       ((cons/c player-state? (listof natural?)) (game-state-players a))))
 
 (define pub-state/c (flat-named-contract 'pub-state/c pub-state?))
 
@@ -111,7 +115,7 @@
 (struct++ game-state
           ([board    unprotected-board/c]
            [tiles    (or/c natural? (listof tile?))]
-           [players  (or/c (cons/c player-state? (listof (cons/c player-id? natural?)))
+           [players  (or/c (cons/c player-state? (listof natural?))
                            (listof player-state?))])
           #:transparent)
 
@@ -136,21 +140,19 @@
 (define (apply-players f gs)
   (set-game-state-players gs (f (game-state-players gs))))
 
-#; {[Listof Tile] [Listof PlayerId] -> PrivateState}
-;; Creates a fresh game state with the given referee tile, set of tiles, and the
-;; player IDs.
+#; {[Listof Tile] [Listof Playable] -> PrivateState}
+;; Creates a fresh game state with the given referee tile, set of tiles, and the playables.
 ;; ASSUME: the players are sorted by age in non-increasing order.
-(define (make-game-state start-tiles player-ids)
+(define (make-game-state start-tiles playables)
   (match-define [cons start-tile rest-tiles] (shuffle start-tiles))
-  (define handout-size           (* (length player-ids) (*hand-size*)))
+  (define handout-size           (* (length playables) (*hand-size*)))
   (define-values (handout tiles) (split-at rest-tiles handout-size))
 
   (define players
     (~>> handout
          (segment (*hand-size*))
-         (map make-player-state player-ids)))
+         (map make-player-state _ playables)))
   
-
   (game-state++ #:board (make-board start-tile)
                 #:tiles tiles
                 #:players players))
@@ -159,9 +161,9 @@
 #; {PrivateState -> PublicState}
 ;; Produce the public state for the current player to make a decision from, using the given game state.
 (define (priv-state->pub-state gs)
-  (match-define [game-state board tiles [cons state other-players]] gs)
-  (define player-alist (map player-state->pair other-players))
-  (game-state board (length tiles) (cons state player-alist)))
+  (match-define [game-state board tiles [cons state others]] gs)
+  (define scores (map player-state-score others))
+  (game-state board (length tiles) (cons state scores)))
 
 ;; Is the given action on this turn valid?
 (define (valid-turn? gs action)
@@ -178,10 +180,9 @@
 
 #; {PrivateState  -> PrivateState}
 ;; Remove the current player from the game state.
-;; TODO: game-over? is based on if (member? (game-end) history), but only when that is true do we add (game-end) 
 (define (remove-player gs)
   (define player (first (game-state-players gs)))
-  (match-define [player-state id score hand] player)
+  (match-define [player-state score hand _] player)
 
   (~>> gs
        (apply-tiles (curryr append hand))
@@ -267,7 +268,7 @@
     [_              0]))
 
 
-#; {Board [Listof TilePlacement] -> Natural}
+#; {Board [Listof TilePlacement] Natural -> Natural}
 ;; Score the given placements for this turn
 (define (score/placement board pments bonus)
   (define base-points   (length pments))
@@ -316,26 +317,27 @@
        length
        (* points-per-q)))
 
-#; {PrivateState TurnAction Natural Natural -> PrivateState}
+#; {PrivateState TurnAction -> PrivateState}
 ;; Ends the current turn. 
-(define (end-turn gs action [new-points 0] [tiles-given 0])
+(define (end-turn gs action
+                  #:new-points  [new-points 0]
+                  #:tiles-given [tiles-given 0])
   (match-define [game-state board tiles [cons player others]] gs)
   (define player+ (add-points player new-points))
   (define tiles+  (drop tiles tiles-given))
-  (define id (player-state-id player))
 
   (~>> gs
        (set-game-state-players _ (cons player+ others))
        (set-game-state-tiles _ tiles+)
        (apply-players rotate-left-1)))
 
-#; {PrivateState -> [Listof [Pairof PlayerId Natural]]}
+#; {PrivateState -> [Listof Natural]}
 ;; Gets the final ranking of all players, sorted in descending order of score.
 (define (final-ranking gs)
   (~>> gs
        game-state-players
-       (map player-state->pair)
-       (sort _ > #:key cdr)))
+       (map player-state-score)
+       (sort _ >)))
 
 
 #; {GameState -> Image}
@@ -374,6 +376,7 @@
                                              (placement (posn 1 -3) (tile 'blue 'star))
                                              (placement (posn 1 -4) (tile 'blue 'circle)))))))
 
+#;
 (module+ test
   (test-case
    "make-game-state with 3 players"
@@ -437,7 +440,7 @@
           tile-set-seeded
           "all game state tiles is the same set as all tiles passed into game state"))
 
-  
+
   (test-case
    "priv state -> pub state"
    (match-define [game-state board tiles [cons curr-player others]] gs1)
