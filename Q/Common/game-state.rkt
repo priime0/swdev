@@ -10,6 +10,7 @@
 (require threading)
 (require 2htdp/image)
 (require predicates)
+(require json)
 
 (require Q/Common/map)
 (require Q/Common/player-state)
@@ -66,7 +67,9 @@
   [new-tiles
    (-> priv-state/c (listof tile?))]
   [end-turn
-   (-> priv-state/c turn-action? natural? natural? priv-state/c)]))
+   (-> priv-state/c turn-action? natural? natural? priv-state/c)]
+  [hash->pub-state
+   (-> jsexpr? pub-state/c)]))
 
 
 #; {type PrivateState = (game-state Board
@@ -336,6 +339,18 @@
        game-state-players
        (map player-state->pair)
        (sort _ > #:key cdr)))
+
+#; {JPub -> PublicState}
+(define (hash->pub-state jpub)
+  (define jmap (hash-ref jpub 'map))
+  (define tile* (hash-ref jpub 'tile*))
+  (define players (hash-ref jpub 'players))
+  (define jplayer (first players))
+  (define scores* (rest players))
+
+  (define state (hash->player-state++ jplayer))
+  (define board (hash->board++ jmap))
+  (game-state board tile* (cons state scores*)))
 
 
 #; {GameState -> Image}
