@@ -19,54 +19,56 @@
 (require Q/Common/interfaces/serializable)
 
 (provide
- board?
- valid-board?
  sequence?
- board-map
  bounds
+ unprotected-board/c
+ protected-board/c
  (contract-out
-  #:unprotected-submodule no-contract
-  [make-board (-> tile? valid-board?)]
-  [has-adjacent-tiles? (-> board? posn? boolean?)]
-  [tile-at (-> board? posn? (or/c tile? #f))]
+  [make-board (-> tile? unprotected-board/c)]
+  [has-adjacent-tiles? (-> unprotected-board/c posn? boolean?)]
+  [tile-at (-> unprotected-board/c posn? (or/c tile? #f))]
   [valid-placement?
-   (-> board?
+   (-> unprotected-board/c
        placement?
        boolean?)]
+  [valid-placements?
+   (-> unprotected-board/c
+       (listof placement?)
+       boolean?)]
   [add-tiles
-   (->i ([b board?] [pments (listof placement?)])
+   (->i ([b unprotected-board/c] [pments (listof placement?)])
         #:pre/name (b pments)
         "posns aren't empty"
         (andmap (negate (curry tile-at b))
                 pments)
-        [result valid-board?])]
+        [result unprotected-board/c])]
   [add-tile
-   (->i ([b board?] [pment placement?])
+   (->i ([b unprotected-board/c] [pment placement?])
         #:pre/name (b pment)
         "given posn isn't empty"
         ((negate tile-at) b (placement-posn pment))
         #:pre/name (b pment)
         "given posn has no adjacent tiles"
         (has-adjacent-tiles? b (placement-posn pment))
-        [result valid-board?])]
+        [result unprotected-board/c])]
   [adjacent-tiles
-   (-> board?
+   (-> unprotected-board/c
        posn?
        (listof tile?))]
   [valid-tile-placements
    (-> tile?
-       board?
+       unprotected-board/c
        (listof posn?))]
   [collect-sequence
-   (-> board?
+   (-> unprotected-board/c
        posn?
        axis?
        sequence?)]
   [hash->board++
    (-> (listof (cons/c integer? (listof (cons/c integer? any/c))))
-       board?)]
+       unprotected-board/c)]
   [render-board
-   (-> board? image?)]))
+   (-> unprotected-board/c image?)]))
 
 
 ;; {type Sequence = [Listof TilePlacement]}
@@ -96,7 +98,7 @@
 ;;              map.
 ;; INVARIANT 3: If there is at least one tile on the board, then the root posn is occupied.
 (struct++ board
-          ([map hash?])
+          ([map (hash/c posn? tile?)])
           #:transparent
           #:methods gen:serializable
           [(define/generic ->jsexpr* ->jsexpr)
@@ -110,35 +112,45 @@
              (for/list ([(row cells) (in-hash h)])
                (cons row cells)))])
 
-#; {(HashTable -> HashTable) Board -> Board}
-;; Applies the given procedure to the given board's map, returning a new board
-(define (apply-map f b)
-  (board (f (board-map b))))
 
 #; {Any -> Boolean}
-;; Is the given object a `board?` that satisfies the board's invariants?
+;; Is the given object a `board?` that has a map of posn to tile and a
+;; root position at (0, 0)?
 (define (valid-board? a)
   (define root-posn (posn 0 0))
   (define (has-root-posn? b)
     (tile-at a root-posn))
-  (define (continuous? b)
-    (define num-tiles (length (hash-keys (board-map b))))
-     (let loop ([dq (deque root-posn)] [visited (set)])
-       (cond
-         [(deque-empty? dq)
-          (= (set-count visited) num-tiles)]
-         [(set-member? visited (deque-head dq))
-          (loop (deque-tail dq) visited)]
-         [else
-          (match-define (cons p dq+) (deque-head+tail dq))
-          (define adj-posns (adjacent-posns a p))
-          (define adj-posns+ (filter-not (curry set-member? visited) adj-posns))
-          (define dq++ (foldl enqueue dq+ adj-posns+))
-          (define visited+ (set-add visited p))
-          (loop dq++ visited+)])))
+  (define (posn-tile-map? b)
+    (and ((listof posn?) (hash-keys (board-map b)))
+         ((listof tile?) (hash-values (board-map b)))))
 
-  ((conjoin board? has-root-posn? continuous?)
+  ((conjoin board? has-root-posn? posn-tile-map?)
    a))
+
+#; {Board -> Boolean}
+;; Does the board represent a fully connected graph?
+(define (connected? b)
+  (define root-posn (posn 0 0))
+  (define num-tiles (length (hash-keys (board-map b))))
+  (let loop ([dq (deque root-posn)] [visited (set)])
+    (cond
+      [(deque-empty? dq)
+       (= (set-count visited) num-tiles)]
+      [(set-member? visited (deque-head dq))
+       (loop (deque-tail dq) visited)]
+      [else
+       (match-define (cons p dq+) (deque-head+tail dq))
+       (define adj-posns (adjacent-posns b p))
+       (define adj-posns+ (filter-not (curry set-member? visited) adj-posns))
+       (define dq++ (foldl enqueue dq+ adj-posns+))
+       (define visited+ (set-add visited p))
+       (loop dq++ visited+)])))
+
+;; An Unprotected Board is a board that maintains invariants 1, 2, and 3.
+(define unprotected-board/c (flat-named-contract 'unprotected-board valid-board?))
+
+;; A Protected Board is a board that maintains all invariants, including connectedness.
+(define protected-board/c (flat-named-contract 'protected-board (and/c valid-board? connected?)))
 
 
 #; {JMap -> Board}
@@ -217,6 +229,16 @@
             (list row-adjacent-tiles col-adjacent-tiles)))
   
   (and adjacent-tiles? matches-neighbors?))
+
+#; {Board [Listof TilePlacement] -> Boolean}
+;; Is the given sequence of placements valid on this board? 
+(define (valid-placements? board placements)
+  (for/fold ([b^ board]
+             #:result (not (false? b^)))
+            ([pment placements]
+             #:break (not b^))
+    (and (valid-placement? b^ pment)
+         (add-tile b^ pment))))
 
 
 #; {Board Posn -> [Maybe Tile]}
@@ -323,6 +345,11 @@
             (max bot r)
             (min left c)
             (max right c))))
+
+#; {(HashTable -> HashTable) Board -> Board}
+;; Applies the given procedure to the given board's map, returning a new board
+(define (apply-map f b)
+  (board (f (board-map b))))
 
 #; {Board -> Image}
 (define (render-board b)

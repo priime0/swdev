@@ -3,7 +3,7 @@
 (require racket/class)
 
 (require Q/Common/map)
-(require Q/Common/turn-info)
+(require Q/Common/game-state)
 (require Q/Common/data/tile)
 (require Q/Common/data/turn-action)
 
@@ -21,10 +21,10 @@
     [name      (->m string?)]
     #; {Playable Board Tile -> Void}
     ;; Set up the player's knowledge of the game
-    [setup     (->m board? (listof tile?) void?)]
+    [setup     (->m protected-board/c (listof tile?) void?)]
     #; {Playable TurnInfo -> TurnAction}
     ;; Execute the player's strategy with the given turn information to produce an action.
-    [take-turn (->m turn-info? turn-action?)]
+    [take-turn (->m pub-state/c turn-action?)]
     #; {[Listof Tile] -> Void}
     ;; Give tiles to the player
     [new-tiles (->m (listof tile?) void?)]

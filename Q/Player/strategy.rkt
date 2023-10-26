@@ -3,7 +3,7 @@
 (require threading)
 (require predicates)
 
-(require Q/Common/turn-info)
+(require Q/Common/game-state)
 (require Q/Common/player-state)
 (require Q/Common/map)
 (require Q/Common/data/tile)
@@ -18,7 +18,7 @@
  (contract-out
   [choose-tile
    (-> (listof tile?)
-       board?
+       unprotected-board/c
        (or/c (cons/c tile? (listof posn?))
              #f))]
   [choose-placement
@@ -30,10 +30,6 @@
    (-> player-state?
        tile?
        player-state?)]
-  [update-turn-info
-   (-> turn-info?
-       placement?
-       turn-info?)]
   [combine-actions
    (-> turn-action?
        turn-action?
@@ -47,7 +43,7 @@
     #; {PlayerStrategy TurnInfo -> TurnAction}
     ;; Given some turn information for the player, produce a valid action to influence the game
     ;; state.
-    [choose-action (->m turn-info? turn-action?)]))
+    [choose-action (->m pub-state/c turn-action?)]))
 
 
 #; {[Listof Tile] Board -> [Maybe [Pairof Tile [Listof TilePlacement]]]}
@@ -76,16 +72,6 @@
 ;; Remove a single tile from the player's hand.
 (define (remove-placed state t)
   (remove-from-hand state (list t)))
-
-
-#; {TurnInfo Placement -> TurnInfo}
-;; Update the turn information with the given placement, removing the tile from the player's hand.
-(define (update-turn-info info pment)
-  (match-define [turn-info state _scores _history board _tiles*] info)
-  (define b+ (add-tile board pment))
-  (define s+ (remove-placed state (placement-tile pment)))
-  (turn-info s+ _scores _history b+ _tiles*))
-
 
 #; {TurnAction TurnAction -> TurnAction}
 ;; Combine two turn actions into one, where the first action is performed first.

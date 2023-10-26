@@ -1,7 +1,7 @@
 #lang racket
 
 (require Q/Common/config)
-(require Q/Common/turn-info)
+(require Q/Common/game-state)
 (require Q/Common/player-state)
 (require Q/Common/data/turn-action)
 (require Q/Common/util/list)
@@ -21,8 +21,8 @@
     (abstract get-compare-accessor-list)
 
     #; {TurnInfo -> TurnAction}
-    (define/public (choose-action info)
-      (match-define [turn-info state _scores _history board tiles*] info)
+    (define/public (choose-action pub-state)
+      (match-define [game-state board tiles* [cons state others]] pub-state)
 
       (define first-maybe-tile-pair
         (choose-tile (player-state-hand state) board))
@@ -31,11 +31,11 @@
         [(cons? first-maybe-tile-pair)
          (match-define [cons t posns] first-maybe-tile-pair)
          (define compare-accessor-list
-           (send this get-compare-accessor-list info))
+           (send this get-compare-accessor-list pub-state))
          (define posns-sort
            (sort-by compare-accessor-list))
          (choose-placement t posns posns-sort)]
         [(>= tiles* (*hand-size*))
          (exchange)]
         [else
-         pass]))))
+         (pass)]))))

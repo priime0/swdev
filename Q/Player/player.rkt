@@ -2,7 +2,7 @@
 
 (require racket/class)
 
-(require Q/Common/turn-info)
+(require Q/Common/game-state)
 (require Q/Common/map)
 (require Q/Common/interfaces/playable)
 (require Q/Common/data/turn-action)
@@ -23,12 +23,12 @@
     (define/public (setup board tiles)
       this%)
 
-    (define/public (take-turn info)
-      (unless (valid-board? (turn-info-board info))
+    (define/public (take-turn pub-state)
+      (unless (protected-board/c (game-state-board pub-state))
         (error 'take-turn
                "invalid board received before taking turn"))
 
-      (send strategy choose-action info))
+      (send strategy choose-action pub-state))
 
     (define/public (new-tiles tiles)
       (void))

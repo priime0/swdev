@@ -1,6 +1,6 @@
 #lang racket
 
-(require Q/Common/turn-info)
+(require Q/Common/game-state)
 (require Q/Common/data/turn-action)
 
 (require Q/Player/strategy)
@@ -15,30 +15,30 @@
 
     (super-new)
 
-    (define/public (choose-action info)
+    (define/public (choose-action pub-state)
       ;; generative: produces an accumulated turn action
       ;; terminates: when the last action is not a placement, or the produced new action is not
       ;;             valid. Continues iterating until the hand is empty -- the hand is finite, so it
       ;;             will terminate.
       (let/ec return
         (let loop ([action^ (pass)]
-                   [info^ info])
-          (define action  (send strat choose-action info^))
+                   [pub-state^ pub-state])
+          (define action  (send strat choose-action pub-state^))
           (define action+ (combine-actions action^ action))
 
-          (unless (valid-action? info action+)
+          (unless (valid-turn? pub-state action+)
             (return action^))
 
           (unless (place? action)
             (return action+))
 
-          (define pment (first (place-placements action)))
-          (define info+ (update-turn-info info^ pment))
-          (loop action+ info+))))))
+          (define pub-state+ (apply-turn pub-state^ action))
+          (loop action+ pub-state+))))))
 
+#;
 (module+ test
   (require rackunit)
-  (require Q/Common/turn-info)
+  (require Q/Common/game-state)
   (require Q/Common/player-state)
   (require Q/Common/map)
   (require Q/Common/data/tile)

@@ -27,6 +27,12 @@
         "hand must be valid!"
         (valid-hand? hnd)
         [result player-state?])]
+  [add-to-hand
+   (-> player-state? (listof tile?)
+       player-state?)]
+  [deficit
+    (-> player-state?
+        natural?)]
   [remove-from-hand
    (->i ([ps  player-state?]
          [tls (listof tile?)])
@@ -41,8 +47,7 @@
   [refill-hand
    (-> player-state?
        (listof tile?)
-       (values player-state?
-               (listof tile?)))]
+       player-state?)]
   [add-points
    (-> player-state?
        natural?
@@ -62,7 +67,6 @@
 ;; Does the given hand have at most *hand-size* tiles?
 (define (valid-hand? hand)
   (<= (length hand) (*hand-size*)))
-
 
 #; {type PlayerState = (player-state PlayerId Natural [Listof Tile])}
 ;; A PlayerState represents a participating player's state during any instant of time, containing
@@ -85,6 +89,10 @@
 (define (apply-hand f ps)
   (set-player-state-hand ps (f (player-state-hand ps))))
 
+#; { PlayerState [Listof Tile] -> PlayerState }
+;; Adds the given tiles to the hand of this player state.
+(define (add-to-hand ps new-tiles)
+  (apply-hand (curryr append new-tiles) ps))
 
 #; {PlayerId [Listof Tile] -> PlayerState}
 ;; Creates a player with the given player id, hand, and a default score of 0.
@@ -103,19 +111,10 @@
 (define (remove-from-hand state tiles)
   (apply-hand (curry remove-from tiles) state))
 
-
 #; {PlayerState -> PlayerState}
 ;; Empties the hand of the given player state
 (define (clear-hand state)
   (apply-hand (thunk* '()) state))
-
-#; {PlayerState [Listof Tiles] Natural -> (values PlayerState [Listof Tiles])}
-;; Vends the given number of tiles from the list to the player
-(define (vend-n-tiles state tiles n)
-  (define-values (refill tiles+) (split-at tiles n))
-  (define state+ (apply-hand (curryr append refill) state))
-  (values state+
-          tiles+))
 
 #; {PlayerState -> Natural}
 ;; Computes the deficit in the hand
@@ -125,15 +124,15 @@
   (- (*hand-size*) hand-length))
 
 
-#; {PlayerState [Listof Tiles] -> (values PlayerState [Listof Tiles])}
+#; {PlayerState [Listof Tiles] -> PlayerState}
 ;; Replenishes the hand of the given player state from the given list of tiles, returning
-;; the new player state and the remaining tiles.
+;; the new player state, leaving the tiles unmodified.
 (define (refill-hand state tiles)
   (define missing     (deficit state))
   (define available   (length tiles))
   (define vendable    (min missing available))
 
-  (vend-n-tiles state tiles vendable))
+  (add-to-hand state (take tiles vendable)))
 
 #; {PlayerState Natural -> PlayerState}
 ;; Add the given number of points to the player state
@@ -260,29 +259,23 @@
   (test-values-equal?
    "clear empty hand"
    (clear-hand (make-player-state 'rohan '()))
-   (values (player-state 'rohan 0 '())
-           '()))
+   (player-state 'rohan 0 '()))
   
   (test-values-equal?
    "clear non-empty hand"
    (clear-hand ps1)
-   (values (player-state (player-state-id ps1)
-                         (player-state-score ps1)
-                         '())
-           (player-state-hand ps1)))
+   (player-state (player-state-id ps1)
+                 (player-state-score ps1)
+                 '()))
   
   (test-values-equal?
    "refill empty hand"
    (refill-hand (make-player-state 'andrey '()) sample-tiles)
-   
-   (values (make-player-state 'andrey (take sample-tiles (*hand-size*)))
-           (drop sample-tiles (*hand-size*))))
+   (make-player-state 'andrey (take sample-tiles (*hand-size*))))
   
   (test-values-equal?
    "refill non-empty hand"
    (refill-hand (make-player-state 'andrey (list (tile 'red 'square))) sample-tiles)
-   
-   (values (make-player-state 'andrey
-                              (append (list (tile 'red 'square))
-                                      (take sample-tiles (- (*hand-size*) 1))))
-           (drop sample-tiles (- (*hand-size*) 1)))))
+   (make-player-state 'andrey
+                      (append (list (tile 'red 'square))
+                              (take sample-tiles (- (*hand-size*) 1))))))
