@@ -8,7 +8,6 @@
 (require Q/Common/data/turn-action)
 
 
-
 ;; This Player is a concrete, stateless implementation of Playable with a name and a Strategy to act
 ;; with.
 (define player%

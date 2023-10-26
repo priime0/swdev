@@ -11,6 +11,7 @@
 (require threading)
 (require 2htdp/image)
 (require predicates)
+(require json)
 
 (require Q/Common/map)
 (require Q/Common/player-state)
@@ -28,6 +29,7 @@
  game-state/c
  pub-state/c
  priv-state/c
+ hash->pub-state
  (struct-out game-state)
  (contract-out
   [any-players?
@@ -338,6 +340,18 @@
        game-state-players
        (map player-state-score)
        (sort _ >)))
+
+#; {JPub -> PublicState}
+(define (hash->pub-state jpub)
+  (define jmap (hash-ref jpub 'map))
+  (define tile* (hash-ref jpub 'tile*))
+  (define players (hash-ref jpub 'players))
+  (define jplayer (first players))
+  (define scores* (rest players))
+
+  (define state (hash->player-state++ jplayer))
+  (define board (hash->board++ jmap))
+  (game-state board tile* (cons state scores*)))
 
 
 #; {GameState -> Image}

@@ -8,6 +8,8 @@
 (require Q/Player/strategy)
 (require Q/Player/dag)
 
+(provide ldasg%)
+
 ;; The "less dumb and still greedy" strategy selects the smallest placeable tile from the player's
 ;; hand, sorted lexicographically, and placed in the position with the most neighbors, breaking ties
 ;; with row-column order for coordinates.
