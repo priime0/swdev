@@ -1,5 +1,8 @@
 #lang racket
 
+(require threading)
+(require Q/Common/data/tile)
+
 (provide (all-defined-out))
 
 ;;;; TILE RENDERING
@@ -18,3 +21,11 @@
 
 ;; Determines the maximum size of a hand a player can hold.
 (define *hand-size* (make-parameter 6))
+
+;; Determine timeout in seconds for a player to take their turn
+(define *timeout*   (make-parameter 60))
+
+(define *q-tileset* (make-parameter (~>> (cartesian-product tile-colors tile-shapes)
+                                         (map (curry apply tile))
+                                         (build-list 30)
+                                         flatten)))
