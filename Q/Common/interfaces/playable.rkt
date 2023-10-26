@@ -1,11 +1,12 @@
 #lang racket
 
 (require racket/class)
+(require racket/lazy-require)
 
 (require Q/Common/map)
-(require Q/Common/game-state)
 (require Q/Common/data/tile)
 (require Q/Common/data/turn-action)
+(lazy-require [Q/Common/game-state (pub-state/c)])
 
 
 (provide playable<%>)
