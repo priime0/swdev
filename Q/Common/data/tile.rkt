@@ -74,8 +74,8 @@
 ;; tile-colors, which represent the canonical low->high ordering of
 ;; tiles.
 (define (sort-tiles tiles)
-  ((sort-by (list (cons (curry index<? tile-colors) tile-color)
-                  (cons (curry index<? tile-shapes) tile-shape)))
+  ((sort-by (list (cons (curry index<? tile-shapes) tile-shape)
+                  (cons (curry index<? tile-colors) tile-color)))
    tiles))
 
 #; {[Listof Tile] -> Boolean}
