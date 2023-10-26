@@ -19,7 +19,7 @@
     ["dag"   (new dag%)]
     ["ldasg" (new ldasg%)]))
 
-(define action (send strat pub-state))
+(define action (send strat choose-action pub-state))
 (define serialized-action
   (match action
     [(place pments) (->jsexpr (first pments))]
