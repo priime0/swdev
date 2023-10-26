@@ -1,6 +1,7 @@
 #lang racket
 
 (require racket/generic)
+(require racket/lazy-require)
 
 (require struct-plus-plus)
 (require 2htdp/image)
@@ -10,6 +11,7 @@
 (require Q/Common/util/list)
 (require Q/Common/util/test)
 (require Q/Common/interfaces/serializable)
+(require Q/Common/interfaces/playable)
 
 (provide
  player-state++
@@ -60,19 +62,20 @@
 (define (valid-hand? hand)
   (<= (length hand) (*hand-size*)))
 
-#; {type PlayerState = (player-state PlayerId Natural [Listof Tile])}
+#; {type PlayerState = (player-state Natural [Listof Tile] Playable)}
 ;; A PlayerState represents a participating player's state during any instant of time, containing
 ;; the points the player accrued during the game, along with the tiles in their hand during a move.
 ;; INVARIANT: The hand of a player state has a length L such that 0 ≤ L ≤ (*hand-size*).
 (struct++ player-state
-          ([(score 0)  natural?]
-           [hand       (and/c (listof tile?)
-                              valid-hand?)])
+          ([(score 0)       natural?]
+           [hand            (and/c (listof tile?)
+                                   valid-hand?)]
+           [(player #f)     (or/c (is-a?/c playable<%>) false?)])
           #:transparent
           #:methods gen:serializable
           [(define/generic ->jsexpr* ->jsexpr)
            (define (->jsexpr ps)
-             (match-define [player-state score hand] ps)
+             (match-define [player-state score hand _] ps)
              (hash 'score score
                    'tile* (map ->jsexpr* hand)))])
 
@@ -85,16 +88,18 @@
 (define (add-to-hand ps new-tiles)
   (apply-hand (curryr append new-tiles) ps))
 
-#; {PlayerId [Listof Tile] -> PlayerState}
+#; {[Listof Tile] -> PlayerState}
 ;; Creates a player with the given player id, hand, and a default score of 0.
-(define (make-player-state hand)
-  (player-state++ #:hand hand))
+(define (make-player-state hand [playable #f])
+  (player-state++ #:hand hand #:player playable))
 
 
 #; {JPlayer -> PlayerState}
 (define (hash->player-state++ jp)
-  (player-state (hash-ref jp 'score)
-                (map hash->tile++ (hash-ref jp 'tile*))))
+  (define score (hash-ref jp 'score))
+  (define hand (map hash->tile++ (hash-ref jp 'tile*)))
+  (player-state++ #:score score
+                  #:hand  hand))
 
 #; {PlayerState [Listof Tile] -> PlayerState}
 ;; Removes the given tiles from the hand of the given player state.
@@ -132,7 +137,7 @@
 
 #; {PlayerState -> Image}
 (define (render-player-state ps)
-  (match-define [player-state score hand] ps)
+  (match-define [player-state score hand _] ps)
   (define size (/ (*game-size*) 2))
   (define tiles-size (* (*game-size*) 2/3))
   (define text-image (text score size 'black))
@@ -153,7 +158,8 @@
                                   (tile 'green 'star)
                                   (tile 'purple '8star)
                                   (tile 'yellow 'clover)
-                                  (tile 'orange 'diamond))))
+                                  (tile 'orange 'diamond))
+                            #f))
   (define sample-tiles (list (tile 'red 'square)
                              (tile 'blue 'square)
                              (tile 'green 'square)
@@ -181,13 +187,15 @@
                         (tile 'orange 'circle)))))
   (test-equal?
    "remove tile list from hand"
-   (remove-from-hand ps1 (list (tile 'red 'square)
-                               (tile 'green 'star)))
+   (remove-from-hand ps1
+                     (list (tile 'red 'square)
+                           (tile 'green 'star)))
    (player-state 0
                  (list (tile 'blue 'circle)
                                 (tile 'purple '8star)
                                 (tile 'yellow 'clover)
-                                (tile 'orange 'diamond))))
+                                (tile 'orange 'diamond))
+                 #f))
   (test-equal?
    "remove empty tile list from hand"
    (remove-from-hand ps1 '())
@@ -196,7 +204,7 @@
   (test-equal?
    "make player state with empty tiles"
    (make-player-state '())
-   (player-state 0 '()))
+   (player-state 0 '() #f))
   
   (test-equal?
    "make player state with some tiles"
@@ -212,18 +220,20 @@
                        (tile 'green 'star)
                        (tile 'purple '8star)
                        (tile 'yellow 'clover)
-                       (tile 'orange 'diamond))))
+                       (tile 'orange 'diamond))
+                 #f))
   
   (test-values-equal?
    "clear empty hand"
    (clear-hand (make-player-state '()))
-   (player-state 0 '()))
+   (player-state 0 '() #f))
   
   (test-values-equal?
    "clear non-empty hand"
    (clear-hand ps1)
    (player-state (player-state-score ps1)
-                 '()))
+                 '()
+                 #f))
   
   (test-values-equal?
    "refill empty hand"
