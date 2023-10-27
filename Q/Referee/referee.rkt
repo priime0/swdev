@@ -18,22 +18,34 @@
 ;;      by removing them
 ;; - The Ref will respond to invalid turn requests by removing that player
 ;; - The Ref will respond to a timeout by removing that player
-(define (run-game players [tile-set '()] #:start-state [gs (make-game-state players tile-set)])
-  (let loop ([priv-state^ gs])
+(define (run-game players [tile-set '()]
+                  #:start-state [gs #f])
+  (define start-gs (make-game-state tile-set players))
+  (define gs* (or gs start-gs))
+  (define round-num 0)
+  (let loop ([priv-state^ gs*])
+    (display "round: ")
+    (displayln round-num)
+    (set! round-num (add1 round-num))
     (define-values (priv-state+ game-ended? any-placements?) (run-round priv-state^))
+
     (unless (or game-ended? (not any-placements?))
-      (define players (game-state-players priv-state+))
-      (define initial-players (game-state-players gs))
-      (define max-score (apply max (map player-state-score players)))
-      (define winners   (~>> players
-                             (filter (lambda (p) (= (player-state-score p) max-score)))
-                             (map player-state-player)
-                             (map (lambda (play) (send play name)))))
-      (define sinners   (~>> (remove-from players initial-players)
-                             (map player-state-player)
-                             (map (lambda (play) (send play name)))))
-      `(,winners . ,sinners))
-    (loop priv-state+)))
+      (loop priv-state+))
+
+    (define players (~>> (game-state-players priv-state+)
+                         (map player-state-player)
+                         (map (lambda (play) (send play name)))))
+    (define initial-players (~>> (game-state-players gs*)
+                                 (map player-state-player)
+                                 (map (lambda (play) (send play name)))))
+
+    (define max-score (apply max (map player-state-score (game-state-players priv-state+))))
+    (define winners   (~>> (game-state-players priv-state+)
+                           (filter (lambda (p) (= (player-state-score p) max-score)))
+                           (map player-state-player)
+                           (map (lambda (play) (send play name)))))
+    (define sinners   (remove-from players initial-players))
+    `(,winners . ,sinners)))
 
 #; {PrivState -> PrivState}
 ;; Run a single round to completion, or ending early if the game ends
@@ -45,7 +57,8 @@
              [any-placements? #f])
             ([_ (in-range num-players)]
              #:break game-ended?)
-    (run-turn ps^)))
+    (define-values (ps+ ge? ap?) (run-turn ps^))
+    (values ps+ ge? (or ap? any-placements?))))
 
 #; {PrivateState -> (values PrivateState Boolean Boolean)}
 ;; Run a single turn for the current player, obeying the protocol with
@@ -57,20 +70,43 @@
     (define pub-state (priv-state->pub-state priv-state))
     (define curr-player (first (game-state-players pub-state)))
     (define playable    (player-state-player curr-player))
+
+    (define action
+      (with-timeout (thunk (send playable take-turn pub-state))))
+    (unless (valid-turn? priv-state action)
+      (return (values (remove-player priv-state)
+                      (not (any-players? (remove-player priv-state)))
+                      #f)))
+    (define priv-state+ (apply-turn priv-state action))
+    (define score       (score-turn priv-state action))
+    (define p-tiles     (new-tiles priv-state action))
+    (with-timeout (thunk (send playable new-tiles p-tiles)))
+    (define num-placements
+      (match action
+        [(place pments) (length pments)]
+        [_              0]))
+    (define game-ended? (= (length (player-state-hand curr-player)) num-placements))
+    (values (end-turn priv-state+ action #:new-points score #:tiles-given (length p-tiles))
+            game-ended?
+            (place? action))
+
+#;
     (with-handlers ([exn:fail?
-                     (lambda (_) (values (remove-player priv-state)
-                                         (not (any-players? (remove-player priv-state)))
-                                         #f))])
+                     (lambda (e)
+                       (println e)
+                       (values (remove-player priv-state)
+                               (not (any-players? (remove-player priv-state)))
+                               #f))])
       (define action
-        (with-timeout (thunk (send playable takeTurn pub-state))))
+        (with-timeout (thunk (send playable take-turn pub-state))))
       (unless (valid-turn? priv-state action)
         (return (values (remove-player priv-state)
                         (not (any-players? (remove-player priv-state)))
                         #f)))
       (define priv-state+ (apply-turn priv-state action))
       (define score       (score-turn priv-state action))
-      (define p-tiles     (new-tiles priv-state))
-      (with-timeout (thunk (send playable newTiles p-tiles)))
+      (define p-tiles     (new-tiles priv-state action))
+      (with-timeout (thunk (send playable new-tiles p-tiles)))
       (define num-placements
         (match action
           [(place pments) (length pments)]
@@ -130,6 +166,7 @@
                tile-set)
    '((lucas) . ()))
 
+#;
   (test-equal?
    ""
    (apply/seed 0

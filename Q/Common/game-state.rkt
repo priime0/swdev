@@ -30,6 +30,7 @@
  pub-state/c
  priv-state/c
  hash->pub-state
+ render-game-state
  (struct-out game-state)
  (contract-out
   [any-players?
@@ -40,9 +41,9 @@
    (->i ([tiles (listof tile?)] [players (listof (is-a?/c playable<%>))])
         #:pre/name (tiles players)
         "not enough tiles!"
-        (< (length tiles)
-           (add1 (* (length players)
-                    (*hand-size*))))
+        (< (add1 (* (length players)
+                    (*hand-size*)))
+           (length tiles))
         [result priv-state/c])]
   [priv-state->pub-state
    (->i ([gs priv-state?])
@@ -195,7 +196,7 @@
 (define (new-tiles gs action)
   (define tiles* (game-state-tiles gs))
   (match action
-    [(place pments)  (take tiles* (length pments))]
+    [(place pments)  (take tiles* (min (length tiles*) (length pments)))]
     [(exchange)      (take tiles* (*hand-size*))]
     [_               0]))
 
@@ -218,7 +219,7 @@
   (define placed-tiles  (map placement-tile placements))
   (define state+        (remove-from-hand state placed-tiles))
   (define state++       (if (priv-state? gs)
-                            (add-to-hand state+ (take tiles (deficit state+)))
+                            (refill-hand state+ tiles)
                             state+))
 
   (game-state board+ tiles (cons state++ other-players)))
@@ -235,7 +236,7 @@
                       (+ tiles (length hand))))
   ;; TODO: This is reused code from apply-turn/placement in state++, refactor
   (define state++ (if (priv-state? gs)
-                      (add-to-hand state+ (take tiles (*hand-size*)))
+                      (refill-hand state+ tiles+)
                       state+))
 
   (game-state board tiles+ (cons state++ others)))

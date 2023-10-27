@@ -23,6 +23,7 @@
  (contract-out
   [make-player-state
    (->i ([hnd (listof tile?)])
+        ([playable (is-a?/c playable<%>)])
         #:pre/name (hnd)
         "hand must be valid!"
         (valid-hand? hnd)
