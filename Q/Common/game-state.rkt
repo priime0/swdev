@@ -67,7 +67,7 @@
   [score-turn
    (-> game-state/c turn-action? natural?)]
   [new-tiles
-   (-> priv-state/c (listof tile?))]
+   (-> priv-state/c turn-action? (listof tile?))]
   [end-turn
    (-> priv-state/c turn-action?
        #:new-points natural?
@@ -190,13 +190,14 @@
        (apply-tiles (curryr append hand))
        (apply-players rest)))
 
-#; {PrivateState -> [Listof Tile]}
-;; Gets the updated hand of the current player.
-(define (new-tiles gs)
-  (~>> gs
-       game-state-players
-       first
-       player-state-hand))
+#; {PrivateState TurnAction -> [Listof Tile]}
+;; Gets the new tiles of the current player.
+(define (new-tiles gs action)
+  (define tiles* (game-state-tiles gs))
+  (match action
+    [(place pments)  (take tiles* (length pments))]
+    [(exchange)      (take tiles* (*hand-size*))]
+    [_               0]))
 
 
 #; {GameState TurnAction -> GameState}
