@@ -1,12 +1,14 @@
 #lang racket
 
 (require racket/sandbox)
+(require threading)
 
 (require Q/Common/game-state)
 (require Q/Common/interfaces/playable)
 (require Q/Common/data/turn-action)
 (require Q/Common/config)
 (require Q/Common/player-state)
+(require Q/Common/util/list)
 
 ;; A Referee is a function from a list of players to the list of
 ;; winners and the list of rulebreakers.
@@ -16,45 +18,67 @@
 ;;      by removing them
 ;; - The Ref will respond to invalid turn requests by removing that player
 ;; - The Ref will respond to a timeout by removing that player
-(define (run-game players)
-  ;; TODO: pass in non empty tileset
-  (let loop ([gs (make-game-state players '())]) (loop)))
+(define (run-game players [tile-set '()] #:start-state [gs (make-game-state players tile-set)])
+  (let loop ([priv-state^ gs])
+    (define-values (priv-state+ game-ended? any-placements?) (run-round priv-state^))
+    (unless (or game-ended? (not any-placements?))
+      (define players (game-state-players priv-state+))
+      (define initial-players (game-state-players gs))
+      (define max-score (apply max (map player-state-score players)))
+      (define winners   (~>> players
+                             (filter (lambda (p) (= (player-state-score p) max-score)))
+                             (map player-state-player)
+                             (map (lambda (play) (send play name)))))
+      (define sinners   (~>> (remove-from players initial-players)
+                             (map player-state-player)
+                             (map (lambda (play) (send play name)))))
+      `(,winners . ,sinners))
+    (loop priv-state+)))
 
 #; {PrivState -> PrivState}
 ;; Run a single round to completion, or ending early if the game ends
 ;; before the round is over.
-#;
 (define (run-round ps)
   (define num-players (length (game-state-players ps)))
   (for/fold ([ps^ ps]
-             [kicked '()]
-             [placed-all-tiles? #f]
-             []
-             #:result ps)
-            ([i num-players]
-             #:break (or (not (any-players? (game-state-players ps)))
-                         placed-all-tiles?))
-    (define pub-state (priv-state->pub-state ps^))
+             [game-ended?     #f]
+             [any-placements? #f])
+            ([_ (in-range num-players)]
+             #:break game-ended?)
+    (run-turn ps^)))
 
-    ))
-
-#; {PrivateState -> PrivateState}
+#; {PrivateState -> (values PrivateState Boolean Boolean)}
 ;; Run a single turn for the current player, obeying the protocol with
-;; PrivateState, assuming that the game is not over.
+;; PrivateState, assuming that the game is not over.  Returns the
+;; updated state and whether this action ended the game, and whether
+;; this was a placement action.
 (define (run-turn priv-state)
-  (define pub-state (priv-state->pub-state priv-state))
-  (define curr-player (first (game-state-players pub-state)))
-  (with-handlers ([exn:fail?
-                   (lambda (_) (remove-player priv-state))])
-    (define action
-      (call-with-limits (*timeout*)
-                        #f
-                        (thunk (send (player-state-player curr-player) takeTurn pub-state))))
-    (cond
-      [(valid-turn? pub-state action) ])
-    
-    )
-  )
+  (let/ec return
+    (define pub-state (priv-state->pub-state priv-state))
+    (define curr-player (first (game-state-players pub-state)))
+    (define playable    (player-state-player curr-player))
+    (with-handlers ([exn:fail?
+                     (lambda (_) (values (remove-player priv-state)
+                                         (not (any-players? (remove-player priv-state)))
+                                         #f))])
+      (define action
+        (with-timeout (thunk (send playable takeTurn pub-state))))
+      (unless (valid-turn? priv-state action)
+        (return (values (remove-player priv-state)
+                        (not (any-players? (remove-player priv-state)))
+                        #f)))
+      (define priv-state+ (apply-turn priv-state action))
+      (define score       (score-turn priv-state action))
+      (define p-tiles     (new-tiles priv-state))
+      (with-timeout (thunk (send playable newTiles p-tiles)))
+      (define num-placements
+        (match action
+          [(place pments) (length pments)]
+          [_              0]))
+      (define game-ended? (= (length (player-state-hand curr-player)) num-placements))
+      (values (end-turn priv-state+ action #:new-points score #:tiles-given (length p-tiles))
+              game-ended?
+              (place? action)))))
 
 #; {(-> Any) -> Any}
 ;; Call the given think with this game's timeout, specified in config.
