@@ -43,7 +43,6 @@
      17
      (list
       (player-state
-       'lucas
        0
        (list
         (tile 'yellow 'clover)
@@ -51,9 +50,10 @@
         (tile 'yellow 'square)
         (tile 'red 'clover)
         (tile 'blue 'diamond)
-        (tile 'purple 'circle)))
-      (cons 'andrey 0)
-      (cons 'luke 0))))
+        (tile 'purple 'circle))
+       #f)
+      0
+      0)))
 
   (define pub-state-2
     (game-state
@@ -61,7 +61,6 @@
      6
      (list
       (player-state
-       'lucas
        0
        (list
         (tile 'green 'clover)
@@ -69,16 +68,16 @@
         (tile 'green 'square)
         (tile 'red 'clover)
         (tile 'blue 'diamond)
-        (tile 'purple 'circle)))
-      (cons 'andrey 0)
-      (cons 'luke 0))))
+        (tile 'purple 'circle))
+       #f)
+      0
+      0)))
 
   (define pub-state-3
     (game-state
      (make-board (tile 'yellow '8star))
      5
      (list (player-state
-            'lucas
             0
             (list
              (tile 'green 'clover)
@@ -86,25 +85,26 @@
              (tile 'green 'square)
              (tile 'red 'clover)
              (tile 'blue 'diamond)
-             (tile 'purple 'circle)))
-           (cons 'andrey 0)
-           (cons 'luke 0))))
+             (tile 'purple 'circle))
+            #f)
+           0
+           0)))
 
-  (define dag-1 (new dag%)))
+  (define ldasg-1 (new ldasg%)))
 
 (module+ test
   (test-equal?
    "choose a simple action"
-   (send dag-1 choose-action pub-state-1)
+   (send ldasg-1 choose-action pub-state-1)
    (place (list (placement (posn -2 0)
                            (tile 'red 'clover)))))
 
   (test-equal?
    "can't place, so exchange"
-   (send dag-1 choose-action pub-state-2)
+   (send ldasg-1 choose-action pub-state-2)
    (exchange))
 
   (test-equal?
    "can't place or exchange, so pass"
-   (send dag-1 choose-action pub-state-3)
+   (send ldasg-1 choose-action pub-state-3)
    (pass)))

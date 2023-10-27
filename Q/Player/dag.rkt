@@ -33,13 +33,13 @@
          (add-tile _ (placement (posn -1 0) (tile 'red 'diamond)))
          (add-tile _ (placement (posn -1 -1) (tile 'blue 'diamond)))))
 
+
   (define pub-state-1
     (game-state
      board-1
      17
      (list
       (player-state
-       'lucas
        0
        (list
         (tile 'yellow 'clover)
@@ -47,9 +47,10 @@
         (tile 'yellow 'square)
         (tile 'red 'clover)
         (tile 'blue 'diamond)
-        (tile 'purple 'circle)))
-      (cons 'andrey 0)
-      (cons 'luke 0))))
+        (tile 'purple 'circle))
+       #f)
+      0
+      0)))
 
   (define pub-state-2
     (game-state
@@ -57,7 +58,6 @@
      6
      (list
       (player-state
-       'lucas
        0
        (list
         (tile 'green 'clover)
@@ -65,16 +65,16 @@
         (tile 'green 'square)
         (tile 'red 'clover)
         (tile 'blue 'diamond)
-        (tile 'purple 'circle)))
-      (cons 'andrey 0)
-      (cons 'luke 0))))
+        (tile 'purple 'circle))
+       #f)
+      0
+      0)))
 
   (define pub-state-3
     (game-state
      (make-board (tile 'yellow '8star))
      5
      (list (player-state
-            'lucas
             0
             (list
              (tile 'green 'clover)
@@ -82,9 +82,10 @@
              (tile 'green 'square)
              (tile 'red 'clover)
              (tile 'blue 'diamond)
-             (tile 'purple 'circle)))
-           (cons 'andrey 0)
-           (cons 'luke 0))))
+             (tile 'purple 'circle))
+            #f)
+           0
+           0)))
 
   (define dag-1 (new dag%)))
 
