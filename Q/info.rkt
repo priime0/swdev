@@ -6,7 +6,8 @@
                "struct-plus-plus"
                "htdp"
                "functional-lib"
-               "predicates"))
+               "predicates"
+               "pfds"))
 (define build-deps '("racket-doc" "rackunit-lib"))
 (define pkg-desc "An implementation of the Q game")
 (define version "0.1")
