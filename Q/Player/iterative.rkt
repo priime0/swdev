@@ -35,41 +35,114 @@
           (define pub-state+ (apply-turn pub-state^ action))
           (loop action+ pub-state+))))))
 
-#;
 (module+ test
   (require rackunit)
   (require Q/Common/game-state)
   (require Q/Common/player-state)
   (require Q/Common/map)
   (require Q/Common/data/tile)
-  (require Q/Common/data/posn)
   (require Q/Common/data/turn-action)
+  (require Q/Common/data/posn)
+  (require Q/Player/ldasg)
   (require Q/Player/dag)
+  (require threading)
 
-  (define turn-info-1
-    (turn-info
-     (player-state
-      'lucas
+  (define board-1
+    (~>> (make-board (tile 'orange 'diamond))
+         (add-tile _ (placement (posn -1 0) (tile 'red 'diamond)))
+         (add-tile _ (placement (posn -1 -1) (tile 'blue 'diamond)))))
+
+  (define pub-state-1
+    (game-state
+     board-1
+     17
+     (list
+      (player-state
+       0
+       (list
+        (tile 'yellow 'clover)
+        (tile 'green 'diamond)
+        (tile 'yellow 'square)
+        (tile 'red 'clover)
+        (tile 'blue 'diamond)
+        (tile 'purple 'circle))
+       #f)
       0
-      (list
-       (tile 'yellow 'clover)
-       (tile 'green 'diamond)
-       (tile 'yellow 'square)
-       (tile 'red 'clover)
-       (tile 'blue 'diamond)
-       (tile 'purple 'circle)))
-     '((andrey . 0) (luke . 0))
-     '()
-     (make-board (tile 'orange 'diamond))
-     17))
+      0)))
 
-  (define dag (new dag%))
-  (define iterative (new itstrat% [s dag]))
+  (define pub-state-2
+    (game-state
+     (make-board (tile 'yellow '8star))
+     6
+     (list
+      (player-state
+       0
+       (list
+        (tile 'green 'clover)
+        (tile 'green 'diamond)
+        (tile 'green 'square)
+        (tile 'red 'clover)
+        (tile 'blue 'diamond)
+        (tile 'purple 'circle))
+       #f)
+      0
+      0)))
+
+  (define pub-state-3
+    (game-state
+     (make-board (tile 'yellow '8star))
+     5
+     (list (player-state
+            0
+            (list
+             (tile 'green 'clover)
+             (tile 'green 'diamond)
+             (tile 'green 'square)
+             (tile 'red 'clover)
+             (tile 'blue 'diamond)
+             (tile 'purple 'circle))
+            #f)
+           0
+           0)))
+
+  (define ldasg-1 (new ldasg%))
+  (define it-1 (new itstrat% [s ldasg-1]))
+  (define dag-1 (new dag%))
+  (define it-2 (new itstrat% [s dag-1])))
+
+(module+ test
+  (test-equal?
+   "choose a simple action"
+   (send it-1 choose-action pub-state-1)
+   (place (list
+           (placement (posn -2 0) (tile 'red 'clover))
+           (placement (posn -3 0) (tile 'yellow 'clover))
+           (placement (posn -4 0) (tile 'yellow 'square)))))
 
   (test-equal?
-   "choose a simple iterative action"
-   (send iterative choose-action turn-info-1)
-   (place (list (placement (posn -1 0)
-                           (tile 'green 'diamond))
-                (placement (posn -2 0)
-                           (tile 'blue 'diamond))))))
+   "can't place, so exchange"
+   (send it-1 choose-action pub-state-2)
+   (exchange))
+
+  (test-equal?
+   "can't place or exchange, so pass"
+   (send it-1 choose-action pub-state-3)
+   (pass))
+
+  (test-equal?
+   "choose a simple action"
+   (send it-2 choose-action pub-state-1)
+   (place (list
+           (placement (posn -2 0) (tile 'red 'clover))
+           (placement (posn -3 0) (tile 'yellow 'clover))
+           (placement (posn -4 0) (tile 'yellow 'square)))))
+
+  (test-equal?
+   "can't place, so exchange"
+   (send it-2 choose-action pub-state-2)
+   (exchange))
+
+  (test-equal?
+   "can't place or exchange, so pass"
+   (send it-2 choose-action pub-state-3)
+   (pass)))
