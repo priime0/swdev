@@ -1,7 +1,6 @@
 #lang racket
 
 (require threading)
-(require Q/Common/data/tile)
 
 (provide (all-defined-out))
 
