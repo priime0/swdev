@@ -24,8 +24,3 @@
 
 ;; Determine timeout in seconds for a player to take their turn
 (define *timeout*   (make-parameter 60))
-
-(define *q-tileset* (make-parameter (~>> (cartesian-product tile-colors tile-shapes)
-                                         (map (curry apply tile))
-                                         (build-list 30)
-                                         flatten)))

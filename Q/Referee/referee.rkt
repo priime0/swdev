@@ -56,5 +56,9 @@
     )
   )
 
-#; {(-> Any) -> 
-(define (with-timeout proc))
+#; {(-> Any) -> Any}
+;; Call the given think with this game's timeout, specified in config.
+(define (with-timeout proc)
+  (call-with-limits (*timeout*)
+                    #f
+                    proc))
