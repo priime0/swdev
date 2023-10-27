@@ -23,7 +23,7 @@
 (define serialized-action
   (match action
     [(place pments) (->jsexpr (first pments))]
-    [(exchange)     "exchange"]
+    [(exchange)     "replace"]
     [(pass)         "pass"]))
 
 (write-json serialized-action)
