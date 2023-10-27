@@ -62,3 +62,56 @@
   (call-with-limits (*timeout*)
                     #f
                     proc))
+
+
+(module+ test
+  (require rackunit)
+
+  (require racket/class)
+  (require threading)
+
+  (require Q/Common/util/test)
+  (require Q/Common/data/posn)
+  (require Q/Common/data/tile)
+  (require Q/Common/data/turn-action)
+  (require Q/Player/strategy)
+  (require Q/Player/player)
+  (require Q/Player/dag)
+  (require Q/Player/ldasg)
+
+  (define tile-set
+    (~>> (cartesian-product tile-colors tile-shapes)
+         (map (curry apply tile))))
+
+  (define dumb%
+    (class* object% (player-strategy<%>)
+      (super-new)
+
+      (define/public (choose-action pub-state)
+        (place (list (placement (posn 0 0)
+                                (tile 'red 'square)))))))
+
+  (define dag (new dag%))
+  (define ldasg (new ldasg%))
+  (define dumb (new dumb%))
+  
+
+  (test-equal?
+   ""
+   (apply/seed 0
+               run-game
+               (list (new player% [id 'andrey] [strategy dag])
+                     (new player% [id 'lucas]  [strategy ldasg])
+                     (new player% [id 'luke]   [strategy dag]))
+               tile-set)
+   '((lucas) . ()))
+
+  (test-equal?
+   ""
+   (apply/seed 0
+               run-game
+               (list (new player% [id 'luke]   [strategy dumb])
+                     (new player% [id 'andrey] [strategy dag])
+                     (new player% [id 'lucas]  [strategy ldasg]))
+               tile-set)
+   '((lucas) . (luke))))
