@@ -1,0 +1,114 @@
+[
+    [
+        0,
+        [
+            0,
+            {
+                "color": "blue",
+                "shape": "circle"
+            }
+        ]
+    ],
+    [
+        1,
+        [
+            0,
+            {
+                "color": "blue",
+                "shape": "diamond"
+            }
+        ]
+    ],
+    [
+        2,
+        [
+            0,
+            {
+                "color": "blue",
+                "shape": "8star"
+            }
+        ]
+    ],
+    [
+        3,
+        [
+            0,
+            {
+                "color": "blue",
+                "shape": "star"
+            }
+        ]
+    ],
+    [
+        4,
+        [
+            0,
+            {
+                "color": "blue",
+                "shape": "square"
+            }
+        ]
+    ],
+    [
+        5,
+        [
+            0,
+            {
+                "color": "blue",
+                "shape": "clover"
+            }
+        ]
+    ]
+]
+[
+    {
+        "1tile": {
+            "color": "blue",
+            "shape": "diamond"
+        },
+        "coordinate": {
+            "column": 0,
+            "row": 1
+        }
+    },
+    {
+        "1tile": {
+            "color": "blue",
+            "shape": "8star"
+        },
+        "coordinate": {
+            "column": 0,
+            "row": 2
+        }
+    },
+    {
+        "1tile": {
+            "color": "blue",
+            "shape": "star"
+        },
+        "coordinate": {
+            "column": 0,
+            "row": 3
+        }
+    },
+    {
+        "1tile": {
+            "color": "blue",
+            "shape": "square"
+        },
+        "coordinate": {
+            "column": 0,
+            "row": 4
+        }
+    },
+    {
+        "1tile": {
+            "color": "blue",
+            "shape": "clover"
+        },
+        "coordinate": {
+            "column": 0,
+            "row": 5
+        }
+    }
+]

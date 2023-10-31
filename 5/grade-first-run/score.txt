@@ -6,12 +6,10 @@ Delivery
 
 Functionality
 0/25 pts: Unable to run tests (see test-results.txt)
-25/25 pts: 5 valid tests (see test-audit-results.txt)
+15/25 pts: 3 valid tests (see test-audit-results.txt)
 25/25 bonus pts (other teams failing your tests)
 
 Inspection
 107/125 pts: See inspection.md
 
-Your score improved to 172 from 162 on the previous test run.
-
-Total: 172/195 pts
+Total: 162/195 pts

@@ -1,0 +1,40 @@
+[
+    [
+        -1,
+        [-2, { "color": "purple", "shape": "8star" }],
+        [-1, { "color": "purple", "shape": "star" }],
+        [0, { "color": "purple", "shape": "diamond" }]
+    ],
+    [
+        0,
+        [-2, { "color": "purple", "shape": "diamond" }],
+        [0, { "color": "yellow", "shape": "diamond" }],
+        [1, { "color": "yellow", "shape": "clover" }],
+        [2, { "color": "green", "shape": "clover" }],
+        [3, { "color": "green", "shape": "circle" }],
+        [4, { "color": "green", "shape": "8star" }]
+    ],
+    [
+        1,
+        [-2, { "color": "purple", "shape": "star" }],
+        [1, { "color": "red", "shape": "clover" }],
+        [2, { "color": "blue", "shape": "clover" }],
+        [3, { "color": "blue", "shape": "circle" }]
+    ],
+    [2, [-2, { "color": "purple", "shape": "clover" }]]
+]
+[
+    {
+        "1tile": { "color": "green", "shape": "circle" },
+        "coordinate": { "column": 3, "row": 0 }
+    },
+    {
+        "1tile": { "color": "green", "shape": "8star" },
+        "coordinate": { "column": 4, "row": 0 }
+    },
+    {
+        "1tile": { "color": "green", "shape": "clover" },
+        "coordinate": { "column": 2, "row": 0 }
+    }
+]
+

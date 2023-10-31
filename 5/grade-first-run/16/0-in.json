@@ -1,0 +1,12 @@
+[[0, 
+[-2, {"color": "green", "shape": "star"}],
+[-1, {"color": "red", "shape": "star"}],
+[0, {"color": "yellow", "shape": "star"}]],
+[1, 
+[-1, {"color": "red", "shape": "circle"}],
+[0, {"color": "yellow", "shape": "circle"}]],
+[2, 
+[-1, {"color": "red", "shape": "square"}],
+[0, {"color": "yellow", "shape": "square"}]]]
+[{"1tile":{"color": "red", "shape": "circle"}, 
+"coordinate":{"row": 1, "column": -1}}]

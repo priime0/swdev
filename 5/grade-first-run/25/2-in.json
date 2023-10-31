@@ -1,0 +1,3 @@
+[[0,[0,{"color":"red","shape":"clover"}]],[-1,[0,{"color":"green","shape":"clover"}]],[-2,[0,{"color":"blue","shape":"clover"}]],[-3,[0,{"color":"purple","shape":"clover"}]]]
+[{"coordinate":{"row":-2,"column":0},"1tile":{"color":"blue","shape":"clover"}},{"coordinate":{"row":-3,"column":0},"1tile":{"color":"purple","shape":"clover"}}]
+

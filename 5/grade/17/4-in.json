@@ -1,0 +1,19 @@
+[
+  [-5, [0, { "color": "green", "shape": "star" }]],
+  [-4, [0, { "color": "blue", "shape": "star" }]],
+  [-3, [0, { "color": "yellow", "shape": "star" }]],
+  [-2, [0, { "color": "orange", "shape": "star" }]],
+  [-1, [0, { "color": "purple", "shape": "star" }], [1, { "color": "purple", "shape": "8star" }]],
+  [0, [0, { "color": "red", "shape": "star" }], [1, { "color": "red", "shape": "8star" }], [2, { "color": "red", "shape": "square" }], [3, { "color": "red", "shape": "circle" }], [4, { "color": "red", "shape": "clover" }], [5, { "color": "red", "shape": "diamond" }]],
+  [1, [0, { "color": "green", "shape": "star" }], [1, { "color": "green", "shape": "8star" }]],
+  [2, [0, { "color": "blue", "shape": "star" }]],
+  [3, [0, { "color": "yellow", "shape": "star" }]],
+  [4, [0, { "color": "orange", "shape": "star" }]],
+  [5, [0, { "color": "purple", "shape": "star" }]]
+]
+[
+  {
+    "coordinate": {"row": 0, "column": 0}, 
+    "1tile": {"color": "red", "shape": "star"}
+  }
+]

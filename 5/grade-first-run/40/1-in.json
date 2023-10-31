@@ -1,0 +1,2 @@
+[[0,[0, {"color":  "red", "shape":  "star"}]],[1, [0, {"color":  "red", "shape":  "square"}]], [2, [0, {"color":  "green", "shape":  "star"}]]]
+[{ "coordinate":  { "row":  2, "column":  0}, "1tile":  {"color": "green", "shape":  "star"}}]

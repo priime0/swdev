@@ -1,0 +1,15 @@
+[
+  [-1, [-1, { "color": "blue", "shape": "square" }], [0, { "color": "blue", "shape": "clover" }], [1, { "color": "blue", "shape": "diamond" }]],
+  [0, [-1, { "color": "red", "shape": "square" }], [1, { "color": "orange", "shape": "diamond" }]],
+  [1, [-1, { "color": "green", "shape": "square" }], [0, { "color": "green", "shape": "circle" }], [1, { "color": "green", "shape": "diamond" }]]
+]
+[
+  {
+    "coordinate": {"row": -1, "column": -1}, 
+    "1tile": {"color": "blue", "shape": "square"}
+  },
+  {
+    "coordinate": {"row": 0, "column": -1}, 
+    "1tile": {"color": "red", "shape": "square"}
+  }
+]

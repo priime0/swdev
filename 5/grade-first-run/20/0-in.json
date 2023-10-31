@@ -1,0 +1,9 @@
+[
+[-6, [0, {"color": "orange", "shape": "clover"}]],
+[-5, [0, {"color": "orange", "shape": "square"}]],
+[-4, [0, {"color": "orange", "shape": "diamond"}]],
+[-3, [0, {"color": "orange", "shape": "star"}]],
+[-2, [0, {"color": "orange", "shape": "circle"}]],
+[-1, [0, {"color": "orange", "shape": "8star"}]]
+]
+[{"coordinate": {"row": -6, "column": 0}, "1tile": {"color": "orange", "shape": "clover"}}]

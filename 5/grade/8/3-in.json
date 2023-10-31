@@ -1,0 +1,76 @@
+[
+    [
+        0,
+        [
+            0,
+            {
+                "color": "green",
+                "shape": "circle"
+            }
+        ],
+        [
+            1,
+            {
+                "color": "green",
+                "shape": "square"
+            }
+        ],
+        [
+            2,
+            {
+                "color": "green",
+                "shape": "diamond"
+            }
+        ],
+        [
+            3,
+            {
+                "color": "green",
+                "shape": "8star"
+            }
+        ],
+        [
+            4,
+            {
+                "color": "green",
+                "shape": "star"
+            }
+        ],
+        [
+            5,
+            {
+                "color": "green",
+                "shape": "clover"
+            }
+        ],
+        [
+            6,
+            {
+                "color": "green",
+                "shape": "circle"
+            }
+        ]
+    ]
+]
+[
+    {
+        "coordinate": {
+            "row": 0,
+            "column": 5
+        },
+        "1tile": {
+            "color": "green",
+            "shape": "clover"
+        }
+    },
+    {
+        "coordinate": {
+            "row": 0,
+            "column": 6
+        },
+        "1tile": {
+            "color": "green",
+            "shape": "circle"
+        }
+    }
+]
