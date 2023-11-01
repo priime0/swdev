@@ -1,0 +1,11 @@
+"dag"
+{"map":[[-1,[0,{"color":"red","shape":"8star"}]],[0,[0,{"color":"red","shape":"clover"}],[1,{"color":"blue","shape":"clover"}],[2,{"color":"green","shape":"clover"}]],[1,[0,{"color":"red","shape":"diamond"}],[2,{"color":"green","shape":"star"}]],[2,[0,{"color":"red","shape":"circle"}]],[3,[0,{"color":"red","shape":"square"}]]],
+  "players":[{"score":0,"tile*":[{"color":"purple","shape":"clover"},
+    {"color":"green","shape":"star"},
+    {"color":"yellow","shape":"square"},
+    {"color":"blue","shape":"diamond"},
+    {"color":"red","shape":"8star"},
+    {"color":"yellow","shape":"circle"}]}],
+  "tile*":324}
+
+

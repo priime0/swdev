@@ -1,0 +1,8 @@
+"ldasg"
+{"map":[[-1,[-1,{"color":"yellow","shape":"circle"}],[0,{"color":"red","shape":"circle"}], [1,{"color": "red", "shape": "diamond"}],[2,{"color": "green", "shape": "diamond"}],[3,{"color": "green", "shape": "8star"}]],
+  [0,[0,{"color":"blue","shape":"circle"}]],
+  [1,[0,{"color":"purple","shape":"circle"}],[1,{"color":"purple","shape":"diamond"}], [2, {"color": "purple", "shape": "square"}], [3, {"color": "orange", "shape": "square"}]]],
+
+  "tile*":0,
+  "players":[{"score":8,"tile*":[{"color":"blue","shape":"diamond"}]}
+  , 10, 8, 9]}

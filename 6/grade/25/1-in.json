@@ -1,0 +1,133 @@
+"ldasg"{
+  "map": [
+    [
+      -2,
+      [
+        0,
+        {
+          "color": "red",
+          "shape": "clover"
+        }
+      ],
+      [
+        1,
+        {
+          "color": "green",
+          "shape": "clover"
+        }
+      ],
+      [
+        2,
+        {
+          "color": "purple",
+          "shape": "circle"
+        }
+      ]
+    ],
+    [
+      -1,
+      [
+        0,
+        {
+          "color": "red",
+          "shape": "star"
+        }
+      ],
+      [
+        2,
+        {
+          "color": "purple",
+          "shape": "star"
+        }
+      ]
+    ],
+    [
+      0,
+      [
+        0,
+        {
+          "color": "red",
+          "shape": "8star"
+        }
+      ]
+    ],
+    [
+      1,
+      [
+        0,
+        {
+          "color": "red",
+          "shape": "diamond"
+        }
+      ],
+      [
+        2,
+        {
+          "color": "blue",
+          "shape": "circle"
+        }
+      ]
+    ],
+    [
+      2,
+      [
+        0,
+        {
+          "color": "red",
+          "shape": "circle"
+        }
+      ],
+      [
+        1,
+        {
+          "color": "green",
+          "shape": "circle"
+        }
+      ],
+      [
+        2,
+        {
+          "color": "yellow",
+          "shape": "circle"
+        }
+      ]
+    ],
+    [
+      3,
+      [
+        2,
+        {
+          "color": "yellow",
+          "shape": "star"
+        }
+      ]
+    ]
+  ],
+  "tile*": 586,
+  "players": [
+    {
+      "score": 80,
+      "tile*": [
+        {
+          "color": "yellow",
+          "shape": "square"
+        },
+        {
+          "color": "orange",
+          "shape": "square"
+        },
+        {
+          "color": "blue",
+          "shape": "square"
+        },
+        {
+          "color": "blue",
+          "shape": "square"
+        }
+      ]
+    },
+    36,
+    80,
+    51
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "coordinate": {
+    "row": 1,
+    "column": 2
+  },
+  "1tile": {
+    "color": "purple",
+    "shape": "diamond"
+  }
+}

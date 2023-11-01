@@ -1,0 +1,34 @@
+(testing /course/cs4500f23/ta/tedium-workdir/testfest-results/6/33/Tests/0-in.json /course/cs4500f23/ta/tedium-workdir/testfest-results/6/33/Tests/0-out.json)
+(testing /course/cs4500f23/ta/tedium-workdir/testfest-results/6/33/Tests/3-in.json /course/cs4500f23/ta/tedium-workdir/testfest-results/6/33/Tests/3-out.json)
+
+(testing /course/cs4500f23/ta/tedium-workdir/github/fearless-mice/6/xstrategy)
+---------------------------------
+(*** score 0)
+(*** on)
+'("dag"
+  #hasheq((map
+           .
+           ((-2
+             (0 #hasheq((color . "orange") (shape . "square")))
+             (1 #hasheq((color . "purple") (shape . "circle"))))
+            (-1
+             (0 #hasheq((color . "orange") (shape . "circle")))
+             (1 #hasheq((color . "purple") (shape . "star"))))
+            (0 (0 #hasheq((color . "orange") (shape . "star"))))))
+          (players
+           .
+           (#hasheq((score . 3)
+                    (tile*
+                     .
+                     (#hasheq((color . "red") (shape . "diamond"))
+                      #hasheq((color . "red") (shape . "8star")))))))
+          (tile* . 2)))
+(*** expected)
+'("replace")
+(*** but received)
+'(((plain fast with-newline plain-unicode) ("pass")))
+
+
+((/course/cs4500f23/ta/tedium-workdir/testfest-results/6/33/Tests/3-in.json /course/cs4500f23/ta/tedium-workdir/testfest-results/6/33/Tests/3-out.json))
+((passed 1) (total 2) (partial-score 1))
+

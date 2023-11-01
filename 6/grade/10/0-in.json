@@ -1,0 +1,7 @@
+"dag"
+{ "map" : [[1,  [1, {"color" : "red", "shape" : "star"}]]],
+"tile*" : 1055,
+"players" : [{"score" : 0, "tile*" : [{"color" : "red", "shape" : "clover"},
+  {"color" : "red", "shape" : "circle"}, {"color" : "red", "shape" : "diamond"},
+  {"color" : "green", "shape" : "star"}, {"color" : "blue", "shape" : "diamond"},
+  {"color" : "orange", "shape" : "8star"}]}, 0, 0, 0]}

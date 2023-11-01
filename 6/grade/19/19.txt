@@ -1,0 +1,121 @@
+(testing /course/cs4500f23/ta/tedium-workdir/testfest-results/6/19/Tests/1-in.json /course/cs4500f23/ta/tedium-workdir/testfest-results/6/19/Tests/1-out.json)
+hash->board++: broke its own contract
+  promised: unprotected-board
+  produced: (board (hash (posn 1 0) (tile 'blue 'square) (posn 1 -1) (tile 'yellow 'square) (posn 1 1) (tile 'yellow 'square) (posn 0 -1) (tile 'red 'square) (posn 0 1) (tile 'green 'square) (posn -1 -1) (tile 'yellow 'square) (posn -1 0) (tile 'blue 'square) (posn...
+  in: the range of
+      (->
+       (listof
+        (cons/c
+         integer?
+         (listof (cons/c integer? any/c))))
+       unprotected-board)
+  contract from: #%embedded:Q/Common/map:
+  blaming: #%embedded:Q/Common/map:
+   (assuming the contract is correct)
+  at: <pkgs>/Q/Common/map.rkt:67:3
+  context...:
+   .../private/blame.rkt:346:0: raise-blame-error
+   .../private/arrow-val-first.rkt:486:18
+   .../Common/game-state.rkt:347:0: hash->pub-state
+   body of '#%mzc:xstrategy
+(testing /course/cs4500f23/ta/tedium-workdir/testfest-results/6/19/Tests/2-in.json /course/cs4500f23/ta/tedium-workdir/testfest-results/6/19/Tests/2-out.json)
+hash->board++: broke its own contract
+  promised: unprotected-board
+  produced: (board (hash (posn 1 0) (tile 'blue 'square) (posn 1 -1) (tile 'yellow 'square) (posn 1 1) (tile 'yellow 'square) (posn 0 -1) (tile 'red 'square) (posn 0 1) (tile 'green 'square) (posn -1 -1) (tile 'yellow 'square) (posn -1 0) (tile 'blue 'square) (posn...
+  in: the range of
+      (->
+       (listof
+        (cons/c
+         integer?
+         (listof (cons/c integer? any/c))))
+       unprotected-board)
+  contract from: #%embedded:Q/Common/map:
+  blaming: #%embedded:Q/Common/map:
+   (assuming the contract is correct)
+  at: <pkgs>/Q/Common/map.rkt:67:3
+  context...:
+   .../private/blame.rkt:346:0: raise-blame-error
+   .../private/arrow-val-first.rkt:486:18
+   .../Common/game-state.rkt:347:0: hash->pub-state
+   body of '#%mzc:xstrategy
+
+(testing /course/cs4500f23/ta/tedium-workdir/github/fearless-mice/6/xstrategy)
+---------------------------------
+(*** score 0)
+(*** on)
+'("ldasg"
+  #hasheq((map
+           .
+           ((-1
+             (-1 #hasheq((color . "yellow") (shape . "square")))
+             (0 #hasheq((color . "blue") (shape . "square")))
+             (1 #hasheq((color . "yellow") (shape . "square"))))
+            (0
+             (-1 #hasheq((color . "red") (shape . "square")))
+             (1 #hasheq((color . "green") (shape . "square"))))
+            (1
+             (-1 #hasheq((color . "yellow") (shape . "square")))
+             (0 #hasheq((color . "blue") (shape . "square")))
+             (1 #hasheq((color . "yellow") (shape . "square"))))))
+          (players
+           .
+           (#hasheq((score . 5)
+                    (tile*
+                     .
+                     (#hasheq((color . "orange") (shape . "square"))
+                      #hasheq((color . "orange") (shape . "square"))
+                      #hasheq((color . "orange") (shape . "square"))
+                      #hasheq((color . "orange") (shape . "square"))
+                      #hasheq((color . "orange") (shape . "square")))))
+            10
+            11
+            12))
+          (tile* . 1000)))
+(*** expected)
+'(#hasheq((1tile . #hasheq((color . "orange") (shape . "square")))
+          (coordinate . #hasheq((column . 0) (row . 0)))))
+(*** but received)
+'(((plain fast with-newline plain-unicode) ()))
+
+
+---------------------------------
+(*** score 0)
+(*** on)
+'("dag"
+  #hasheq((map
+           .
+           ((-1
+             (-1 #hasheq((color . "yellow") (shape . "square")))
+             (0 #hasheq((color . "blue") (shape . "square")))
+             (1 #hasheq((color . "yellow") (shape . "square"))))
+            (0
+             (-1 #hasheq((color . "red") (shape . "square")))
+             (1 #hasheq((color . "green") (shape . "square"))))
+            (1
+             (-1 #hasheq((color . "yellow") (shape . "square")))
+             (0 #hasheq((color . "blue") (shape . "square")))
+             (1 #hasheq((color . "yellow") (shape . "square"))))))
+          (players
+           .
+           (#hasheq((score . 5)
+                    (tile*
+                     .
+                     (#hasheq((color . "orange") (shape . "square"))
+                      #hasheq((color . "orange") (shape . "square"))
+                      #hasheq((color . "orange") (shape . "square"))
+                      #hasheq((color . "orange") (shape . "square"))
+                      #hasheq((color . "orange") (shape . "square")))))
+            10
+            11
+            12))
+          (tile* . 1000)))
+(*** expected)
+'(#hasheq((1tile . #hasheq((color . "orange") (shape . "square")))
+          (coordinate . #hasheq((column . -1) (row . -2)))))
+(*** but received)
+'(((plain fast with-newline plain-unicode) ()))
+
+
+()
+((passed 0) (total 2) (partial-score 0))
+

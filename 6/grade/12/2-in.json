@@ -1,0 +1,5 @@
+{"map": [[0, [0, {"color":"green","shape":"circle"}],[1, {"color":"orange","shape":"circle"}]],
+        [1, [1, {"color":"orange","shape":"square"}]],
+        [2, [1, {"color":"orange","shape":"diamond"}]]], "tile*": 5, 
+"players": [{"score": 0, "tile*": [{"color": "blue", "shape": "diamond"}]}]}
+"dag"

@@ -1,0 +1,46 @@
+"dag"
+{
+  "tile*": 0,
+  "players": [
+    {
+      "score": 2,
+      "tile*": [
+        {
+          "color": "green",
+          "shape": "star"
+        },
+        {
+          "color": "purple",
+          "shape": "clover"
+        },
+        {
+          "color": "red",
+          "shape": "circle"
+        }
+      ]
+    },
+    0,
+    1,
+    2
+  ],
+  "map": [
+    [
+      0,
+      [
+        0,
+        {
+          "color": "purple",
+          "shape": "star"
+        }
+      ],
+      [
+        1,
+        {
+          "shape": "square",
+          "color": "purple"
+        }
+      ]
+    ]
+  ]
+}
+

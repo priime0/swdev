@@ -1,0 +1,20 @@
+"dag"
+{
+  "map": [
+    [-1, [0, { "color": "red", "shape": "diamond" }]],
+    [0, [0, { "color": "red", "shape": "square" }]],
+    [1, [0, { "color": "red", "shape": "circle" }]]
+  ],
+  "tile*": 0,
+  "players": [
+    {"score": 3,
+     "tile*": [
+      {"color": "blue", "shape": "circle"},
+      {"color": "blue", "shape": "square"}
+      ]
+    },
+    41,
+    31,
+    12
+  ]
+}

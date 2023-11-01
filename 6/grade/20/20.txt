@@ -1,0 +1,239 @@
+(testing /course/cs4500f23/ta/tedium-workdir/testfest-results/6/20/Tests/0-in.json /course/cs4500f23/ta/tedium-workdir/testfest-results/6/20/Tests/0-out.json)
+hash->board++: broke its own contract
+  promised: unprotected-board
+  produced: (board (hash (posn 6 0) (tile 'purple 'diamond) (posn 5 0) (tile 'orange 'clover) (posn 1 0) (tile 'red '8star) (posn 4 0) (tile 'yellow 'circle) (posn 3 0) (tile 'blue 'square) (posn 2 0) (tile 'green '8star)))
+  in: the range of
+      (->
+       (listof
+        (cons/c
+         integer?
+         (listof (cons/c integer? any/c))))
+       unprotected-board)
+  contract from: #%embedded:Q/Common/map:
+  blaming: #%embedded:Q/Common/map:
+   (assuming the contract is correct)
+  at: <pkgs>/Q/Common/map.rkt:67:3
+  context...:
+   .../private/blame.rkt:346:0: raise-blame-error
+   .../private/arrow-val-first.rkt:486:18
+   .../Common/game-state.rkt:347:0: hash->pub-state
+   body of '#%mzc:xstrategy
+(testing /course/cs4500f23/ta/tedium-workdir/testfest-results/6/20/Tests/1-in.json /course/cs4500f23/ta/tedium-workdir/testfest-results/6/20/Tests/1-out.json)
+hash->board++: broke its own contract
+  promised: unprotected-board
+  produced: (board (hash (posn 6 0) (tile 'red 'diamond) (posn 5 0) (tile 'red 'clover) (posn 1 0) (tile 'red '8star) (posn 1 1) (tile 'red '8star) (posn 4 0) (tile 'red 'circle) (posn 3 0) (tile 'red 'square) (posn 2 0) (tile 'red '8star)))
+  in: the range of
+      (->
+       (listof
+        (cons/c
+         integer?
+         (listof (cons/c integer? any/c))))
+       unprotected-board)
+  contract from: #%embedded:Q/Common/map:
+  blaming: #%embedded:Q/Common/map:
+   (assuming the contract is correct)
+  at: <pkgs>/Q/Common/map.rkt:67:3
+  context...:
+   .../private/blame.rkt:346:0: raise-blame-error
+   .../private/arrow-val-first.rkt:486:18
+   .../Common/game-state.rkt:347:0: hash->pub-state
+   body of '#%mzc:xstrategy
+(testing /course/cs4500f23/ta/tedium-workdir/testfest-results/6/20/Tests/2-in.json /course/cs4500f23/ta/tedium-workdir/testfest-results/6/20/Tests/2-out.json)
+hash->board++: broke its own contract
+  promised: unprotected-board
+  produced: (board (hash (posn 6 0) (tile 'red 'diamond) (posn 5 0) (tile 'red 'clover) (posn 1 0) (tile 'red '8star) (posn 1 1) (tile 'red '8star) (posn 4 0) (tile 'red 'circle) (posn 3 0) (tile 'red 'square) (posn 2 0) (tile 'red '8star)))
+  in: the range of
+      (->
+       (listof
+        (cons/c
+         integer?
+         (listof (cons/c integer? any/c))))
+       unprotected-board)
+  contract from: #%embedded:Q/Common/map:
+  blaming: #%embedded:Q/Common/map:
+   (assuming the contract is correct)
+  at: <pkgs>/Q/Common/map.rkt:67:3
+  context...:
+   .../private/blame.rkt:346:0: raise-blame-error
+   .../private/arrow-val-first.rkt:486:18
+   .../Common/game-state.rkt:347:0: hash->pub-state
+   body of '#%mzc:xstrategy
+(testing /course/cs4500f23/ta/tedium-workdir/testfest-results/6/20/Tests/3-in.json /course/cs4500f23/ta/tedium-workdir/testfest-results/6/20/Tests/3-out.json)
+hash->board++: broke its own contract
+  promised: unprotected-board
+  produced: (board (hash (posn 1 0) (tile 'red '8star) (posn 2 0) (tile 'red '8star)))
+  in: the range of
+      (->
+       (listof
+        (cons/c
+         integer?
+         (listof (cons/c integer? any/c))))
+       unprotected-board)
+  contract from: #%embedded:Q/Common/map:
+  blaming: #%embedded:Q/Common/map:
+   (assuming the contract is correct)
+  at: <pkgs>/Q/Common/map.rkt:67:3
+  context...:
+   .../private/blame.rkt:346:0: raise-blame-error
+   .../private/arrow-val-first.rkt:486:18
+   .../Common/game-state.rkt:347:0: hash->pub-state
+   body of '#%mzc:xstrategy
+(testing /course/cs4500f23/ta/tedium-workdir/testfest-results/6/20/Tests/4-in.json /course/cs4500f23/ta/tedium-workdir/testfest-results/6/20/Tests/4-out.json)
+hash->board++: broke its own contract
+  promised: unprotected-board
+  produced: (board (hash (posn 1 0) (tile 'red '8star) (posn 2 0) (tile 'red '8star)))
+  in: the range of
+      (->
+       (listof
+        (cons/c
+         integer?
+         (listof (cons/c integer? any/c))))
+       unprotected-board)
+  contract from: #%embedded:Q/Common/map:
+  blaming: #%embedded:Q/Common/map:
+   (assuming the contract is correct)
+  at: <pkgs>/Q/Common/map.rkt:67:3
+  context...:
+   .../private/blame.rkt:346:0: raise-blame-error
+   .../private/arrow-val-first.rkt:486:18
+   .../Common/game-state.rkt:347:0: hash->pub-state
+   body of '#%mzc:xstrategy
+
+(testing /course/cs4500f23/ta/tedium-workdir/github/fearless-mice/6/xstrategy)
+---------------------------------
+(*** score 0)
+(*** on)
+'("dag"
+  #hasheq((map
+           .
+           ((1 (0 #hasheq((color . "red") (shape . "8star"))))
+            (2 (0 #hasheq((color . "green") (shape . "8star"))))
+            (3 (0 #hasheq((color . "blue") (shape . "square"))))
+            (4 (0 #hasheq((color . "yellow") (shape . "circle"))))
+            (5 (0 #hasheq((color . "orange") (shape . "clover"))))
+            (6 (0 #hasheq((color . "purple") (shape . "diamond"))))))
+          (players
+           .
+           (#hasheq((score . 25)
+                    (tile* . (#hasheq((color . "blue") (shape . "8star")))))
+            10
+            20))
+          (tile* . 100)))
+(*** expected)
+'(#hasheq((1tile . #hasheq((color . "blue") (shape . "8star")))
+          (coordinate . #hasheq((column . 0) (row . 0)))))
+(*** but received)
+'(((plain fast with-newline plain-unicode) ()))
+
+
+---------------------------------
+(*** score 0)
+(*** on)
+'("dag"
+  #hasheq((map
+           .
+           ((1
+             (0 #hasheq((color . "red") (shape . "8star")))
+             (1 #hasheq((color . "red") (shape . "8star"))))
+            (2 (0 #hasheq((color . "red") (shape . "8star"))))
+            (3 (0 #hasheq((color . "red") (shape . "square"))))
+            (4 (0 #hasheq((color . "red") (shape . "circle"))))
+            (5 (0 #hasheq((color . "red") (shape . "clover"))))
+            (6 (0 #hasheq((color . "red") (shape . "diamond"))))))
+          (players
+           .
+           (#hasheq((score . 25)
+                    (tile*
+                     .
+                     (#hasheq((color . "red") (shape . "8star"))
+                      #hasheq((color . "red") (shape . "star")))))
+            10
+            20))
+          (tile* . 100)))
+(*** expected)
+'(#hasheq((1tile . #hasheq((color . "red") (shape . "star")))
+          (coordinate . #hasheq((column . 0) (row . 0)))))
+(*** but received)
+'(((plain fast with-newline plain-unicode) ()))
+
+
+---------------------------------
+(*** score 0)
+(*** on)
+'("ldasg"
+  #hasheq((map
+           .
+           ((1
+             (0 #hasheq((color . "red") (shape . "8star")))
+             (1 #hasheq((color . "red") (shape . "8star"))))
+            (2 (0 #hasheq((color . "red") (shape . "8star"))))
+            (3 (0 #hasheq((color . "red") (shape . "square"))))
+            (4 (0 #hasheq((color . "red") (shape . "circle"))))
+            (5 (0 #hasheq((color . "red") (shape . "clover"))))
+            (6 (0 #hasheq((color . "red") (shape . "diamond"))))))
+          (players
+           .
+           (#hasheq((score . 25)
+                    (tile*
+                     .
+                     (#hasheq((color . "red") (shape . "square"))
+                      #hasheq((color . "red") (shape . "star")))))
+            10
+            20))
+          (tile* . 100)))
+(*** expected)
+'(#hasheq((1tile . #hasheq((color . "red") (shape . "star")))
+          (coordinate . #hasheq((column . 1) (row . 2)))))
+(*** but received)
+'(((plain fast with-newline plain-unicode) ()))
+
+
+---------------------------------
+(*** score 0)
+(*** on)
+'("dag"
+  #hasheq((map
+           .
+           ((1 (0 #hasheq((color . "red") (shape . "8star"))))
+            (2 (0 #hasheq((color . "red") (shape . "8star"))))))
+          (players
+           .
+           (#hasheq((score . 25)
+                    (tile*
+                     .
+                     (#hasheq((color . "purple") (shape . "diamond")))))
+            10
+            20))
+          (tile* . 100)))
+(*** expected)
+'("replace")
+(*** but received)
+'(((plain fast with-newline plain-unicode) ()))
+
+
+---------------------------------
+(*** score 0)
+(*** on)
+'("ldasg"
+  #hasheq((map
+           .
+           ((1 (0 #hasheq((color . "red") (shape . "8star"))))
+            (2 (0 #hasheq((color . "red") (shape . "8star"))))))
+          (players
+           .
+           (#hasheq((score . 25)
+                    (tile*
+                     .
+                     (#hasheq((color . "purple") (shape . "diamond")))))
+            10
+            20))
+          (tile* . 0)))
+(*** expected)
+'("pass")
+(*** but received)
+'(((plain fast with-newline plain-unicode) ()))
+
+
+()
+((passed 0) (total 5) (partial-score 0))
+

@@ -1,0 +1,6 @@
+{"map": [[0, [0, {"color":"green","shape":"circle"}],[1, {"color":"orange","shape":"circle"}]],
+        [1, [0, {"color":"green","shape":"square"}], [1, {"color":"orange","shape":"square"}]],
+                                                [2, [1, {"color":"orange","shape":"diamond"}]],
+                                                [3, [1, {"color":"orange","shape":"star"}], [2, {"color":"green","shape":"star"}]]], "tile*": 5, 
+"players": [{"score": 0, "tile*": [{"color": "green", "shape": "diamond"}]}]}
+"ldasg"

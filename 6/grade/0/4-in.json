@@ -1,0 +1,41 @@
+{
+  "map": [
+    [
+      0,
+      [
+        0,
+        {
+          "shape": "8star",
+          "color": "orange"
+        }
+      ]
+    ]
+  ],
+  "tile*": 5,
+  "players": [
+    {
+      "score": 100,
+      "tile*": [
+        {
+          "shape": "diamond",
+          "color": "purple"
+        },
+        {
+          "shape": "diamond",
+          "color": "purple"
+        },
+        {
+          "shape": "diamond",
+          "color": "purple"
+        },
+        {
+          "shape": "diamond",
+          "color": "purple"
+        }
+      ]
+    },
+    1,
+    2
+  ]
+}
+"dag"

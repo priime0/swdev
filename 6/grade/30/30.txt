@@ -1,0 +1,8 @@
+THIS OUTPUT IS THE RESULT OF REVERSING THE ORDER OF THE JSON INPUTS
+
+(testing /course/cs4500f23/ta/23SwDev/Code/6/./Flipping/Tmp16987976871698797687412/0-in.json /course/cs4500f23/ta/23SwDev/Code/6/./Flipping/Tmp16987976871698797687412/0-out.json)
+
+(testing /course/cs4500f23/ta/tedium-workdir/github/fearless-mice/6/xstrategy)
+((/course/cs4500f23/ta/23SwDev/Code/6/./Flipping/Tmp16987976871698797687412/0-in.json /course/cs4500f23/ta/23SwDev/Code/6/./Flipping/Tmp16987976871698797687412/0-out.json))
+((passed 1) (total 1) (partial-score 1))
+

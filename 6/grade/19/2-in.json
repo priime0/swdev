@@ -1,0 +1,101 @@
+"dag"
+{
+  "map": [
+    [
+      -1,
+      [
+        -1,
+        {
+          "color": "yellow",
+          "shape": "square"
+        }
+      ],
+      [
+        0,
+        {
+          "color": "blue",
+          "shape": "square"
+        }
+      ],
+      [
+        1,
+        {
+          "color": "yellow",
+          "shape": "square"
+        }
+      ]
+    ],
+    [
+      0,
+      [
+        -1,
+        {
+          "color": "red",
+          "shape": "square"
+        }
+      ],
+      [
+        1,
+        {
+          "color": "green",
+          "shape": "square"
+        }
+      ]
+    ],
+    [
+      1,
+      [
+        -1,
+        {
+          "color": "yellow",
+          "shape": "square"
+        }
+      ],
+      [
+        0,
+        {
+          "color": "blue",
+          "shape": "square"
+        }
+      ],
+      [
+        1,
+        {
+          "color": "yellow",
+          "shape": "square"
+        }
+      ]
+    ]
+  ],
+  "players": [
+    {
+      "score": 5,
+      "tile*": [
+        {
+          "color": "orange",
+          "shape": "square"
+        },
+        {
+          "color": "orange",
+          "shape": "square"
+        },
+        {
+          "color": "orange",
+          "shape": "square"
+        },
+        {
+          "color": "orange",
+          "shape": "square"
+        },
+        {
+          "color": "orange",
+          "shape": "square"
+        }
+      ]
+    },
+    10,
+    11,
+    12
+  ],
+  "tile*": 1000
+}

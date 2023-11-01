@@ -1,0 +1,5 @@
+{"map" : [[0,[0,{"color":"red", "shape":"square"}]]],
+  "players" :  [{"score" :  40, "tile*" :  [{"color" :  "red", "shape" : "circle"}]}, 10],
+  "tile*" :  100}
+"dag"
+
