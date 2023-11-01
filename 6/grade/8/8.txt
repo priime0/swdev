@@ -1,0 +1,98 @@
+(testing /course/cs4500f23/ta/tedium-workdir/testfest-results/6/8/Tests/0-in.json /course/cs4500f23/ta/tedium-workdir/testfest-results/6/8/Tests/0-out.json)
+hash->board++: broke its own contract
+  promised: unprotected-board
+  produced: (board (hash (posn -36 -4) (tile 'red 'square)))
+  in: the range of
+      (->
+       (listof
+        (cons/c
+         integer?
+         (listof (cons/c integer? any/c))))
+       unprotected-board)
+  contract from: #%embedded:Q/Common/map:
+  blaming: #%embedded:Q/Common/map:
+   (assuming the contract is correct)
+  at: <pkgs>/Q/Common/map.rkt:67:3
+  context...:
+   .../private/blame.rkt:346:0: raise-blame-error
+   .../private/arrow-val-first.rkt:486:18
+   .../Common/game-state.rkt:347:0: hash->pub-state
+   body of '#%mzc:xstrategy
+(testing /course/cs4500f23/ta/tedium-workdir/testfest-results/6/8/Tests/1-in.json /course/cs4500f23/ta/tedium-workdir/testfest-results/6/8/Tests/1-out.json)
+hash->board++: broke its own contract
+  promised: unprotected-board
+  produced: (board (hash (posn -36 -4) (tile 'blue 'square)))
+  in: the range of
+      (->
+       (listof
+        (cons/c
+         integer?
+         (listof (cons/c integer? any/c))))
+       unprotected-board)
+  contract from: #%embedded:Q/Common/map:
+  blaming: #%embedded:Q/Common/map:
+   (assuming the contract is correct)
+  at: <pkgs>/Q/Common/map.rkt:67:3
+  context...:
+   .../private/blame.rkt:346:0: raise-blame-error
+   .../private/arrow-val-first.rkt:486:18
+   .../Common/game-state.rkt:347:0: hash->pub-state
+   body of '#%mzc:xstrategy
+(testing /course/cs4500f23/ta/tedium-workdir/testfest-results/6/8/Tests/2-in.json /course/cs4500f23/ta/tedium-workdir/testfest-results/6/8/Tests/2-out.json)
+(testing /course/cs4500f23/ta/tedium-workdir/testfest-results/6/8/Tests/3-in.json /course/cs4500f23/ta/tedium-workdir/testfest-results/6/8/Tests/3-out.json)
+(testing /course/cs4500f23/ta/tedium-workdir/testfest-results/6/8/Tests/4-in.json /course/cs4500f23/ta/tedium-workdir/testfest-results/6/8/Tests/4-out.json)
+
+(testing /course/cs4500f23/ta/tedium-workdir/github/fearless-mice/6/xstrategy)
+---------------------------------
+(*** score 0)
+(*** on)
+'("dag"
+  #hasheq((map . ((-36 (-4 #hasheq((color . "red") (shape . "square"))))))
+          (players
+           .
+           (#hasheq((score . 0)
+                    (tile*
+                     .
+                     (#hasheq((color . "red") (shape . "circle"))
+                      #hasheq((color . "blue") (shape . "diamond"))
+                      #hasheq((color . "green") (shape . "diamond"))
+                      #hasheq((color . "purple") (shape . "star"))
+                      #hasheq((color . "yellow") (shape . "star"))
+                      #hasheq((color . "orange") (shape . "8star")))))
+            0))
+          (tile* . 1067)))
+(*** expected)
+'(#hasheq((1tile . #hasheq((color . "red") (shape . "circle")))
+          (coordinate . #hasheq((column . -4) (row . -37)))))
+(*** but received)
+'(((plain fast with-newline plain-unicode) ()))
+
+
+---------------------------------
+(*** score 0)
+(*** on)
+'("dag"
+  #hasheq((map . ((-36 (-4 #hasheq((color . "blue") (shape . "square"))))))
+          (players
+           .
+           (#hasheq((score . 0)
+                    (tile*
+                     .
+                     (#hasheq((color . "red") (shape . "circle"))
+                      #hasheq((color . "red") (shape . "diamond"))
+                      #hasheq((color . "red") (shape . "star"))
+                      #hasheq((color . "blue") (shape . "square"))
+                      #hasheq((color . "blue") (shape . "8star"))
+                      #hasheq((color . "red") (shape . "square")))))
+            0))
+          (tile* . 1067)))
+(*** expected)
+'(#hasheq((1tile . #hasheq((color . "blue") (shape . "8star")))
+          (coordinate . #hasheq((column . -4) (row . -37)))))
+(*** but received)
+'(((plain fast with-newline plain-unicode) ()))
+
+
+((/course/cs4500f23/ta/tedium-workdir/testfest-results/6/8/Tests/2-in.json /course/cs4500f23/ta/tedium-workdir/testfest-results/6/8/Tests/2-out.json) (/course/cs4500f23/ta/tedium-workdir/testfest-results/6/8/Tests/3-in.json /course/cs4500f23/ta/tedium-workdir/testfest-results/6/8/Tests/3-out.json) (/course/cs4500f23/ta/tedium-workdir/testfest-results/6/8/Tests/4-in.json /course/cs4500f23/ta/tedium-workdir/testfest-results/6/8/Tests/4-out.json))
+((passed 3) (total 5) (partial-score 3))
+

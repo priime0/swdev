@@ -1,0 +1,16 @@
+Delivery
+5/5 pts: Deliverable 6/xstrategy exists with the right permissions
+5/5 pts: Deliverable Q/Planning/game-observer.md exists
+5/5 pts: Deliverable Q/Player/player.PP exists
+5/5 pts: Deliverable Q/Referee/referee.PP exists
+5/5 pts: Delivery of test files
+
+Functionality
+50/50 pts: Passed 5 out of 5 tests (see test-results.txt)
+50/50 pts: 5 valid tests (see test-audit-results.txt)
+30/30 bonus pts (other teams failing your tests)
+
+Inspection
+145/210 pts: See inspection.md
+
+Total: 300/335 pts

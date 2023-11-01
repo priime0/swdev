@@ -1,0 +1,76 @@
+{
+  "map": [
+    [
+      0,
+      [
+        0,
+        {
+          "color": "purple",
+          "shape": "square"
+        }
+      ],
+      [
+        1,
+        {
+          "color": "orange",
+          "shape": "square"
+        }
+      ]
+    ],
+    [
+      1,
+      [
+        1,
+        {
+          "color": "orange",
+          "shape": "square"
+        }
+      ]
+    ],
+    [
+      2,
+      [
+        0,
+        {
+          "color": "orange",
+          "shape": "diamond"
+        }
+      ],
+      [
+        1,
+        {
+          "color": "orange",
+          "shape": "square"
+        }
+      ]
+    ]
+  ],
+  "tile*": 100,
+  "players": [
+    {
+      "score": 50,
+      "tile*": [
+        {
+          "shape": "8star",
+          "color": "yellow"
+        },
+        {
+          "color": "orange",
+          "shape": "square"
+        },
+        {
+          "shape": "star",
+          "color": "green"
+        },
+        {
+          "shape": "star",
+          "color": "red"
+        }
+      ]
+    },
+    4,
+    5
+  ]
+}
+"ldasg"
+

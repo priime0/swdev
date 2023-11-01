@@ -1,0 +1,13 @@
+{
+	"coordinate":
+		{
+			"row" : -37,
+			"column" : -4
+		},
+	"1tile":
+		{
+			"color" : "blue",
+			"shape" : "8star"
+		}
+}
+

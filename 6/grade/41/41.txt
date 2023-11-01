@@ -1,0 +1,11 @@
+THIS OUTPUT IS THE RESULT OF REVERSING THE ORDER OF THE JSON INPUTS
+
+(testing /course/cs4500f23/ta/23SwDev/Code/6/./Flipping/Tmp16987979881698797988212/0-in.json /course/cs4500f23/ta/23SwDev/Code/6/./Flipping/Tmp16987979881698797988212/0-out.json)
+(testing /course/cs4500f23/ta/23SwDev/Code/6/./Flipping/Tmp16987979881698797988212/1-in.json /course/cs4500f23/ta/23SwDev/Code/6/./Flipping/Tmp16987979881698797988212/1-out.json)
+(testing /course/cs4500f23/ta/23SwDev/Code/6/./Flipping/Tmp16987979881698797988212/3-in.json /course/cs4500f23/ta/23SwDev/Code/6/./Flipping/Tmp16987979881698797988212/3-out.json)
+(testing /course/cs4500f23/ta/23SwDev/Code/6/./Flipping/Tmp16987979881698797988212/4-in.json /course/cs4500f23/ta/23SwDev/Code/6/./Flipping/Tmp16987979881698797988212/4-out.json)
+
+(testing /course/cs4500f23/ta/tedium-workdir/github/fearless-mice/6/xstrategy)
+((/course/cs4500f23/ta/23SwDev/Code/6/./Flipping/Tmp16987979881698797988212/0-in.json /course/cs4500f23/ta/23SwDev/Code/6/./Flipping/Tmp16987979881698797988212/0-out.json) (/course/cs4500f23/ta/23SwDev/Code/6/./Flipping/Tmp16987979881698797988212/1-in.json /course/cs4500f23/ta/23SwDev/Code/6/./Flipping/Tmp16987979881698797988212/1-out.json) (/course/cs4500f23/ta/23SwDev/Code/6/./Flipping/Tmp16987979881698797988212/3-in.json /course/cs4500f23/ta/23SwDev/Code/6/./Flipping/Tmp16987979881698797988212/3-out.json) (/course/cs4500f23/ta/23SwDev/Code/6/./Flipping/Tmp16987979881698797988212/4-in.json /course/cs4500f23/ta/23SwDev/Code/6/./Flipping/Tmp16987979881698797988212/4-out.json))
+((passed 4) (total 4) (partial-score 4))
+

@@ -1,0 +1,7 @@
+"ldasg"
+{ "map" : [[0,  [0, {"color" : "blue", "shape" : "star"}]]],
+  "tile*" : 1055,
+  "players" : [{"score" : 0, "tile*" : [{"color" : "purple", "shape" : "8star"},
+    {"color" : "yellow", "shape" : "circle"}, {"color" : "red", "shape" : "clover"},
+    {"color" : "purple", "shape" : "square"}, {"color" : "green", "shape" : "diamond"},
+    {"color" : "orange", "shape" : "8star"}]}, 0, 0, 0]}

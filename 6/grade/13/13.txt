@@ -1,0 +1,36 @@
+THIS OUTPUT IS THE RESULT OF REVERSING THE ORDER OF THE JSON INPUTS
+
+(testing /course/cs4500f23/ta/23SwDev/Code/6/./Flipping/Tmp16987978631698797863713/0-in.json /course/cs4500f23/ta/23SwDev/Code/6/./Flipping/Tmp16987978631698797863713/0-out.json)
+(testing /course/cs4500f23/ta/23SwDev/Code/6/./Flipping/Tmp16987978631698797863713/1-in.json /course/cs4500f23/ta/23SwDev/Code/6/./Flipping/Tmp16987978631698797863713/1-out.json)
+(testing /course/cs4500f23/ta/23SwDev/Code/6/./Flipping/Tmp16987978631698797863713/2-in.json /course/cs4500f23/ta/23SwDev/Code/6/./Flipping/Tmp16987978631698797863713/2-out.json)
+(testing /course/cs4500f23/ta/23SwDev/Code/6/./Flipping/Tmp16987978631698797863713/3-in.json /course/cs4500f23/ta/23SwDev/Code/6/./Flipping/Tmp16987978631698797863713/3-out.json)
+(testing /course/cs4500f23/ta/23SwDev/Code/6/./Flipping/Tmp16987978631698797863713/4-in.json /course/cs4500f23/ta/23SwDev/Code/6/./Flipping/Tmp16987978631698797863713/4-out.json)
+
+(testing /course/cs4500f23/ta/tedium-workdir/github/fearless-mice/6/xstrategy)
+---------------------------------
+(*** score 0)
+(*** on)
+'("ldasg"
+  #hasheq((map
+           .
+           ((0
+             (-1 #hasheq((color . "green") (shape . "circle")))
+             (0 #hasheq((color . "red") (shape . "circle"))))))
+          (players
+           .
+           (#hasheq((score . 0)
+                    (tile*
+                     .
+                     (#hasheq((color . "purple") (shape . "clover"))
+                      #hasheq((color . "orange") (shape . "star"))
+                      #hasheq((color . "yellow") (shape . "diamond")))))))
+          (tile* . 3)))
+(*** expected)
+'("replace")
+(*** but received)
+'(((plain fast with-newline plain-unicode) ("pass")))
+
+
+((/course/cs4500f23/ta/23SwDev/Code/6/./Flipping/Tmp16987978631698797863713/0-in.json /course/cs4500f23/ta/23SwDev/Code/6/./Flipping/Tmp16987978631698797863713/0-out.json) (/course/cs4500f23/ta/23SwDev/Code/6/./Flipping/Tmp16987978631698797863713/1-in.json /course/cs4500f23/ta/23SwDev/Code/6/./Flipping/Tmp16987978631698797863713/1-out.json) (/course/cs4500f23/ta/23SwDev/Code/6/./Flipping/Tmp16987978631698797863713/2-in.json /course/cs4500f23/ta/23SwDev/Code/6/./Flipping/Tmp16987978631698797863713/2-out.json) (/course/cs4500f23/ta/23SwDev/Code/6/./Flipping/Tmp16987978631698797863713/4-in.json /course/cs4500f23/ta/23SwDev/Code/6/./Flipping/Tmp16987978631698797863713/4-out.json))
+((passed 4) (total 5) (partial-score 4))
+

@@ -1,0 +1,99 @@
+cd ../Q/ && raco pkg remove Q
+Removing Q
+raco setup: version: 8.10
+raco setup: platform: x86_64-linux [cs]
+raco setup: target machine: ta6le
+raco setup: installation name: 8.10
+raco setup: variants: cs
+raco setup: main collects: /proj/racket/plt-released/recent/collects/
+raco setup: collects paths: 
+raco setup:   /home/mballantyne/.racket/8.10/collects
+raco setup:   /proj/racket/plt-released/recent/collects/
+raco setup: main pkgs: /proj/racket/plt-released/recent/share/pkgs
+raco setup: pkgs paths: 
+raco setup:   /proj/racket/plt-released/recent/share/pkgs
+raco setup:   /home/mballantyne/.racket/8.10/pkgs
+raco setup: links files: 
+raco setup:   /proj/racket/plt-released/recent/share/links.rktd
+raco setup:   /home/mballantyne/.racket/8.10/links.rktd
+raco setup: main docs: /proj/racket/plt-released/recent/doc
+raco setup: --- updating info-domain tables ---                    [17:25:51]
+raco setup: updating: /home/mballantyne/.racket/8.10/share/info-cache.rktd
+raco setup: --- pre-installing collections ---                     [17:25:51]
+raco setup: --- installing foreign libraries ---                   [17:25:51]
+raco setup: --- installing shared files ---                        [17:25:51]
+raco setup: --- compiling collections ---                          [17:25:51]
+raco setup: --- parallel build using 4 jobs ---                    [17:25:51]
+raco setup: --- creating launchers ---                             [17:25:52]
+raco setup: --- installing man pages ---                           [17:25:52]
+raco setup: --- building documentation ---                         [17:25:52]
+raco setup: --- installing collections ---                         [17:26:05]
+raco setup: --- post-installing collections ---                    [17:26:05]
+cd ../Q/ && raco pkg install --auto --skip-installed
+Linking current directory as a package
+00: Resolving "predicates" via https://download.racket-lang.org/releases/8.10/catalog/
+00: Resolving "predicates" via https://pkgs.racket-lang.org
+Resolving "pfds" via https://download.racket-lang.org/releases/8.10/catalog/
+Resolving "pfds" via https://pkgs.racket-lang.org
+Downloading repository git://github.com/jackfirth/predicates commit 0c0baa3c6871ae39c9b94af1591331d30fced968
+Downloading repository github://github.com/takikawa/tr-pfds/master commit 1630af681e6bef5e75503649100b7f0d32a2e9fc
+The following uninstalled packages were listed as dependencies
+and they were automatically installed:
+ dependencies of Q:
+   predicates
+   pfds
+raco setup: version: 8.10
+raco setup: platform: x86_64-linux [cs]
+raco setup: target machine: ta6le
+raco setup: installation name: 8.10
+raco setup: variants: cs
+raco setup: main collects: /proj/racket/plt-released/recent/collects/
+raco setup: collects paths: 
+raco setup:   /home/mballantyne/.racket/8.10/collects
+raco setup:   /proj/racket/plt-released/recent/collects/
+raco setup: main pkgs: /proj/racket/plt-released/recent/share/pkgs
+raco setup: pkgs paths: 
+raco setup:   /proj/racket/plt-released/recent/share/pkgs
+raco setup:   /home/mballantyne/.racket/8.10/pkgs
+raco setup: links files: 
+raco setup:   /proj/racket/plt-released/recent/share/links.rktd
+raco setup:   /home/mballantyne/.racket/8.10/links.rktd
+raco setup: main docs: /proj/racket/plt-released/recent/doc
+raco setup: --- updating info-domain tables ---                    [17:26:12]
+raco setup: updating: /home/mballantyne/.racket/8.10/share/info-cache.rktd
+raco setup: --- pre-installing collections ---                     [17:26:12]
+raco setup: --- installing foreign libraries ---                   [17:26:12]
+raco setup: --- installing shared files ---                        [17:26:12]
+raco setup: --- compiling collections ---                          [17:26:12]
+raco setup: --- parallel build using 4 jobs ---                    [17:26:12]
+raco setup: 3 making: <pkgs>/Q
+raco setup: 3 making: <pkgs>/Q/Common
+raco setup: 2 making: <pkgs>/pfds/pfds (Library of Functional Data Structures in Typed Racket)
+raco setup: 1 making: <pkgs>/predicates/predicates (predicates)
+raco setup: 2 making: <pkgs>/pfds/pfds/deque
+raco setup: 3 making: <pkgs>/Q/Common/data
+raco setup: 3 making: <pkgs>/Q/Common/interfaces
+raco setup: 3 making: <pkgs>/Q/Common/util
+raco setup: 3 making: <pkgs>/Q/Planning
+raco setup: 3 making: <pkgs>/Q/Player
+raco setup: 2 making: <pkgs>/pfds/pfds/heap
+raco setup: 3 making: <pkgs>/Q/Referee
+raco setup: 2 making: <pkgs>/pfds/pfds/queue
+raco setup: 2 making: <pkgs>/pfds/pfds/ralist
+raco setup: 2 making: <pkgs>/pfds/pfds/scribblings
+raco setup: 2 making: <pkgs>/pfds/pfds/tests
+raco setup: --- creating launchers ---                             [17:27:11]
+raco setup: --- installing man pages ---                           [17:27:11]
+raco setup: --- building documentation ---                         [17:27:11]
+raco setup: 2 running: <pkgs>/pfds/pfds/scribblings/functional-data-structures.scrbl
+raco setup: 0 running: <pkgs>/predicates/predicates/predicates.scrbl
+raco setup: 3 rendering: <pkgs>/pfds/pfds/scribblings/functional-data-structures.scrbl
+raco setup: 2 rendering: <pkgs>/racket-index/scribblings/main/user/local-redirect.scrbl
+raco setup: 1 rendering: <pkgs>/predicates/predicates/predicates.scrbl
+raco setup: 0 rendering: <pkgs>/racket-index/scribblings/main/user/release.scrbl
+raco setup: 2 rendering: <pkgs>/racket-index/scribblings/main/user/search.scrbl
+raco setup: 0 rendering: <pkgs>/racket-index/scribblings/main/user/start.scrbl
+raco setup: --- installing collections ---                         [17:28:28]
+raco setup: --- post-installing collections ---                    [17:28:28]
+cd ../6/ && raco exe xstrategy.rkt
+cd ../6/ && chmod +x xstrategy

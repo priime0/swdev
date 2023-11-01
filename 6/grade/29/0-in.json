@@ -1,0 +1,32 @@
+"dag"
+{
+    "map": [
+        [
+            0,
+            [
+                0,
+                {
+                    "color": "purple",
+                    "shape": "clover"
+                }
+            ]
+        ]
+    ],
+    "tile*": 100,
+    "players": [
+        {
+            "score": 10,
+            "tile*": [
+                {
+                    "color": "green",
+                    "shape": "clover"
+                },
+                {
+                    "color": "red",
+                    "shape": "clover"
+                }
+            ]
+        },
+        100
+    ]
+}

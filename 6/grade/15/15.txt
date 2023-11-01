@@ -1,0 +1,9 @@
+(testing /course/cs4500f23/ta/tedium-workdir/testfest-results/6/15/Tests/0-in.json /course/cs4500f23/ta/tedium-workdir/testfest-results/6/15/Tests/0-out.json)
+(testing /course/cs4500f23/ta/tedium-workdir/testfest-results/6/15/Tests/1-in.json /course/cs4500f23/ta/tedium-workdir/testfest-results/6/15/Tests/1-out.json)
+(testing /course/cs4500f23/ta/tedium-workdir/testfest-results/6/15/Tests/2-in.json /course/cs4500f23/ta/tedium-workdir/testfest-results/6/15/Tests/2-out.json)
+(testing /course/cs4500f23/ta/tedium-workdir/testfest-results/6/15/Tests/3-in.json /course/cs4500f23/ta/tedium-workdir/testfest-results/6/15/Tests/3-out.json)
+
+(testing /course/cs4500f23/ta/tedium-workdir/github/fearless-mice/6/xstrategy)
+((/course/cs4500f23/ta/tedium-workdir/testfest-results/6/15/Tests/0-in.json /course/cs4500f23/ta/tedium-workdir/testfest-results/6/15/Tests/0-out.json) (/course/cs4500f23/ta/tedium-workdir/testfest-results/6/15/Tests/1-in.json /course/cs4500f23/ta/tedium-workdir/testfest-results/6/15/Tests/1-out.json) (/course/cs4500f23/ta/tedium-workdir/testfest-results/6/15/Tests/2-in.json /course/cs4500f23/ta/tedium-workdir/testfest-results/6/15/Tests/2-out.json) (/course/cs4500f23/ta/tedium-workdir/testfest-results/6/15/Tests/3-in.json /course/cs4500f23/ta/tedium-workdir/testfest-results/6/15/Tests/3-out.json))
+((passed 4) (total 4) (partial-score 4))
+

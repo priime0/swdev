@@ -1,0 +1,13 @@
+"dag"
+{"map":
+[
+  [500,
+    [-20,{"color":"orange","shape":"8star"}]],
+  [499,
+    [-19,{"color":"green","shape":"diamond"}],
+    [20,{"color":"yellow","shape":"star"}]]],
+  "players":
+  [{"score":100000,"tile*":[
+    {"color":"red","shape":"clover"}]}],
+  "tile*":100}
+

@@ -1,0 +1,4 @@
+"ldasg"
+{"map":[[0,[0,{"color":"red","shape":"clover"}],[1,{"color":"blue","shape":"clover"}]],[1,[0,{"color":"red","shape":"circle"}]],[2,[0,{"color":"green","shape":"circle"}],[1,{"color":"purple","shape":"circle"}],[2,{"color":"purple","shape":"square"}],[3,{"color":"blue","shape":"square"}],[4,{"color":"yellow","shape":"square"}]],[3,[4,{"color":"yellow","shape":"circle"}]],[4,[3,{"color":"green","shape":"circle"}],[4,{"color":"red","shape":"circle"}]]],"tile*":10,"players":[{"score":10,"tile*":[{"color":"orange","shape":"clover"},{"color":"red","shape":"diamond"},{"color":"purple","shape":"clover"}]},6,12,5]}
+
+

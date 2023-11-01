@@ -1,0 +1,29 @@
+"ldasg"
+{
+  "map": [
+    [-5, [3, { "color": "green", "shape": "circle" }]],
+    [-4, [3, { "color": "blue", "shape": "circle" }]],
+    [-3, [3, { "color": "yellow", "shape": "circle" }]],
+    [-2, [3, { "color": "orange", "shape": "circle" }]],
+    [-1, [3, { "color": "purple", "shape": "circle" }], [4, { "color": "purple", "shape": "8star" }]],
+    [0, [3, { "color": "red", "shape": "circle" }]],
+    [1, [3, { "color": "green", "shape": "circle" }], [4, { "color": "green", "shape": "8star" }]],
+    [2, [3, { "color": "blue", "shape": "circle" }]],
+    [3, [3, { "color": "yellow", "shape": "circle" }]],
+    [4, [3, { "color": "orange", "shape": "circle" }]],
+    [5, [3, { "color": "purple", "shape": "circle" }]]
+  ],
+  "tile*": 414,
+  "players": [
+    {"score": 1530,
+     "tile*": [
+      {"color": "purple", "shape": "8star"},
+      {"color": "green", "shape": "8star"},
+      {"color": "blue", "shape": "8star"},
+      {"color": "red", "shape": "8star"}
+      ]
+    },
+    555,
+    1451
+  ]
+}

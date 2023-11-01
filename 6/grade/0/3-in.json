@@ -1,0 +1,42 @@
+{
+  "map": [
+    [
+      0,
+      [
+        0,
+        {
+          "color": "purple",
+          "shape": "square"
+        }
+      ]
+    ]
+  ],
+  "tile*": 3,
+  "players": [
+    {
+      "score": 90,
+      "tile*": [
+        {
+          "shape": "8star",
+          "color": "green"
+        },
+        {
+          "shape": "star",
+          "color": "yellow"
+        },
+        {
+          "shape": "diamond",
+          "color": "red"
+        },
+        {
+          "shape": "circle",
+          "color": "orange"
+        }
+      ]
+    },
+    120,
+    67
+  ]
+}
+"dag"
+

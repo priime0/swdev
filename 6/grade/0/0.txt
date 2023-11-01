@@ -1,0 +1,33 @@
+THIS OUTPUT IS THE RESULT OF REVERSING THE ORDER OF THE JSON INPUTS
+
+(testing /course/cs4500f23/ta/23SwDev/Code/6/./Flipping/Tmp16987977891698797789023/0-in.json /course/cs4500f23/ta/23SwDev/Code/6/./Flipping/Tmp16987977891698797789023/0-out.json)
+(testing /course/cs4500f23/ta/23SwDev/Code/6/./Flipping/Tmp16987977891698797789023/3-in.json /course/cs4500f23/ta/23SwDev/Code/6/./Flipping/Tmp16987977891698797789023/3-out.json)
+(testing /course/cs4500f23/ta/23SwDev/Code/6/./Flipping/Tmp16987977891698797789023/4-in.json /course/cs4500f23/ta/23SwDev/Code/6/./Flipping/Tmp16987977891698797789023/4-out.json)
+
+(testing /course/cs4500f23/ta/tedium-workdir/github/fearless-mice/6/xstrategy)
+---------------------------------
+(*** score 0)
+(*** on)
+'("dag"
+  #hasheq((map . ((0 (0 #hasheq((color . "orange") (shape . "8star"))))))
+          (players
+           .
+           (#hasheq((score . 100)
+                    (tile*
+                     .
+                     (#hasheq((color . "purple") (shape . "diamond"))
+                      #hasheq((color . "purple") (shape . "diamond"))
+                      #hasheq((color . "purple") (shape . "diamond"))
+                      #hasheq((color . "purple") (shape . "diamond")))))
+            1
+            2))
+          (tile* . 5)))
+(*** expected)
+'("replace")
+(*** but received)
+'(((plain fast with-newline plain-unicode) ("pass")))
+
+
+((/course/cs4500f23/ta/23SwDev/Code/6/./Flipping/Tmp16987977891698797789023/0-in.json /course/cs4500f23/ta/23SwDev/Code/6/./Flipping/Tmp16987977891698797789023/0-out.json) (/course/cs4500f23/ta/23SwDev/Code/6/./Flipping/Tmp16987977891698797789023/3-in.json /course/cs4500f23/ta/23SwDev/Code/6/./Flipping/Tmp16987977891698797789023/3-out.json))
+((passed 2) (total 3) (partial-score 2))
+

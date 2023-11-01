@@ -1,0 +1,33 @@
+"dag"
+
+{ "map" : [
+  [-1,
+    [0,
+      {"color" : "blue" , "shape" : "square"}
+    ]
+  ],
+  [0,
+   [-1,
+      {"color" : "blue" , "shape" : "star"}
+    ],
+    [0,
+      {"color" : "blue" , "shape" : "circle"}
+    ],
+    [1,
+      {"color" : "blue" , "shape" : "8star"}
+    ]
+  ],
+  [1,
+    [0,
+      {"color" : "blue" , "shape" : "diamond"}
+    ]
+  ]
+],
+  "tile*" : 20,
+  "players" : [
+    {"score":  5, "tile*":  [{"color" : "purple", "shape": "circle"}, 
+                             {"color" : "purple", "shape": "clover"}]},  
+    5,
+    8 ]
+}
+

@@ -1,0 +1,40 @@
+(testing /course/cs4500f23/ta/tedium-workdir/testfest-results/6/28/Tests/0-in.json /course/cs4500f23/ta/tedium-workdir/testfest-results/6/28/Tests/0-out.json)
+(testing /course/cs4500f23/ta/tedium-workdir/testfest-results/6/28/Tests/2-in.json /course/cs4500f23/ta/tedium-workdir/testfest-results/6/28/Tests/2-out.json)
+(testing /course/cs4500f23/ta/tedium-workdir/testfest-results/6/28/Tests/3-in.json /course/cs4500f23/ta/tedium-workdir/testfest-results/6/28/Tests/3-out.json)
+(testing /course/cs4500f23/ta/tedium-workdir/testfest-results/6/28/Tests/4-in.json /course/cs4500f23/ta/tedium-workdir/testfest-results/6/28/Tests/4-out.json)
+
+(testing /course/cs4500f23/ta/tedium-workdir/github/fearless-mice/6/xstrategy)
+---------------------------------
+(*** score 0)
+(*** on)
+'("ldasg"
+  #hasheq((map
+           .
+           ((-2
+             (0 #hasheq((color . "green") (shape . "8star")))
+             (2 #hasheq((color . "green") (shape . "8star"))))
+            (-1
+             (-1 #hasheq((color . "red") (shape . "circle")))
+             (0 #hasheq((color . "blue") (shape . "circle")))
+             (2 #hasheq((color . "blue") (shape . "square"))))
+            (0
+             (0 #hasheq((color . "red") (shape . "star")))
+             (1 #hasheq((color . "blue") (shape . "clover")))
+             (2 #hasheq((color . "green") (shape . "clover"))))))
+          (players
+           .
+           (#hasheq((score . 0)
+                    (tile*
+                     .
+                     (#hasheq((color . "purple") (shape . "diamond")))))
+            0))
+          (tile* . 1)))
+(*** expected)
+'("replace")
+(*** but received)
+'(((plain fast with-newline plain-unicode) ("pass")))
+
+
+((/course/cs4500f23/ta/tedium-workdir/testfest-results/6/28/Tests/0-in.json /course/cs4500f23/ta/tedium-workdir/testfest-results/6/28/Tests/0-out.json) (/course/cs4500f23/ta/tedium-workdir/testfest-results/6/28/Tests/3-in.json /course/cs4500f23/ta/tedium-workdir/testfest-results/6/28/Tests/3-out.json) (/course/cs4500f23/ta/tedium-workdir/testfest-results/6/28/Tests/4-in.json /course/cs4500f23/ta/tedium-workdir/testfest-results/6/28/Tests/4-out.json))
+((passed 3) (total 4) (partial-score 3))
+

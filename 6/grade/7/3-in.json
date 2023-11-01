@@ -1,0 +1,18 @@
+"ldasg"
+{"map":
+[
+  [500,
+    [-20,{"color":"orange","shape":"8star"}]],
+  [499,
+    [-19,{"color":"green","shape":"diamond"}],
+    [20,{"color":"yellow","shape":"star"}]]],
+  "players":
+  [{"score":0,"tile*":[
+    {"color":"red","shape":"clover"},
+    {"color":"purple","shape":"square"},
+    {"color":"blue","shape":"circle"},
+    {"color":"red","shape":"square"},
+    {"color":"purple","shape":"circle"},
+    {"color":"blue","shape":"clover"}]}],
+  "tile*":5}
+

@@ -1,0 +1,49 @@
+"ldasg"
+{
+  "map": [
+    [
+      0,
+      [
+        0,
+        {
+          "color": "purple",
+          "shape": "diamond"
+        }
+      ],
+      [
+        1,
+        {
+          "color": "orange",
+          "shape": "diamond"
+        }
+      ]
+    ]
+  ],
+  "tile*": 3,
+  "players": [
+    {
+      "score": 7,
+      "tile*": [
+        {
+          "color": "red",
+          "shape": "square"
+        },
+        {
+          "color": "green",
+          "shape": "circle"
+        },
+        {
+          "color": "yellow",
+          "shape": "8star"
+        },
+        {
+          "color": "yellow",
+          "shape": "star"
+        }
+      ]
+    },
+    9,
+    2,
+    33
+  ]
+}

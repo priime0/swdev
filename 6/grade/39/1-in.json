@@ -1,0 +1,6 @@
+"ldasg"
+{ 
+    "map": [[0, [0, {"color": "red", "shape": "circle"}]]],
+    "tile*": 0,
+    "players": [{"score": 0, "tile*": [{"color": "red", "shape": "square"}, {"color": "blue", "shape": "circle"}]}, 0]
+}

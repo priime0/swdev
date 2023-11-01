@@ -1,0 +1,49 @@
+"ldasg"
+{
+    "map": [
+        [
+            0,
+            [
+                0,
+                {
+                    "color": "purple",
+                    "shape": "clover"
+                }
+            ],
+            [
+                1,
+                {
+                    "color": "purple",
+                    "shape": "clover"
+                }
+            ]
+        ],
+        [
+            1,
+            [
+                0,
+                {
+                    "color": "purple",
+                    "shape": "star"
+                }
+            ]
+        ]
+    ],
+    "tile*": 100,
+    "players": [
+        {
+            "score": 10,
+            "tile*": [
+                {
+                    "color": "green",
+                    "shape": "square"
+                },
+                {
+                    "color": "purple",
+                    "shape": "square"
+                }
+            ]
+        },
+        100
+    ]
+}
