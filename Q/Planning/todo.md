@@ -45,7 +45,8 @@ for the subject.
   - [ ] Refactor `apply-turn/exchange` to remove reused code.
 - [ ] Strategy:
   - [ ] Add more strategy tests for `dag`, `ldasg`, and helpers.
-  - [ ] Refactor strategy helpers in `greedy` abstract to use `valid-*?` predicates
+  - [ ] Refactor strategy helpers in `greedy` abstract to use
+        `valid-*?` predicates
 - [ ] Misc:
   - [ ] Move all in `Common/data` up a directory.
   - [ ] Move all in `Common/util` to a new directory `Lib/`.
@@ -59,14 +60,19 @@ for the subject.
 
 - [x] Testing & Bug-fixing:
   - [x] Fix `valid-board?` to remove the invariant that `(0, 0)` is
-        contained in the board. **Commit:** `e56c45c fix: updated invariants and corrected board validation`
-  - [x] Make a test script that runs all previous integration tests. **Commit:** `0bb8e21 test: finalized integration test script` 
-  - [x] Fix `xscore` to remove `turn-info` references. **Commit:** `5bd5869 fix: xscore`
+        contained in the board. **Commit:** `e56c45c fix: updated
+        invariants and corrected board validation`
+  - [x] Make a test script that runs all previous integration tests.
+        **Commit:** `0bb8e21 test: finalized integration test script`
+  - [x] Fix `xscore` to remove `turn-info` references. **Commit:**
+        `5bd5869 fix: xscore`
 - [ ] README:
-  - [x] Update the file structure. **Commit:** `1af6dc5 docs: updated README file structure`
+  - [x] Update the file structure. **Commit:** `1af6dc5 docs: updated
+        README file structure`
 - [ ] Misc:
   - [x] Move `posn` lexicographical-sorting functionality into `posn`
-        as `posn<`. **Commit:** `8b59fe7 main feat: moved posn sorting and comparison into posn.rkt`
+        as `posn<`. **Commit:** `8b59fe7 main feat: moved posn sorting
+        and comparison into posn.rkt`
 - [x] Scoring:
   - [x] Refactor `xscore` to utilize the optional end-of-game-bonus
 		parameter. **Commit:** `5bd5869 fix: xscore`
