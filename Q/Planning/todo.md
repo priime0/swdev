@@ -16,7 +16,6 @@ for the subject.
   - [ ] Make a test script that runs all previous integration tests.
   - [ ] Fix `xscore` to remove `turn-info` references
 - [ ] README:
-  - [ ] Update the file structure.
   - [ ] Add a module diagram.
   - [ ] Add a Referee-Player protocol diagram.
   - [ ] Add a Referee-Game-state protocol diagram.
@@ -63,4 +62,9 @@ for the subject.
   - [ ] Change `sort-tiles` into `tile<`
   - [ ] Don't export the `posn` row/column accessors, since they
         shouldn't be needed anywhere.
+
+#### Completed
+
+- README:
+  - [X] Update the file structure. **Commit:** `1af6dc5 docs: updated README file structure`
 

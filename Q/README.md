@@ -37,33 +37,50 @@ The project is structured as follows:
 - `Q/`: The root directory of the project
   - `README.md`: This file
   - `xtest`: The test script for running unit and integration tests
+  - `Player/`: Contains player implementations and player strategies
+    - `dag.rkt`: The "dumb and greedy" strategy implementation
+    - `ldasg.rkt`: The "less dumb and still greedy" implementation
+    - `iterative.rkt`: The implementation of an iterative strategy
+    - `greedy-select-strategy.rkt`: The abstract base class for both
+      greedy strategies.
+    - `strategy.rkt`: The strategy interface, and some helpers for
+      strategies.
+    - `player.rkt`: The local house implementation of the `playable` interface 
+  - `Referee/`: Contains referee functionality
+    - `referee.rkt`: The referee functionality; running games, rounds,
+      and turns
   - `Common/`: Contains components used by players and referees
-    - `map.rkt`: The representation of the board and its functions
-    - `game-state.rkt`: The representation of the all of the public
-      and private knowledge in a game of Q
+    - `map.rkt`: The representation of the board and its functions.
+    - `game-state.rkt`: The representation of the public and private
+      game states and all functionality for running games, validating
+      turns, and scoring.
+    - `player-state.rkt`: The representation of the knowledge about a
+      player during a game.
     - `config.rkt`: The configuration of the game, including globals
+    - `interfaces/`: Contains common interfaces
+      - `playable.rkt`: Contains the common interface for the public
+        player API
+      - `serializable.rkt`: Contains the interface for serialization to
+        JSON.
     - `data/`:
       - `tile.rkt`: The representation of tiles and its functions
       - `posn.rkt`: The representation of an arbitrary positions and
         concrete directions
+      - `turn-action.rkt`: The representation of actions that can be
+        performed during a turn.
     - `util/`:
       - `list.rkt`: List function utilities
       - `hash.rkt`: Hashtable function utilities
       - `struct.rkt`: struct function utilities
+      - `function.rkt`: Higher order function utilities
+      - `image.rkt`: Image utilities
+      - `test.rkt`: Utilities for testing
+      - `misc.rkt`: Utilities for various miscellaneous categories
 
 ## Roadmap
 
-- `tile.rkt` contains the representation of tiles and exposes
-  functionality to create, compare, and render tiles.
-- `map.rkt` contains the representation of the board and exposes
-  functionality to create the game board component, manipulate the
-  board by placing tiles and retrieving possible placement positions
-  for a new tile. Future iterations could include rendering the board.
-- `config.rkt` contains global parameters for defining settings about
-  the game, such as the size of the rendering of the tiles. This is
-  the point of control for the settings of the game. In the future,
-  different possible directions could be supported, etc.
-    
+- Support remote player implementations of the `playable` interface
+- Support different rule sets other than just the game of `Q`
 
 
 
