@@ -30,7 +30,9 @@
  pub-state/c
  priv-state/c
  hash->pub-state
+ hash->priv-state
  render-game-state
+ apply-players
  (struct-out game-state)
  (contract-out
   [any-players?
@@ -355,6 +357,17 @@
   (define board (hash->board++ jmap))
   (game-state board tile* (cons state scores*)))
 
+#; {JState -> PrivateState}
+(define (hash->priv-state jpub)
+  (define jmap (hash-ref jpub 'map))
+  (define tile* (hash-ref jpub 'tile*))
+  (define jplayers (hash-ref jpub 'players))
+
+  (define board (hash->board++ jmap))
+  (define tiles (map hash->tile++ tile*))
+  (define players (map hash->player-state++ jplayers))
+
+  (game-state board tiles players))
 
 #; {GameState -> Image}
 (define (render-game-state gs)
