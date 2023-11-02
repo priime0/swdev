@@ -113,14 +113,18 @@
       (define inputs  (filter-input-files other-test-dir))
       (define outputs (filter-output-files other-test-dir))
 
-      (define-values (passed+ failed+ total+)
+      (define-values (passed^ failed^ total^)
         (run-test-dir script inputs outputs))
 
-      (set! passed* (+ passed* passed+))
-      (set! failed* (+ failed* failed+))
-      (set! total*  (+ total* total+)))
+      (set! passed+ (+ passed+ passed^))
+      (set! failed+ (+ failed+ failed^))
+      (set! total+  (+ total+ total^)))
 
-    (printf "~a/~a passed\n" passed+ total+))
+    (printf "~a/~a passed\n" passed+ total+)
+
+    (set! passed* (+ passed* passed+))
+    (set! failed* (+ failed* failed+))
+    (set! total*  (+ total*  total+)))
 
   (displayln "=================================")
   (displayln "TOTAL")
