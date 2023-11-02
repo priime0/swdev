@@ -2,9 +2,9 @@
 
 (require json)
 (require threading)
+(require racket/place/distributed)
 
-(define dirs '("3" ;; "4" "5" "6"
-                   ))
+(define dirs '("3" "4" "5" "6"))
 
 (define root-directory (build-path (current-directory) 'up 'up))
 
@@ -33,7 +33,7 @@
   (define in-port (open-input-file input-file))
   (define expected (read-json (open-input-file output-file)))
 
-  (define command "/usr/bin/racket")
+  (define command (racket-path))
   (define script-file (path->string script))
 
   (define-values (s result-port _ err-port)
