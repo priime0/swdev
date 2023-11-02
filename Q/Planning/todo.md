@@ -10,11 +10,7 @@ Maria <lucas@priime.dev>
 Desired tasks to complete, grouped by subject, and ordered by priority
 for the subject.
 
-- [ ] Testing & Bug-fixing:
-  - [ ] Fix `valid-board?` to remove the invariant that `(0, 0)` is
-        contained in the board.
-  - [ ] Make a test script that runs all previous integration tests.
-  - [ ] Fix `xscore` to remove `turn-info` references
+
 - [ ] README:
   - [ ] Add a module diagram (IN PROGRESS)
   - [ ] Add a Referee-Player protocol diagram.
@@ -63,6 +59,11 @@ for the subject.
 
 #### Completed
 
+- [x] Testing & Bug-fixing:
+  - [x] Fix `valid-board?` to remove the invariant that `(0, 0)` is
+        contained in the board. **Commit:** `e56c45c fix: updated invariants and corrected board validation`
+  - [x] Make a test script that runs all previous integration tests. **Commit:** `0bb8e21 test: finalized integration test script` 
+  - [x] Fix `xscore` to remove `turn-info` references. **Commit:** `5bd5869 fix: xscore`
 - README:
   - [x] Update the file structure. **Commit:** `1af6dc5 docs: updated README file structure`
 - Misc:
