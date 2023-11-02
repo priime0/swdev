@@ -43,9 +43,6 @@ for the subject.
     - [ ] Change the private state contract to have the new substruct.
   - [ ] Add de/serialization for private states
   - [ ] Refactor `apply-turn/exchange` to remove reused code.
-- [ ] Scoring:
-  - [ ] Refactor `xscore` to utilize the optional end-of-game-bonus
-        parameter.
 - [ ] Strategy:
   - [ ] Add more strategy tests for `dag`, `ldasg`, and helpers.
 - [ ] Misc:
@@ -64,10 +61,13 @@ for the subject.
         contained in the board. **Commit:** `e56c45c fix: updated invariants and corrected board validation`
   - [x] Make a test script that runs all previous integration tests. **Commit:** `0bb8e21 test: finalized integration test script` 
   - [x] Fix `xscore` to remove `turn-info` references. **Commit:** `5bd5869 fix: xscore`
-- README:
+- [ ] README:
   - [x] Update the file structure. **Commit:** `1af6dc5 docs: updated README file structure`
-- Misc:
+- [ ] Misc:
   - [x] Move `posn` lexicographical-sorting functionality into `posn`
         as `posn<`. **Commit:** `8b59fe7 main feat: moved posn sorting and comparison into posn.rkt`
+- [x] Scoring:
+  - [x] Refactor `xscore` to utilize the optional end-of-game-bonus
+		parameter. **Commit:** `5bd5869 fix: xscore`
   
 
