@@ -8,7 +8,10 @@
 (require Q/Common/turn-action)
 (require Q/Common/config)
 (require Q/Common/player-state)
+(require Q/Common/tile)
 (require Q/Lib/list)
+
+(provide run-game)
 
 
 ;; A Referee is a function from a list of players to the list of
@@ -21,10 +24,14 @@
 ;; - The Ref will respond to a timeout by removing that player
 ;; If no fault occurs, then a referee will enact the turn and commit all changes
 ;; to the game state.
-(define (run-game players [tile-set '()]
-                  #:start-state [gs #f])
-  (define start-gs (make-game-state tile-set players))
-  (define gs* (or gs start-gs))
+(define (run-game players
+                  #:start-state [gs #f]
+                  #:tile-set [tile-set start-tiles])
+  (define gs*
+    (if gs
+        (apply-players (lambda (lops) (map set-player-state-player lops players))
+                       gs)
+        (make-game-state tile-set players)))
   (let loop ([priv-state^ gs*])
     (define-values (priv-state+ game-ended? any-placements?) (run-round priv-state^))
 
@@ -86,6 +93,7 @@
                              #f))])
     (define action
       (with-timeout (thunk (send playable take-turn pub-state))))
+    (println action)
     (cond
       [(not (valid-turn? priv-state action))
        (values (remove-player priv-state)
@@ -127,10 +135,12 @@
   (require Q/Player/player)
   (require Q/Player/dag)
   (require Q/Player/ldasg)
+  (require Q/Common/map)
 
   (define tile-set
     (~>> (cartesian-product tile-colors tile-shapes)
          (map (curry apply tile))))
+
 
   (define dumb%
     (class* object% (player-strategy<%>)
@@ -152,7 +162,7 @@
                (list (new player% [id 'andrey] [strategy dag])
                      (new player% [id 'lucas]  [strategy ldasg])
                      (new player% [id 'luke]   [strategy dag]))
-               tile-set)
+               #:tile-set tile-set)
    '(("andrey") . (())))
 
 
@@ -163,5 +173,5 @@
                (list (new player% [id 'luke]   [strategy dumb])
                      (new player% [id 'andrey] [strategy dag])
                      (new player% [id 'lucas]  [strategy ldasg]))
-               tile-set)
+               #:tile-set tile-set)
    '(("andrey") . (("luke")))))
