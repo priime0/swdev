@@ -57,3 +57,8 @@ for the subject.
   - [ ] Don't export the `posn` row/column accessors, since they
         shouldn't be needed anywhere.
 
+#### Completed
+
+- README:
+  - [X] Update the file structure. **Commit:** `1af6dc5 docs: updated README file structure`
+
