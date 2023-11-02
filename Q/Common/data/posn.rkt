@@ -44,7 +44,11 @@
         #:pre/name (pns)
         "posns must be aligned on an axis"
         (same-axis? pns)
-        [result axis?])]))
+        [result axis?])]
+  [posn<?
+   (-> posn? posn? boolean?)]
+  [sort-posns
+   (-> (listof posn?) (listof posn?))]))
 
 #; {type Posn = (posn Integer Integer)}
 ;; A Posn is a (posn r c), which represent a row and column.
@@ -62,6 +66,19 @@
              (match-define [posn row column] p)
              (hash 'row row 'column column))])
 
+
+#; {Posn Posn -> Boolean}
+;; Is the first posn smaller than the second in row-column order?
+(define (posn<? p1 p2)
+  (or (< (posn-row p1) (posn-row p2))
+      (and (= (posn-row p1) (posn-row p2))
+           (< (posn-column p1) (posn-column p2)))))
+
+#; {[Listof Posn] -> [Listof Posn]}
+;; Sort the given list of posns using row-column order.
+(define (sort-posns posns)
+  (sort posns
+        posn<?))
 
 #; {type Direction = (U 'up 'down 'left 'right)}
 ;; A Direction represents a pair of '(Δr . Δc) that are unit vector translations in one of the
