@@ -202,7 +202,7 @@
   (match action
     [(place pments)  (take tiles* (min (length tiles*) (length pments)))]
     [(exchange)      (take tiles* (*hand-size*))]
-    [_               0]))
+    [_               (error 'new-tiles "new tiles requested on a pass")]))
 
 
 #; {GameState TurnAction -> Boolean}

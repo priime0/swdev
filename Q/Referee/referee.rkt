@@ -90,20 +90,23 @@
     (define misbehave-proc (lambda (act) (thunk (return (deal-with-misbehavior priv-state act)))))
     (define action
       (send/checked (thunk (send playable take-turn pub-state))
-                    (misbehave-proc (pass))))
-
+                    (misbehave-proc (pass))))    
     (cond
       [(valid-turn? priv-state action)
        (define priv-state+ (apply-turn priv-state action))
        (define score       (score-turn priv-state+ action))
-       (define p-tiles     (new-tiles priv-state+ action))
-       (send/checked (thunk (send playable new-tiles p-tiles))
-                     (misbehave-proc action))
-       (define priv-state++ (end-turn priv-state+ action #:new-points score #:tiles-given (length p-tiles)))
-       (cond
-         [(turn-ends-game? priv-state+ action) (cons 'game-end priv-state++)]
-         [(place? action)                      (cons 'place    priv-state++)]
-         [else                                 (cons 'place    priv-state++)])]
+       (unless (pass? action)
+         (define p-tiles     (new-tiles priv-state+ action))
+         (send/checked (thunk (send playable new-tiles p-tiles))
+                       (misbehave-proc action))
+         (define priv-state++ (end-turn priv-state+ action #:new-points score #:tiles-given (length p-tiles)))
+         (return
+          (cond
+            [(turn-ends-game? priv-state+ action) (cons 'game-end priv-state++)]
+            [(place? action)                      (cons 'place    priv-state++)]
+            [else                                 (cons 'no-place priv-state++)])))
+       
+       (cons 'no-place (end-turn priv-state+ action #:new-points score))]
       [else (deal-with-misbehavior priv-state action)])))
 
 #; {(-> Any) (-> Any) -> Any}
@@ -189,7 +192,7 @@
                      (new player% [id 'lucas]  [strategy ldasg])
                      (new player% [id 'luke]   [strategy dag]))
                tile-set)
-   '(("andrey") . (())))
+   '(("luke") . (())))
 
 
   (test-equal?
