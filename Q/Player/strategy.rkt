@@ -6,10 +6,10 @@
 (require Q/Common/game-state)
 (require Q/Common/player-state)
 (require Q/Common/map)
-(require Q/Common/data/tile)
-(require Q/Common/data/posn)
+(require Q/Common/tile)
+(require Q/Common/posn)
 (require Q/Common/config)
-(require Q/Common/data/turn-action)
+(require Q/Common/turn-action)
 (require Q/Common/util/list)
 
 

@@ -5,8 +5,8 @@
 (require struct-plus-plus)
 
 (require Q/Common/map)
-(require Q/Common/data/tile)
-(require Q/Common/data/posn)
+(require Q/Common/tile)
+(require Q/Common/posn)
 
 (define jboard (read-json (current-input-port)))
 (define jtile  (read-json (current-input-port)))

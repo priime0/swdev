@@ -3,7 +3,7 @@
 (require json)
 
 (require Q/Common/game-state)
-(require Q/Common/data/turn-action)
+(require Q/Common/turn-action)
 (require Q/Common/game-state)
 (require Q/Common/interfaces/serializable)
 

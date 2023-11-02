@@ -7,7 +7,7 @@
 (require 2htdp/image)
 
 (require Q/Common/config)
-(require Q/Common/data/tile)
+(require Q/Common/tile)
 (require Q/Common/util/list)
 (require Q/Common/util/test)
 (require Q/Common/interfaces/serializable)

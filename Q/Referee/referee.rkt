@@ -5,7 +5,7 @@
 
 (require Q/Common/game-state)
 (require Q/Common/interfaces/playable)
-(require Q/Common/data/turn-action)
+(require Q/Common/turn-action)
 (require Q/Common/config)
 (require Q/Common/player-state)
 (require Q/Common/util/list)
@@ -120,9 +120,9 @@
   (require threading)
 
   (require Q/Common/util/test)
-  (require Q/Common/data/posn)
-  (require Q/Common/data/tile)
-  (require Q/Common/data/turn-action)
+  (require Q/Common/posn)
+  (require Q/Common/tile)
+  (require Q/Common/turn-action)
   (require Q/Player/strategy)
   (require Q/Player/player)
   (require Q/Player/dag)

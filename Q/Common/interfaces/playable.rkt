@@ -4,8 +4,8 @@
 (require racket/lazy-require)
 
 (require Q/Common/map)
-(require Q/Common/data/tile)
-(require Q/Common/data/turn-action)
+(require Q/Common/tile)
+(require Q/Common/turn-action)
 (lazy-require [Q/Common/game-state (pub-state/c)])
 
 

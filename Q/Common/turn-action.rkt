@@ -4,8 +4,8 @@
 
 (require struct-plus-plus)
 
-(require Q/Common/data/posn)
-(require Q/Common/data/tile)
+(require Q/Common/posn)
+(require Q/Common/tile)
 (require Q/Common/interfaces/serializable)
 
 (provide

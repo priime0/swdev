@@ -1,7 +1,7 @@
 #lang racket
 
 (require Q/Common/game-state)
-(require Q/Common/data/turn-action)
+(require Q/Common/turn-action)
 (require Q/Player/strategy)
 (require Q/Player/dag)
 (require Q/Player/ldasg)

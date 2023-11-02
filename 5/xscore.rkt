@@ -4,7 +4,7 @@
 
 (require Q/Common/game-state)
 (require Q/Common/map)
-(require Q/Common/data/turn-action)
+(require Q/Common/turn-action)
 (require Q/Common/player-state)
 (require Q/Common/config)
 
