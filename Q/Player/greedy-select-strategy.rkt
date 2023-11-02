@@ -35,7 +35,7 @@
          (define posns-sort
            (sort-by compare-accessor-list))
          (choose-placement t posns posns-sort)]
-        [(>= tiles* (*hand-size*))
+        [(>= tiles* (length (player-state-hand state)))
          (exchange)]
         [else
          (pass)]))))
