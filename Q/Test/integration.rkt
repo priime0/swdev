@@ -31,36 +31,46 @@
 
 (define (run-script-for-tests script input-file output-file)
   (define in-port (open-input-file input-file))
-  (define expected (read-json (open-input-file output-file)))
+  (define expected-port (open-input-file output-file))
+  (define expected (read-json expected-port))
+  (close-input-port expected-port)
 
   (define command (racket-path))
   (define script-file (path->string script))
-
-  (define-values (s result-port _ err-port)
+  
+  (define-values (s result-port op err-port)
     (subprocess #f in-port #f command script-file))
   (subprocess-wait s)
+  (close-input-port in-port)
 
-  (let/ec return
-    (unless (zero? (subprocess-status s))
-      (displayln "ERRORED")
-      (display "test: ")
-      (println input-file)
-      (displayln "error:")
-      (displayln (port->string err-port))
-      (return #f))
+  (define result
+    (let/ec return
+      (unless (zero? (subprocess-status s))
+        (displayln "ERRORED")
+        (display "test: ")
+        (println input-file)
+        (displayln "error:")
+        (displayln (port->string err-port))
+        (return #f))
 
-    (define result (read-json result-port))
-    (unless (equal? expected result)
-      (displayln "DIFFERENT OUTPUT")
-      (display "test: ")
-      (println input-file)
-      (displayln "expected:")
-      (println expected)
-      (displayln "received:")
-      (println result)
-      (return #f))
+      (define result (read-json result-port))
+      (unless (equal? expected result)
+        (displayln "DIFFERENT OUTPUT")
+        (display "test: ")
+        (println input-file)
+        (displayln "expected:")
+        (println expected)
+        (displayln "received:")
+        (println result)
+        (return #f))
 
-    #t))
+      #t))
+
+  (close-input-port result-port)
+  (when op (close-output-port op))
+  (close-input-port err-port)
+
+  result)
 
 (define (run-test-dir script inputs outputs)
   (for/fold ([passed 0]
