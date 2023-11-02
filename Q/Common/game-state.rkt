@@ -73,7 +73,11 @@
    (-> priv-state/c turn-action?
        #:new-points natural?
        #:tiles-given natural?
-       priv-state/c)]))
+       priv-state/c)]
+  [turn-ends-game?
+   (-> game-state/c
+       turn-action?
+       boolean?)]))
 
 
 #; {type PrivateState = (game-state Board
@@ -201,6 +205,14 @@
     [_               0]))
 
 
+#; {GameState TurnAction -> Boolean}
+;; Does the given turn end the game?
+(define (turn-ends-game? gs action)
+  (define curr-player (first (game-state-players gs)))
+  (and (place? action)
+       (= (length (player-state-hand curr-player))
+          (length (place-placements action)))))
+
 #; {GameState TurnAction -> GameState}
 ;; Apply the turn action to the game state.
 (define (apply-turn gs action)
@@ -224,8 +236,12 @@
 
   (game-state board+ tiles (cons state++ other-players)))
 
+
+
 #; {GameState -> GameState}
-;; Removes the current player's tiles from their hand, and adds them back to the pool.
+;; Removes the current player's tiles from their hand, and adds them
+;; back to the pool, and gives out new tiles *WITHOUT* removing them
+;; from the referee's tiles.
 (define (apply-turn/exchange gs)
   (match-define [game-state board tiles [cons state others]] gs)
   (define hand    (player-state-hand state))
@@ -234,7 +250,6 @@
   (define tiles+  (if (priv-state? gs)
                       (append tiles hand)
                       (+ tiles (length hand))))
-  ;; TODO: This is reused code from apply-turn/placement in state++, refactor
   (define state++ (if (priv-state? gs)
                       (refill-hand state+ tiles+)
                       state+))

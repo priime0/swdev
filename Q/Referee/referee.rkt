@@ -96,14 +96,11 @@
        (define score       (score-turn priv-state+ action))
        (define p-tiles     (new-tiles priv-state+ action))
        (with-timeout (thunk (send playable new-tiles p-tiles)))
-       (define num-placements
-         (match action
-           [(place pments) (length pments)]
-           [_              0]))
-       (define game-ended? (= (length (player-state-hand curr-player)) num-placements))
        (values (end-turn priv-state+ action #:new-points score #:tiles-given (length p-tiles))
-               game-ended?
+               (turn-ends-game? priv-state action)
                (place? action))])))
+
+
 
 #; {(-> Any) -> Any}
 ;; Call the given think with this game's timeout, specified in config.
