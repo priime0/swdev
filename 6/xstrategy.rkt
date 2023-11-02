@@ -10,8 +10,15 @@
 (require json)
 
 
-(define jstrat (read-json))
-(define jpub (read-json))
+(define j1 (read-json))
+(define j2 (read-json))
+
+(define jstrat (if (string? j1)
+                   j1
+                   j2))
+(define jpub (if (string? j1)
+                 j2
+                 j1))
 
 (define pub-state (hash->pub-state jpub))
 (define strat
