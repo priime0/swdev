@@ -57,8 +57,6 @@ for the subject.
   - [ ] Move all in `Common/util` to a new directory `Lib/`.
   - [ ] Move provided contracts into definitions with
         `define/contract`.
-  - [ ] Move `posn` lexicographical-sorting functionality into `posn`
-        as `posn<`
   - [ ] Change `sort-tiles` into `tile<`
   - [ ] Don't export the `posn` row/column accessors, since they
         shouldn't be needed anywhere.
@@ -66,5 +64,9 @@ for the subject.
 #### Completed
 
 - README:
-  - [X] Update the file structure. **Commit:** `1af6dc5 docs: updated README file structure`
+  - [x] Update the file structure. **Commit:** `1af6dc5 docs: updated README file structure`
+- Misc:
+  - [x] Move `posn` lexicographical-sorting functionality into `posn`
+        as `posn<`. **Commit:** `8b59fe7 main feat: moved posn sorting and comparison into posn.rkt`
+  
 
