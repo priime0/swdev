@@ -15,19 +15,15 @@
 
 (provide
  player-state++
- valid-hand?
  set-player-state-score
  set-player-state-hand
  hash->player-state++
  (struct-out player-state)
  (contract-out
   [make-player-state
-   (->i ([hnd (listof tile?)])
-        ([playable (is-a?/c playable<%>)])
-        #:pre/name (hnd)
-        "hand must be valid!"
-        (valid-hand? hnd)
-        [result player-state?])]
+   (-> (listof tile?)
+       (is-a?/c playable<%>)
+       player-state?)]
   [add-to-hand
    (-> player-state? (listof tile?)
        player-state?)]
@@ -57,20 +53,13 @@
    (-> player-state?
        image?)]))
 
-
-#; {[Listof Tile] -> Boolean}
-;; Does the given hand have at most *hand-size* tiles?
-(define (valid-hand? hand)
-  (<= (length hand) (*hand-size*)))
-
 #; {type PlayerState = (player-state Natural [Listof Tile] Playable)}
 ;; A PlayerState represents a participating player's state during any instant of time, containing
 ;; the points the player accrued during the game, along with the tiles in their hand during a move.
 ;; INVARIANT: The hand of a player state has a length L such that 0 ≤ L ≤ (*hand-size*).
 (struct++ player-state
           ([(score 0)       natural?]
-           [hand            (and/c (listof tile?)
-                                   valid-hand?)]
+           [hand            (listof tile?)]
            [(player #f)     (or/c (is-a?/c playable<%>) false?)])
           #:transparent
           #:methods gen:serializable
@@ -171,21 +160,6 @@
 
 
 (module+ test
-  (test-true
-   "valid hand"
-   (parameterize ([*hand-size* 6])
-     (valid-hand? '())))
-  
-  (test-false
-   "invalid hand"
-   (parameterize ([*hand-size* 6])
-     (valid-hand? (list (tile 'yellow 'square)
-                        (tile 'blue 'square)
-                        (tile 'red 'square)
-                        (tile 'purple 'square)
-                        (tile 'green 'square)
-                        (tile 'orange 'square)
-                        (tile 'orange 'circle)))))
   (test-equal?
    "remove tile list from hand"
    (remove-from-hand ps1
