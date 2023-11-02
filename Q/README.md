@@ -82,6 +82,52 @@ The project is structured as follows:
 - Support remote player implementations of the `playable` interface
 - Support different rule sets other than just the game of `Q`
 
+## Module Diagram
+```
+
+                                                 +---------------------+
+                                                 |       Referee       |
+                                                 +---------------------+
+                                                 |- Private Game State |
+                                                 +----------+----------+
+                                                            |
+                                                            |
+                                                            v
++------------------------------+                +----------------------+
+|      Public Game State       |                |  Private Game State  |
++------------------------------+                +----------------------+
+| - List PlayerState Natural.. |                | - Listof PlayerState |
+|                              |    Creates     |                      |
+| - Natural                    |<---------------+ - Listof Tile        |
+|                              |                |                      |
+| - Board                      |                | - Board              |
++------------------------------+                +----------------------+
 
 
+                               +--------------------------------------------------------------------+
+                               |  Common                                                            |
+    +---------------------+    |                                                                    |
+    | Playable Interface  |    |                                                                    |
+    +---------------------+    |     +-----------------+       +-----------------------+            |
+                               |     |   PlayerState   |       |  Board                |            |
+        +-------------+        |     +-----------------+       +-----------------------+            |
+        |   Player    |        |     |  - Natural      |       | - Hashtable Posn Tile |            |
+        +-------------+        |     |                 |       +-----------------------+            |
+        | - Strategy  |        |     |  - Listof Tile  |                                            |
+        +-------------+        |     |                 |       +-----------+  +----------+          |
+                               |     |  - Playable     |       |    Posn   |  |  Tile    |          |
+                               |     +-----------------+       +-----------+  +----------+          |
+                               |                               | - Integer |  | - Shape  |          |
+                               |     +------------------+      |           |  |          |          |
+                               |     |   TilePlacement  |      | - Integer |  | - Color  |          |
+                               |     +------------------+      +-----------+  +----------+          |
+                               |     | - Posn           |                                           |
+                               |     |                  |                                           |
+                               |     | - Tile           |                                           |
+                               |     +------------------+                                           |
+                               |                                                                    |
+                               |                                                                    |
+                               |                                                                    |
+                               +--------------------------------------------------------------------+
 
+```

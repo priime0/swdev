@@ -11,7 +11,7 @@ Desired tasks to complete, grouped by subject, and ordered by priority
 for the subject.
 
 - [ ] README:
-  - [ ] Add a module diagram.
+  - [ ] Add a module diagram (IN PROGRESS)
   - [ ] Add a Referee-Player protocol diagram.
   - [ ] Add a Referee-Game-state protocol diagram.
   - [ ] Add a Referee-Observer protocol diagram.
