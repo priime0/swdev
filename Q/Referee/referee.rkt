@@ -26,49 +26,57 @@
   (define start-gs (make-game-state tile-set players))
   (define gs* (or gs start-gs))
   (let loop ([priv-state^ gs*])
-    (define-values (priv-state+ game-ended? any-placements?) (run-round priv-state^))
-
+    (define round-result (run-round priv-state^))
     (cond
-      [(not (or game-ended? (not any-placements?)))
-       (loop priv-state+)]
-      [else
-       (define final-players   (game-state-players priv-state+))
-       (define initial-players (game-state-players gs*))
-       (define final-names     (player-names final-players))
-       (define initial-names   (player-names initial-players))
-
-       (define winners   (player-names (get-winners final-players)))
-       (define sinners   (remove-from final-names initial-names))
-       (list winners sinners)])))
+      [(game-state? round-result)
+       (loop round-result)]
+      [(list? round-result)
+       (define-values (winners losers)
+         (end-game round-result))
+       (list (player-names winners) (remove-from (player-names (append winners losers))
+                                                 (player-names players)))])))
 
 
-#; {[Listof PlayerState] -> [Listof String]}
+#; {type TurnResult = (U [Pair 'place PrivateState]
+                         [Pair 'no-place PrivateState]
+                         [Pair 'game-end PrivateState])}
+;; Represents the result of a single turn, which can either be a new
+;; state after a placement, a new state after no placement, or an end
+;; of game.
+
+#; {type RoundResult = (U PrivateState
+                       [Listof PlayerState])}
+
+
+#; {[Listof Playable] -> [Listof String]}
 ;; Gets the name of each player in the given list.
-(define (player-names player-states)
-  (~>> player-states
-       (map player-state-player)
+(define (player-names players)
+  (~>> players
        (map (lambda (play) (send play name)))))
 
-#; {[Listof PlayerState] -> [Listof PlayerState]}
-;; Gets the list of winners from the given list of player states.
-(define (get-winners player-states)
-  (define max-score (apply max (map player-state-score player-states)))
-  (filter (lambda (p) (= (player-state-score p) max-score)) player-states))
 
-#; {PrivState -> PrivState}
+#; {PrivState -> RoundResult}
 ;; Run a single round to completion, or ending early if the game ends
 ;; before the round is over.
 (define (run-round ps)
   (define num-players (length (game-state-players ps)))
-  (for/fold ([ps^ ps]
-             [game-ended?     #f]
-             [any-placements? #f])
-            ([_ (in-range num-players)]
-             #:break game-ended?)
-    (define-values (ps+ ge? ap?) (run-turn ps^))
-    (values ps+ ge? (or ap? any-placements?))))
+  (define-values (next-priv-state any-places? end?)
+    (for/fold ([ps^ ps]
+               [any-placements? #f]
+               [end? #f])
+              ([_ (in-range num-players)]
+               #:break end?)
+      (define turn-result (run-turn ps^))
+      (match turn-result
+        [(cons 'place ps+)    (values ps+ #t #f)]
+        [(cons 'no-place ps+) (values ps+ any-placements? #f)]
+        [(cons 'game-end ps+) (values ps+ any-placements? #t)])))
+  (cond
+    [(or end? (not any-places?))
+     (game-state-players next-priv-state)]
+    [else next-priv-state]))
 
-#; {PrivateState -> (values PrivateState Boolean Boolean)}
+#; {PrivateState -> TurnResult}
 ;; Run a single turn for the current player, obeying the protocol with
 ;; PrivateState, assuming that the game is not over.  Returns the
 ;; updated state and whether this action ended the game, and whether
@@ -78,29 +86,60 @@
   (define curr-player (first (game-state-players pub-state)))
   (define playable    (player-state-player curr-player))
 
-  (with-handlers ([exn:fail?
-                   (lambda (e)
-                     (println e)
-                     (values (remove-player priv-state)
-                             (not (any-players? (remove-player priv-state)))
-                             #f))])
+  (let/ec return
+    (define misbehave-proc (lambda (act) (thunk (return (deal-with-misbehavior priv-state act)))))
     (define action
-      (with-timeout (thunk (send playable take-turn pub-state))))
+      (send/checked (thunk (send playable take-turn pub-state))
+                    (misbehave-proc (pass))))
+
     (cond
-      [(not (valid-turn? priv-state action))
-       (values (remove-player priv-state)
-               (not (any-players? (remove-player priv-state)))
-               #f)]
-      [else
+      [(valid-turn? priv-state action)
        (define priv-state+ (apply-turn priv-state action))
        (define score       (score-turn priv-state+ action))
        (define p-tiles     (new-tiles priv-state+ action))
-       (with-timeout (thunk (send playable new-tiles p-tiles)))
-       (values (end-turn priv-state+ action #:new-points score #:tiles-given (length p-tiles))
-               (turn-ends-game? priv-state action)
-               (place? action))])))
+       (send/checked (thunk (send playable new-tiles p-tiles))
+                     (misbehave-proc action))
+       (define priv-state++ (end-turn priv-state+ action #:new-points score #:tiles-given (length p-tiles)))
+       (cond
+         [(turn-ends-game? priv-state+ action) (cons 'game-end priv-state++)]
+         [(place? action)                      (cons 'place    priv-state++)]
+         [else                                 (cons 'place    priv-state++)])]
+      [else (deal-with-misbehavior priv-state action)])))
 
+#; {(-> Any) (-> Any) -> Any}
+;; IDK
+(define (send/checked send-thunk callback)
+  (with-handlers ([exn:fail? (lambda (e) (println e) (callback))])
+    (with-timeout send-thunk)))
 
+#; {PrivateState TurnAction -> TurnResult}
+;; Removes a misbehaving player, returning either the next state or an end-of-game signal.
+(define (deal-with-misbehavior priv-state [action (pass)])
+  (define priv-state+ (remove-player priv-state))
+  (define turn-type
+    (match action
+      [(place _) 'place]
+      [_         'no-place]))
+  (cons (if (any-players? priv-state+)
+            turn-type
+            'game-end)
+        priv-state+))
+
+#; {[Listof PlayerState] -> (values [Listof Playable]
+                                    [Listof Playable])}
+;; Computes the list of winners and the list of losers.
+(define (end-game players)
+  (define winners  (get-winners players))
+  (define losers   (filter (negate (curryr member? winners)) players))
+  (define win-players (map player-state-player winners))
+  (define lose-players (map player-state-player losers))
+  (values win-players lose-players))
+
+#; {[Listof PlayerState] -> [Listof PlayerState]}
+;; Gets the list of winners from the given list of player states.
+(define (get-winners player-states)
+  (define max-score (apply max (map player-state-score player-states)))
+  (filter (lambda (p) (= (player-state-score p) max-score)) player-states))
 
 #; {(-> Any) -> Any}
 ;; Call the given think with this game's timeout, specified in config.
