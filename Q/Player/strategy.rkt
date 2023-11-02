@@ -10,7 +10,7 @@
 (require Q/Common/posn)
 (require Q/Common/config)
 (require Q/Common/turn-action)
-(require Q/Common/util/list)
+(require Q/Lib/list)
 
 
 (provide

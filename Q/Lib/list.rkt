@@ -1,7 +1,7 @@
 #lang racket
 
-(require Q/Common/util/hash)
-(require Q/Common/util/function)
+(require Q/Lib/hash)
+(require Q/Lib/function)
 
 (provide
  find-remf

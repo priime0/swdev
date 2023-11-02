@@ -4,7 +4,7 @@
 (require Q/Common/game-state)
 (require Q/Common/player-state)
 (require Q/Common/turn-action)
-(require Q/Common/util/list)
+(require Q/Lib/list)
 
 (require Q/Player/strategy)
 

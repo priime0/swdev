@@ -19,9 +19,9 @@
 (require Q/Common/turn-action)
 (require Q/Common/tile)
 (require Q/Common/posn)
-(require Q/Common/util/list)
-(require Q/Common/util/image)
-(require Q/Common/util/misc)
+(require Q/Lib/list)
+(require Q/Lib/image)
+(require Q/Lib/misc)
 (require Q/Common/interfaces/serializable)
 (require Q/Common/interfaces/playable)
 
@@ -372,7 +372,7 @@
 #;
 (module+ test
   (require rackunit)
-  (require Q/Common/util/test)
+  (require Q/Lib/test)
   (define tile-product (cartesian-product tile-colors tile-shapes))
   (define tile-set (map (curry apply tile) tile-product))
   (define players1 '(lucas andrey luke))

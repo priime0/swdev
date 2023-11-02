@@ -8,7 +8,7 @@
 (require Q/Common/turn-action)
 (require Q/Common/config)
 (require Q/Common/player-state)
-(require Q/Common/util/list)
+(require Q/Lib/list)
 
 
 ;; A Referee is a function from a list of players to the list of
@@ -119,7 +119,7 @@
   (require racket/class)
   (require threading)
 
-  (require Q/Common/util/test)
+  (require Q/Lib/test)
   (require Q/Common/posn)
   (require Q/Common/tile)
   (require Q/Common/turn-action)

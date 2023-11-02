@@ -5,8 +5,8 @@
 (require 2htdp/image)
 
 (require Q/Common/config)
-(require Q/Common/util/list)
-(require Q/Common/util/struct)
+(require Q/Lib/list)
+(require Q/Lib/struct)
 (require Q/Common/interfaces/serializable)
 
 (provide
