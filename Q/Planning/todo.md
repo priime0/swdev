@@ -45,6 +45,7 @@ for the subject.
   - [ ] Refactor `apply-turn/exchange` to remove reused code.
 - [ ] Strategy:
   - [ ] Add more strategy tests for `dag`, `ldasg`, and helpers.
+  - [ ] Refactor strategy helpers in `greedy` abstract to use `valid-*?` predicates
 - [ ] Misc:
   - [ ] Move all in `Common/data` up a directory.
   - [ ] Move all in `Common/util` to a new directory `Lib/`.
