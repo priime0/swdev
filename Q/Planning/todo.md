@@ -49,8 +49,6 @@ for the subject.
   - [ ] Refactor strategy helpers in `greedy` abstract to use
         `valid-*?` predicates
 - [ ] Misc:
-  - [ ] Move all in `Common/data` up a directory.
-  - [ ] Move all in `Common/util` to a new directory `Lib/`.
   - [ ] Move provided contracts into definitions with
         `define/contract`.
   - [ ] Change `sort-tiles` into `tile<`
@@ -74,6 +72,11 @@ for the subject.
   - [x] Move `posn` lexicographical-sorting functionality into `posn`
         as `posn<`. **Commit:** `8b59fe7 main feat: moved posn sorting
         and comparison into posn.rkt`
+  - [x] Move all in `Common/data` up a directory. **Commit:** 4ff9da1
+        `refactor: move all in Common/data to Common`
+  - [x] Move all in `Common/util` to a new directory `Lib/`.
+        **Commit:** `f9caa8a main refactor: move all in Common/util to
+        Lib/`
 - [x] Scoring:
   - [x] Refactor `xscore` to utilize the optional end-of-game-bonus
 		parameter. **Commit:** `5bd5869 fix: xscore`

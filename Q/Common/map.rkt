@@ -15,7 +15,7 @@
 (require Q/Common/tile)
 (require Q/Common/posn)
 (require Q/Common/turn-action)
-(require Q/Common/util/function)
+(require Q/Lib/function)
 (require Q/Common/interfaces/serializable)
 
 (provide
@@ -370,7 +370,7 @@
 
 (module+ test
   (require rackunit)
-  (require Q/Common/util/test)
+  (require Q/Lib/test)
 
   (define example-board
     (board (hash (posn 0 0) (tile 'red 'square)

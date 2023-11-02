@@ -1,6 +1,6 @@
 #lang racket
 
-(require Q/Common/util/list)
+(require Q/Lib/list)
 
 (provide
  struct-equal-field?)

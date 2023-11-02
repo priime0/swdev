@@ -8,8 +8,8 @@
 
 (require Q/Common/config)
 (require Q/Common/tile)
-(require Q/Common/util/list)
-(require Q/Common/util/test)
+(require Q/Lib/list)
+(require Q/Lib/test)
 (require Q/Common/interfaces/serializable)
 (require Q/Common/interfaces/playable)
 

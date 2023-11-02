@@ -4,7 +4,7 @@
 (require threading)
 (require racket/place/distributed)
 
-(define dirs '("4"))
+(define dirs '("4" "5" "6"))
 
 (define root-directory (build-path (current-directory) 'up 'up))
 
@@ -89,6 +89,7 @@
   (define passed* 0)
   (define failed* 0)
   (define total* 0)
+  (define run-all #t)
 
   (for ([dir dirs]
         [test-dir test-directories])
@@ -113,22 +114,24 @@
     (set! failed* (+ failed* failed+))
     (set! total*  (+ total* total+))
 
-    (define other-test-dirs
-      (~>> (build-path test-dir "grade")
-           directory-list
-           (filter (compose string-numeric? path->string))))
+    (when run-all
+      (define other-test-dirs
+        (~>> (build-path test-dir "grade")
+             directory-list
+             (filter (compose string-numeric? path->string))))
 
-    (for ([other-dir other-test-dirs])
-      (define other-test-dir (simplify-path (build-path test-dir "grade" other-dir)))
-      (define inputs  (filter-input-files other-test-dir))
-      (define outputs (filter-output-files other-test-dir))
+      (for ([other-dir other-test-dirs])
+        (define other-test-dir (simplify-path (build-path test-dir "grade" other-dir)))
+        (define inputs  (filter-input-files other-test-dir))
+        (define outputs (filter-output-files other-test-dir))
 
-      (define-values (passed^ failed^ total^)
-        (run-test-dir script inputs outputs))
+        (define-values (passed^ failed^ total^)
+          (run-test-dir script inputs outputs))
 
-      (set! passed+ (+ passed+ passed^))
-      (set! failed+ (+ failed+ failed^))
-      (set! total+  (+ total+ total^)))
+        (set! passed+ (+ passed+ passed^))
+        (set! failed+ (+ failed+ failed^))
+        (set! total+  (+ total+ total^))))
+    
 
     (printf "~a/~a passed\n" passed+ total+)
 
