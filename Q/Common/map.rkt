@@ -86,8 +86,7 @@
 
 
 #; {type Board = (board [HashTable Posn Tile])}
-;; A Board represents a map, implemented as a hash table where the keys are 2D coordinates relative
-;; to the root tile, and the values are the tiles at the given coordinate.
+;; A Board represents a map, implemented as a hash table where the keys are 2D coordinates , and the values are the tiles at the given coordinate.
 ;; DEFINITION: Two tiles are considered _adjacent_ IFF WLOG the posns where the tiles are placed are
 ;;             neighbors.
 ;; INVARIANT 0: A Board is a connected graph.
@@ -96,7 +95,7 @@
 ;;              map.
 ;; INVARIANT 2: A position on the board is occupied by a tile IFF the position is a key in the hash
 ;;              map.
-;; INVARIANT 3: If there is at least one tile on the board, then the root posn is occupied.
+;; INVARIANT 3: There must be at least one tile on the board.
 (struct++ board
           ([map (hash/c posn? tile?)])
           #:transparent
@@ -104,27 +103,30 @@
           [(define/generic ->jsexpr* ->jsexpr)
            (define (->jsexpr b)
              (define h (make-hash))
-             (for ([(p t) (in-hash (board-map b))])
+             (define bmap (board-map b))
+             (for ([p (hash-keys bmap)])
                (match-define [posn row column] p)
-               (define t^ (->jsexpr* t))
+               (define t^ (->jsexpr* (hash-ref bmap p)))
                (hash-set! h row (cons (list column t^)
                                       (hash-ref h row '()))))
-             (for/list ([(row cells) (in-hash h)])
-               (cons row cells)))])
+             (define as-list
+               (for/list ([(row cells) (in-hash h)])
+                 (cons row (sort cells < #:key car))))
+             (sort as-list < #:key car))])
 
 
 #; {Any -> Boolean}
-;; Is the given object a `board?` that has a map of posn to tile and a
-;; root position at (0, 0)?
+;; Is the given object a `board?` that has a map of posn to tile and
+;; at least one tile on the map?
 (define (valid-board? a)
-  (define root-posn (posn 0 0))
-  (define (has-root-posn? b)
-    (tile-at a root-posn))
+  (define (has-at-least-one? b)
+    (> (length (hash-keys (board-map b)))
+       0))
   (define (posn-tile-map? b)
     (and ((listof posn?) (hash-keys (board-map b)))
          ((listof tile?) (hash-values (board-map b)))))
 
-  ((conjoin board? has-root-posn? posn-tile-map?)
+  ((conjoin board? has-at-least-one? posn-tile-map?)
    a))
 
 #; {Board -> Boolean}
