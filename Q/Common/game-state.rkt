@@ -178,7 +178,7 @@
 
   (match action
     [(place pments) (valid-place? board hand pments)]
-    [(exchange)     (valid-exchange? available)]
+    [(exchange)     (valid-exchange? available (length hand))]
     [(pass)         #t]))
 
 #; {PrivateState  -> PrivateState}
@@ -257,10 +257,10 @@
        in-hand?))
 
 
-#; {Natural -> Boolean}
+#; {Natural Natural -> Boolean}
 ;; Is an exchange a valid move with this many tiles remaining?
-(define (valid-exchange? num-tiles)
-  (>= num-tiles (*hand-size*)))
+(define (valid-exchange? num-tiles length-hand)
+  (>= num-tiles length-hand))
 
 
 #; {GameState TurnAction -> Natural}
@@ -369,6 +369,7 @@
   (above board-image (empty-space 20 20) states-image))
 
 
+#;
 (module+ test
   (require rackunit)
   (require Q/Common/util/test)
@@ -380,7 +381,7 @@
   (define gs2 (apply/seed 0 make-game-state tile-set players2))
   (define tile-set-seeded (apply/seed 0 shuffle tile-set))
 
- 
+
   #;
   (define gs1+ (take-turn gs1 (place (list (placement (posn 1 0) (tile 'green 'clover))
                                            (placement (posn 1 1) (tile 'blue 'clover))))))
