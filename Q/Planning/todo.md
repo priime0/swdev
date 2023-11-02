@@ -10,6 +10,11 @@ Maria <lucas@priime.dev>
 Desired tasks to complete, grouped by subject, and ordered by priority
 for the subject.
 
+- [ ] Testing & Bug-fixing:
+  - [ ] Fix `valid-board?` to remove the invariant that `(0, 0)` is
+        contained in the board.
+  - [ ] Make a test script that runs all previous integration tests.
+  - [ ] Fix `xscore` to remove `turn-info` references
 - [ ] README:
   - [ ] Add a module diagram (IN PROGRESS)
   - [ ] Add a Referee-Player protocol diagram.
@@ -48,6 +53,8 @@ for the subject.
 - [ ] Strategy:
   - [ ] Add more strategy tests for `dag`, `ldasg`, and helpers.
 - [ ] Misc:
+  - [ ] Move all in `Common/data` up a directory.
+  - [ ] Move all in `Common/util` to a new directory `Lib/`.
   - [ ] Move provided contracts into definitions with
         `define/contract`.
   - [ ] Move `posn` lexicographical-sorting functionality into `posn`
