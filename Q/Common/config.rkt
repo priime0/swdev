@@ -23,3 +23,6 @@
 
 ;; Determine timeout in seconds for a player to take their turn
 (define *timeout*   (make-parameter 60))
+
+(define *bonus*     (make-parameter 6))
+(define *points-per-q* (make-parameter 6))
