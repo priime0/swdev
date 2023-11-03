@@ -131,9 +131,11 @@
 
 #; {Board -> Boolean}
 ;; Does the board represent a fully connected graph?
+;; ASSUME: that the Board has at least one placed tile
 (define (connected? b)
-  (define root-posn (posn 0 0))
-  (define num-tiles (length (hash-keys (board-map b))))
+  (define board-posns (hash-keys (board-map b)))
+  (define root-posn (first board-posns))
+  (define num-tiles (length board-posns))
   (let loop ([dq (deque root-posn)] [visited (set)])
     (cond
       [(deque-empty? dq)

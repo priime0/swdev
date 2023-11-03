@@ -1,0 +1,45 @@
+{
+  "map": [
+    [
+        0,
+      [
+        0,
+        {
+          "color": "red",
+          "shape": "square"
+        }
+      ]
+    ]
+  ],
+  "tile*": [],
+  "players": [
+    {
+      "score": 0,
+      "tile*": [
+        {
+          "color": "blue",
+          "shape": "circle"
+        }
+      ]
+    },
+    {
+      "score": 0,
+      "tile*": [
+        {
+          "color": "green",
+          "shape": "8star"
+        }
+      ]
+    },
+    {
+      "score": 0,
+      "tile*": [
+        {
+          "color": "blue",
+          "shape": "circle"
+        }
+      ]
+    }
+  ]
+}
+[["andrey", "dag"], ["lucas", "ldasg"], ["matthias", "dag"]]
