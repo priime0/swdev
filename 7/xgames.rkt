@@ -14,4 +14,5 @@
   (define start-state (hash->priv-state jstate))
   (define players (map hash->player++ jactors))
 
-  (write-json (run-game players #:start-state start-state)))
+  (write-json (run-game players #:start-state start-state))
+	(displayln ""))
