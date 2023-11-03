@@ -42,7 +42,7 @@
      (send/checked
       (thunk
        (send playable setup (game-state-board gs*) hand)
-       gs^)
+       (end-turn gs^ (pass)))
       (thunk
        (remove-player gs^)))))
 
@@ -116,19 +116,19 @@
     (cond
       [(valid-turn? priv-state action)
        (define priv-state+ (apply-turn priv-state action))
-       (define score       (score-turn priv-state+ action))
        (unless (pass? action)
+         (define score       (score-turn priv-state+ action))
          (define p-tiles     (new-tiles priv-state+ action))
          (send/checked (thunk (send playable new-tiles p-tiles))
                        (misbehave-proc action))
          (define priv-state++ (end-turn priv-state+ action #:new-points score #:tiles-given (length p-tiles)))
          (return
           (cond
-            [(turn-ends-game? priv-state+ action) (cons 'game-end priv-state++)]
-            [(place? action)                      (cons 'place    priv-state++)]
-            [else                                 (cons 'no-place priv-state++)])))
+            [(turn-ends-game? priv-state action) (cons 'game-end priv-state++)]
+            [(place? action)                     (cons 'place    priv-state++)]
+            [else                                (cons 'no-place priv-state++)])))
 
-       (cons 'no-place (end-turn priv-state+ action #:new-points score))]
+       (cons 'no-place (end-turn priv-state+ action))]
       [else (deal-with-misbehavior priv-state action)])))
 
 #; {(-> Any) (-> Any) -> Any}
@@ -154,6 +154,10 @@
                                     [Listof Playable])}
 ;; Computes the list of winners and the list of losers.
 (define (end-game players)
+(for ([player players])
+    (printf "\"~a\": ~a\n"
+            (send (player-state-player player) name)
+            (player-state-score player)))
   (define winners  (get-winners players))
   (define losers   (filter (negate (curryr member? winners)) players))
   (define win-players (map player-state-player winners))
