@@ -34,6 +34,7 @@
  render-game-state
  apply-players
  (struct-out game-state)
+ end-turn
  (contract-out
   [any-players?
    (-> game-state/c boolean?)]
@@ -71,6 +72,7 @@
    (-> game-state/c turn-action? natural?)]
   [new-tiles
    (-> priv-state/c turn-action? (listof tile?))]
+  #;
   [end-turn
    (-> priv-state/c turn-action?
        #:new-points natural?

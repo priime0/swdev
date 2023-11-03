@@ -17,6 +17,7 @@
  player-state++
  set-player-state-score
  set-player-state-hand
+ set-player-state-player
  hash->player-state++
  (struct-out player-state)
  (contract-out

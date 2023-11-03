@@ -19,6 +19,7 @@
  tiles-equal-shape?
  hash->tile++
  empty-tile-image
+ start-tiles
  (contract-out
   #:unprotected-submodule no-contract
   [tile-shapes (listof symbol?)]
@@ -67,6 +68,10 @@
              (match-define [tile color shape] t)
              (hash 'color (symbol->string color)
                    'shape (symbol->string shape)))])
+
+(define tile-set (map (curry apply tile) (cartesian-product tile-colors tile-shapes)))
+(define num-tile-sets 30)
+(define start-tiles (flatten (build-list num-tile-sets (thunk* tile-set))))
 
 #; {[Listof Tile] -> [Listof Tile]}
 ;; Sorts the tiles in terms of ascending lexicographic ordering of

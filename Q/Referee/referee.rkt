@@ -32,7 +32,21 @@
         (apply-players (lambda (lops) (map set-player-state-player lops players))
                        gs)
         (make-game-state tile-set players)))
-  (let loop ([priv-state^ gs*])
+
+  (println gs*)
+
+  (define gs+
+   (for/fold ([gs^ gs*])
+             ([ps (game-state-players gs*)])
+     (match-define [player-state _ hand playable] ps)
+     (send/checked
+      (thunk
+       (send playable setup (game-state-board gs*) hand)
+       gs^)
+      (thunk
+       (remove-player gs^)))))
+
+  (let loop ([priv-state^ gs+])
     (define round-result (run-round priv-state^))
     (cond
       [(game-state? round-result)
@@ -97,7 +111,8 @@
     (define misbehave-proc (lambda (act) (thunk (return (deal-with-misbehavior priv-state act)))))
     (define action
       (send/checked (thunk (send playable take-turn pub-state))
-                    (misbehave-proc (pass))))    
+                    (misbehave-proc (pass))))
+    (println action)
     (cond
       [(valid-turn? priv-state action)
        (define priv-state+ (apply-turn priv-state action))
@@ -112,7 +127,7 @@
             [(turn-ends-game? priv-state+ action) (cons 'game-end priv-state++)]
             [(place? action)                      (cons 'place    priv-state++)]
             [else                                 (cons 'no-place priv-state++)])))
-       
+
        (cons 'no-place (end-turn priv-state+ action #:new-points score))]
       [else (deal-with-misbehavior priv-state action)])))
 
@@ -196,20 +211,19 @@
   (test-equal?
    ""
    (apply/seed 0
-               run-game
-               (list (new player% [id 'andrey] [strategy dag])
-                     (new player% [id 'lucas]  [strategy ldasg])
-                     (new player% [id 'luke]   [strategy dag]))
-               #:tile-set tile-set)
+               (thunk (run-game
+                       (list (new player% [id 'andrey] [strategy dag])
+                             (new player% [id 'lucas]  [strategy ldasg])
+                             (new player% [id 'luke]   [strategy dag]))
+                       #:tile-set tile-set)))
    '(("andrey") . (())))
-
 
   (test-equal?
    ""
    (apply/seed 0
-               run-game
-               (list (new player% [id 'luke]   [strategy dumb])
-                     (new player% [id 'andrey] [strategy dag])
-                     (new player% [id 'lucas]  [strategy ldasg]))
-               #:tile-set tile-set)
+               (thunk (run-game
+                       (list (new player% [id 'luke]   [strategy dumb])
+                             (new player% [id 'andrey] [strategy dag])
+                             (new player% [id 'lucas]  [strategy ldasg]))
+                       #:tile-set tile-set)))
    '(("andrey") . (("luke")))))

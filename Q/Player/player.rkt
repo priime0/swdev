@@ -6,9 +6,13 @@
 (require Q/Common/map)
 (require Q/Common/interfaces/playable)
 (require Q/Common/turn-action)
+(require Q/Player/strategy-deserialize)
 
 
-(provide player%)
+(provide
+ player%
+ exn-player%
+ hash->player++)
 
 ;; This Player is a concrete, stateless implementation of Playable with a name and a Strategy to act
 ;; with.
@@ -22,7 +26,7 @@
       (symbol->string id))
 
     (define/public (setup board tiles)
-      this%)
+      (void))
 
     (define/public (take-turn pub-state)
       (unless (protected-board/c (game-state-board pub-state))
@@ -36,6 +40,55 @@
 
     (define/public (win won?)
       (void))))
+
+
+;; A wrapper class over the Player that contains an additional field that indicates the expected
+;; method to throw an exception.
+(define exn-player%
+  (class* object% (playable<%>)
+    (init-field exn)
+    (init-field player)
+    (super-new)
+
+    (define/public (name)
+      (send player name))
+
+    (define/public (setup board tiles)
+      (if (eq? exn 'setup)
+          (error 'setup "this is an expected error")
+          (send player setup board tiles)))
+
+    (define/public (take-turn pub-state)
+      (if (eq? exn 'take-turn)
+          (error 'take-turn "this is an expected error")
+          (send player take-turn pub-state)))
+
+    (define/public (new-tiles tiles)
+      (if (eq? exn 'new-tiles)
+          (error 'new-tiles "this is an expected error")
+          (send player new-tiles tiles)))
+
+    (define/public (win won?)
+      (if (eq? exn 'win)
+          (error 'win "this is an expected error")
+          (send player win won?)))))
+
+
+#; {JSExpr -> Player}
+(define (hash->player++ jactor)
+  (match jactor
+    [(list jname jstrategy)
+     (new player%
+          [id (string->symbol jname)]
+          [strategy (hash->strategy++ jstrategy)])]
+    [(list jname jstrategy jexn)
+     (define player
+       (new player%
+            [id (string->symbol jname)]
+            [strategy (hash->strategy++ jstrategy)]))
+     (new exn-player%
+          [exn (string->symbol jexn)]
+          [player player])]))
 
 
 (module+ test
