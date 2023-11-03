@@ -1,0 +1,105 @@
+{
+    "map": [
+        [
+            -2,
+            [
+                0,
+                {
+                    "color": "green",
+                    "shape": "square"
+                }
+            ]
+        ],
+        [
+            -1,
+            [
+                0,
+                {
+                    "color": "blue",
+                    "shape": "square"
+                }
+            ]            
+        ],
+        [
+            0,
+            [
+                0,
+                {
+                    "color": "red",
+                    "shape": "square"
+                }
+            ],
+            [
+                1,
+                
+                {
+                    "color": "red",
+                    "shape": "circle"
+                }
+            ],
+            [
+                2,
+                
+                {
+                    "color": "red",
+                    "shape": "star"
+                }
+            ]
+        ]
+    ],
+    "tile*": [],
+    "players": [
+        {
+            "score": 0,
+            "tile*": [
+                {
+                    "color": "yellow",
+                    "shape": "square"
+                },
+                {
+                    "color": "red",
+                    "shape": "star"
+                }
+            ]
+        },
+        {
+            "score": 0,
+            "tile*": [
+                {
+                    "color": "purple",
+                    "shape": "square"
+                },
+                {
+                    "color": "blue",
+                    "shape": "diamond"
+                }
+            ]
+        },
+        {
+            "score": 0,
+            "tile*": [
+                {
+                    "color": "orange",
+                    "shape": "square"
+                },
+                {
+                    "color": "red",
+                    "shape": "diamond"
+                }
+            ]
+        }
+    ]
+} [
+  [
+    "andrey",
+    "dag"
+  ],
+  [
+    "lucas",
+    "ldasg"
+  ],
+  [
+    "matthias",
+    "dag"
+  ]
+]
