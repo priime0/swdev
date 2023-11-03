@@ -176,7 +176,8 @@
   (define scores (map player-state-score others))
   (game-state board (length tiles) (cons state scores)))
 
-;; Is the given action on this turn valid?
+#; {GameState TurnAction -> TurnAction}
+;; Is the given action on the given game state this turn valid?
 (define (valid-turn? gs action)
   (match-define [game-state board tiles [cons state others]] gs)
   (define hand      (player-state-hand state))
@@ -203,9 +204,10 @@
 ;; Gets the new tiles of the current player.
 (define (new-tiles gs action)
   (define tiles* (game-state-tiles gs))
+  (define hand-size (length (player-state-hand (first (game-state-players gs)))))
   (match action
     [(place pments)  (take tiles* (min (length tiles*) (length pments)))]
-    [(exchange)      (take tiles* (*hand-size*))]
+    [(exchange)      (take tiles* hand-size)]
     [_               (error 'new-tiles "new tiles requested on a pass")]))
 
 
@@ -249,13 +251,13 @@
 (define (apply-turn/exchange gs)
   (match-define [game-state board tiles [cons state others]] gs)
   (define hand    (player-state-hand state))
-  (define state+  (set-player-state-hand '()))
+  (define state+  (set-player-state-hand state '()))
 
   (define tiles+  (if (priv-state? gs)
                       (append tiles hand)
                       (+ tiles (length hand))))
   (define state++ (if (priv-state? gs)
-                      (refill-hand state+ tiles+)
+                      (exchange-hand state+ tiles+)
                       state+))
 
   (game-state board tiles+ (cons state++ others)))

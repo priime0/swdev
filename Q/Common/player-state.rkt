@@ -46,6 +46,10 @@
    (-> player-state?
        (listof tile?)
        player-state?)]
+  [exchange-hand
+   (-> player-state?
+       (listof tile?)
+       player-state?)]
   [add-points
    (-> player-state?
        natural?
@@ -119,6 +123,16 @@
   (define vendable    (min missing available))
 
   (add-to-hand state (take tiles vendable)))
+
+#; {PlayerState [Listof Tiles] -> PlayerState}
+;; Exchanges the hand of the given player, taking from the given tiles.
+;; The player will exchange the amount of tiles in their hand.
+;; ASSUME that the amount of tiles in the hand is less than or equal to the remaining tiles.
+(define (exchange-hand state tiles)
+  (define hand (player-state-hand state))
+  (define hand-size (length hand))
+
+  (set-player-state-hand state (take tiles hand-size)))
 
 #; {PlayerState Natural -> PlayerState}
 ;; Add the given number of points to the player state
