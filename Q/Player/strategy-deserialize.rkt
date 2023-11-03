@@ -1,6 +1,6 @@
 #lang racket
 
-(require Q/Player/strategy)
+(require Q/Player/iterative)
 (require Q/Player/dag)
 (require Q/Player/ldasg)
 
@@ -9,5 +9,5 @@
 #; {JSExpr -> Strategy}
 (define (hash->strategy++ h)
   (match h
-    ["dag"   (new dag%)]
-    ["ldasg" (new ldasg%)]))
+    ["dag"   (new itstrat% [s (new dag%)])]
+    ["ldasg" (new itstrat% [s (new ldasg%)])]))

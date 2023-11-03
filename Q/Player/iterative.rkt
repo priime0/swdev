@@ -5,6 +5,8 @@
 
 (require Q/Player/strategy)
 
+(provide itstrat%)
+
 ;; An "iterative strategy" contains some given strategy, accumulating an action by continuously
 ;; applying the strategy until the next possible accumulated action is invalid.
 (define itstrat%
