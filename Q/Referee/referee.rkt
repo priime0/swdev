@@ -117,11 +117,14 @@
       [(valid-turn? priv-state action)
        (define priv-state+ (apply-turn priv-state action))
        (unless (pass? action)
-         (define score       (score-turn priv-state+ action 6))
+         (define score       (score-turn priv-state+ action))
+         (define score+      (if (turn-ends-game? priv-state action)
+                                 (+ score (*bonus*))
+                                 score))
          (define p-tiles     (new-tiles priv-state+ action))
          (send/checked (thunk (send playable new-tiles p-tiles))
                        (misbehave-proc action))
-         (define priv-state++ (end-turn priv-state+ action #:new-points score #:tiles-given (length p-tiles)))
+         (define priv-state++ (end-turn priv-state+ action #:new-points score+ #:tiles-given (length p-tiles)))
          (return
           (cond
             [(turn-ends-game? priv-state action) (cons 'game-end priv-state++)]
@@ -132,7 +135,10 @@
       [else (deal-with-misbehavior priv-state action)])))
 
 #; {(-> Any) (-> Any) -> Any}
-;; IDK
+;; Applies the given thunk in a checked environment; as in, it will
+;; catch any exceptions thrown by the given thunk, returning the value
+;; produced by the thunk if no exception was thrown, otherwise calling
+;; callback.
 (define (send/checked send-thunk callback)
   (with-handlers ([exn:fail? (lambda (e) (println e) (callback))])
     (with-timeout send-thunk)))
