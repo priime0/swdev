@@ -14,14 +14,25 @@ finished-the-game bonus points into named constants
 1. Which unit tests check the Q-bonus functionality? Is it abstracted
    over the named constant? 
 
+We did not. You can see our lack of unit tests for Q-bonus
+functionality here:
+
+https://github.khoury.northeastern.edu/CS4500-F23/fearless-mice/blob/5a8863eb045b673f522f7680a6bf0ab0d6faca4b/Q/Referee/referee.rkt#L220-L272
+
 2. Which unit tests check the finished-the-game functionality? Is it
    abstracted over the named constant?
+
+We did not. You can see our lack of unit tests for finished-the-game
+functionality here:
+
+https://github.khoury.northeastern.edu/CS4500-F23/fearless-mice/blob/5a8863eb045b673f522f7680a6bf0ab0d6faca4b/Q/Referee/referee.rkt#L220-L272
 
 3. Do you also have integration tests that show how setting the bonus
    constants to different constants yields different results for the
    same starting point? (This is optional but helps with milestone 8
    and fits to the request.) 
 
+We did not.
 
 The ideal feedback for each of these three points is a GitHub
 perma-link to the range of lines in a specific file or a collection of
