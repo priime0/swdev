@@ -45,6 +45,7 @@
   [refill-hand
    (-> player-state?
        (listof tile?)
+       natural?
        player-state?)]
   [exchange-hand
    (-> player-state?
@@ -114,13 +115,12 @@
   (- (*hand-size*) hand-length))
 
 
-#; {PlayerState [Listof Tiles] -> PlayerState}
-;; Replenishes the hand of the given player state from the given list of tiles, returning
-;; the new player state, leaving the tiles unmodified.
-(define (refill-hand state tiles)
-  (define missing     (deficit state))
+#; {PlayerState [Listof Tiles] Natural -> PlayerState}
+;; Replenishes the hand of the given player state from the given list of tiles using the given
+;; number of placed tiles, returning the new player state, leaving the tiles unmodified.
+(define (refill-hand state tiles num-placed)
   (define available   (length tiles))
-  (define vendable    (min missing available))
+  (define vendable    (min available num-placed))
 
   (add-to-hand state (take tiles vendable)))
 

@@ -237,7 +237,7 @@
   (define placed-tiles  (map placement-tile placements))
   (define state+        (remove-from-hand state placed-tiles))
   (define state++       (if (priv-state? gs)
-                            (refill-hand state+ tiles)
+                            (refill-hand state+ tiles (length placed-tiles))
                             state+))
 
   (game-state board+ tiles (cons state++ other-players)))
