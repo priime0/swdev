@@ -11,7 +11,20 @@
       ]
     ]
   ],
-  "tile*": [],
+    "tile*": [
+        {
+          "color": "blue",
+          "shape": "circle"
+        },
+                {
+          "color": "green",
+          "shape": "8star"
+                },
+                {
+          "color": "blue",
+          "shape": "circle"
+        }
+    ],
   "players": [
     {
       "score": 0,
