@@ -4,7 +4,7 @@
 (require threading)
 (require racket/place/distributed)
 
-(define dirs '("4" "5" "6"))
+(define dirs '("7"))
 
 (define root-directory (build-path (current-directory) 'up 'up))
 

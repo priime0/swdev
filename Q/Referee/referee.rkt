@@ -33,40 +33,79 @@
                        gs)
         (make-game-state tile-set players)))
 
-  (println gs*)
-
-  (define gs+
-   (for/fold ([gs^ gs*])
+  (define-values (gs+ initial-rule-breakers)
+   (for/fold ([gs^ gs*]
+              [rulebreaks '()])
              ([ps (game-state-players gs*)])
      (match-define [player-state _ hand playable] ps)
      (send/checked
       (thunk
        (send playable setup (game-state-board gs*) hand)
-       (end-turn gs^ (pass)))
+       (values (end-turn gs^ (pass))
+               rulebreaks))
       (thunk
-       (remove-player gs^)))))
+       (values (remove-player gs^)
+               (append rulebreaks (list (first (game-state-players gs^)))))))))
 
-  (let loop ([priv-state^ gs+])
+  (let loop ([priv-state^ gs+] [rulebreakers '()])
     (define round-result (run-round priv-state^))
     (cond
-      [(game-state? round-result)
-       (loop round-result)]
+      [(game-state? (first round-result))
+       (loop (first round-result) (append rulebreakers (second round-result)))]
       [(list? round-result)
+       (define players (first round-result))
+       (define sinners (second round-result))
        (define-values (winners losers)
-         (end-game round-result))
-       (list (player-names winners) (remove-from (player-names (append winners losers))
-                                                 (player-names players)))])))
+         (end-game players))
+       (define-values (new-winners new-sinners) (send-final-messages winners losers))
+       (list (sort (player-names (map player-state-player new-winners)) string<=?)
+             (player-names (map player-state-player
+                                (append initial-rule-breakers rulebreakers sinners new-sinners))))])))
 
+#; {[Listof PlayerState] [Listof PlayerState] -> (values [Listof PlayerState]
+                                                         [Listof PlayerState])}
+;; Sends messages to the winners and the losers, recomputing results
+;; if all winners die during communication.
+(define (send-final-messages winners losers)
+  (define-values (winners* _ breakers)
+    (let loop ([wins winners] [loses losers] [baddies '()])
+      (define-values (misbehavers goodies) (notify-players winners #t))
+      (cond
+        [(pair? goodies)
+         (define-values (more-baddies _) (notify-players losers #f))
+         (values goodies '() (append baddies misbehavers more-baddies))]
+        [(= (length winners) (length baddies))
+         (values '() '() baddies)]
+        [else
+         (define-values (winners+ losers+) (end-game losers))
+         (loop winners+ losers+ (append baddies misbehavers))])))
+  (values winners* breakers))
+
+#; {[Listof PlayerState] Boolean -> [Listof PlayerState]}
+(define (notify-players players won?)
+  (for/fold ([misbehavers '()]
+             [rule-followers '()]
+             #:result (values (reverse misbehavers)
+                              (reverse rule-followers)))
+            ([player players])
+    (send/checked
+     (thunk (send (player-state-player player) win won?)
+            (values misbehavers
+                    (cons player rule-followers)))
+     (thunk (values (cons player misbehavers)
+                    rule-followers)))))
 
 #; {type TurnResult = (U [Pair 'place PrivateState]
                          [Pair 'no-place PrivateState]
+                         [List 'kicked PrivateState PlayerState]
                          [Pair 'game-end PrivateState])}
 ;; Represents the result of a single turn, which can either be a new
 ;; state after a placement, a new state after no placement, or an end
 ;; of game.
 
-#; {type RoundResult = (U PrivateState
-                       [Listof PlayerState])}
+#; {type RoundResult = (U [List PrivateState [Listof PlayerState]]
+                          [List [Listof PlayerState]
+                                [Listof PlayerState]])}
 
 
 #; {[Listof Playable] -> [Listof String]}
@@ -81,21 +120,25 @@
 ;; before the round is over.
 (define (run-round ps)
   (define num-players (length (game-state-players ps)))
-  (define-values (next-priv-state any-places? end?)
+  (define-values (next-priv-state any-places? end? rulebreakers)
     (for/fold ([ps^ ps]
                [any-placements? #f]
-               [end? #f])
+               [end? #f]
+               [baddies '()])
               ([_ (in-range num-players)]
                #:break end?)
       (define turn-result (run-turn ps^))
       (match turn-result
-        [(cons 'place ps+)    (values ps+ #t #f)]
-        [(cons 'no-place ps+) (values ps+ any-placements? #f)]
-        [(cons 'game-end ps+) (values ps+ any-placements? #t)])))
+        [(cons 'place ps+)                 (values ps+ #t #f baddies)]
+        [(cons 'no-place ps+)              (values ps+ any-placements? #f baddies)]
+        [(list 'kicked ps+ baddy)          (values ps+ any-placements? #f (append baddies (list baddy)))]
+        [(list 'invalid-place ps+ baddy)   (values ps+ any-placements? #f (append baddies (list baddy)))]
+        [(cons 'game-end ps+)              (values ps+ any-placements? #t baddies)])))
   (cond
     [(or end? (not any-places?))
-     (game-state-players next-priv-state)]
-    [else next-priv-state]))
+     (list (game-state-players next-priv-state)
+           rulebreakers)]
+    [else (list next-priv-state rulebreakers)]))
 
 #; {PrivateState -> TurnResult}
 ;; Run a single turn for the current player, obeying the protocol with
@@ -108,11 +151,11 @@
   (define playable    (player-state-player curr-player))
 
   (let/ec return
-    (define misbehave-proc (lambda (act) (thunk (return (deal-with-misbehavior priv-state act)))))
+    (define misbehave-proc (lambda (act)
+                             (thunk (return (cons 'kicked (deal-with-misbehavior priv-state act))))))
     (define action
       (send/checked (thunk (send playable take-turn pub-state))
                     (misbehave-proc (pass))))
-    (println action)
     (cond
       [(valid-turn? priv-state action)
        (define priv-state+ (apply-turn priv-state action))
@@ -132,7 +175,7 @@
             [else                                (cons 'no-place priv-state++)])))
 
        (cons 'no-place (end-turn priv-state+ action))]
-      [else (deal-with-misbehavior priv-state action)])))
+      [else (cons 'invalid-place (deal-with-misbehavior priv-state action))])))
 
 #; {(-> Any) (-> Any) -> Any}
 ;; Applies the given thunk in a checked environment; as in, it will
@@ -143,37 +186,25 @@
   (with-handlers ([exn:fail? (lambda (e) (println e) (callback))])
     (with-timeout send-thunk)))
 
-#; {PrivateState TurnAction -> TurnResult}
+#; {PrivateState TurnAction -> [List PrivateState
+                                     PlayerState]}
 ;; Removes a misbehaving player, returning either the next state or an end-of-game signal.
 (define (deal-with-misbehavior priv-state [action (pass)])
-  (define priv-state+ (remove-player priv-state))
-  (define turn-type
-    (match action
-      [(place _) 'place]
-      [_         'no-place]))
-  (cons (if (any-players? priv-state+)
-            turn-type
-            'game-end)
-        priv-state+))
+  (list (remove-player priv-state)
+        (first (game-state-players priv-state))))
 
-#; {[Listof PlayerState] -> (values [Listof Playable]
-                                    [Listof Playable])}
+#; {[Listof PlayerState] -> (values [Listof PlayerState]
+                                    [Listof PlayerState])}
 ;; Computes the list of winners and the list of losers.
 (define (end-game players)
-(for ([player players])
-    (printf "\"~a\": ~a\n"
-            (send (player-state-player player) name)
-            (player-state-score player)))
   (define winners  (get-winners players))
   (define losers   (filter (negate (curryr member? winners)) players))
-  (define win-players (map player-state-player winners))
-  (define lose-players (map player-state-player losers))
-  (values win-players lose-players))
+  (values winners losers))
 
 #; {[Listof PlayerState] -> [Listof PlayerState]}
 ;; Gets the list of winners from the given list of player states.
 (define (get-winners player-states)
-  (define max-score (apply max (map player-state-score player-states)))
+  (define max-score (apply max 0 (map player-state-score player-states)))
   (filter (lambda (p) (= (player-state-score p) max-score)) player-states))
 
 #; {(-> Any) -> Any}
