@@ -117,7 +117,7 @@
       [(valid-turn? priv-state action)
        (define priv-state+ (apply-turn priv-state action))
        (unless (pass? action)
-         (define score       (score-turn priv-state+ action))
+         (define score       (score-turn priv-state+ action 6))
          (define p-tiles     (new-tiles priv-state+ action))
          (send/checked (thunk (send playable new-tiles p-tiles))
                        (misbehave-proc action))

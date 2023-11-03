@@ -69,7 +69,7 @@
   [valid-turn?
    (-> game-state/c turn-action? boolean?)]
   [score-turn
-   (-> game-state/c turn-action? natural?)]
+   (-> game-state/c turn-action? natural? natural?)]
   [new-tiles
    (-> priv-state/c turn-action? (listof tile?))]
   #;
