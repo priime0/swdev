@@ -148,27 +148,57 @@
           "shape": "star"
         }
       ]
+    },
+    {
+      "score": 0,
+      "tile*": [
+        {
+          "color": "blue",
+          "shape": "circle"
+        },
+        {
+          "color": "red",
+          "shape": "star"
+        },
+        {
+          "color": "green",
+          "shape": "8star"
+        },
+        {
+          "color": "yellow",
+          "shape": "circle"
+        },
+        {
+          "color": "blue",
+          "shape": "square"
+        },
+        {
+          "color": "red",
+          "shape": "star"
+        }
+      ]
     }
   ]
-} [
+}
+[
   [
     "andrey",
-      "dag",
-      "win"
+    "dag",
+    "win"
   ],
   [
     "lucas",
-      "ldasg",
-      "setup"
+    "ldasg",
+    "setup"
   ],
   [
     "matthias",
-      "dag",
-      "take-turn"
+    "dag",
+    "take-turn"
   ],
-    [
-        "blerner",
-        "dag",
-        "new-tiles"
-    ]
+  [
+    "blerner",
+    "dag",
+    "new-tiles"
+  ]
 ]
