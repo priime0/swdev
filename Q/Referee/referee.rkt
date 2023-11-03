@@ -24,6 +24,8 @@
 ;; - The Ref will respond to a timeout by removing that player
 ;; If no fault occurs, then a referee will enact the turn and commit all changes
 ;; to the game state.
+;; CONSTRAINT: If starting from a start game state, the list of players must be
+;; equal length to the list of player states in the game state.
 (define (run-game players
                   #:start-state [gs #f]
                   #:tile-set [tile-set start-tiles])
@@ -34,18 +36,18 @@
         (make-game-state tile-set players)))
 
   (define-values (gs+ initial-rule-breakers)
-   (for/fold ([gs^ gs*]
-              [rulebreaks '()])
-             ([ps (game-state-players gs*)])
-     (match-define [player-state _ hand playable] ps)
-     (send/checked
-      (thunk
-       (send playable setup (game-state-board gs*) hand)
-       (values (end-turn gs^ (pass))
-               rulebreaks))
-      (thunk
-       (values (remove-player gs^)
-               (append rulebreaks (list (first (game-state-players gs^)))))))))
+    (for/fold ([gs^ gs*]
+               [rulebreaks '()])
+              ([ps (game-state-players gs*)])
+      (match-define [player-state _ hand playable] ps)
+      (send/checked
+       (thunk
+        (send playable setup (game-state-board gs*) hand)
+        (values (end-turn gs^ (pass))
+                rulebreaks))
+       (thunk
+        (values (remove-player gs^)
+                (append rulebreaks (list (first (game-state-players gs^)))))))))
 
   (let loop ([priv-state^ gs+] [rulebreakers '()])
     (define round-result (run-round priv-state^))
@@ -183,7 +185,7 @@
 ;; produced by the thunk if no exception was thrown, otherwise calling
 ;; callback.
 (define (send/checked send-thunk callback)
-  (with-handlers ([exn:fail? (lambda (e) (println e) (callback))])
+  (with-handlers ([exn:fail? (lambda (e) (callback))])
     (with-timeout send-thunk)))
 
 #; {PrivateState TurnAction -> [List PrivateState
