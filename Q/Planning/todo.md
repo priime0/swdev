@@ -18,7 +18,6 @@ for the subject.
   - [ ] Add a Referee-Game-state protocol diagram.
   - [ ] Add a Referee-Observer protocol diagram.
 - [ ] Referee:
-  - [ ] Call each player's `setup` method.
   - [ ] Call each player's `win` method at the end.
   - [ ] Write unit tests for referee functionality.
   - [ ] Refactor the `run-turn` function in the referee, since there
@@ -68,6 +67,12 @@ for the subject.
 - [ ] README:
   - [x] Update the file structure. **Commit:** `1af6dc5 docs: updated
         README file structure`
+- [ ] Referee:
+  - [x] Call each player's `setup` method. **Commit:** `f4037db fix:
+        referee bug fixes`
+- [x] Scoring:
+  - [x] Refactor `xscore` to utilize the optional end-of-game-bonus
+		parameter. **Commit:** `5bd5869 fix: xscore`
 - [ ] Misc:
   - [x] Move `posn` lexicographical-sorting functionality into `posn`
         as `posn<`. **Commit:** `8b59fe7 main feat: moved posn sorting
@@ -77,8 +82,6 @@ for the subject.
   - [x] Move all in `Common/util` to a new directory `Lib/`.
         **Commit:** `f9caa8a main refactor: move all in Common/util to
         Lib/`
-- [x] Scoring:
-  - [x] Refactor `xscore` to utilize the optional end-of-game-bonus
-		parameter. **Commit:** `5bd5869 fix: xscore`
+
   
 
