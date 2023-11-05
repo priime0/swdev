@@ -3,6 +3,10 @@
 (require Q/Common/tile)
 (require Q/Common/game-state)
 (require Q/Common/player-state)
+(require Q/Lib/macros)
+(require Q/Lib/result)
+
+(require threading)
 
 
 ;; A Referee is a function from a list of players to the list of winners and the list of
@@ -24,7 +28,11 @@
 ;; CONSTRAINT: If starting from a start game state, the list of players must be
 ;; equal length to the list of player states in the game state.
 (define (play-game playables #:tiles [tiles start-tiles] #:game-state [gs* #f])
-  ;; Create game state or bind playables
+  (define gs
+    (if gs*
+        (bind-playables gs* playables)
+        (make-game-state tiles playables)))
+
   ;; gs1, sinners1      <- Setup
   ;; gs2, sinners2      <- Run the game to completion
   ;; winners1, losers   <- game-state - Compute winners and losers
@@ -39,10 +47,9 @@
 ;;             given, and the order of player states in the game state is the same as the order of
 ;;             the given playables.
 (define (bind-playables gs playables)
-  ;; Get player states.
-  ;; Map over player states and playables
-  ;; Produce new game state
-  (void))
+  (match-define [game-state board tiles states] gs)
+  (define states+ (map set-player-state-player states playables))
+  (game-state board tiles states+))
 
 
 #; {GameState -> (values GameState [Listof String])}
@@ -50,10 +57,17 @@
 ;; that misbehaved during this stage.
 ;; EFFECT: calls the setup method of playables.
 (define (setup gs)
-  ;; Fold over each player state, sending the initial map and their tiles
-  ;; Collect each successive game state and sinning players
-  ;; SUBTASK: Send to an individual player and handle the error case
-  (void))
+  (match-define [game-state board _tiles states] gs)
+  (for/fold ([gs^       gs] [sinners   '()]
+             #:result (values gs^ (reverse sinners)))
+            ([state (game-state-players gs)])
+    (match-define [player-state _score hand playable] state)
+    (define name           (unwrap-or (send/checked playable name #f) ""))
+    (define setup-result   (send/checked state setup name board hand))
+    (define setup-success? (success? setup-result))
+    (if setup-success?
+        (values (do-turn/rotate gs^) sinners)
+        (values (remove-player gs^)  (cons name sinners)))))
 
 
 #; {GameState -> (values GameState [Listof String])}
@@ -75,6 +89,20 @@
 ;; Run a single round
 ;; EFFECT: sends a player's new tiles after a turn.
 (define (run-round gs)
+  (for/fold ([gs^ gs]
+             [sinners '()]
+             #:result (values gs^ (reverse sinners)))
+            ([state (game-state-players gs)])
+    (match-define [player-state score hand playable] state)
+    (let/ec return
+      (define name (unwrap-or (send/checked playable name #f) ""))
+      (define (kick-player)
+        (return (values (remove-player gs^)
+                        (cons name sinners))))
+      (define turn-result
+        (send/checked playable take-turn kick-player gs^))
+
+      (void)))
   ;; for p in gs.players, fold gs^, sinners:
   ;;   match p.take-turn
   ;;   | success action ->
@@ -97,4 +125,22 @@
 ;; Notify the players of whether they won, collecting the remaining list of valid players, and the
 ;; list of misbehavers.
 (define (notify-players players won?)
-  (void))
+  (for/fold ([valid '()] [sinners '()] #:result (values (reverse valid) (reverse sinners)))
+            ([player players])
+    (define name (send/checked player name ""))
+    (define won-result (send/checked player win name won?))
+    (match won-result
+      [(success _)
+       (values (cons player valid) sinners)]
+      [(failure name)
+       (values valid (cons name sinners))])))
+
+
+(module+ test
+  (require Q/Player/player)
+  (require Q/Player/dag)
+
+  (define gs (make-game-state start-tiles
+                              (list (new player% [id 'lucas] [strategy (new dag%)])
+                                    (new player% [id 'andrey] [strategy (new dag%)])
+                                    (new player% [id 'luke] [strategy (new dag%)])))))
