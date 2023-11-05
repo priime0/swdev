@@ -134,6 +134,13 @@
    pred lst))
 
 
+#; {(X) [X -> Boolean] X [Listof X] -> [Listof X]}
+;; `cons` the given item to the given list if it satisfies the given predicate.
+(define (cons-if pred? x lst)
+  (if (pred? x)
+      (cons x lst)
+      lst))
+
 
 (module+ test
   (require rackunit)

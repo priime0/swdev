@@ -1,0 +1,100 @@
+#lang racket
+
+(require Q/Common/tile)
+(require Q/Common/game-state)
+(require Q/Common/player-state)
+
+
+;; A Referee is a function from a list of players to the list of winners and the list of
+;; rulebreakers. The entry-point to the Referee is `play-game`.
+
+#; {[Listof Playable] -> (list [Listof String] [Listof String])}
+;; Play a game of Q with the given list of players to completion, producing the list of players with
+;; the highest scores sorted in lexicographical order and a list of rulebreakers sorted by temporal
+;; order of rule-breaking.
+;; FAULT ISSUE: If the player becomes unresponsive, then calling `(send player name)` won't retrieve
+;; the name. Perhaps it should be cached.
+;; FAULT PROTOCOL:
+;; - The Ref will respond to player errors (contract and other exceptions)
+;;      by removing that player
+;; - The Ref will respond to invalid turn requests by removing that player
+;; - The Ref will respond to a timeout by removing that player
+;; If no fault occurs, then a referee will enact the turn and commit all changes
+;; to the game state.
+;; CONSTRAINT: If starting from a start game state, the list of players must be
+;; equal length to the list of player states in the game state.
+(define (play-game playables #:tiles [tiles start-tiles] #:game-state [gs* #f])
+  ;; Create game state or bind playables
+  ;; gs1, sinners1      <- Setup
+  ;; gs2, sinners2      <- Run the game to completion
+  ;; winners1, losers   <- game-state - Compute winners and losers
+  ;; winners2, sinners3 <- Notify winning and losing players
+  ;; (list winners (append sinners1 sinners2 sinners3))
+  (void))
+
+
+#; {GameState [Listof Playable] -> GameState}
+;; Populates the game state's player states with the given playables.
+;; CONSTRAINT: the number of players in the game state is equivalent to the number of playables
+;;             given, and the order of player states in the game state is the same as the order of
+;;             the given playables.
+(define (bind-playables gs playables)
+  ;; Get player states.
+  ;; Map over player states and playables
+  ;; Produce new game state
+  (void))
+
+
+#; {GameState -> (values GameState [Listof String])}
+;; Communicate to all the players the initial setup of the game state, kicking out all the players
+;; that misbehaved during this stage.
+;; EFFECT: calls the setup method of playables.
+(define (setup gs)
+  ;; Fold over each player state, sending the initial map and their tiles
+  ;; Collect each successive game state and sinning players
+  ;; SUBTASK: Send to an individual player and handle the error case
+  (void))
+
+
+#; {GameState -> (values GameState [Listof String])}
+;; Run the rounds of the game to completion, collecting the game state and sinners.
+;; ASSUME: the game has been set up.
+(define (run-game gs)
+  ;; generative: produces the final game state.
+  ;; terminates:
+  ;; 1. all the players drop out if they misbehave, ending the game.
+  ;; 2. there are a finite number of tiles, so eventually all are exhausted, and so players will be
+  ;; unable to place any tiles, ending the game.
+  (let loop ()
+    ;; run a round, collecting the game state and the list of new cheaters
+    (void))
+  (void))
+
+
+#; {GameState -> (values GameState [Listof String])}
+;; Run a single round
+;; EFFECT: sends a player's new tiles after a turn.
+(define (run-round gs)
+  ;; for p in gs.players, fold gs^, sinners:
+  ;;   match p.take-turn
+  ;;   | success action ->
+  ;;     match action.validate()
+  ;;     | true ->
+  ;;       gs+ <- action.apply(gs^)
+  ;;       gs++ <- gs+.score()
+  ;;       p.new-tiles(gs++.new-tiles())
+  ;;       gs++.deal-tiles( <gs++.new-tiles()> )
+  ;;       gs++, sinners
+  ;;     | false ->
+  ;;   | failure _ ->
+  ;;     gs+ <- gs.kick-player()
+  ;;     gs+, p::sinners
+
+  (void))
+
+
+#; {[Listof Playables] Boolean -> (values [Listof Playables] [Listof String])}
+;; Notify the players of whether they won, collecting the remaining list of valid players, and the
+;; list of misbehavers.
+(define (notify-players players won?)
+  (void))
