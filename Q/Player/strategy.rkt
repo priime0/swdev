@@ -40,8 +40,8 @@
 ;; have to support, namely, choosing an action to perform given some turn information.
 (define player-strategy<%>
   (interface ()
-    #; {PlayerStrategy TurnInfo -> TurnAction}
-    ;; Given some turn information for the player, produce a valid action to influence the game
+    #; {PlayerStrategy PublicState -> TurnAction}
+    ;; Given some turn information for the player, produce an action to influence the game
     ;; state.
     [choose-action (->m pub-state/c turn-action?)]))
 

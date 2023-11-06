@@ -39,7 +39,7 @@
     (void)))
 
 
-#; {GameState [Listof Playable] -> GameState}
+#; {PrivateState [Listof Playable] -> PrivateState}
 ;; Populates the game state's player states with the given playables.
 ;; CONSTRAINT: the number of players in the game state is equivalent to the number of playables
 ;;             given, and the order of player states in the game state is the same as the order of
@@ -50,8 +50,8 @@
   (game-state board tiles states+))
 
 
-#; {GameState -> (values GameState [Listof String])}
-;; Communicate to all the players the initial setup of the game state, kicking out all the players
+#; {PrivateState -> (values PrivateState [Listof String])}
+;; Communicate to all the players the initial setup of the private state, kicking out all the players
 ;; that misbehaved during this stage.
 ;; EFFECT: calls the setup method of playables.
 (define (setup gs)
@@ -68,8 +68,8 @@
         (values (remove-player gs^)  (cons name sinners)))))
 
 
-#; {GameState Continuation -> (values GameState [Listof String])}
-;; Run the rounds of the game to completion, collecting the game state and sinners.
+#; {PrivateState Continuation -> (values PrivateState [Listof String])}
+;; Run the rounds of the game to completion, collecting the private state and sinners.
 ;; ASSUME: the game has been set up.
 (define (run-game gs k)
   ;; generative: produces the final game state.
@@ -83,7 +83,7 @@
   (void))
 
 
-#; {GameState Continuation -> (values GameState [Listof String])}
+#; {PrivateState -> (values PrivateState [Listof String])}
 ;; Run a single round
 ;; EFFECT: sends a player's new tiles after a turn.
 (define (run-round gs k)
@@ -99,6 +99,11 @@
                         (cons name sinners))))
       (define turn-result
         (send/checked playable take-turn kick-player gs^))
+      (unless (success? turn-result)
+        (kick-player))
+      (define turn-action (success-val turn-result))
+      (unless (turn-valid? gs^ turn-action)
+        (kick-player))
 
       (void)))
   ;; for p in gs.players, fold gs^, sinners:
@@ -112,12 +117,13 @@
   ;;       gs++.deal-tiles( <gs++.new-tiles()> )
   ;;       gs++, sinners
   ;;     | false ->
+  ;;       gs+ <- gs.kick-player()
+  ;;       gs+, p::sinners
   ;;   | failure _ ->
   ;;     gs+ <- gs.kick-player()
   ;;     gs+, p::sinners
 
   (void))
-
 
 #; {[Listof Playables] Boolean -> (values [Listof Playables] [Listof String])}
 ;; Notify the players of whether they won, collecting the remaining list of valid players, and the
