@@ -60,7 +60,9 @@
   [do-turn-without-rotate
    (-> priv-state/c turn-action? (values priv-state/c boolean?))]
   [new-tiles
-   (-> priv-state/c (listof tile?))]))
+   (-> priv-state/c (listof tile?))]
+  [players-left?
+   (-> game-state/c boolean?)]))
 
 
 
@@ -143,7 +145,6 @@
   (match-define [game-state board tiles [cons state others]] priv-state)
   (define scores (map player-state-score others))
   (game-state board (length tiles) (cons state scores)))
-
 
 
 ;; ----------------------------------------------------------------------------------------
@@ -366,6 +367,15 @@
   (define curr-player (first (game-state-players priv-state)))
   (player-state-hand curr-player))
 
+
+;; ----------------------------------------------------------------------------------------
+
+
+#; {GameState -> Boolean}
+;; Are there any players left in the game?
+(define (players-left? gs)
+  (>= (length (game-state-players gs))
+      0))x
 
 ;; ----------------------------------------------------------------------------------------
 
