@@ -15,8 +15,6 @@
 
 (provide
  player-state++
- set-player-state-score
- set-player-state-hand
  set-player-state-player
  hash->player-state++
  (struct-out player-state)
@@ -28,9 +26,6 @@
   [add-to-hand
    (-> player-state? (listof tile?)
        player-state?)]
-  [deficit
-    (-> player-state?
-        natural?)]
   [remove-from-hand
    (->i ([ps  player-state?]
          [tls (listof tile?)])
@@ -39,18 +34,7 @@
         (contains-all? (player-state-hand ps) tls)
         [result player-state?])]
   [clear-hand
-   (-> player-state?
-       (values player-state?
-               (listof tile?)))]
-  [refill-hand
-   (-> player-state?
-       (listof tile?)
-       natural?
-       player-state?)]
-  [exchange-hand
-   (-> player-state?
-       (listof tile?)
-       player-state?)]
+   (-> player-state? player-state?)]
   [add-points
    (-> player-state?
        natural?
@@ -106,32 +90,6 @@
 (define (clear-hand state)
   (apply-hand (thunk* '()) state))
 
-#; {PlayerState -> Natural}
-;; Computes the deficit in the hand
-(define (deficit state)
-  (define hand        (player-state-hand state))
-  (define hand-length (length hand))
-  (- (*hand-size*) hand-length))
-
-
-#; {PlayerState [Listof Tiles] Natural -> PlayerState}
-;; Replenishes the hand of the given player state from the given list of tiles using the given
-;; number of placed tiles, returning the new player state, leaving the tiles unmodified.
-(define (refill-hand state tiles num-placed)
-  (define available   (length tiles))
-  (define vendable    (min available num-placed))
-
-  (add-to-hand state (take tiles vendable)))
-
-#; {PlayerState [Listof Tiles] -> PlayerState}
-;; Exchanges the hand of the given player, taking from the given tiles.
-;; The player will exchange the amount of tiles in their hand.
-;; ASSUME that the amount of tiles in the hand is less than or equal to the remaining tiles.
-(define (exchange-hand state tiles)
-  (define hand (player-state-hand state))
-  (define hand-size (length hand))
-
-  (set-player-state-hand state (take tiles hand-size)))
 
 #; {PlayerState Natural -> PlayerState}
 ;; Add the given number of points to the player state
@@ -222,15 +180,4 @@
    (clear-hand ps1)
    (player-state (player-state-score ps1)
                  '()
-                 #f))
-  
-  (test-values-equal?
-   "refill empty hand"
-   (refill-hand (make-player-state '()) sample-tiles)
-   (make-player-state (take sample-tiles (*hand-size*))))
-  
-  (test-values-equal?
-   "refill non-empty hand"
-   (refill-hand (make-player-state (list (tile 'red 'square))) sample-tiles)
-   (make-player-state (append (list (tile 'red 'square))
-                              (take sample-tiles (- (*hand-size*) 1))))))
+                 #f)))
