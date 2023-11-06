@@ -114,6 +114,8 @@
   ;;       gs++.deal-tiles( <gs++.new-tiles()> )
   ;;       gs++, sinners
   ;;     | false ->
+  ;;       gs+ <- gs.kick-player()
+  ;;       gs+, p::sinners
   ;;   | failure _ ->
   ;;     gs+ <- gs.kick-player()
   ;;     gs+, p::sinners

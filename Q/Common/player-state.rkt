@@ -75,20 +75,19 @@
              (hash 'score score
                    'tile* (map ->jsexpr* hand)))])
 
-#; {([Listof Tile] -> [Listof Tile]) PlayerState -> PlayerState}
-(define (apply-hand f ps)
-  (set-player-state-hand ps (f (player-state-hand ps))))
-
-#; { PlayerState [Listof Tile] -> PlayerState }
-;; Adds the given tiles to the hand of this player state.
-(define (add-to-hand ps new-tiles)
-  (apply-hand (curryr append new-tiles) ps))
-
 #; {[Listof Tile] -> PlayerState}
 ;; Creates a player with the given player id, hand, and a default score of 0.
 (define (make-player-state hand [playable #f])
   (player-state++ #:hand hand #:player playable))
 
+#; {([Listof Tile] -> [Listof Tile]) PlayerState -> PlayerState}
+(define (apply-hand f ps)
+  (set-player-state-hand ps (f (player-state-hand ps))))
+
+#; {PlayerState [Listof Tile] -> PlayerState}
+;; Adds the given tiles to the hand of this player state.
+(define (add-to-hand ps new-tiles)
+  (apply-hand (curryr append new-tiles) ps))
 
 #; {JPlayer -> PlayerState}
 (define (hash->player-state++ jp)
@@ -145,7 +144,7 @@
   (match-define [player-state score hand _] ps)
   (define size (/ (*game-size*) 2))
   (define tiles-size (* (*game-size*) 2/3))
-  (define text-image (text score size 'black))
+  (define text-image (text (number->string score) size 'black))
   (define tiles-image
     (parameterize ([*game-size* tiles-size])
       (for/fold ([img empty-image])

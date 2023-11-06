@@ -28,13 +28,13 @@
           (define action  (send strat choose-action pub-state^))
           (define action+ (combine-actions action^ action))
 
-          (unless (valid-turn? pub-state action+)
+          (unless (turn-valid? pub-state action+)
             (return action^))
 
           (unless (place? action)
             (return action+))
 
-          (define pub-state+ (apply-turn pub-state^ action))
+          (define pub-state+ (do-turn/action pub-state^ action))
           (loop action+ pub-state+))))))
 
 (module+ test

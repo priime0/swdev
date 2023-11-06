@@ -16,6 +16,7 @@
 (require Q/Common/posn)
 (require Q/Common/turn-action)
 (require Q/Lib/function)
+(require Q/Lib/list)
 (require Q/Common/interfaces/serializable)
 
 (provide
@@ -64,6 +65,10 @@
        posn?
        axis?
        sequence?)]
+  [q-sequence?
+   (-> (listof placement?) boolean?)]
+  [get-sequences
+   (-> unprotected-board/c (listof placement?) (listof (listof placement?)))]
   [hash->board++
    (-> (listof (cons/c integer? (listof (cons/c integer? any/c))))
        unprotected-board/c)]
@@ -83,6 +88,25 @@
   (and (list? a)
        (andmap placement? a)
        (same-axis? (map placement-posn a))))
+
+#; {Sequence -> Boolean}
+;; Is the given sequence a Q?
+(define (q-sequence? seq)
+  (define tiles  (map placement-tile seq))
+  (define colors (map tile-color tiles))
+  (define shapes (map tile-shape tiles))
+  (or (same-elements? colors tile-colors)
+      (same-elements? shapes tile-shapes)))
+
+
+#; {Board [Listof TilePlacement] -> [Listof [Listof TilePlacement]]}
+;; Produce a list of sequences for each posn along every axis.
+(define (get-sequences b placements)
+  (define posns (map placement-posn placements))
+  (define seqs
+    (for*/set ([p posns] [axis axes])
+      (collect-sequence b p axis)))
+  (set->list seqs))
 
 
 #; {type Board = (board [HashTable Posn Tile])}
