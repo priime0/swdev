@@ -55,12 +55,12 @@
    (-> game-state/c turn-action? game-state/c)]
   [do-turn/score
    (-> game-state/c turn-action? natural?)]
-  [do-turn/deal
-   (-> priv-state/c natural? priv-state/c)]
   [do-turn/rotate
    (-> priv-state/c priv-state/c)]
-  [do-whole-turn
-   (-> priv-state/c turn-action? (values priv-state/c boolean?))]))
+  [do-turn-without-rotate
+   (-> priv-state/c turn-action? (values priv-state/c boolean?))]
+  [new-tiles
+   (-> priv-state/c (listof tile?))]))
 
 
 
@@ -339,9 +339,12 @@
 
 
 #; {PrivateState TurnAction -> (values PrivateState Boolean)}
-;; Completes a whole turn for the current player, producing the next
-;; game state and whether this action ended the game
-(define (do-whole-turn priv-state action)
+;; Completes a whole turn for the current player (without rotating the
+;; queue, producing the next game state and whether this action ended
+;; the game
+;; PROTOCOL: A client of this code should call
+;; `do-turn-without-rotate` and then `do-turn/rotate`. 
+(define (do-turn-without-rotate priv-state action)
   (define priv-state+  (do-turn/action priv-state action))
   (define game-over?   (turn-ends-game? priv-state+ action))
 
@@ -351,7 +354,17 @@
   (define new-tiles*   (tiles-needed priv-state action))
   (define priv-state+++ (do-turn/deal priv-state++ new-tiles*))
 
-  (values (do-turn/rotate priv-state+++) game-over?))
+  (values priv-state+++ game-over?))
+
+
+;; ----------------------------------------------------------------------------------------
+
+
+#; {PrivateState -> [Listof Tile]}
+;; Retrieves the entire new hand of the current player. 
+(define (new-tiles priv-state)
+  (define curr-player (first (game-state-players priv-state)))
+  (player-state-hand curr-player))
 
 
 ;; ----------------------------------------------------------------------------------------
