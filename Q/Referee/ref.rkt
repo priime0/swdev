@@ -27,18 +27,16 @@
 ;; to the game state.
 ;; CONSTRAINT: If starting from a start game state, the list of players must be
 ;; equal length to the list of player states in the game state.
-(define (play-game playables #:tiles [tiles start-tiles] #:game-state [gs* #f])
-  (define gs
-    (if gs*
-        (bind-playables gs* playables)
-        (make-game-state tiles playables)))
+(define (play-game playables #:tiles [tiles start-tiles] #:game-state [gs* (make-game-state playables tiles)])
+  (define gs (bind-playables gs* playables))
 
-  ;; gs1, sinners1      <- Setup
-  ;; gs2, sinners2      <- Run the game to completion
-  ;; winners1, losers   <- game-state - Compute winners and losers
-  ;; winners2, sinners3 <- Notify winning and losing players
-  ;; (list winners (append sinners1 sinners2 sinners3))
-  (void))
+  (let/ec return
+    (define-values (gs1 sinners1) (setup gs))
+    ;; gs2, sinners2      <- Run the game to completion
+    ;; winners1, losers   <- game-state - Compute winners and losers
+    ;; winners2, sinners3 <- Notify winning and losing players
+    ;; (list winners (append sinners1 sinners2 sinners3))
+    (void)))
 
 
 #; {GameState [Listof Playable] -> GameState}
@@ -70,10 +68,10 @@
         (values (remove-player gs^)  (cons name sinners)))))
 
 
-#; {GameState -> (values GameState [Listof String])}
+#; {GameState Continuation -> (values GameState [Listof String])}
 ;; Run the rounds of the game to completion, collecting the game state and sinners.
 ;; ASSUME: the game has been set up.
-(define (run-game gs)
+(define (run-game gs k)
   ;; generative: produces the final game state.
   ;; terminates:
   ;; 1. all the players drop out if they misbehave, ending the game.
@@ -85,10 +83,10 @@
   (void))
 
 
-#; {GameState -> (values GameState [Listof String])}
+#; {GameState Continuation -> (values GameState [Listof String])}
 ;; Run a single round
 ;; EFFECT: sends a player's new tiles after a turn.
-(define (run-round gs)
+(define (run-round gs k)
   (for/fold ([gs^ gs]
              [sinners '()]
              #:result (values gs^ (reverse sinners)))
