@@ -68,7 +68,9 @@
 
 ;; CONSTRAINT: If starting from a start game state, the list of players must be
 ;; equal length to the list of player states in the game state.
-(define (play-game playables #:tiles [tiles start-tiles] #:game-state [gs* (make-game-state playables tiles)])
+(define (play-game playables
+                   #:tiles [tiles start-tiles]
+                   #:game-state [gs* (make-game-state playables tiles)])
   (define gs (bind-playables gs* playables))
 
   (define game-info0 (setup gs))
@@ -102,13 +104,13 @@
 
 
 #; {PrivateState -> GameInfo}
-;; Communicate to all the players the initial setup of the private state, kicking out all the players
-;; that misbehaved during this stage.
+;; Communicate to all the players the initial setup of the private state, kicking out all the
+;; players that misbehaved during this stage.
 ;; EFFECT: calls the setup method of playables.
 (define (setup gs)
   (match-define [game-state board _tiles states] gs)
   (for/fold ([gs^       gs] [sinners   '()]
-             #:result (game-info gs^ (reverse sinners)))
+                            #:result (game-info gs^ (reverse sinners)))
             ([state states])
     (match-define [player-state _score hand playable] state)
     (define name           (unwrap-or (send/checked playable name #f) ""))
@@ -128,8 +130,8 @@
     ;; generative: produces the final game state.
     ;; terminates:
     ;; 1. all the players drop out if they misbehave, ending the game.
-    ;; 2. there are a finite number of tiles, so eventually all are exhausted, and so players will be
-    ;; unable to place any tiles, ending the game.
+    ;; 2. there are a finite number of tiles, so eventually all are exhausted, and so players will
+    ;; be unable to place any tiles, ending the game.
     (let loop ([g-info^ g-info])
       (loop (run-round g-info^ end-game)))))
 
