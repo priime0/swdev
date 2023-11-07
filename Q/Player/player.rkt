@@ -7,6 +7,7 @@
 (require Q/Common/interfaces/playable)
 (require Q/Common/turn-action)
 (require Q/Player/strategy-deserialize)
+(require Q/Lib/macros)
 
 
 (provide
@@ -40,7 +41,6 @@
 
     (define/public (win won?)
       (void))))
-
 
 ;; A wrapper class over the Player that contains an additional field that indicates the expected
 ;; method to throw an exception.

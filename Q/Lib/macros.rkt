@@ -5,10 +5,13 @@
 
 (require racket/class)
 (require racket/sandbox)
+(require (for-syntax syntax/parse)
+         (for-syntax racket/syntax))
 
 
 (provide for/partition
-         send/checked)
+         send/checked
+         override-method/exn)
 
 
 ;; Iterates through the given sequence, adding an element to the `accept' list
@@ -50,3 +53,17 @@
         (call-with-limits (*timeout*) #f
                           (thunk
                            (send obj-expr method-id arg ...)))))]))
+
+;; Produces a mixin that consumes and produces a class of the given
+;; interface, overriding the given method with its arguments to
+;; instead throw an exception.
+(define-syntax (override-method/exn stx)
+  (syntax-parse stx
+    [(_ interface-expr exn-method method-arg ...)
+     #:with exn-name (syntax->datum #'exn-method)
+     #'(mixin (interface-expr) (interface-expr)
+         (super-new)
+         (define/override (exn-method method-arg ...)
+           (error (quote exn-name) "this is an expected exception")))]))
+
+
