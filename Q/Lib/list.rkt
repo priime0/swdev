@@ -5,6 +5,7 @@
 
 (provide
  find-remf
+ cons-if
  (contract-out
   #:unprotected-submodule no-contract
   [member?       (any/c (or/c list? any/c) . -> . boolean?)]

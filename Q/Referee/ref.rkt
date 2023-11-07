@@ -83,47 +83,81 @@
   (void))
 
 
-#; {PrivateState -> (values PrivateState [Listof String])}
+#; {PrivateState Continuation -> (values PrivateState [Listof String])}
 ;; Run a single round
 ;; EFFECT: sends a player's new tiles after a turn.
 (define (run-round gs k)
   (for/fold ([gs^ gs]
              [sinners '()]
-             #:result (values gs^ (reverse sinners)))
+             [any-placed? #f]
+             #:result (values gs^ (reverse sinners) any-placed?))
             ([state (game-state-players gs)])
-    (match-define [player-state score hand playable] state)
+    (define playable (player-state-player state))
     (let/ec return
       (define name (unwrap-or (send/checked playable name #f) ""))
-      (define (kick-player)
-        (return (values (remove-player gs^)
-                        (cons name sinners))))
-      (define turn-result
-        (send/checked playable take-turn kick-player gs^))
-      (unless (success? turn-result)
-        (kick-player))
-      (define turn-action (success-val turn-result))
-      (unless (turn-valid? gs^ turn-action)
-        (kick-player))
+      (define (kick-player placed?)
+        (define gs- (remove-player gs^))
+        (define sinners+ (cons name sinners))
+        (cond [(players-left? gs-) (return (values gs+ sinners+ (or any-placed? placed?)))]
+              [else                (k gs- sinners+)]))
 
-      (void)))
-  ;; for p in gs.players, fold gs^, sinners:
-  ;;   match p.take-turn
-  ;;   | success action ->
-  ;;     match action.validate()
-  ;;     | true ->
-  ;;       gs+ <- action.apply(gs^)
-  ;;       gs++ <- gs+.score()
-  ;;       p.new-tiles(gs++.new-tiles())
-  ;;       gs++.deal-tiles( <gs++.new-tiles()> )
-  ;;       gs++, sinners
-  ;;     | false ->
-  ;;       gs+ <- gs.kick-player()
-  ;;       gs+, p::sinners
-  ;;   | failure _ ->
-  ;;     gs+ <- gs.kick-player()
-  ;;     gs+, p::sinners
+      (define action (run-turn/take-turn gs^ playable kick-player))
+      (run-turn/validate gs^ action kick-player)
+      (define-values (gs+ ended?) (run-turn/execute-turn gs^ playable action kick-player))
 
-  (void))
+      (when ended?
+        (k gs+ sinners))
+
+      (values gs+ sinners (or any-placed? (place? action))))))
+
+
+#; {String PrivateState [Listof String] Boolean Continuation Continuation
+           -> (values PrivateState [Listof String] Boolean)}
+;; Kick the player from the game, producing the next game state. If there are no
+;; more players, consume the continuation, passing in the new game state and the
+;; list of misbehavers.
+#;
+(define (kick-player gs sinners placement-made? end-turn k placed?)
+  (define gs+ (remove-player gs))
+  (cond [(players-left? gs+)
+         (end-turn (values gs+ sinners (or placement-made? placed?)))]
+        [else (k gs+ sinners)]))
+
+
+#; {PrivateState Playable Procedure -> TurnAction}
+;; Request the given playable to take a turn with the given information,
+;; producing their turn if they respond and kicking them if they break protocol.
+(define (run-turn/take-turn gs playable kick-player)
+  (define pub-state (priv-state->pub-state gs))
+  (define turn-result (send/checked playable take-turn #f pub-state))
+  (match turn-result
+    [(success action) action]
+    [(failure _)      (kick-player #f)]))
+
+
+#; {PrivateState TurnAction Procedure -> Void}
+;; Validate a player's action, kicking them if they misbehave.
+(define (run-turn/validate gs action kick-player)
+  (unless (turn-valid? gs action)
+    (kick-player (place? action))))
+
+
+#; {PrivateState Playable TurnAction Procedure -> (values PrivateState Boolean)}
+;; Simulate the action produced by the player on the game state, handing the
+;; player new tiles. If the player gracefully accepts the new tiles, execute the
+;; action on the game state, otherwise kick the player out.
+;; ASSUME: the action given is a valid action to apply on the game state
+(define (run-turn/execute-turn gs playable action kick-player)
+  (define-values (gs+ ended?) (do-turn-without-rotate gs))
+  (define new-hand            (new-tiles gs+))
+  (define new-tiles-result    (send/checked playable new-tiles #f new-hand))
+
+  (match new-tiles-result
+    [(success _)
+     (define gs++ (do-turn/rotate gs+))
+     (values gs++ ended?)]
+    [(failure _) (kick-player (place? action))]))
+
 
 #; {[Listof Playables] Boolean -> (values [Listof Playables] [Listof String])}
 ;; Notify the players of whether they won, collecting the remaining list of valid players, and the

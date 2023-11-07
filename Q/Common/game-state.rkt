@@ -375,7 +375,7 @@
 ;; Are there any players left in the game?
 (define (players-left? gs)
   (>= (length (game-state-players gs))
-      0))x
+      0))
 
 ;; ----------------------------------------------------------------------------------------
 
