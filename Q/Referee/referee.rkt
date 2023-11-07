@@ -1,22 +1,24 @@
 #lang racket
 
-(require racket/sandbox)
+(require Q/Common/tile)
+(require Q/Common/game-state)
+(require Q/Common/player-state)
+(require Q/Common/turn-action)
+(require Q/Common/interfaces/playable)
+(require Q/Lib/macros)
+(require Q/Lib/result)
+
 (require threading)
 
-(require Q/Common/game-state)
-(require Q/Common/interfaces/playable)
-(require Q/Common/turn-action)
-(require Q/Common/config)
-(require Q/Common/player-state)
-(require Q/Common/tile)
-(require Q/Lib/list)
+(provide play-game)
 
-(provide run-game)
+;; ========================================================================================
+;; DATA DEFINITIONS
+;; ========================================================================================
 
 
-;; A Referee is a function from a list of players to the list of
-;; winners and the list of rulebreakers.
-
+;; A Referee is a function from a list of players to the list of winners and the list of
+;; rulebreakers. The entry-point to the Referee is `play-game`.
 ;; FAULT PROTOCOL:
 ;; - The Ref will respond to player errors (contract and other exceptions)
 ;;      by removing that player
@@ -24,249 +26,209 @@
 ;; - The Ref will respond to a timeout by removing that player
 ;; If no fault occurs, then a referee will enact the turn and commit all changes
 ;; to the game state.
+;; FAULT ISSUE: If the player becomes unresponsive, then calling
+;; `(send player name)` won't retrieve the name. Perhaps it should be
+;; cached.
+
+;; ----------------------------------------------------------------------------------------
+
+#; {type GameInfo = (game-info PrivateState [Listof String])}
+;; A GameInfo represents the referee's current information about the
+;; progression of a game. It contains the current state, as well as
+;; the list of players that broke the rules, in the increasing
+;; time-order of elimination.
+(struct/contract game-info
+                 ([state priv-state/c]
+                  [sinners (listof string?)])
+                 #:transparent)
+
+#; {GameInfo PrivateState -> GameInfo}
+;; Creates a copy of the given game info with the given new private state.
+(define/contract (set-game-info-state g-info new-state)
+  (-> game-info? priv-state/c game-info?)
+  (match-define [game-info priv-state sinners] g-info)
+  (game-info new-state sinners))
+
+;; ----------------------------------------------------------------------------------------
+
+#; {type GameEndContinuation = Continuation}
+;; A GameEndContinuation is a continuation that, when called, will
+;; trigger the end of the game. It should be called with one argument,
+;; the final GameInfo.
+
+
+;; ========================================================================================
+;; FUNCTIONALITY
+;; ========================================================================================
+
+#; {[Listof Playable] -> (list [Listof String] [Listof String])}
+;; Play a game of Q with the given list of players to completion, producing the list of players with
+;; the highest scores sorted in lexicographical order and a list of rulebreakers sorted by temporal
+;; order of rule-breaking.
+
 ;; CONSTRAINT: If starting from a start game state, the list of players must be
 ;; equal length to the list of player states in the game state.
-(define (run-game players
-                  #:start-state [gs #f]
-                  #:tile-set [tile-set start-tiles])
-  (define gs*
-    (if gs
-        (apply-players (lambda (lops) (map set-player-state-player lops players))
-                       gs)
-        (make-game-state tile-set players)))
+(define (play-game playables #:tiles [tiles start-tiles] #:game-state [gs* (make-game-state playables tiles)])
+  (define gs (bind-playables gs* playables))
 
-  (define-values (gs+ initial-rule-breakers)
-    (for/fold ([gs^ gs*]
-               [rulebreaks '()])
-              ([ps (game-state-players gs*)])
-      (match-define [player-state _ hand playable] ps)
-      (send/checked
-       (thunk
-        (send playable setup (game-state-board gs*) hand)
-        (values (end-turn gs^ (pass))
-                rulebreaks))
-       (thunk
-        (values (remove-player gs^)
-                (append rulebreaks (list (first (game-state-players gs^)))))))))
+  (define game-info0 (setup gs))
+  (define game-info1 (run-game game-info0))
+  (match-define [game-info priv-state sinners0] game-info1)
 
-  (let loop ([priv-state^ gs+] [rulebreakers '()])
-    (define round-result (run-round priv-state^))
-    (cond
-      [(game-state? (first round-result))
-       (loop (first round-result) (append rulebreakers (second round-result)))]
-      [(list? round-result)
-       (define players (first round-result))
-       (define sinners (second round-result))
-       (define-values (winners losers)
-         (end-game players))
-       (define-values (new-winners new-sinners) (send-final-messages winners losers))
-       (list (sort (player-names (map player-state-player new-winners)) string<=?)
-             (player-names (map player-state-player
-                                (append initial-rule-breakers rulebreakers sinners new-sinners))))])))
+  (define-values (winners losers) (winners+losers priv-state))
 
-#; {[Listof PlayerState] [Listof PlayerState] -> (values [Listof PlayerState]
-                                                         [Listof PlayerState])}
-;; Sends messages to the winners and the losers, recomputing results
-;; if all winners die during communication.
-(define (send-final-messages winners losers)
-  (define-values (winners* _ breakers)
-    (let loop ([wins winners] [loses losers] [baddies '()])
-      (define-values (misbehavers goodies) (notify-players winners #t))
-      (cond
-        [(pair? goodies)
-         (define-values (more-baddies _) (notify-players losers #f))
-         (values goodies '() (append baddies misbehavers more-baddies))]
-        [(= (length winners) (length baddies))
-         (values '() '() baddies)]
-        [else
-         (define-values (winners+ losers+) (end-game losers))
-         (loop winners+ losers+ (append baddies misbehavers))])))
-  (values winners* breakers))
+  (define winners0 (map player-state-payload winners))
+  (define losers0  (map player-state-payload losers))
 
-#; {[Listof PlayerState] Boolean -> [Listof PlayerState]}
+  (define-values (winners1 sinners1) (notify-players winners0 #t))
+  (define-values (losers1  sinners2) (notify-players losers0 #f))
+
+  (list winners1 (append sinners0 sinners1 sinners2)))
+
+
+#; {PrivateState [Listof Playable] -> PrivateState}
+;; Populates the game state's player states with the given playables.
+(define/contract (bind-playables gs playables)
+  (->i ([gs priv-state/c] [playables (listof (is-a?/c playable<%>))])
+       #:pre/name (gs playables)
+       "# of player states in the game state != # players"
+       (= (length (game-state-players gs))
+          (length playables))
+       [result priv-state/c])
+
+  (match-define [game-state board tiles states] gs)
+  (define states+ (map set-player-state-payload states playables))
+  (game-state board tiles states+))
+
+
+#; {PrivateState -> GameInfo}
+;; Communicate to all the players the initial setup of the private state, kicking out all the players
+;; that misbehaved during this stage.
+;; EFFECT: calls the setup method of playables.
+(define (setup gs)
+  (match-define [game-state board _tiles states] gs)
+  (for/fold ([gs^       gs] [sinners   '()]
+             #:result (game-info gs^ (reverse sinners)))
+            ([state states])
+    (match-define [player-state _score hand playable] state)
+    (define name           (unwrap-or (send/checked playable name #f) ""))
+    (define setup-result   (send/checked playable setup name board hand))
+    (define setup-success? (success? setup-result))
+    (if setup-success?
+        (values (do-turn/rotate gs^) sinners)
+        (values (remove-player gs^)  (cons name sinners)))))
+
+
+#; {GameInfo -> GameInfo}
+;; Run the rounds of the game to completion, collecting the private
+;; state and sinners, starting with the given game info.
+;; ASSUME: the game has been set up.
+(define (run-game g-info)
+  (let/ec end-game
+    ;; generative: produces the final game state.
+    ;; terminates:
+    ;; 1. all the players drop out if they misbehave, ending the game.
+    ;; 2. there are a finite number of tiles, so eventually all are exhausted, and so players will be
+    ;; unable to place any tiles, ending the game.
+    (let loop ([g-info^ g-info])
+      (loop (run-round g-info^ end-game)))))
+
+
+#; {GameInfo GameEndContinuation -> GameInfo}
+;; Run a full round, accumulating the game information.
+;; EFFECT: if a turn ends with no placements, this triggers the end of the game.
+(define (run-round g-info k)
+  (define priv-state (game-info-state g-info))
+  (define-values (next-g-info placement-made?)
+    (for/fold ([g-info^ g-info]
+               [any-placed? #f]
+               #:result (values g-info^ any-placed?))
+              ([state (game-state-players priv-state)])
+      (define playable (player-state-payload state))
+      (match-define [cons g-info+ placed?] (run-turn g-info^ playable k))
+      (values g-info+ (or placed? any-placed?))))
+
+  (if (not placement-made?)
+      (k next-g-info)
+      next-g-info))
+
+
+#; {GameInfo String GameEndContinuation -> GameInfo}
+;; Kicks the currently active player from the game, updating the game info.
+;; EFFECT: if the last player is removed, this triggers the end of the game.
+(define (kick-player g-info name k)
+  (match-define [game-info priv-state sinners] g-info)
+  (define priv-state+ (remove-player priv-state))
+  (define g-info+     (game-info priv-state+ (append sinners (list name))))
+  
+  (if (players-left? priv-state+)
+      g-info+
+      (k g-info+)))
+
+#; {type TurnResult = [Pairof GameInfo Boolean]}
+;; A TurnResult represents a pair of the game info after the turn, and
+;; whether or not a placement was requested during the turn,
+;; preventing the round from ending.
+
+
+#; {GameInfo Playable GameEndContinuation -> TurnResult}
+;; Performs a single turn, returning the updated game information,
+;; and  whether a placement was requested.
+;; EFFECT: If the turn ends the game, this triggers the end of the game.
+;; EFFECT: sends a player their new tiles.
+(define (run-turn g-info player k)
+  (match-define [game-info priv-state sinners] g-info)
+  (let/ec stop-turn
+    (define name (unwrap-or (send/checked player name #f) ""))
+    (define kick-player^ (thunk (kick-player g-info name k)))
+
+    (define pub-state (priv-state->pub-state priv-state))
+    (define turn-result (send/checked player take-turn #f pub-state))
+    (unless (success? turn-result)
+      (stop-turn (cons (kick-player^) #f)))
+    
+    (define action  (success-val turn-result))
+    (define placed? (place? action))
+  
+    (unless (turn-valid? priv-state action)
+      (stop-turn (cons (kick-player^) placed?)))
+
+    (define-values (priv-state+ ended?) (do-turn-without-rotate priv-state action))
+    (define new-hand            (new-tiles priv-state+))
+    (define new-tiles-result    (send/checked player new-tiles #f new-hand))
+
+    (unless (success? new-tiles-result)
+      (stop-turn (cons (kick-player^) placed?)))
+
+    (define priv-state++ (do-turn/rotate priv-state+))
+    (define g-info+      (game-info priv-state++ sinners))
+
+    (if ended?
+        (k g-info+)
+        (cons g-info+ placed?))))
+
+
+#; {[Listof Playables] Boolean -> (values [Listof String] [Listof String])}
+;; Notify the players of whether they won, collecting the remaining list of valid players, and the
+;; list of misbehavers.
 (define (notify-players players won?)
-  (for/fold ([misbehavers '()]
-             [rule-followers '()]
-             #:result (values (reverse misbehavers)
-                              (reverse rule-followers)))
+  (for/fold ([valid '()] [sinners '()] #:result (values (reverse valid) (reverse sinners)))
             ([player players])
-    (send/checked
-     (thunk (send (player-state-player player) win won?)
-            (values misbehavers
-                    (cons player rule-followers)))
-     (thunk (values (cons player misbehavers)
-                    rule-followers)))))
-
-#; {type TurnResult = (U [Pair 'place PrivateState]
-                         [Pair 'no-place PrivateState]
-                         [List 'kicked PrivateState PlayerState]
-                         [Pair 'game-end PrivateState])}
-;; Represents the result of a single turn, which can either be a new
-;; state after a placement, a new state after no placement, or an end
-;; of game.
-
-#; {type RoundResult = (U [List PrivateState [Listof PlayerState]]
-                          [List [Listof PlayerState]
-                                [Listof PlayerState]])}
-
-
-#; {[Listof Playable] -> [Listof String]}
-;; Gets the name of each player in the given list.
-(define (player-names players)
-  (~>> players
-       (map (lambda (play) (send play name)))))
-
-
-#; {PrivState -> RoundResult}
-;; Run a single round to completion, or ending early if the game ends
-;; before the round is over.
-(define (run-round ps)
-  (define num-players (length (game-state-players ps)))
-  (define-values (next-priv-state any-places? end? rulebreakers)
-    (for/fold ([ps^ ps]
-               [any-placements? #f]
-               [end? #f]
-               [baddies '()])
-              ([_ (in-range num-players)]
-               #:break end?)
-      (define turn-result (run-turn ps^))
-      (match turn-result
-        [(cons 'place ps+)                 (values ps+ #t #f baddies)]
-        [(cons 'no-place ps+)              (values ps+ any-placements? #f baddies)]
-        [(list 'kicked ps+ baddy)          (values ps+ any-placements? #f (append baddies (list baddy)))]
-        [(list 'invalid-place ps+ baddy)   (values ps+ any-placements? #f (append baddies (list baddy)))]
-        [(cons 'game-end ps+)              (values ps+ any-placements? #t baddies)])))
-  (cond
-    [(or end? (not any-places?))
-     (list (game-state-players next-priv-state)
-           rulebreakers)]
-    [else (list next-priv-state rulebreakers)]))
-
-#; {PrivateState -> TurnResult}
-;; Run a single turn for the current player, obeying the protocol with
-;; PrivateState, assuming that the game is not over.  Returns the
-;; updated state and whether this action ended the game, and whether
-;; this was a placement action.
-(define (run-turn priv-state)
-  (define pub-state (priv-state->pub-state priv-state))
-  (define curr-player (first (game-state-players pub-state)))
-  (define playable    (player-state-player curr-player))
-
-  (let/ec return
-    (define misbehave-proc (lambda (act)
-                             (thunk (return (cons 'kicked (deal-with-misbehavior priv-state act))))))
-    (define action
-      (send/checked (thunk (send playable take-turn pub-state))
-                    (misbehave-proc (pass))))
-    (cond
-      [(valid-turn? priv-state action)
-       (define priv-state+ (apply-turn priv-state action))
-       (unless (pass? action)
-         (define score       (score-turn priv-state+ action))
-         (define score+      (if (turn-ends-game? priv-state action)
-                                 (+ score (*bonus*))
-                                 score))
-         (define p-tiles     (new-tiles priv-state+ action))
-         (send/checked (thunk (send playable new-tiles p-tiles))
-                       (misbehave-proc action))
-         (define priv-state++ (end-turn priv-state+ action #:new-points score+ #:tiles-given (length p-tiles)))
-         (return
-          (cond
-            [(turn-ends-game? priv-state action) (cons 'game-end priv-state++)]
-            [(place? action)                     (cons 'place    priv-state++)]
-            [else                                (cons 'no-place priv-state++)])))
-
-       (cons 'no-place (end-turn priv-state+ action))]
-      [else (cons 'invalid-place (deal-with-misbehavior priv-state action))])))
-
-#; {(-> Any) (-> Any) -> Any}
-;; Applies the given thunk in a checked environment; as in, it will
-;; catch any exceptions thrown by the given thunk, returning the value
-;; produced by the thunk if no exception was thrown, otherwise calling
-;; callback.
-(define (send/checked send-thunk callback)
-  (with-handlers ([exn:fail? (lambda (e) (callback))])
-    (with-timeout send-thunk)))
-
-#; {PrivateState TurnAction -> [List PrivateState
-                                     PlayerState]}
-;; Removes a misbehaving player, returning either the next state or an end-of-game signal.
-(define (deal-with-misbehavior priv-state [action (pass)])
-  (list (remove-player priv-state)
-        (first (game-state-players priv-state))))
-
-#; {[Listof PlayerState] -> (values [Listof PlayerState]
-                                    [Listof PlayerState])}
-;; Computes the list of winners and the list of losers.
-(define (end-game players)
-  (define winners  (get-winners players))
-  (define losers   (filter (negate (curryr member? winners)) players))
-  (values winners losers))
-
-#; {[Listof PlayerState] -> [Listof PlayerState]}
-;; Gets the list of winners from the given list of player states.
-(define (get-winners player-states)
-  (define max-score (apply max 0 (map player-state-score player-states)))
-  (filter (lambda (p) (= (player-state-score p) max-score)) player-states))
-
-#; {(-> Any) -> Any}
-;; Call the given think with this game's timeout, specified in config.
-(define (with-timeout proc)
-  (call-with-limits (*timeout*)
-                    #f
-                    proc))
+    (define name (unwrap-or (send/checked player name "") ""))
+    (define won-result (send/checked player win name won?))
+    (match won-result
+      [(success _)
+       (values (cons name valid) sinners)]
+      [(failure name)
+       (values valid (cons name sinners))])))
 
 
 (module+ test
-  (require rackunit)
-
-  (require racket/class)
-  (require threading)
-
-  (require Q/Lib/test)
-  (require Q/Common/posn)
-  (require Q/Common/tile)
-  (require Q/Common/turn-action)
-  (require Q/Player/strategy)
   (require Q/Player/player)
   (require Q/Player/dag)
-  (require Q/Player/ldasg)
-  (require Q/Common/map)
 
-  (define tile-set
-    (~>> (cartesian-product tile-colors tile-shapes)
-         (map (curry apply tile))))
+  (define gs (make-game-state start-tiles
+                              (list (new player% [id 'lucas] [strategy (new dag%)])
+                                    (new player% [id 'andrey] [strategy (new dag%)])
+                                    (new player% [id 'luke] [strategy (new dag%)])))))
 
-
-  (define dumb%
-    (class* object% (player-strategy<%>)
-      (super-new)
-
-      (define/public (choose-action pub-state)
-        (place (list (placement (posn 0 0)
-                                (tile 'red 'square)))))))
-
-  (define dag (new dag%))
-  (define ldasg (new ldasg%))
-  (define dumb (new dumb%))
-  
-
-  (test-equal?
-   ""
-   (apply/seed 0
-               (thunk (run-game
-                       (list (new player% [id 'andrey] [strategy dag])
-                             (new player% [id 'lucas]  [strategy ldasg])
-                             (new player% [id 'luke]   [strategy dag]))
-                       #:tile-set tile-set)))
-   '(("andrey") . (())))
-
-  (test-equal?
-   ""
-   (apply/seed 0
-               (thunk (run-game
-                       (list (new player% [id 'luke]   [strategy dumb])
-                             (new player% [id 'andrey] [strategy dag])
-                             (new player% [id 'lucas]  [strategy ldasg]))
-                       #:tile-set tile-set)))
-   '(("andrey") . (("luke")))))

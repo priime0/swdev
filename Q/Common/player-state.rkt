@@ -15,13 +15,13 @@
 
 (provide
  player-state++
- set-player-state-player
+ set-player-state-payload
  hash->player-state++
  (struct-out player-state)
  (contract-out
   [make-player-state
    (-> (listof tile?)
-       (is-a?/c playable<%>)
+       any/c
        player-state?)]
   [add-to-hand
    (-> player-state? (listof tile?)
@@ -43,14 +43,15 @@
    (-> player-state?
        image?)]))
 
-#; {type PlayerState = (player-state Natural [Listof Tile] Playable)}
+#; {type PlayerState = (player-state Natural [Listof Tile] Any)}
 ;; A PlayerState represents a participating player's state during any instant of time, containing
-;; the points the player accrued during the game, along with the tiles in their hand during a move.
+;; the points the player accrued during the game, along with the tiles in their hand during a move,
+;; and a payload of type `Any`.
 ;; INVARIANT: The hand of a player state has a length L such that 0 ≤ L ≤ (*hand-size*).
 (struct++ player-state
           ([(score 0)       natural?]
            [hand            (listof tile?)]
-           [(player #f)     (or/c (is-a?/c playable<%>) false?)])
+           [(payload #f)         any/c])
           #:transparent
           #:methods gen:serializable
           [(define/generic ->jsexpr* ->jsexpr)
@@ -60,9 +61,10 @@
                    'tile* (map ->jsexpr* hand)))])
 
 #; {[Listof Tile] -> PlayerState}
-;; Creates a player with the given player id, hand, and a default score of 0.
-(define (make-player-state hand [playable #f])
-  (player-state++ #:hand hand #:player playable))
+;; Creates a player with the given hand, a default score of 0,
+;; and the given optional payload (default of #f).
+(define (make-player-state hand [payload #f])
+  (player-state++ #:hand hand #:payload payload))
 
 #; {([Listof Tile] -> [Listof Tile]) PlayerState -> PlayerState}
 (define (apply-hand f ps)

@@ -62,7 +62,10 @@
   [new-tiles
    (-> priv-state/c (listof tile?))]
   [players-left?
-   (-> game-state/c boolean?)]))
+   (-> game-state/c boolean?)]
+  [winners+losers
+   (-> priv-state/c (values (listof player-state?)
+                            (listof player-state?)))]))
 
 
 
@@ -360,7 +363,6 @@
 
 ;; ----------------------------------------------------------------------------------------
 
-
 #; {PrivateState -> [Listof Tile]}
 ;; Retrieves the entire new hand of the current player. 
 (define (new-tiles priv-state)
@@ -376,6 +378,27 @@
 (define (players-left? gs)
   (>= (length (game-state-players gs))
       0))
+
+;; ----------------------------------------------------------------------------------------
+
+#; {PrivateState -> (values [Listof PlayerState] [Listof PlayerState])}
+;; Computes the winners and the losers.
+(define (winners+losers priv-state)
+  (define ranking (final-ranking priv-state))
+  (cond
+    [(null? ranking) (values '() '())]
+    [(pair? ranking)
+     (define max-score (player-state-score (first ranking)))
+     (splitf-at ranking
+                (lambda (state) (= max-score (player-state-score state))))]))
+
+#; {PrivateState -> [Listof PlayerState]}
+;; Returns the player states sorted in descending order of score.
+(define (final-ranking priv-state)
+  (sort (game-state-players priv-state)
+        >
+        #:key player-state-score))
+
 
 ;; ----------------------------------------------------------------------------------------
 
