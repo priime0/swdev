@@ -1,0 +1,44 @@
+{
+    "map": [[-9824, [-1242, { "color": "red", "shape": "8star" }]]],
+    "tile*": [
+        { "color": "red", "shape": "8star" },
+        { "color": "red", "shape": "8star" },
+        { "color": "red", "shape": "8star" },
+        { "color": "red", "shape": "8star" },
+        { "color": "red", "shape": "8star" },
+        { "color": "red", "shape": "8star" },
+        { "color": "red", "shape": "8star" },
+        { "color": "red", "shape": "8star" },
+        { "color": "red", "shape": "8star" },
+        { "color": "red", "shape": "8star" },
+        { "color": "red", "shape": "8star" },
+        { "color": "red", "shape": "8star" }
+    ],
+    "players": [
+        {
+            "score": 0,
+            "tile*": [
+                { "color": "red", "shape": "8star" },
+                { "color": "red", "shape": "8star" },
+                { "color": "purple", "shape": "star" }
+            ]
+        },
+        {
+            "score": 0,
+            "tile*": [
+                { "color": "red", "shape": "8star" },
+                { "color": "red", "shape": "8star" },
+                { "color": "purple", "shape": "star" }
+            ]
+        },
+        {
+            "score": 0,
+            "tile*": [
+                { "color": "red", "shape": "8star" },
+                { "color": "red", "shape": "8star" },
+                { "color": "purple", "shape": "star" }
+            ]
+        }
+    ]
+}[["Cosette","dag"],["JeanValjean","dag"],["MonsieurThenardier","dag"]]
+

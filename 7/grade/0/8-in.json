@@ -1,0 +1,47 @@
+{
+    "map": [
+        [0, [0, { "color": "yellow", "shape": "8star" }]]
+    ],
+    "tile*": [{ "color": "red", "shape": "diamond" },
+              { "color": "yellow", "shape": "8star"},
+              { "color": "yellow", "shape": "8star"},
+              { "color": "yellow", "shape": "8star"},
+              { "color": "yellow", "shape": "8star"},
+              { "color": "yellow", "shape": "8star"},
+              { "color": "yellow", "shape": "8star"}
+            ],
+    "players": [
+        {
+            "score": 0,
+            "tile*": [
+                { "color": "green", "shape": "8star" },
+                { "color": "red", "shape": "diamond" },
+                { "color": "red", "shape": "diamond" },
+                { "color": "red", "shape": "diamond" },
+                { "color": "red", "shape": "diamond" },
+                { "color": "red", "shape": "diamond" }
+
+            ]
+        },
+        {
+            "score": 0,
+            "tile*": [
+                { "color": "blue", "shape": "square" },
+                { "color": "blue", "shape": "square" },
+                { "color": "blue", "shape": "square" },
+                { "color": "blue", "shape": "square" },
+                { "color": "blue", "shape": "square" },
+                { "color": "blue", "shape": "square" }
+            ]
+        },
+        {
+            "score": 0,
+            "tile*": [ ]
+        }
+    ]
+}
+[
+    ["Alice", "dag", "win"],
+    ["Bob", "dag"],
+    ["Joe", "dag", "take-turn"]
+]

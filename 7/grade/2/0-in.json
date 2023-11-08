@@ -1,0 +1,134 @@
+{
+    "map": [
+        [
+            -1,
+            [
+                0,
+                {
+                    "color": "green",
+                    "shape": "8star"
+                }
+            ]
+        ],
+        [
+            0,
+            [
+                0,
+                {
+                    "color": "red",
+                    "shape": "clover"
+                }
+            ]
+        ],
+        [
+            1,
+            [
+                0,
+                {
+                    "color": "red",
+                    "shape": "diamond"
+                }
+            ]
+        ],
+        [
+            2,
+            [
+                0,
+                {
+                    "color": "red",
+                    "shape": "circle"
+                }
+            ]
+        ]
+    ],
+    "tile*": [
+        {
+            "color": "red",
+            "shape": "star"
+        },
+        {
+            "color": "blue",
+            "shape": "circle"
+        },
+        {
+            "color": "red",
+            "shape": "circle"
+        }
+    ],
+    "players": [
+        {
+            "score": 20,
+            "tile*": [
+                {
+                    "color": "orange",
+                    "shape": "star"
+                },
+                {
+                    "color": "blue",
+                    "shape": "star"
+                },
+                {
+                    "color": "purple",
+                    "shape": "star"
+                }
+            ]
+        },
+        {
+            "score": 10,
+            "tile*": [
+                {
+                    "color": "red",
+                    "shape": "star"
+                },
+                {
+                    "color": "blue",
+                    "shape": "circle"
+                },
+                {
+                    "color": "red",
+                    "shape": "circle"
+                }
+            ]
+        },
+        {
+            "score": 30,
+            "tile*": [
+                {
+                    "color": "red",
+                    "shape": "star"
+                },
+                {
+                    "color": "blue",
+                    "shape": "circle"
+                },
+                {
+                    "color": "red",
+                    "shape": "circle"
+                }
+            ]
+        },
+        {
+            "score": 40,
+            "tile*": [
+                {
+                    "color": "red",
+                    "shape": "star"
+                },
+                {
+                    "color": "blue",
+                    "shape": "circle"
+                },
+                {
+                    "color": "red",
+                    "shape": "circle"
+                }
+            ]
+        }
+    ]
+}
+[
+    ["arivalagan", "dag"],
+    ["balamurugan", "ldasg"],
+    ["chinnasaami", "ldasg"],
+    ["dilipkumar", "dag"]
+]

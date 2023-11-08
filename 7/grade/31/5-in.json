@@ -1,0 +1,30 @@
+{"map":
+[
+  [-1,
+    [0,{"color":"purple","shape":"square"}],
+    [1,{"color":"green","shape":"diamond"}]],
+  [0,
+    [0,{"color":"green","shape":"clover"}]],
+  [1,
+    [0,{"color":"purple","shape":"clover"}],
+    [1,{"color":"green","shape":"8star"}]]],
+  "tile*":
+  [{"color":"yellow","shape":"star"},
+    {"color":"red","shape":"8star"},
+    {"color":"purple","shape":"square"},
+    {"color":"red","shape":"circle"}],
+  "players":
+  [{"score":0,"tile*":[
+    {"color":"green","shape":"square"},
+    {"color":"blue","shape":"circle"}]},
+    {"score":0,"tile*":[
+      {"color":"yellow","shape":"star"},
+      {"color":"green","shape":"diamond"}]},
+    {"score":0,"tile*":[
+      {"color":"blue","shape":"8star"},
+      {"color":"blue","shape":"square"}]},
+    {"score":0,"tile*":[
+      {"color":"yellow","shape":"circle"},
+      {"color":"orange","shape":"star"}]}]
+}
+[["player1", "dag"], ["player2", "dag"], ["player3", "ldasg"], ["player4", "dag"]]

@@ -1,0 +1,95 @@
+{
+    "map" : [
+                [
+                    0,
+                    [
+                        0,
+                        {
+                            "color" : "red",
+                            "shape" : "circle"
+                        }
+                    ]
+                ],
+                [
+                    -1,
+                    [
+                        0,
+                        {
+                            "color" : "green",
+                            "shape" : "circle"
+                        }
+                    ]
+                ],
+                [
+                    -2,
+                    [
+                        0,
+                        {
+                            "color" : "blue",
+                            "shape" : "circle"
+                        }
+                    ]
+                ],
+                [
+                    -3,
+                    [
+                        0,
+                        {
+                            "color" : "yellow",
+                            "shape" : "circle"
+                        }
+                    ]
+                ],
+                [
+                    -4,
+                    [
+                        0,
+                        {
+                            "color" : "orange",
+                            "shape" : "circle"
+                        }
+                    ]
+                ]
+            ],
+    "tile*": [{"color":"purple","shape":"8star"}],
+    "players": [
+        { 
+            "score" : 0, 
+            "tile*" : [] 
+        },
+        { 
+            "score" : 1, 
+            "tile*" : [{"color":"purple","shape":"8star"}] 
+        },
+        { 
+            "score" : 1, 
+            "tile*" : [] 
+        },
+        { 
+            "score" : 1, 
+            "tile*" : [] 
+        }
+    ]
+}
+[
+    [
+        "A",
+        "dag",
+        "win"
+    ],
+    [
+        "B",
+        "dag",
+        "new-tiles"
+    ],
+    [
+        "C",
+        "dag",
+        "take-turn"
+    ],
+    [
+        "D",
+        "dag",
+        "setup"
+    ]
+]

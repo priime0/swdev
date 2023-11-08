@@ -1,0 +1,51 @@
+{
+    "map": [
+        [
+            0,
+            [
+                0,
+                {
+                    "color": "red",
+                    "shape": "clover"
+                }
+            ]
+        ]
+    ],
+    "tile*": [
+        {
+            "color": "blue",
+            "shape": "clover"
+        }
+    ],
+    "players": [
+        {
+            "score": 0,
+            "tile*": [
+                {
+                    "color": "blue",
+                    "shape": "square"
+                }
+            ]
+        },
+        {
+            "score": 0,
+            "tile*": [
+                {
+                    "color": "green",
+                    "shape": "star"
+                }
+            ]
+        }
+    ]
+}
+
+[
+    [
+        "Dag",
+        "dag"
+    ],
+    [
+        "Ldasg",
+        "ldasg"
+    ]
+]
