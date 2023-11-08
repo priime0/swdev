@@ -12,7 +12,6 @@
 
 (provide
  player%
- exn-player%
  hash->player++)
 
 ;; This Player is a concrete, stateless implementation of Playable with a name and a Strategy to act
@@ -38,38 +37,6 @@
     (define/public (win won?)
       (void))))
 
-;; A wrapper class over the Player that contains an additional field that indicates the expected
-;; method to throw an exception.
-(define exn-player%
-  (class* object% (playable<%>)
-    (init-field exn)
-    (init-field player)
-    (super-new)
-
-    (define/public (name)
-      (send player name))
-
-    (define/public (setup board tiles)
-      (if (eq? exn 'setup)
-          (error 'setup "this is an expected error")
-          (send player setup board tiles)))
-
-    (define/public (take-turn pub-state)
-      (if (eq? exn 'take-turn)
-          (error 'take-turn "this is an expected error")
-          (send player take-turn pub-state)))
-
-    (define/public (new-tiles tiles)
-      (if (eq? exn 'new-tiles)
-          (error 'new-tiles "this is an expected error")
-          (send player new-tiles tiles)))
-
-    (define/public (win won?)
-      (if (eq? exn 'win)
-          (error 'win "this is an expected error")
-          (send player win won?)))))
-
-
 #; {JSExpr -> Player}
 (define (hash->player++ jactor)
   (match jactor
@@ -78,13 +45,15 @@
           [id (string->symbol jname)]
           [strategy (hash->strategy++ jstrategy)])]
     [(list jname jstrategy jexn)
-     (define player
-       (new player%
-            [id (string->symbol jname)]
-            [strategy (hash->strategy++ jstrategy)]))
+     (define exn-player%
+       (match jexn
+         ['setup ((override-method/exn playable<%> setup board tiles) player%)]
+         ['take-turn ((override-method/exn playable<%> take-turn pub-state) player%)]
+         ['new-tiles ((override-method/exn playable<%> new-tiles tiles) player%)]
+         ['win ((override-method/exn playable<%> win won?) player%)]))
      (new exn-player%
-          [exn (string->symbol jexn)]
-          [player player])]))
+          [id (string->symbol jname)]
+          [strategy (hash->strategy++ jstrategy)])]))
 
 
 (module+ test
