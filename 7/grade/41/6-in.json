@@ -1,0 +1,1099 @@
+{
+  "map": [
+    [
+      3,
+      [
+        7,
+        {
+          "color": "red",
+          "shape": "8star"
+        }
+      ]
+    ]
+  ],
+  "tile*": [
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    }
+  ],
+  "players": [
+    {
+      "score": 0,
+      "tile*": [
+        {
+          "color": "orange",
+          "shape": "clover"
+        },
+        {
+          "color": "red",
+          "shape": "8star"
+        }
+      ]
+    },
+    {
+      "score": 2,
+      "tile*": [
+        {
+          "color": "blue",
+          "shape": "clover"
+        },
+        {
+          "color": "red",
+          "shape": "8star"
+        }
+      ]
+    }
+  ]
+}
+
+[
+  [
+    "matt",
+    "dag"
+  ],
+  [
+    "ben",
+    "ldasg"
+  ]
+]

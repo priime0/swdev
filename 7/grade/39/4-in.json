@@ -1,0 +1,6 @@
+{"map": [[0, [0, {"color": "green", "shape": "circle"}]]] , "tile*": [{"color": "orange", "shape": "square"}, {"color": "red", "shape": "square"}], 
+    "players": [{"score": 0, "tile*": [{"color": "green", "shape": "8star"}, {"color": "blue", "shape": "star"}, {"color": "yellow", "shape": "diamond"},
+    {"color": "orange", "shape": "diamond"}, {"color": "blue", "shape": "8star"}, {"color": "blue", "shape": "clover"}]},
+    {"score": 0, "tile*": [{"color": "orange", "shape": "diamond"}, {"color": "green", "shape": "star"}, {"color": "red", "shape": "star"},
+    {"color": "red", "shape": "circle"}, {"color": "red", "shape": "star"}, {"color": "red", "shape": "circle"}]}]}
+[["Matt", "dag"], ["Jay", "dag"]]

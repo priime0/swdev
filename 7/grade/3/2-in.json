@@ -1,0 +1,103 @@
+{
+    "map": [
+        [
+            0,
+            [
+                1,
+                {
+                    "color": "red",
+                    "shape": "square"
+                }
+            ],
+            [
+                2,
+                {
+                    "color": "blue",
+                    "shape": "square"
+                }
+            ],
+            [
+                3,
+                {
+                    "color": "green",
+                    "shape": "square"
+                }
+            ]
+        ],
+        [
+            1,
+            [
+                2,
+                {
+                    "color": "blue",
+                    "shape": "circle"
+                }
+            ]
+        ],
+        [
+            2,
+            [
+                0,
+                {
+                    "color": "red",
+                    "shape": "diamond"
+                }
+            ],
+            [
+                1,
+                {
+                    "color": "red",
+                    "shape": "diamond"
+                }
+            ],
+            [
+                2,
+                {
+                    "color": "blue",
+                    "shape": "diamond"
+                }
+            ]
+        ]
+    ],
+    "tile*": [],
+    "players": [
+        {
+            "score": 8,
+            "tile*": [
+                {
+                    "color": "purple",
+                    "shape": "clover"
+                }, 
+                {
+                    "color": "yellow",
+                    "shape": "square"
+                }
+            ]
+        },
+        {
+            "score": 12,
+            "tile*": [
+                {
+                    "color": "purple",
+                    "shape": "clover"
+                }, 
+                {
+                    "color": "red",
+                    "shape": "circle"
+                }
+            ]
+        }
+    ]
+}
+[
+    [
+        "player1", 
+        "dag", 
+        "take-turn"
+    ], 
+    [
+        "player2", 
+        "ldasg", 
+        "take-turn"
+    ]
+]

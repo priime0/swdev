@@ -1,0 +1,404 @@
+{
+  "map": [
+    [
+      1,
+      [
+        3,
+        {
+          "color": "red",
+          "shape": "square"
+        }
+      ],
+      [
+        4,
+        {
+          "color": "green",
+          "shape": "square"
+        }
+      ]
+    ],
+    [
+      2,
+      [
+        4,
+        {
+          "color": "purple",
+          "shape": "clover"
+        }
+      ],
+      [
+        6,
+        {
+          "color": "red",
+          "shape": "square"
+        }
+      ]
+    ],
+    [
+      3,
+      [
+        1,
+        {
+          "color": "blue",
+          "shape": "star"
+        }
+      ],
+      [
+        2,
+        {
+          "color": "green",
+          "shape": "square"
+        }
+      ],
+      [
+        3,
+        {
+          "color": "orange",
+          "shape": "8star"
+        }
+      ],
+      [
+        4,
+        {
+          "color": "orange",
+          "shape": "clover"
+        }
+      ],
+      [
+        5,
+        {
+          "color": "yellow",
+          "shape": "circle"
+        }
+      ],
+      [
+        6,
+        {
+          "color": "blue",
+          "shape": "square"
+        }
+      ],
+      [
+        7,
+        {
+          "color": "yellow",
+          "shape": "circle"
+        }
+      ]
+    ],
+    [
+      4,
+      [
+        1,
+        {
+          "color": "red",
+          "shape": "square"
+        }
+      ],
+      [
+        4,
+        {
+          "color": "orange",
+          "shape": "8star"
+        }
+      ],
+      [
+        5,
+        {
+          "color": "purple",
+          "shape": "clover"
+        }
+      ]
+    ],
+    [
+      5,
+      [
+        2,
+        {
+          "color": "red",
+          "shape": "square"
+        }
+      ],
+      [
+        3,
+        {
+          "color": "red",
+          "shape": "square"
+        }
+      ],
+      [
+        5,
+        {
+          "color": "green",
+          "shape": "square"
+        }
+      ],
+      [
+        6,
+        {
+          "color": "green",
+          "shape": "square"
+        }
+      ]
+    ]
+  ],
+  "tile*": [
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "yellow",
+      "shape": "circle"
+    },
+    {
+      "color": "red",
+      "shape": "star"
+    },
+    {
+      "color": "green",
+      "shape": "clover"
+    },
+    {
+      "color": "orange",
+      "shape": "square"
+    },
+    {
+      "color": "red",
+      "shape": "circle"
+    },
+    {
+      "color": "blue",
+      "shape": "8star"
+    },
+    {
+      "color": "purple",
+      "shape": "clover"
+    },
+    {
+      "color": "blue",
+      "shape": "square"
+    },
+    {
+      "color": "yellow",
+      "shape": "star"
+    },
+    {
+      "color": "purple",
+      "shape": "clover"
+    },
+    {
+      "color": "red",
+      "shape": "star"
+    },
+    {
+      "color": "purple",
+      "shape": "star"
+    },
+    {
+      "color": "green",
+      "shape": "clover"
+    },
+    {
+      "color": "purple",
+      "shape": "clover"
+    },
+    {
+      "color": "yellow",
+      "shape": "square"
+    },
+    {
+      "color": "green",
+      "shape": "circle"
+    },
+    {
+      "color": "orange",
+      "shape": "diamond"
+    },
+    {
+      "color": "green",
+      "shape": "diamond"
+    },
+    {
+      "color": "orange",
+      "shape": "8star"
+    },
+    {
+      "color": "orange",
+      "shape": "circle"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "blue",
+      "shape": "diamond"
+    },
+    {
+      "color": "purple",
+      "shape": "square"
+    },
+    {
+      "color": "orange",
+      "shape": "clover"
+    },
+    {
+      "color": "purple",
+      "shape": "circle"
+    },
+    {
+      "color": "blue",
+      "shape": "clover"
+    },
+    {
+      "color": "red",
+      "shape": "square"
+    },
+    {
+      "color": "blue",
+      "shape": "star"
+    },
+    {
+      "color": "blue",
+      "shape": "8star"
+    },
+    {
+      "color": "green",
+      "shape": "star"
+    },
+    {
+      "color": "yellow",
+      "shape": "diamond"
+    },
+    {
+      "color": "purple",
+      "shape": "clover"
+    },
+    {
+      "color": "yellow",
+      "shape": "square"
+    },
+    {
+      "color": "yellow",
+      "shape": "circle"
+    },
+    {
+      "color": "red",
+      "shape": "circle"
+    },
+    {
+      "color": "yellow",
+      "shape": "8star"
+    },
+    {
+      "color": "purple",
+      "shape": "8star"
+    },
+    {
+      "color": "yellow",
+      "shape": "8star"
+    },
+    {
+      "color": "purple",
+      "shape": "clover"
+    },
+    {
+      "color": "blue",
+      "shape": "circle"
+    },
+    {
+      "color": "blue",
+      "shape": "circle"
+    },
+    {
+      "color": "red",
+      "shape": "diamond"
+    },
+    {
+      "color": "green",
+      "shape": "star"
+    },
+    {
+      "color": "orange",
+      "shape": "square"
+    },
+    {
+      "color": "yellow",
+      "shape": "8star"
+    },
+    {
+      "color": "purple",
+      "shape": "clover"
+    },
+    {
+      "color": "orange",
+      "shape": "diamond"
+    },
+    {
+      "color": "blue",
+      "shape": "star"
+    },
+    {
+      "color": "yellow",
+      "shape": "circle"
+    }
+  ],
+  "players": [
+    {
+      "score": 0,
+      "tile*": [
+        {
+          "color": "orange",
+          "shape": "clover"
+        },
+        {
+          "color": "green",
+          "shape": "star"
+        },
+        {
+          "color": "blue",
+          "shape": "8star"
+        },
+        {
+          "color": "orange",
+          "shape": "clover"
+        },
+        {
+          "color": "purple",
+          "shape": "circle"
+        }
+      ]
+    },
+    {
+      "score": 40,
+      "tile*": [
+        {
+          "color": "green",
+          "shape": "8star"
+        },
+        {
+          "color": "yellow",
+          "shape": "clover"
+        },
+        {
+          "color": "purple",
+          "shape": "circle"
+        }
+      ]
+    }
+  ]
+}
+
+[
+  [
+    "matt",
+    "dag"
+  ],
+  [
+    "ben",
+    "ldasg",
+    "setup"
+  ]
+]
+

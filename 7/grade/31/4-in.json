@@ -1,0 +1,16 @@
+{"map":
+[
+  [100,
+    [-100,{"color":"yellow","shape":"circle"}]]],
+  "tile*":
+  [],
+  "players":
+  [{"score":0,"tile*":[
+    {"color":"red","shape":"square"},
+    {"color":"orange","shape":"square"}]},
+    {"score":0,"tile*":[
+      {"color":"blue","shape":"clover"},
+      {"color":"green","shape":"8star"}]},
+    {"score":1,"tile*":[
+      {"color":"purple","shape":"diamond"}]}]}
+[["K", "dag"], ["j", "dag"], ["h", "dag"]]

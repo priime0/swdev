@@ -1,0 +1,20 @@
+{
+    "map": [[0, [0, { "color": "purple", "shape": "circle" }]]],
+    "tile*": [
+        { "color": "red", "shape": "star" },
+        { "color": "red", "shape": "8star" },
+        { "color": "red", "shape": "square" },
+        { "color": "red", "shape": "circle" },
+        { "color": "red", "shape": "clover" },
+        { "color": "red", "shape": "diamond" },
+        { "color": "green", "shape": "star" },
+        { "color": "green", "shape": "8star" },
+        { "color": "green", "shape": "square" },
+        { "color": "green", "shape": "circle" }
+    ],
+    "players": [
+        { "score": 0, "tile*": [{ "color": "purple", "shape": "clover" }] },
+        { "score": 0, "tile*": [{ "color": "purple", "shape": "8star" }] },
+        { "score": 0, "tile*": [{ "color": "orange", "shape": "8star" }] }
+    ]
+}[["audacious","ldasg", "take-turn"],["beneficial","dag", "setup"],["comical","ldasg"]]

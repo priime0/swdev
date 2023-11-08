@@ -1,0 +1,8 @@
+{
+  "map":[[-1,[1,{"color":"orange","shape":"8star"}]]],
+  "players":[
+    {"score":0,"tile*":[{"color":"orange","shape":"diamond"},{"color":"yellow","shape":"square"}]},
+    {"score":0,"tile*":[{"color":"purple","shape":"clover"}]},
+    {"score":0,"tile*":[{"color":"orange","shape":"square"},{"color":"purple","shape":"clover"}]}],
+  "tile*":[]}
+[["yakko","ldasg","setup"],["wakko","dag"],["dot","dag"]]

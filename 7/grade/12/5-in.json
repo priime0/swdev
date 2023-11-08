@@ -1,0 +1,17 @@
+{
+  "map" :
+  [
+    [0,[0,{"color" : "purple", "shape" : "clover"}]]
+  ]
+,
+  "tile*" : [{"color" : "red", "shape" : "square"}, {"color" : "green", "shape" : "star"},
+    {"color" : "blue", "shape" : "circle"}, {"color" : "purple", "shape" : "diamond"}],
+  "players" : [{"score" : 3, "tile*" : [{"color" : "green", "shape" : "circle"}, {"color" : "purple", "shape" : "circle"}]},
+    {"score" : 10, "tile*" : [{"color" : "yellow", "shape" : "8star"}, {"color" : "green", "shape" : "8star"}]},
+    {"score" : 1, "tile*" : [{"color" : "yellow", "shape" : "8star"}]}]
+}
+[
+  ["player1", "dag", "take-turn"],
+  ["player2", "ldasg"],
+  ["player3", "ldasg", "new-tiles"]
+]

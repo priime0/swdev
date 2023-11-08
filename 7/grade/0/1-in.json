@@ -1,0 +1,27 @@
+{
+    "map": [
+        [0, [0, { "color": "yellow", "shape": "8star" }]]
+    ],
+    "tile*": [],
+    "players": [
+        {
+            "score": 0,
+            "tile*": [
+                { "color": "red", "shape": "diamond" },
+                { "color": "blue", "shape": "8star" }
+            ]
+        },
+        {
+            "score": 0,
+            "tile*": [
+                { "color": "blue", "shape": "square" },
+                { "color": "blue", "shape": "square" }
+            ]
+        }
+    ]
+}
+[
+    ["Alice", "dag"],
+    ["Bob", "dag"]
+]
+

@@ -1,0 +1,32 @@
+{
+    "map": [[12058, [2301958, { "color": "red", "shape": "8star" }]]],
+    "tile*": [
+        { "color": "purple", "shape": "star" },
+        { "color": "purple", "shape": "star" },
+        { "color": "purple", "shape": "star" },
+        { "color": "purple", "shape": "star" },
+        { "color": "purple", "shape": "star" },
+        { "color": "purple", "shape": "star" },
+        { "color": "purple", "shape": "star" },
+        { "color": "purple", "shape": "star" },
+        { "color": "purple", "shape": "star" },
+        { "color": "purple", "shape": "star" }
+    ],
+    "players": [
+        {
+            "score": 0,
+            "tile*": [
+                { "color": "purple", "shape": "star" },
+                { "color": "purple", "shape": "star" }
+            ]
+        },
+        {
+            "score": 0,
+            "tile*": [
+                { "color": "purple", "shape": "star" },
+                { "color": "purple", "shape": "star" }
+            ]
+        }
+    ]
+}[["MonsieurThenardier","dag", "take-turn"],["JeanValjean","dag", "win"]]
+

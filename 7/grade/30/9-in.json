@@ -1,0 +1,11 @@
+{"map" : [[-2,[0,{"color":"red", "shape":"square"}]],
+  [-1,[-1,{"color":"green", "shape":"square"}],
+  [1,{"color":"green", "shape":"square"}]],
+  [0,[0,{"color":"red", "shape":"square"}]]],
+  "tile*" :  [],
+  "players" :  [{"score" : 0, "tile*" :  [{"color" :  "red", "shape" : "square"},
+    {"color" :  "purple", "shape" : "star"}, {"color" :  "purple", "shape" : "clover"}]},
+    {"score" : 100, "tile*" :  [{"color" :  "red", "shape" : "circle"},
+      {"color" :  "red", "shape" : "star"}, {"color" :  "red", "shape" : "clover"}]}]
+}
+[["A", "ldasg"], ["B", "dag"]]

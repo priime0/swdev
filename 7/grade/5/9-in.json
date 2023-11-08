@@ -1,0 +1,8 @@
+{
+  "map":[[50,[49,{"color":"green","shape":"clover"}]]],
+  "players":[
+    {"score":0,"tile*":[{"color":"green","shape":"diamond"},{"color":"yellow","shape":"diamond"}]},
+    {"score":5,"tile*":[{"color":"purple","shape":"clover"}]},
+    {"score":0,"tile*":[{"color":"orange","shape":"square"},{"color":"purple","shape":"clover"}]}],
+  "tile*":[]}
+[["yakko","ldasg","win"],["wakko","dag","take-turn"],["dot","dag","setup"]]

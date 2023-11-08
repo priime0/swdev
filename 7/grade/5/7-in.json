@@ -1,0 +1,8 @@
+{
+  "map":[[-1,[1,{"color":"orange","shape":"8star"}]]],
+  "players":[
+    {"score":0,"tile*":[{"color":"yellow","shape":"square"},{"color":"purple","shape":"clover"}]},
+    {"score":0,"tile*":[{"color":"purple","shape":"clover"}]},
+    {"score":0,"tile*":[{"color":"red","shape":"square"},{"color":"purple","shape":"clover"}]}],
+  "tile*":[{"color":"purple","shape":"clover"}]}
+[["yakko","ldasg","new-tiles"],["wakko","dag","new-tiles"],["dot","dag","win"]]

@@ -1,0 +1,91 @@
+{
+    "map": [
+        [
+            0,
+            [
+                0,
+                {
+                    "color": "red",
+                    "shape": "clover"
+                }
+            ]
+        ]
+    ],
+    "tile*": [],
+    "players": [
+        {
+            "score": 40,
+            "tile*": [
+                {
+                    "color": "blue",
+                    "shape": "star"
+                },
+                {
+                    "color": "blue",
+                    "shape": "circle"
+                },
+                {
+                    "color": "blue",
+                    "shape": "diamond"
+                }
+            ]
+        },
+        {
+            "score": 40,
+            "tile*": [
+                {
+                    "color": "blue",
+                    "shape": "star"
+                },
+                {
+                    "color": "blue",
+                    "shape": "circle"
+                },
+                {
+                    "color": "blue",
+                    "shape": "diamond"
+                }
+            ]
+        },
+        {
+            "score": 40,
+            "tile*": [
+                {
+                    "color": "blue",
+                    "shape": "star"
+                },
+                {
+                    "color": "blue",
+                    "shape": "circle"
+                },
+                {
+                    "color": "blue",
+                    "shape": "diamond"
+                }
+            ]
+        },
+        {
+            "score": 40,
+            "tile*": [
+                {
+                    "color": "blue",
+                    "shape": "star"
+                },
+                {
+                    "color": "blue",
+                    "shape": "circle"
+                },
+                {
+                    "color": "blue",
+                    "shape": "diamond"
+                }
+            ]
+        }
+    ]
+}
+[
+    ["arivalagan", "dag"],
+    ["balamurugan", "ldasg"],
+    ["chinnasaami", "ldasg"],
+    ["dilipkumar", "dag"]
+]
