@@ -47,10 +47,10 @@
     [(list jname jstrategy jexn)
      (define exn-player%
        (match jexn
-         ['setup ((override-method/exn playable<%> setup board tiles) player%)]
-         ['take-turn ((override-method/exn playable<%> take-turn pub-state) player%)]
-         ['new-tiles ((override-method/exn playable<%> new-tiles tiles) player%)]
-         ['win ((override-method/exn playable<%> win won?) player%)]))
+         ["setup" ((override-method/exn playable<%> setup board tiles) player%)]
+         ["take-turn" ((override-method/exn playable<%> take-turn pub-state) player%)]
+         ["new-tiles" ((override-method/exn playable<%> new-tiles tiles) player%)]
+         ["win" ((override-method/exn playable<%> win won?) player%)]))
      (new exn-player%
           [id (string->symbol jname)]
           [strategy (hash->strategy++ jstrategy)])]))
