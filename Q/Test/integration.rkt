@@ -114,24 +114,28 @@
     (set! failed* (+ failed* failed+))
     (set! total*  (+ total* total+))
 
-    (when run-all
-      (define other-test-dirs
-        (~>> (build-path test-dir "grade")
-             directory-list
-             (filter (compose string-numeric? path->string))))
+    (let/ec return
+      (when run-all
+        (define grade-dir (build-path test-dir "grade"))
+        (unless (directory-exists? grade-dir)
+          (return))
 
-      (for ([other-dir other-test-dirs])
-        (define other-test-dir (simplify-path (build-path test-dir "grade" other-dir)))
-        (define inputs  (filter-input-files other-test-dir))
-        (define outputs (filter-output-files other-test-dir))
+        (define other-test-dirs
+          (~>> (build-path test-dir "grade")
+               directory-list
+               (filter (compose string-numeric? path->string))))
 
-        (define-values (passed^ failed^ total^)
-          (run-test-dir script inputs outputs))
+        (for ([other-dir other-test-dirs])
+          (define other-test-dir (simplify-path (build-path test-dir "grade" other-dir)))
+          (define inputs  (filter-input-files other-test-dir))
+          (define outputs (filter-output-files other-test-dir))
 
-        (set! passed+ (+ passed+ passed^))
-        (set! failed+ (+ failed+ failed^))
-        (set! total+  (+ total+ total^))))
-    
+          (define-values (passed^ failed^ total^)
+            (run-test-dir script inputs outputs))
+
+          (set! passed+ (+ passed+ passed^))
+          (set! failed+ (+ failed+ failed^))
+          (set! total+  (+ total+ total^)))))
 
     (printf "~a/~a passed\n" passed+ total+)
 
