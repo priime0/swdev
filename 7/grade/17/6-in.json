@@ -1,0 +1,122 @@
+{
+  "map": [
+    [
+      0,
+      [
+        0,
+        {
+          "color": "orange",
+          "shape": "8star"
+        }
+      ]
+    ]
+  ],
+  "players": [
+    {
+      "score": 9,
+      "tile*": [
+        {
+          "color": "orange",
+          "shape": "star"
+        },
+        {
+          "color": "orange",
+          "shape": "square"
+        },
+        {
+          "color": "orange",
+          "shape": "clover"
+        },
+        {
+          "color": "green",
+          "shape": "square"
+        },
+        {
+          "color": "green",
+          "shape": "circle"
+        },
+        {
+          "color": "green",
+          "shape": "star"
+        }
+      ]
+    },
+    {
+      "score": 10,
+      "tile*": [
+        {
+          "color": "yellow",
+          "shape": "square"
+        },
+        {
+          "color": "green",
+          "shape": "square"
+        },
+        {
+          "color": "red",
+          "shape": "circle"
+        },
+        {
+          "color": "blue",
+          "shape": "star"
+        },
+        {
+          "color": "purple",
+          "shape": "square"
+        },
+        {
+          "color": "green",
+          "shape": "star"
+        }
+      ]
+    },
+    {
+      "score": 25,
+      "tile*": [
+        {
+          "color": "yellow",
+          "shape": "square"
+        },
+        {
+          "color": "green",
+          "shape": "square"
+        },
+        {
+          "color": "red",
+          "shape": "circle"
+        },
+        {
+          "color": "blue",
+          "shape": "star"
+        },
+        {
+          "color": "purple",
+          "shape": "square"
+        },
+        {
+          "color": "orange",
+          "shape": "star"
+        }
+      ]
+    }
+  ],
+  "tile*": [
+    {
+      "color": "orange",
+      "shape": "square"
+    },
+    {
+      "color": "orange",
+      "shape": "circle"
+    },
+    {
+      "color": "orange",
+      "shape": "star"
+    }
+  ]
+}
+[
+  ["1", "ldasg", "setup"],
+  ["22", "dag"],
+  ["3", "dag"]
+]

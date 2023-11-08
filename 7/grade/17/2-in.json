@@ -1,0 +1,24 @@
+{
+  "map":[[0,[0,{"color":"blue","shape":"clover"}]]],
+  "players":[
+    {
+      "score":0,
+      "tile*":[
+        {"color":"orange","shape":"diamond"},
+        {"color":"purple","shape":"square"},
+        {"color":"orange","shape":"circle"},
+        {"color":"red","shape":"8star"},
+        {"color":"orange","shape":"circle"},
+        {"color":"yellow","shape":"diamond"}
+      ]},
+    {"score":555,"tile*":[{"color":"blue","shape":"square"},{"color":"blue","shape":"square"},{"color":"yellow","shape":"circle"},{"color":"purple","shape":"clover"},{"color":"yellow","shape":"diamond"},{"color":"orange","shape":"circle"}]},
+    {"score":10000,"tile*":[{"color":"green","shape":"8star"},{"color":"blue","shape":"square"},{"color":"purple","shape":"clover"},{"color":"purple","shape":"clover"},{"color":"yellow","shape":"diamond"},{"color":"orange","shape":"circle"}]}],
+  "tile*":[{"color":"green","shape":"8star"},{"color":"blue","shape":"square"},{"color":"yellow","shape":"circle"},{"color":"purple","shape":"clover"},{"color":"yellow","shape":"diamond"},{"color":"orange","shape":"circle"},{"color":"green","shape":"8star"},
+    {"color":"blue","shape":"square"},
+    {"color":"yellow","shape":"circle"},
+    {"color":"purple","shape":"clover"},
+    {"color":"yellow","shape":"diamond"},
+    {"color":"orange","shape":"circle"}]}
+
+[["A","dag"],["B","dag"],["C","ldasg", "win"]]
+

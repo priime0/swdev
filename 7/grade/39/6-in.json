@@ -1,0 +1,8 @@
+{"map": [[0, [-1, {"color": "blue", "shape": "square"}], [0, {"color": "orange", "shape": "8star"}]]] , "tile*": [{"color": "blue", "shape": "square"}, {"color": "blue", "shape": "clover"}], 
+    "players": [{"score": 0, "tile*": [{"color": "yellow", "shape": "8star"}, {"color": "orange", "shape": "diamond"}, {"color": "yellow", "shape": "8star"},
+    {"color": "green", "shape": "8star"}, {"color": "blue", "shape": "diamond"}, {"color": "yellow", "shape": "square"}]},
+    {"score": 0, "tile*": [{"color": "blue", "shape": "circle"}, {"color": "blue", "shape": "diamond"}, {"color": "green", "shape": "diamond"},
+        {"color": "orange", "shape": "star"}, {"color": "red", "shape": "circle"}, {"color": "yellow", "shape": "square"}]},
+    {"score": 0, "tile*": [{"color": "red", "shape": "star"}, {"color": "red", "shape": "8star"}, {"color": "red", "shape": "star"},
+    {"color": "red", "shape": "square"}, {"color": "red", "shape": "star"}, {"color": "red", "shape": "circle"}]}]}
+[["Jay", "ldasg"], ["Matt", "dag"], ["Greg", "ldasg"]]

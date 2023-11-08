@@ -1,0 +1,44 @@
+{
+  "map": [[0,[0,{"color": "purple", "shape": "square"}]]],
+  "players": [
+    {
+      "score": 0,
+      "tile*": [
+        {"color": "red", "shape": "star"},
+        {"color": "red", "shape": "circle"},
+        {"color": "blue", "shape": "circle"},
+        {"color": "red", "shape": "8star"},
+        {"color": "green", "shape": "clover"},
+        {"color": "orange", "shape": "diamond"}
+      ]
+    },
+    {
+      "score": 0,
+      "tile*": [
+        {"color": "red", "shape": "star"},
+        {"color": "red", "shape": "circle"},
+        {"color": "blue", "shape": "circle"},
+        {"color": "red", "shape": "8star"},
+        {"color": "green", "shape": "clover"},
+        {"color": "orange", "shape": "diamond"}
+      ]
+    },
+    {
+      "score": 0,
+      "tile*": [
+        {"color": "red", "shape": "star"},
+        {"color": "red", "shape": "circle"},
+        {"color": "blue", "shape": "circle"},
+        {"color": "red", "shape": "8star"},
+        {"color": "green", "shape": "clover"},
+        {"color": "orange", "shape": "diamond"}
+      ]
+    }
+  ],
+  "tile*": [{"color": "purple", "shape": "square"}]
+}
+[
+  ["f","dag"],
+  ["g","dag"],
+  ["h","ldasg"]
+]

@@ -1,0 +1,224 @@
+{
+  "map": [
+    [
+      -4,
+      [
+        0,
+        {
+          "color": "green",
+          "shape": "clover"
+        }
+      ],
+      [
+        1,
+        {
+          "color": "orange",
+          "shape": "star"
+        }
+      ]
+    ],
+    [
+      -3,
+      [
+        1,
+        {
+          "color": "yellow",
+          "shape": "square"
+        }
+      ]
+    ],
+    [
+      -2,
+      [
+        1,
+        {
+          "color": "red",
+          "shape": "8star"
+        }
+      ]
+    ],
+    [
+      -1,
+      [
+        0,
+        {
+          "color": "green",
+          "shape": "clover"
+        }
+      ],
+      [
+        1,
+        {
+          "color": "green",
+          "shape": "8star"
+        }
+      ],
+      [
+        2,
+        {
+          "color": "purple",
+          "shape": "star"
+        }
+      ],
+      [
+        3,
+        {
+          "color": "orange",
+          "shape": "8star"
+        }
+      ],
+      [
+        4,
+        {
+          "color": "orange",
+          "shape": "circle"
+        }
+      ]
+    ],
+    [
+      0,
+      [
+        -1,
+        {
+          "color": "blue",
+          "shape": "clover"
+        }
+      ],
+      [
+        0,
+        {
+          "color": "blue",
+          "shape": "star"
+        }
+      ],
+      [
+        1,
+        {
+          "color": "orange",
+          "shape": "clover"
+        }
+      ]
+    ]
+  ],
+  "players": [
+    {
+      "score": 1,
+      "tile*": [
+        {
+          "color": "green",
+          "shape": "star"
+        }
+      ]
+    },
+    {
+      "score": 30,
+      "tile*": [
+        {
+          "color": "green",
+          "shape": "square"
+        },
+        {
+          "color": "green",
+          "shape": "diamond"
+        },
+        {
+          "color": "red",
+          "shape": "diamond"
+        },
+        {
+          "color": "yellow",
+          "shape": "clover"
+        },
+        {
+          "color": "red",
+          "shape": "diamond"
+        }
+      ]
+    },
+    {
+      "score": 20,
+      "tile*": [
+        {
+          "color": "green",
+          "shape": "circle"
+        },
+        {
+          "color": "red",
+          "shape": "diamond"
+        }
+      ]
+    },
+    {
+      "score": 25,
+      "tile*": [
+        {
+          "color": "red",
+          "shape": "square"
+        },
+        {
+          "color": "green",
+          "shape": "circle"
+        }
+      ]
+    }
+  ],
+  "tile*": [
+    {
+      "color": "green",
+      "shape": "square"
+    },
+    {
+      "color": "green",
+      "shape": "8star"
+    },
+    {
+      "color": "green",
+      "shape": "8star"
+    },
+    {
+      "color": "green",
+      "shape": "8star"
+    },
+    {
+      "color": "green",
+      "shape": "8star"
+    },
+    {
+      "color": "green",
+      "shape": "8star"
+    },
+    {
+      "color": "green",
+      "shape": "8star"
+    },
+    {
+      "color": "green",
+      "shape": "8star"
+    },
+    {
+      "color": "green",
+      "shape": "8star"
+    }
+  ]
+}
+[
+  [
+    "D",
+    "ldasg",
+    "setup"
+  ],
+  [
+    "C",
+    "ldasg"
+  ],
+  [
+    "B",
+    "dag",
+    "new-tiles"
+  ],
+  [
+    "A",
+    "ldasg",
+    "take-turn"
+  ]
+]

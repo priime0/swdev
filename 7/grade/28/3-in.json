@@ -1,0 +1,3 @@
+{"map":[[1,[0,{"color":"red","shape":"diamond"}]]],"tile*":[{"color":"green","shape":"square"}],"players":[{"score":2,"tile*":[{"color":"purple","shape":"8star"},{"color":"green","shape":"circle"}]},{"score":2,"tile*":[{"color":"orange","shape":"clover"},{"color":"green","shape":"star"}]},{"score":2,"tile*":[{"color":"yellow","shape":"8star"},{"color":"green","shape":"circle"}]},{"score":0,"tile*":[{"color":"blue","shape":"clover"},{"color":"green","shape":"circle"}]}]}
+[["ben3","dag"],["ben1","dag"],["ben4","dag"],["ben2","dag"]]
+

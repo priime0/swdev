@@ -1,0 +1,59 @@
+{
+  "map": [
+				 [-2,[0,{"color":"purple","shape":"diamond"}]],
+				 [-1,[0,{"color":"purple","shape":"square"}]],
+				 [0,[-1,{"color":"red","shape":"square"}],[0,{"color":"red","shape":"square"}]]
+				 ],
+  "tile*": [{"color": "orange","shape": "clover"},{"color": "orange","shape": "clover"},{"color": "orange","shape": "clover"},
+						{"color": "orange","shape": "clover"},{"color": "orange","shape": "clover"},{"color": "orange","shape": "clover"},
+						{"color": "orange","shape": "clover"},{"color": "orange","shape": "clover"},{"color": "orange","shape": "clover"},
+						{"color": "orange","shape": "clover"},{"color": "orange","shape": "clover"},{"color": "orange","shape": "clover"},
+						{"color": "orange","shape": "clover"},{"color": "orange","shape": "clover"},{"color": "orange","shape": "clover"}],
+  "players": [
+    {
+      "score": 3,
+      "tile*": [
+        {
+          "color": "orange",
+          "shape": "clover"
+        }
+      ]
+    },
+    
+		    {
+      "score": 3,
+      "tile*": [
+        {
+          "color": "orange",
+          "shape": "clover"
+        }
+      ]
+    },
+		
+		    {
+      "score": 4,
+      "tile*": [
+        {
+          "color": "orange",
+          "shape": "clover"
+        }
+      ]
+    },
+		
+		    {
+      "score": 0,
+      "tile*": [
+        {
+          "color": "orange",
+          "shape": "clover"
+        }
+      ]
+    }
+  ]
+}
+[
+["Guy", "dag"],
+["Alex", "dag"],
+["Alexis", "dag"],
+["Alexa", "ldasg"]
+]

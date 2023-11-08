@@ -1,0 +1,25 @@
+{"map":[
+    [-2,[0,{"color":"green","shape":"8star"}],
+      [2,{"color":"green","shape":"8star"}]],
+    [-1,[-1,{"color":"orange","shape":"circle"}],
+      [0,{"color":"blue","shape":"circle"}],
+      [2,{"color":"blue","shape":"square"}]],
+    [0,
+      [0,{"color":"red","shape":"star"}],
+      [1,{"color":"blue","shape":"clover"}],
+      [2,{"color":"green","shape":"clover"}]
+    ]],
+    "players":[
+        {"score":0,"tile*":[{"color":"blue","shape":"square"}, {"color":"orange","shape":"8star"}]},
+    {"score":0,"tile*":[{"color":"purple","shape":"circle"},{"color":"blue","shape":"8star"}]}, 
+{"score":0,"tile*":[]}, {"score":0,"tile*":[]}],
+    "tile*":[{"color":"purple","shape":"circle"}, {"color":"green","shape":"clover"},
+    {"color":"green","shape":"clover"},
+    {"color":"green","shape":"clover"},
+    {"color":"green","shape":"clover"}]}
+  [["a", "ldasg"],
+  ["b", "dag"],
+  ["c", "ldasg"],
+  ["d", "dag"]]
+  
+  

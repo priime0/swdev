@@ -1,0 +1,98 @@
+(testing /course/cs4500f23/ta/tedium-workdir/github/fearless-mice/7/xgames)
+(testing /course/cs4500f23/ta/tedium-workdir/testfest-results/7/16/Tests/0-in.json /course/cs4500f23/ta/tedium-workdir/testfest-results/7/16/Tests/0-out.json)
+(testing /course/cs4500f23/ta/tedium-workdir/testfest-results/7/16/Tests/2-in.json /course/cs4500f23/ta/tedium-workdir/testfest-results/7/16/Tests/2-out.json)
+(testing /course/cs4500f23/ta/tedium-workdir/testfest-results/7/16/Tests/5-in.json /course/cs4500f23/ta/tedium-workdir/testfest-results/7/16/Tests/5-out.json)
+---------------------------------
+(*** score 0)
+(*** on)
+'(#hasheq((map
+           .
+           ((-3
+             (-1 #hasheq((color . "green") (shape . "square")))
+             (0 #hasheq((color . "yellow") (shape . "square"))))
+            (-2 (0 #hasheq((color . "yellow") (shape . "square"))))
+            (-1 (0 #hasheq((color . "orange") (shape . "square"))))
+            (1
+             (-3 #hasheq((color . "green") (shape . "circle")))
+             (0 #hasheq((color . "green") (shape . "square")))
+             (1 #hasheq((color . "green") (shape . "diamond")))
+             (3 #hasheq((color . "blue") (shape . "circle")))
+             (5 #hasheq((color . "red") (shape . "circle"))))
+            (2
+             (-3 #hasheq((color . "green") (shape . "8star")))
+             (0 #hasheq((color . "blue") (shape . "square"))))
+            (0
+             (-1 #hasheq((color . "red") (shape . "8star")))
+             (0 #hasheq((color . "red") (shape . "square")))
+             (1 #hasheq((color . "red") (shape . "diamond")))
+             (2 #hasheq((color . "red") (shape . "circle")))
+             (3 #hasheq((color . "purple") (shape . "circle")))
+             (4 #hasheq((color . "purple") (shape . "circle")))
+             (5 #hasheq((color . "blue") (shape . "circle")))
+             (-3 #hasheq((color . "green") (shape . "star")))
+             (-2 #hasheq((color . "green") (shape . "8star"))))
+            (3
+             (-3 #hasheq((color . "orange") (shape . "8star")))
+             (-2 #hasheq((color . "orange") (shape . "circle")))
+             (-1 #hasheq((color . "purple") (shape . "circle")))
+             (0 #hasheq((color . "purple") (shape . "square"))))))
+          (players
+           .
+           (#hasheq((score . 0)
+                    (tile*
+                     .
+                     (#hasheq((color . "orange") (shape . "8star"))
+                      #hasheq((color . "purple") (shape . "square"))
+                      #hasheq((color . "blue") (shape . "diamond"))
+                      #hasheq((color . "yellow") (shape . "diamond"))
+                      #hasheq((color . "yellow") (shape . "circle"))
+                      #hasheq((color . "red") (shape . "circle")))))
+            #hasheq((score . 0)
+                    (tile*
+                     .
+                     (#hasheq((color . "orange") (shape . "8star"))
+                      #hasheq((color . "purple") (shape . "square"))
+                      #hasheq((color . "blue") (shape . "diamond"))
+                      #hasheq((color . "yellow") (shape . "diamond"))
+                      #hasheq((color . "yellow") (shape . "circle"))
+                      #hasheq((color . "red") (shape . "circle")))))
+            #hasheq((score . 30)
+                    (tile*
+                     .
+                     (#hasheq((color . "orange") (shape . "8star"))
+                      #hasheq((color . "purple") (shape . "square"))
+                      #hasheq((color . "blue") (shape . "diamond"))
+                      #hasheq((color . "yellow") (shape . "diamond"))
+                      #hasheq((color . "yellow") (shape . "circle"))
+                      #hasheq((color . "red") (shape . "circle")))))
+            #hasheq((score . 0)
+                    (tile*
+                     .
+                     (#hasheq((color . "orange") (shape . "8star"))
+                      #hasheq((color . "purple") (shape . "square"))
+                      #hasheq((color . "blue") (shape . "diamond"))
+                      #hasheq((color . "yellow") (shape . "diamond"))
+                      #hasheq((color . "yellow") (shape . "circle"))
+                      #hasheq((color . "red") (shape . "circle")))))))
+          (tile*
+           .
+           (#hasheq((color . "purple") (shape . "circle"))
+            #hasheq((color . "yellow") (shape . "square"))
+            #hasheq((color . "orange") (shape . "8star"))
+            #hasheq((color . "blue") (shape . "square"))
+            #hasheq((color . "purple") (shape . "star"))
+            #hasheq((color . "red") (shape . "clover"))
+            #hasheq((color . "red") (shape . "clover"))
+            #hasheq((color . "green") (shape . "diamond"))
+            #hasheq((color . "blue") (shape . "circle")))))
+  (("A" "ldasg") ("B" "ldasg") ("C" "ldasg") ("D" "ldasg")))
+(*** expected)
+'((("C") ()))
+(*** but received)
+'(((plain fast with-newline plain-unicode)
+   ("Timed out waiting for reading to start.")))
+
+
+((/course/cs4500f23/ta/tedium-workdir/testfest-results/7/16/Tests/0-in.json /course/cs4500f23/ta/tedium-workdir/testfest-results/7/16/Tests/0-out.json) (/course/cs4500f23/ta/tedium-workdir/testfest-results/7/16/Tests/2-in.json /course/cs4500f23/ta/tedium-workdir/testfest-results/7/16/Tests/2-out.json))
+((passed 2) (total 3) (partial-score 2))
+

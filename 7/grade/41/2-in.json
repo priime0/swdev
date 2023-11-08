@@ -1,0 +1,160 @@
+{
+  "map": [
+    [
+      2,
+      [
+        5,
+        {
+          "color": "green",
+          "shape": "8star"
+        }
+      ]
+    ]
+  ],
+  "tile*": [
+    {
+      "color": "green",
+      "shape": "clover"
+    },
+    {
+      "color": "yellow",
+      "shape": "clover"
+    },
+    {
+      "color": "blue",
+      "shape": "star"
+    },
+    {
+      "color": "purple",
+      "shape": "diamond"
+    },
+    {
+      "color": "green",
+      "shape": "star"
+    },
+    {
+      "color": "yellow",
+      "shape": "diamond"
+    },
+    {
+      "color": "yellow",
+      "shape": "star"
+    },
+    {
+      "color": "orange",
+      "shape": "star"
+    },
+    {
+      "color": "red",
+      "shape": "star"
+    },
+    {
+      "color": "red",
+      "shape": "clover"
+    },
+    {
+      "color": "green",
+      "shape": "diamond"
+    },
+    {
+      "color": "purple",
+      "shape": "square"
+    },
+    {
+      "color": "green",
+      "shape": "square"
+    },
+    {
+      "color": "red",
+      "shape": "clover"
+    },
+    {
+      "color": "blue",
+      "shape": "diamond"
+    },
+    {
+      "color": "orange",
+      "shape": "circle"
+    },
+    {
+      "color": "blue",
+      "shape": "8star"
+    },
+    {
+      "color": "orange",
+      "shape": "clover"
+    },
+    {
+      "color": "purple",
+      "shape": "8star"
+    },
+    {
+      "color": "yellow",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "square"
+    },
+    {
+      "color": "blue",
+      "shape": "square"
+    },
+    {
+      "color": "orange",
+      "shape": "clover"
+    }
+  ],
+  "players": [
+    {
+      "score": 46,
+      "tile*": [
+        {
+          "color": "yellow",
+          "shape": "star"
+        },
+        {
+          "color": "blue",
+          "shape": "star"
+        }
+      ]
+    },
+    {
+      "score": 32,
+      "tile*": [
+        {
+          "color": "orange",
+          "shape": "diamond"
+        },
+        {
+          "color": "orange",
+          "shape": "circle"
+        },
+        {
+          "color": "blue",
+          "shape": "circle"
+        },
+        {
+          "color": "yellow",
+          "shape": "circle"
+        },
+        {
+          "color": "yellow",
+          "shape": "star"
+        }
+      ]
+    }
+  ]
+}
+[
+  [
+    "richard",
+    "dag"
+  ],
+  [
+    "luke",
+    "ldasg",
+    "win"
+  ]
+]
+

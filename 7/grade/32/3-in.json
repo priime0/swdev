@@ -1,0 +1,48 @@
+{
+    "map": [
+        [
+            0,
+            [0, { "color": "purple", "shape": "circle" }],
+            [1, { "color": "purple", "shape": "diamond" }]
+        ]
+    ],
+    "tile*": [
+        { "color": "red", "shape": "8star" },
+        { "color": "red", "shape": "8star" },
+        { "color": "red", "shape": "8star" },
+        { "color": "purple", "shape": "star" },
+        { "color": "purple", "shape": "square" },
+        { "color": "red", "shape": "8star" },
+        { "color": "red", "shape": "8star" },
+        { "color": "red", "shape": "8star" },
+        { "color": "red", "shape": "8star" },
+        { "color": "red", "shape": "8star" },
+        { "color": "red", "shape": "8star" },
+        { "color": "red", "shape": "8star" },
+        { "color": "red", "shape": "8star" }
+    ],
+    "players": [
+        {
+            "score": 0,
+            "tile*": [
+                { "color": "purple", "shape": "star" },
+                { "color": "purple", "shape": "square" },
+                { "color": "red", "shape": "8star" }
+            ]
+        },
+        {
+            "score": 0,
+            "tile*": [
+                { "color": "blue", "shape": "8star" },
+                { "color": "blue", "shape": "clover" }
+            ]
+        },
+        {
+            "score": 0,
+            "tile*": [
+                { "color": "orange", "shape": "8star" },
+                { "color": "orange", "shape": "clover" }
+            ]
+        }
+    ]
+}[["laurent","ldasg"],["francois","dag"],["guillaume","ldasg"]]

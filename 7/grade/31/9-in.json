@@ -1,0 +1,25 @@
+{"map":
+[
+  [500,
+    [-20,{"color":"orange","shape":"8star"}]],
+  [499,
+    [-19,{"color":"green","shape":"diamond"}],
+    [-20,{"color":"yellow","shape":"star"}]]],
+  "tile*":
+  [{"color":"orange","shape":"8star"},
+    {"color":"red","shape":"8star"}],
+  "players":
+  [{"score":35,"tile*":[
+    {"color":"orange","shape":"star"},
+    {"color":"blue","shape":"star"},
+    {"color":"green","shape":"diamond"},
+    {"color":"red","shape":"8star"}]},
+    {"score":5,"tile*":[
+      {"color":"yellow","shape":"circle"},
+      {"color":"purple","shape":"8star"},
+      {"color":"orange","shape":"star"}]},
+    {"score":21,"tile*":[
+      {"color":"green","shape":"diamond"},
+      {"color":"yellow","shape":"diamond"},
+      {"color":"blue","shape":"square"}]}]}
+[["player1", "dag", "new-tiles"], ["player2", "ldasg"], ["player3", "ldasg", "take-turn"]]
