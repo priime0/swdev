@@ -196,6 +196,9 @@
       (stop-turn (cons (kick-player^) placed?)))
 
     (define-values (priv-state+ ended?) (do-turn-without-rotate priv-state action))
+    (when ended?
+      (k (game-info priv-state+ sinners)))
+
     (define new-hand            (new-tiles priv-state+))
     (define new-tiles-result    (send/checked player new-tiles #f new-hand))
 
@@ -204,10 +207,7 @@
 
     (define priv-state++ (do-turn/rotate priv-state+))
     (define g-info+      (game-info priv-state++ sinners))
-
-    (if ended?
-        (k g-info+)
-        (cons g-info+ placed?))))
+    (cons g-info+ placed?)))
 
 
 #; {[Listof Playables] Boolean -> (values [Listof String] [Listof String])}
