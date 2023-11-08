@@ -30,10 +30,6 @@
       (void))
 
     (define/public (take-turn pub-state)
-      (unless (protected-board/c (game-state-board pub-state))
-        (error 'take-turn
-               "invalid board received before taking turn"))
-
       (send strategy choose-action pub-state))
 
     (define/public (new-tiles tiles)
