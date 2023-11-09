@@ -51,6 +51,7 @@
         (tile 'red 'clover)
         (tile 'blue 'diamond)
         (tile 'purple 'circle))
+       #f
        #f)
       0
       0)))
@@ -69,6 +70,7 @@
         (tile 'red 'clover)
         (tile 'blue 'diamond)
         (tile 'purple 'circle))
+       #f
        #f)
       0
       0)))
@@ -86,6 +88,7 @@
              (tile 'red 'clover)
              (tile 'blue 'diamond)
              (tile 'purple 'circle))
+            #f
             #f)
            0
            0)))

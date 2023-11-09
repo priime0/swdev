@@ -109,7 +109,7 @@
   (for/fold ([gs^       gs] [sinners   '()]
                             #:result (game-info gs^ (reverse sinners)))
             ([state states])
-    (match-define [player-state _score hand playable] state)
+    (match-define [player-state _score hand _ playable] state)
     (define name           (unwrap-or (send/checked playable name #f) ""))
     (define setup-result   (send/checked playable setup name board hand))
     (define setup-success? (success? setup-result))
