@@ -13,13 +13,13 @@
 (define pub (hash->pub-state jpub))
 (define placements (map hash->placement++ jplacements))
 
-(unless (valid-turn? pub (place placements))
+(unless (turn-valid? pub (place placements))
   (write-json #f)
   (displayln "")
   (flush-output)
   (exit))
 
-(define b+ (game-state-board (apply-turn pub (place placements))))
+(define b+ (game-state-board (do-turn/action pub (place placements))))
 
 (define out-json (->jsexpr b+))
 

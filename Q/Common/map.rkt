@@ -256,7 +256,7 @@
     (andmap (curry valid-tile-sequence? tile)
             (list row-adjacent-tiles col-adjacent-tiles)))
   
-  (and adjacent-tiles? matches-neighbors?))
+  (and empty-tile? adjacent-tiles? matches-neighbors?))
 
 #; {Board [Listof TilePlacement] -> Boolean}
 ;; Is the given sequence of placements valid on this board? 

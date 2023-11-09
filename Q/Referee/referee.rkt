@@ -5,12 +5,16 @@
 (require Q/Common/player-state)
 (require Q/Common/turn-action)
 (require Q/Common/interfaces/playable)
+(require Q/Referee/observer)
 (require Q/Lib/macros)
 (require Q/Lib/result)
 
 (require threading)
+(require 2htdp/image)
 
 (provide play-game)
+
+(define obs (make-parameter (new default-observer%)))
 
 ;; ========================================================================================
 ;; DATA DEFINITIONS
@@ -74,11 +78,12 @@
   (define gs (bind-playables gs* playables))
 
   (define game-info0 (setup gs))
+  (send (obs) observe (game-info-state game-info0))
   (define game-info1 (run-game game-info0))
+  (send (obs) observe (game-info-state game-info1))
   (match-define [game-info priv-state sinners0] game-info1)
 
   (define-values (winners losers) (winners+losers priv-state))
-
   (define winners0 (map player-state-payload winners))
   (define losers0  (map player-state-payload losers))
 
@@ -148,6 +153,7 @@
               ([state (game-state-players priv-state)])
       (define playable (player-state-payload state))
       (match-define [cons g-info+ placed?] (run-turn g-info^ playable k))
+      (send (obs) observe (game-info-state g-info+))
       (values g-info+ (or placed? any-placed?))))
 
   (if (not placement-made?)
@@ -182,28 +188,29 @@
   (match-define [game-info priv-state sinners] g-info)
   (let/ec stop-turn
     (define name (unwrap-or (send/checked player name #f) ""))
-    (define kick-player^ (thunk (kick-player g-info name k)))
 
     (define pub-state (priv-state->pub-state priv-state))
     (define turn-result (send/checked player take-turn #f pub-state))
     (unless (success? turn-result)
-      (stop-turn (cons (kick-player^) #f)))
+      (stop-turn (cons (kick-player g-info name k) #f)))
     
     (define action  (success-val turn-result))
     (define placed? (place? action))
   
     (unless (turn-valid? priv-state action)
-      (stop-turn (cons (kick-player^) placed?)))
+      (stop-turn (cons (kick-player g-info name k) placed?)))
 
     (define-values (priv-state+ ended?) (do-turn-without-rotate priv-state action))
     (when ended?
       (k (game-info priv-state+ sinners)))
 
-    (define new-hand            (new-tiles priv-state+))
-    (define new-tiles-result    (send/checked player new-tiles #f new-hand))
+    (unless (pass? action)
+      (define new-hand            (new-tiles priv-state+))
+      (define new-tiles-result    (send/checked player new-tiles #f new-hand))
 
-    (unless (success? new-tiles-result)
-      (stop-turn (cons (kick-player^) placed?)))
+      (unless (success? new-tiles-result)
+        (stop-turn (cons (kick-player (game-info priv-state+ sinners) name k) placed?))))
+    
 
     (define priv-state++ (do-turn/rotate priv-state+))
     (define g-info+      (game-info priv-state++ sinners))
