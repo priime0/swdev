@@ -29,6 +29,3 @@
 (define *obman*
   (let ([observer-manager% (dynamic-require 'Q/Referee/observer 'observer-manager%)])
     (make-parameter (new observer-manager%))))
-
-
-
