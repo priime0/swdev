@@ -24,11 +24,16 @@
   #:unprotected-submodule no-contract
   [tile-shapes (listof symbol?)]
   [tile-colors (listof symbol?)]
-  [tile-shape? (any/c . -> . boolean?)]
-  [tile-color? (any/c . -> . boolean?)]
-  [tile<       (tile? tile? . -> . boolean?)]
-  [sort-tiles  ((listof tile?) . -> . (listof tile?))]
-  [render-tile (tile? . -> . image?)]))
+  [tile-shape? (-> any/c boolean?)]
+  [tile-color? (-> any/c boolean?)]
+  [tile<       (-> tile? tile? boolean?)]
+  [sort-tiles  (-> (listof tile?) (listof tile?))]
+  [render-tile (-> tile? image?)]
+  [render-tiles (-> (listof tile) image?)]))
+
+;; ========================================================================================
+;; DATA DEFINITIONS
+;; ========================================================================================
 
 
 #; {type TileShape = (U 'star '8star 'square 'circle 'clover 'diamond)}
@@ -36,31 +41,10 @@
 ;; The ordering of TileShapes is from smallest to largest for the game of Q.
 (define tile-shapes '(star 8star square circle clover diamond))
 
-#; {TileShape TileShape -> Boolean}
-;; Is the first tile shape less than the second lexicographically?
-(define (shape< shape1 shape2)
-  (< (index-of tile-shapes shape1)
-     (index-of tile-shapes shape2)))
 
 #; {type TileColor = (U 'red 'green 'blue 'yellow 'orange 'purple)}
 ;; A TileColor is an enumeration of possible colors, a distinguishing feature of a tile.
 (define tile-colors '(red green blue yellow orange purple))
-
-#; {TileColor TileColor -> Boolean}
-;; Is the first tile color less than the second, lexicographically?
-(define (color< color1 color2)
-  (< (index-of tile-colors color1)
-     (index-of tile-colors color2)))
-
-#; {Any -> Boolean}
-;; Is the given item a TileShape?
-(define (tile-shape? item)
-  (member? item tile-shapes))
-
-#; {Any -> Boolean}
-;; Is the given item a TileColor?
-(define (tile-color? item)
-  (member? item tile-colors))
 
 
 #; {type Tile = (tile TileShape TileColor)}
@@ -83,6 +67,37 @@
                    'shape (symbol->string shape)))])
 
 
+;; ========================================================================================
+;; CORE FUNCTIONALITY
+;; ========================================================================================
+
+
+#; {Any -> Boolean}
+;; Is the given item a TileShape?
+(define (tile-shape? item)
+  (member? item tile-shapes))
+
+
+#; {TileShape TileShape -> Boolean}
+;; Is the first tile shape less than the second lexicographically?
+(define (shape< shape1 shape2)
+  (< (index-of tile-shapes shape1)
+     (index-of tile-shapes shape2)))
+
+
+#; {Any -> Boolean}
+;; Is the given item a TileColor?
+(define (tile-color? item)
+  (member? item tile-colors))
+
+
+#; {TileColor TileColor -> Boolean}
+;; Is the first tile color less than the second, lexicographically?
+(define (color< color1 color2)
+  (< (index-of tile-colors color1)
+     (index-of tile-colors color2)))
+
+
 #; {Tile Tile -> Boolean}
 ;; Is the first tile less than the second, lexicographically?
 (define (tile< tile1 tile2)
@@ -97,6 +112,7 @@
 (define num-tile-sets 30)
 (define start-tiles (flatten (build-list num-tile-sets (thunk* tile-set))))
 
+
 #; {[Listof Tile] -> [Listof Tile]}
 ;; Sorts the tiles in terms of ascending lexicographic ordering of
 ;; shapes then colors based on the definition of tile-shapes and
@@ -107,15 +123,42 @@
                   (cons (curry index<? tile-colors) tile-color)))
    tiles))
 
+
 #; {[Listof Tile] -> Boolean}
 ;; Do all the tiles have equal colors?
 (define (tiles-equal-color? tiles)
   (struct-equal-field? tile-color tiles))
 
+
 #; {[Listof Tile] -> Boolean}
 ;; Do all the tiles have equal shapes?
 (define (tiles-equal-shape? tiles)
   (struct-equal-field? tile-shape tiles))
+
+
+;; ========================================================================================
+;; RENDERING FUNCTIONALITY
+;; ========================================================================================
+
+
+#; {Tile -> Image}
+;; Produce an image of the tile, clearly displaying its shape and color. Normalizes images produced
+;; by helper functions to be the same width.
+(define (render-tile tile)
+  (define shape-function (~> tile tile-shape render-tile/shape-function))
+  (define color (tile-color tile))
+  (frame (render-tile/normalize (shape-function color))))
+
+
+#; {[Listof Tile] -> Image}
+;; Produce an image of the given list of tiles, concatenated together.
+(define (render-tiles tiles #:combine-fn [combine beside])
+  (foldr combine empty-image (map render-tile tiles)))
+
+
+;; An empty tile image used for rendering posns in the board with no tiles on them.
+(define empty-tile-image (square (*game-size*) 'solid (*background-color*)))
+
 
 #; {Natural TileColor -> Image}
 ;; Produces a function that consumes a color and generates an image of a star with the given
@@ -125,11 +168,13 @@
   (define outer-radius (*game-size*))
   (radial-star point-count inner-radius outer-radius (*tile-shape-mode*) color))
 
+
 #; {TileColor -> Image}
 ;; Produces an image of a 4-side star with the given color.
 (define (render-tile/star color)
   (define point-count 4)
   (render-tile/nstar point-count color))
+
 
 #; {TileColor -> Image}
 ;; Produces an image of a 8-side star with the given color.
@@ -137,17 +182,20 @@
   (define point-count 8)
   (render-tile/nstar point-count color))
 
+
 #; {TileColor -> Image}
 ;; Produces an image of a square with the given color.
 (define (render-tile/square color)
   (define side-length (*game-size*))
   (square side-length (*tile-shape-mode*) color))
 
+
 #; {TileColor -> Image}
 ;; Produces an image of a circle with the given color.
 (define (render-tile/circle color)
   (define radius (*game-size*))
   (circle radius (*tile-shape-mode*) color))
+
 
 #; {TileColor -> Image}
 ;; Produces an image of a circle with the given color.
@@ -156,6 +204,7 @@
   (define angle 90)
   (rhombus side-length angle (*tile-shape-mode*) color))
 
+
 #; {TileColor -> Image}
 ;; Produces an image of a clover with the given color.
 (define (render-tile/clover color)
@@ -163,6 +212,7 @@
   (define minor-radius (/ (*game-size*) 2))
   (overlay (ellipse major-radius minor-radius 'solid color)
            (ellipse minor-radius major-radius 'solid color)))
+
 
 #; {Image -> Image}
 ;; Normalizes the size of a tile image to be the defined *game-size*. Images of either zero width or
@@ -175,6 +225,7 @@
          (define scale-factor (/ target-width current-width))
          (scale scale-factor tile-image)]))
 
+
 #; {TileShape -> TileColor -> Image}
 ;; Given a TileShape, produce a function that takes in a tile color and renders an image with the
 ;; given shape and color.
@@ -186,18 +237,6 @@
     ['circle  render-tile/circle]
     ['diamond render-tile/diamond]
     ['clover  render-tile/clover]))
-
-#; {Tile -> Image}
-;; Produce an image of the tile, clearly displaying its shape and color. Normalizes images produced
-;; by helper functions to be the same width.
-(define (render-tile tile)
-  (define shape-function (~> tile tile-shape render-tile/shape-function))
-  (define color (tile-color tile))
-  (frame (render-tile/normalize (shape-function color))))
-
-
-;; An empty tile image used for rendering posns in the board with no tiles on them.
-(define empty-tile-image (square (*game-size*) 'solid (*background-color*)))
 
 
 (module+ test
