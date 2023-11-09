@@ -88,9 +88,11 @@
              (match-define [world-state states index path _] ws)
              (define state (gvector-ref states index))
              (define rendered-state (render-game-state state))
+             (define rendered-state/width (image-width rendered-state))
+             (define rendered-state/height (image-height rendered-state))
              (define textbox (frame (text path (/ (*game-size*) 2) 'black)))
-             (define scene-width 1080)
-             (define scene-height 600)
+             (define scene-width (max 1080 rendered-state/width))
+             (define scene-height (max 600 rendered-state/height))
              (define scene (empty-scene scene-width scene-height))
              (define scene+ (place-image rendered-state 540 300 scene))
              (place-image textbox 540 550 scene+))]
@@ -123,7 +125,11 @@
                  "control"
                  "rcontrol"
                  "print"
-                 "insert")
+                 "insert"
+                 "wheel-up"
+                 "wheel-down"
+                 "wheel-left"
+                 "wheel-right")
                 ws]
                [else
                 (world-state states index (string-append path key) #f)]))]))))))
