@@ -11,7 +11,8 @@
 
 (provide
  observer<%>
- default-observer%)
+ default-observer%
+ observer-manager%)
 
 
 ;; ========================================================================================

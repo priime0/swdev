@@ -17,7 +17,9 @@
 
 (define pub (game-state b 0 (list (player-state 0 '() #f))))
 
-(define score (score-turn pub (place placements)))
+(define score
+  (parameterize ([*bonus* 0])
+    (do-turn/score pub (place placements))))
 (write-json score)
 (displayln "")
 (flush-output)

@@ -4,7 +4,7 @@
 (require threading)
 (require racket/place/distributed)
 
-(define dirs '("7"))
+(define dirs '("3" "4" "5" "6" "7"))
 
 (define root-directory (build-path (current-directory) 'up 'up))
 
@@ -121,9 +121,11 @@
           (return))
 
         (define other-test-dirs
-          (~>> (build-path test-dir "grade")
-               directory-list
-               (filter (compose string-numeric? path->string))))
+          (cons "staff-tests"
+           (~>> (build-path test-dir "grade")
+                directory-list
+                (filter (compose string-numeric? path->string)))
+                ))
 
         (for ([other-dir other-test-dirs])
           (define other-test-dir (simplify-path (build-path test-dir "grade" other-dir)))
@@ -135,7 +137,8 @@
 
           (set! passed+ (+ passed+ passed^))
           (set! failed+ (+ failed+ failed^))
-          (set! total+  (+ total+ total^)))))
+          (set! total+  (+ total+ total^))
+          (printf "~a/~a passed in ~a\n" passed^ total^ other-dir))))
 
     (printf "~a/~a passed\n" passed+ total+)
 
