@@ -29,7 +29,7 @@
   [tile<       (-> tile? tile? boolean?)]
   [sort-tiles  (-> (listof tile?) (listof tile?))]
   [render-tile (-> tile? image?)]
-  [render-tiles (-> (listof tile) image?)]))
+  [render-tiles (-> (listof tile?) image?)]))
 
 ;; ========================================================================================
 ;; DATA DEFINITIONS
@@ -45,32 +45,6 @@
 #; {type TileColor = (U 'red 'green 'blue 'yellow 'orange 'purple)}
 ;; A TileColor is an enumeration of possible colors, a distinguishing feature of a tile.
 (define tile-colors '(red green blue yellow orange purple))
-
-
-#; {type Tile = (tile TileShape TileColor)}
-;; A Tile is a distinguishable object by shapes and colors, placed and held by players in the Q
-;; board game.
-(struct++ tile
-          ([color tile-color?]
-           [shape tile-shape?])
-          (#:convert-from
-           (hash
-            [hash?
-             (hash-table ('color (app string->symbol color))
-                         ('shape (app string->symbol shape)))
-             (color shape)]))
-          #:transparent
-          #:methods gen:serializable
-          [(define (->jsexpr t)
-             (match-define [tile color shape] t)
-             (hash 'color (symbol->string color)
-                   'shape (symbol->string shape)))])
-
-
-;; ========================================================================================
-;; CORE FUNCTIONALITY
-;; ========================================================================================
-
 
 #; {Any -> Boolean}
 ;; Is the given item a TileShape?
@@ -106,6 +80,31 @@
   (or (shape< shape1 shape2)
       (and (eq? shape1 shape2)
            (color< color1 color2))))
+
+
+#; {type Tile = (tile TileShape TileColor)}
+;; A Tile is a distinguishable object by shapes and colors, placed and held by players in the Q
+;; board game.
+(struct++ tile
+          ([color tile-color?]
+           [shape tile-shape?])
+          (#:convert-from
+           (hash
+            [hash?
+             (hash-table ('color (app string->symbol color))
+                         ('shape (app string->symbol shape)))
+             (color shape)]))
+          #:transparent
+          #:methods gen:serializable
+          [(define (->jsexpr t)
+             (match-define [tile color shape] t)
+             (hash 'color (symbol->string color)
+                   'shape (symbol->string shape)))])
+
+
+;; ========================================================================================
+;; CORE FUNCTIONALITY
+;; ========================================================================================
 
 
 (define tile-set (map (curry apply tile) (cartesian-product tile-colors tile-shapes)))
