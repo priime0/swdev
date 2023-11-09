@@ -5,7 +5,6 @@
 (require Q/Common/player-state)
 (require Q/Common/turn-action)
 (require Q/Common/interfaces/playable)
-(require Q/Referee/observer)
 (require Q/Lib/macros)
 (require Q/Lib/result)
 
@@ -13,8 +12,6 @@
 (require 2htdp/image)
 
 (provide play-game)
-
-(define obs (make-parameter (new default-observer%)))
 
 ;; ========================================================================================
 ;; DATA DEFINITIONS
@@ -30,9 +27,6 @@
 ;; - The Ref will respond to a timeout by removing that player
 ;; If no fault occurs, then a referee will enact the turn and commit all changes
 ;; to the game state.
-;; FAULT ISSUE: If the player becomes unresponsive, then calling
-;; `(send player name)` won't retrieve the name. Perhaps it should be
-;; cached.
 
 ;; ----------------------------------------------------------------------------------------
 
@@ -78,9 +72,7 @@
   (define gs (bind-playables gs* playables))
 
   (define game-info0 (setup gs))
-  (send (obs) observe (game-info-state game-info0))
   (define game-info1 (run-game game-info0))
-  (send (obs) observe (game-info-state game-info1))
   (match-define [game-info priv-state sinners0] game-info1)
 
   (define-values (winners losers) (winners+losers priv-state))
@@ -153,7 +145,6 @@
               ([state (game-state-players priv-state)])
       (define playable (player-state-payload state))
       (match-define [cons g-info+ placed?] (run-turn g-info^ playable k))
-      (send (obs) observe (game-info-state g-info+))
       (values g-info+ (or placed? any-placed?))))
 
   (if (not placement-made?)
