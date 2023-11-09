@@ -70,7 +70,7 @@
 ;; equal length to the list of player states in the game state.
 (define (play-game playables
                    #:tiles [tiles start-tiles]
-                   #:game-state [gs* (make-game-state playables tiles)])
+                   #:game-state [gs* (make-game-state tiles playables)])
   (define gs (bind-playables gs* playables))
 
   (define game-info0 (setup gs))
@@ -191,6 +191,7 @@
       (stop-turn (cons (kick-player g-info name k) #f)))
     
     (define action  (success-val turn-result))
+    (println action)
     (define placed? (place? action))
   
     (unless (turn-valid? priv-state action)
