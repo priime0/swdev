@@ -91,15 +91,14 @@
            (lambda (ws)
              (match-define [world-state states index path _] ws)
              (define state (gvector-ref states index))
-             (define rendered-state (render-game-state state))
-             (define rendered-state/width (image-width rendered-state))
-             (define rendered-state/height (image-height rendered-state))
+             (define rendered-state (crop 0 0 (render-game-state state) 900 900))
              (define textbox (frame (text path (/ (*game-size*) 2) 'black)))
-             (define scene-width (max 1080 rendered-state/width))
-             (define scene-height (max 600 rendered-state/height))
+             (define scene-width 1000)
+             (define scene-height 1000)
              (define scene (empty-scene scene-width scene-height))
-             (define scene+ (place-image rendered-state 540 300 scene))
-             (place-image textbox 540 550 scene+))]
+             (define rendered-gs (above rendered-state textbox))
+             (define scene+ (place-image rendered-gs (/ scene-width 2) (/ scene-height 2) scene))
+             (crop 0 0 1990 1990 scene+))]
           [on-key
            (lambda (ws key)
              (match-define [world-state states index path _] ws)
