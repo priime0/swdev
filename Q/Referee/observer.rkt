@@ -4,6 +4,7 @@
 (require Q/Common/config)
 
 (require racket/class)
+(require racket/set)
 (require data/gvector)
 
 (require 2htdp/universe)
@@ -38,29 +39,31 @@
 ;; ========================================================================================
 
 #; {class ObserverManager}
+;; A ObserverManager is a concrete implementation the Observer interface that represents a
+;; collection of Observers to dispatch received messages to.
 (define observer-manager%
   (class* object% (observer<%>)
     (super-new)
-    (field [observers (hasheq)])
+    (field [observers (mutable-set)])
 
     (define/public (observe priv-state)
-      (for ([(_ observer) (in-hash observers)])
+      (for ([observer observers])
         (send observer observe priv-state)))
 
     (define/public (terminate)
       (void))
 
-    (define/public (connect id observer)
-      (unless (hash-has-key? observers id)
-        (hash-set! observers id observer)))
+    (define/public (connect observer)
+      (unless (set-member? observers observer)
+        (set-add! observers observer)))
 
-    (define/public (disconnect id)
-      (when (hash-has-key? observers id)
-        (hash-remove! observers id)))))
+    (define/public (disconnect observer)
+      (when (set-member? observers observer)
+        (set-remove! observers observer)))))
 
 
 #; {class DefaultObserver}
-;; A DefaultOBserver represents a concrete implementation of the Observer interfaces which collects
+;; A DefaultObserver represents a concrete implementation of the Observer interface which collects
 ;; a list of game states and displays them in an interactive program when the game has ended.
 (define default-observer%
   (class* object% (observer<%>)
