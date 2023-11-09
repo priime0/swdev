@@ -43,6 +43,12 @@
    (-> player-state?
        image?)]))
 
+
+;; ========================================================================================
+;; DATA DEFINITIONS
+;; ========================================================================================
+
+
 #; {type PlayerState = (player-state Natural [Listof Tile] Any)}
 ;; A PlayerState represents a participating player's state during any instant of time, containing
 ;; the points the player accrued during the game, along with the tiles in their hand during a move,
@@ -60,20 +66,29 @@
              (hash 'score score
                    'tile* (map ->jsexpr* hand)))])
 
+
+;; ========================================================================================
+;; CORE FUNCTIONALITY
+;; ========================================================================================
+
+
 #; {[Listof Tile] -> PlayerState}
 ;; Creates a player with the given hand, a default score of 0,
 ;; and the given optional payload (default of #f).
 (define (make-player-state hand [payload #f])
   (player-state++ #:hand hand #:payload payload))
 
+
 #; {([Listof Tile] -> [Listof Tile]) PlayerState -> PlayerState}
 (define (apply-hand f ps)
   (set-player-state-hand ps (f (player-state-hand ps))))
+
 
 #; {PlayerState [Listof Tile] -> PlayerState}
 ;; Adds the given tiles to the hand of this player state.
 (define (add-to-hand ps new-tiles)
   (apply-hand (curryr append new-tiles) ps))
+
 
 #; {JPlayer -> PlayerState}
 (define (hash->player-state++ jp)
@@ -82,10 +97,12 @@
   (player-state++ #:score score
                   #:hand  hand))
 
+
 #; {PlayerState [Listof Tile] -> PlayerState}
 ;; Removes the given tiles from the hand of the given player state.
 (define (remove-from-hand state tiles)
   (apply-hand (curry remove-from tiles) state))
+
 
 #; {PlayerState -> PlayerState}
 ;; Empties the hand of the given player state
@@ -99,6 +116,11 @@
   (define score (player-state-score state))
   (set-player-state-score state (+ score points)))
 
+
+;; ========================================================================================
+;; RENDERING FUNCTIONALITY
+;; ========================================================================================
+
 #; {PlayerState -> Image}
 (define (render-player-state ps)
   (match-define [player-state score hand _] ps)
@@ -107,12 +129,14 @@
   (define text-image (text (number->string score) size 'black))
   (define tiles-image
     (parameterize ([*game-size* tiles-size])
-      (for/fold ([img empty-image])
-                ([t (map render-tile hand)])
-        (beside img t))))
+      (render-tiles hand)))
 
   (above/align 'left text-image tiles-image))
 
+
+;; ========================================================================================
+;; UNIT TESTS
+;; ========================================================================================
 
 (module+ test
   (require rackunit)
