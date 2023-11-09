@@ -153,7 +153,9 @@
 #; {[Listof Tile] -> Image}
 ;; Produce an image of the given list of tiles, concatenated together.
 (define (render-tiles tiles #:combine-fn [combine beside])
-  (foldr combine empty-image (map render-tile tiles)))
+  (cond [(null? tiles)       empty-image]
+        [(null? (cdr tiles)) (render-tile (car tiles))]
+        [else                (foldr combine empty-image (map render-tile tiles))]))
 
 
 ;; An empty tile image used for rendering posns in the board with no tiles on them.
@@ -237,6 +239,11 @@
     ['circle  render-tile/circle]
     ['diamond render-tile/diamond]
     ['clover  render-tile/clover]))
+
+
+;; ========================================================================================
+;; UNIT TESTS
+;; ========================================================================================
 
 
 (module+ test
