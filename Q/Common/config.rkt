@@ -13,9 +13,7 @@
 (define *tile-shape-mode* (make-parameter 'solid))
 
 ;; The background color of the board
-
 (define *background-color* (make-parameter 'white))
-
 ;;;; GAME CONFIGURATION
 
 ;; Determines the maximum size of a hand a player can hold.
@@ -26,3 +24,11 @@
 
 (define *bonus*     (make-parameter 6))
 (define *points-per-q* (make-parameter 6))
+
+
+(define *obman*
+  (let ([observer-manager% (dynamic-require 'Q/Referee/observer 'observer-manager%)])
+    (make-parameter (new observer-manager%))))
+
+
+
