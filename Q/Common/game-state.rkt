@@ -430,6 +430,10 @@
 
 ;; ----------------------------------------------------------------------------------------
 
+;; ========================================================================================
+;; UNIT TESTS
+;; ========================================================================================
+
 #; {PrivateState -> Image}
 (define (render-game-state gs)
   (match-define [game-state board tiles players] gs)
@@ -441,10 +445,14 @@
               (render-player-state ps)
               spacing)))
   (define board-image (render-board board))
+  (define tiles+
+    (if (> (length tiles) 6)
+        (take tiles 6)
+        tiles))
   (define tiles-image (above (text (~a "Tiles left: " (length tiles))
                                    (/ (*game-size*) 2)
                                    'black)
-                             (render-tiles tiles)))
+                             (render-tiles tiles+)))
   (above board-image spacing states-image spacing tiles-image))
 
 
