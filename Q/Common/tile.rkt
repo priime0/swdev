@@ -26,6 +26,7 @@
   [tile-colors (listof symbol?)]
   [tile-shape? (any/c . -> . boolean?)]
   [tile-color? (any/c . -> . boolean?)]
+  [tile<       (tile? tile? . -> . boolean?)]
   [sort-tiles  ((listof tile?) . -> . (listof tile?))]
   [render-tile (tile? . -> . image?)]))
 
@@ -35,9 +36,21 @@
 ;; The ordering of TileShapes is from smallest to largest for the game of Q.
 (define tile-shapes '(star 8star square circle clover diamond))
 
+#; {TileShape TileShape -> Boolean}
+;; Is the first tile shape less than the second lexicographically?
+(define (shape< shape1 shape2)
+  (< (index-of tile-shapes shape1)
+     (index-of tile-shapes shape2)))
+
 #; {type TileColor = (U 'red 'green 'blue 'yellow 'orange 'purple)}
 ;; A TileColor is an enumeration of possible colors, a distinguishing feature of a tile.
 (define tile-colors '(red green blue yellow orange purple))
+
+#; {TileColor TileColor -> Boolean}
+;; Is the first tile color less than the second, lexicographically?
+(define (color< color1 color2)
+  (< (index-of tile-colors color1)
+     (index-of tile-colors color2)))
 
 #; {Any -> Boolean}
 ;; Is the given item a TileShape?
@@ -68,6 +81,17 @@
              (match-define [tile color shape] t)
              (hash 'color (symbol->string color)
                    'shape (symbol->string shape)))])
+
+
+#; {Tile Tile -> Boolean}
+;; Is the first tile less than the second, lexicographically?
+(define (tile< tile1 tile2)
+  (match-define [tile color1 shape1] tile1)
+  (match-define [tile color2 shape2] tile2)
+  (or (shape< shape1 shape2)
+      (and (eq? shape1 shape2)
+           (color< color1 color2))))
+
 
 (define tile-set (map (curry apply tile) (cartesian-product tile-colors tile-shapes)))
 (define num-tile-sets 30)

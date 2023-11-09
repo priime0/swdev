@@ -54,7 +54,7 @@
   (define (has-possible-placement? tp)
     (nonempty-list? (cdr tp)))
   (~>> hand
-       sort-tiles
+       (sort _ tile<)
        (map tile-and-placements)
        (findf has-possible-placement?)))
 
