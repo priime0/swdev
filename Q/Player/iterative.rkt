@@ -11,31 +11,24 @@
 ;; applying the strategy until the next possible accumulated action is invalid.
 (define itstrat%
   (class* object% (player-strategy<%>)
-    (init s)
-
-    (define strat s)
-
     (super-new)
+    (init-field strategy)
 
     (define/public (choose-action pub-state)
       ;; generative: produces an accumulated turn action
       ;; terminates: when the last action is not a placement, or the produced new action is not
       ;;             valid. Continues iterating until the hand is empty -- the hand is finite, so it
       ;;             will terminate.
-      (let/ec return
-        (let loop ([action^ (pass)]
-                   [pub-state^ pub-state])
-          (define action  (send strat choose-action pub-state^))
-          (define action+ (combine-actions action^ action))
+      (let loop ([action^ (pass)]
+                 [pub-state^ pub-state])
+        (define action  (send strategy choose-action pub-state^))
+        (define action+ (combine-actions action^ action))
 
-          (unless (turn-valid? pub-state action+)
-            (return action^))
-
-          (unless (place? action)
-            (return action+))
-
-          (define pub-state+ (do-turn/action pub-state^ action))
-          (loop action+ pub-state+))))))
+        (cond [(not (turn-valid? pub-state action+)) action^]
+              [(not (place? action))                 action+]
+              [else
+               (define pub-state+ (do-turn/action pub-state^ action))
+               (loop action+ pub-state+)])))))
 
 (module+ test
   (require rackunit)
@@ -108,9 +101,9 @@
            0)))
 
   (define ldasg-1 (new ldasg%))
-  (define it-1 (new itstrat% [s ldasg-1]))
+  (define it-1 (new itstrat% [strategy ldasg-1]))
   (define dag-1 (new dag%))
-  (define it-2 (new itstrat% [s dag-1])))
+  (define it-2 (new itstrat% [strategy dag-1])))
 
 (module+ test
   (test-equal?
