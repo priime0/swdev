@@ -9,5 +9,5 @@
 #; {JSExpr -> Strategy}
 (define (hash->strategy++ h)
   (match h
-    ["dag"   (new itstrat% [s (new dag%)])]
-    ["ldasg" (new itstrat% [s (new ldasg%)])]))
+    ["dag"   (new iterative% [s (new dag%)])]
+    ["ldasg" (new iterative% [s (new ldasg%)])]))

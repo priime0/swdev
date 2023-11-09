@@ -5,11 +5,11 @@
 
 (require Q/Player/strategy)
 
-(provide itstrat%)
+(provide iterative%)
 
 ;; An "iterative strategy" contains some given strategy, accumulating an action by continuously
 ;; applying the strategy until the next possible accumulated action is invalid.
-(define itstrat%
+(define iterative%
   (class* object% (player-strategy<%>)
     (super-new)
     (init-field strategy)
@@ -101,9 +101,9 @@
            0)))
 
   (define ldasg-1 (new ldasg%))
-  (define it-1 (new itstrat% [strategy ldasg-1]))
+  (define it-1 (new iterative% [strategy ldasg-1]))
   (define dag-1 (new dag%))
-  (define it-2 (new itstrat% [strategy dag-1])))
+  (define it-2 (new iterative% [strategy dag-1])))
 
 (module+ test
   (test-equal?
