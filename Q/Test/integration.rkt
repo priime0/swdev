@@ -34,14 +34,16 @@
   (define expected-port (open-input-file output-file))
   (define expected (read-json expected-port))
   (close-input-port expected-port)
-
+  
   (define command (racket-path))
   (define script-file (path->string script))
   
   (define-values (s result-port op err-port)
     (subprocess #f in-port #f command script-file))
   (subprocess-wait s)
+  
   (close-input-port in-port)
+
 
   (define result
     (let/ec return

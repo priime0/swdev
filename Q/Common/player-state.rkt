@@ -42,7 +42,7 @@
 (provide
  player-state++
  set-player-state-payload
- hash->player-state++
+ hash->player-state
  (struct-out player-state))
 
 
@@ -94,11 +94,10 @@
 
 
 #; {JPlayer -> PlayerState}
-(define (hash->player-state++ jp)
+(define (hash->player-state jp)
   (define score (hash-ref jp 'score))
-  (define hand (map hash->tile++ (hash-ref jp 'tile*)))
-  (player-state++ #:score score
-                  #:hand  hand))
+  (define hand (map hash->tile (hash-ref jp 'tile*)))
+  (player-state score hand #f #f))
 
 
 #; {PlayerState [Listof Tile] -> PlayerState}

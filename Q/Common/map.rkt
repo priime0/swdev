@@ -68,7 +68,7 @@
   (-> (listof placement?) boolean?)]
  [get-sequences
   (-> unprotected-board/c (listof placement?) (listof (listof placement?)))]
- [hash->board++
+ [hash->board
   (-> (listof (cons/c integer? (listof (cons/c integer? any/c))))
       unprotected-board/c)]
  [render-board
@@ -125,8 +125,7 @@
 ;; INVARIANT 2: A position on the board is occupied by a tile IFF the position is a key in the hash
 ;;              map.
 ;; INVARIANT 3: There must be at least one tile on the board.
-(struct++ board
-          ([map (hash/c posn? tile?)])
+(struct board (map)
           #:transparent
           #:methods gen:serializable
           [(define/generic ->jsexpr* ->jsexpr)
@@ -187,13 +186,13 @@
 
 
 #; {JMap -> Board}
-(define (hash->board++ rows)
+(define (hash->board rows)
   (define h (make-hash))
   (for* ([row rows] [cell (rest row)])
     (define r (first row))
     (match-define [list c jtile] cell)
     (define p (posn r c))
-    (define t (hash->tile++ jtile))
+    (define t (hash->tile jtile))
     (hash-set! h p t))
   
   (board (make-immutable-hash (hash->list h))))
@@ -204,7 +203,7 @@
 ;; tile of a game, which is the only referee-placed tile.
 (define (make-board root-tile)
   (define root-posn (posn 0 0))
-  (board++ #:map (hash root-posn root-tile)))
+  (board (hash root-posn root-tile)))
 
 
 #; {Board [Listof TilePlacement] -> Board}
@@ -420,12 +419,12 @@
   (test-equal?
    "create a board with the referees tile being a red square"
    (make-board (tile 'red 'square))
-   (board++ #:map (hash (posn 0 0) (tile 'red 'square))))
+   (board (hash (posn 0 0) (tile 'red 'square))))
   
   (test-equal?
    "create a board with the referees tile being a blue circle"
    (make-board (tile 'blue 'circle))
-   (board++ #:map (hash (posn 0 0) (tile 'blue 'circle))))
+   (board (hash (posn 0 0) (tile 'blue 'circle))))
   
   (test-equal?
    "board tile at (0, 0) with existing tile"

@@ -10,9 +10,8 @@
 (require Q/Common/interfaces/serializable)
 
 (provide
- posn
- posn++
  posn?
+ hash->posn
  posn-row
  posn-column
  directions
@@ -24,6 +23,7 @@
  axis?)
 
 (provide/cond-contract
+ [posn (-> integer? integer? posn?)]
  [posn-translate
   (-> posn? direction-name? posn?)]
  [neighbors?
@@ -53,19 +53,18 @@
 
 #; {type Posn = (posn Integer Integer)}
 ;; A Posn is a (posn r c), which represent a row and column.
-(struct++ posn
-          ([row    integer?]
-           [column integer?])
-          (#:convert-from
-           (hash
-            [hash?
-             (hash-table ('row row) ('column column))
-             (row column)]))
+(struct posn (row column)
           #:transparent
           #:methods gen:serializable
           [(define (->jsexpr p)
              (match-define [posn row column] p)
              (hash 'row row 'column column))])
+
+#; {JCoord -> Posn}
+(define (hash->posn jcoord)
+  (define row (hash-ref jcoord 'row))
+  (define col (hash-ref jcoord 'column))
+  (posn row col))
 
 
 #; {Posn Posn -> Boolean}

@@ -419,8 +419,8 @@
   (define jplayer (first players))
   (define scores* (rest players))
 
-  (define state (hash->player-state++ jplayer))
-  (define board (hash->board++ jmap))
+  (define state (hash->player-state jplayer))
+  (define board (hash->board jmap))
   (game-state board tile* (cons state scores*)))
 
 ;; ----------------------------------------------------------------------------------------
@@ -431,9 +431,9 @@
   (define tile* (hash-ref jpub 'tile*))
   (define jplayers (hash-ref jpub 'players))
 
-  (define board (hash->board++ jmap))
-  (define tiles (map hash->tile++ tile*))
-  (define players (map hash->player-state++ jplayers))
+  (define board (hash->board jmap))
+  (define tiles (map hash->tile tile*))
+  (define players (map hash->player-state jplayers))
 
   (game-state board tiles players))
 

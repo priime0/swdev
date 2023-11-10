@@ -8,22 +8,22 @@
 (require Q/Lib/list)
 (require Q/Lib/struct)
 (require Q/Lib/contracts)
+
 (require Q/Common/interfaces/serializable)
 
 (provide
- tile
  tile?
- tile++
  tile-shape
  tile-color
  tiles-equal-color?
  tiles-equal-shape?
- hash->tile++
+ hash->tile
  empty-tile-image
  start-tiles
  tile-set)
 
 (provide/cond-contract
+ [tile        (-> tile-color? tile-shape? tile?)]
  [tile-shapes (listof symbol?)]
  [tile-colors (listof symbol?)]
  [tile-shape? (-> any/c boolean?)]
@@ -87,21 +87,19 @@
 #; {type Tile = (tile TileShape TileColor)}
 ;; A Tile is a distinguishable object by shapes and colors, placed and held by players in the Q
 ;; board game.
-(struct++ tile
-          ([color tile-color?]
-           [shape tile-shape?])
-          (#:convert-from
-           (hash
-            [hash?
-             (hash-table ('color (app string->symbol color))
-                         ('shape (app string->symbol shape)))
-             (color shape)]))
+(struct tile (color shape)
           #:transparent
           #:methods gen:serializable
           [(define (->jsexpr t)
              (match-define [tile color shape] t)
              (hash 'color (symbol->string color)
                    'shape (symbol->string shape)))])
+
+#; {JTile -> Tile}
+(define (hash->tile h)
+  (define color (hash-ref h 'color))
+  (define shape (hash-ref h 'shape))
+  (tile color shape))
 
 
 ;; ========================================================================================

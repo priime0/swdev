@@ -191,7 +191,6 @@
       (stop-turn (cons (kick-player g-info name k) #f)))
     
     (define action  (success-val turn-result))
-    (println action)
     (define placed? (place? action))
   
     (unless (turn-valid? priv-state action)

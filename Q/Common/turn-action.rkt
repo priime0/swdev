@@ -7,34 +7,37 @@
 (require Q/Common/posn)
 (require Q/Common/tile)
 (require Q/Common/interfaces/serializable)
+(require Q/Lib/contracts)
 
 (provide
  (struct-out place)
  (struct-out exchange)
  (struct-out pass)
  turn-action?
- hash->placement++
+ hash->placement
  (struct-out placement))
+
+(provide/cond-contract
+ [placement (-> posn? tile? placement?)]
+ [place     (-> (listof placement?) place?)])
 
 
 #; {type TilePlacement = (placement Posn Tile)}
 ;; A TilePlacement represents a request from the player to place the given tile at the given
 ;; position.
-(struct++ placement
-          ([posn posn?]
-           [tile tile?])
-          #:transparent
-          #:methods gen:serializable
-          [(define/generic ->jsexpr* ->jsexpr)
-           (define (->jsexpr pment)
-             (match-define [placement posn tile] pment)
-             (hash 'coordinate (->jsexpr* posn)
-                   '1tile      (->jsexpr* tile)))])
+(struct placement (posn tile)
+  #:transparent
+  #:methods gen:serializable
+  [(define/generic ->jsexpr* ->jsexpr)
+   (define (->jsexpr pment)
+     (match-define [placement posn tile] pment)
+     (hash 'coordinate (->jsexpr* posn)
+           '1tile      (->jsexpr* tile)))])
 
 
-(define (hash->placement++ h)
-  (define p (hash->struct++ posn++ (hash-ref h 'coordinate)))
-  (define t (hash->tile++ (hash-ref h '1tile)))
+(define (hash->placement h)
+  (define p (hash->posn (hash-ref h 'coordinate)))
+  (define t (hash->tile (hash-ref h '1tile)))
   (placement p t))
 
 
@@ -45,9 +48,9 @@
 ;; - A placement of tiles onto the board at the corresponding locations in the given order
 ;; - An exchange of all tiles in a player's hand
 ;; - Skipping a player's turn (withdrawing from performing any actions)
-(struct++ place     ([placements (listof placement?)]) #:transparent)
-(struct   exchange  ()                                 #:transparent)
-(struct   pass      ()                                 #:transparent)
+(struct   place     (placements) #:transparent)
+(struct   exchange  ()           #:transparent)
+(struct   pass      ()           #:transparent)
 
 
 #; {Any -> Boolean}
