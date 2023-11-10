@@ -20,6 +20,7 @@
  hash->tile++
  empty-tile-image
  start-tiles
+ tile-set
  (contract-out
   #:unprotected-submodule no-contract
   [tile-shapes (listof symbol?)]
@@ -106,9 +107,11 @@
 ;; CORE FUNCTIONALITY
 ;; ========================================================================================
 
-
+;; The set of all possible tiles from the possible shapes and colors.
 (define tile-set (map (curry apply tile) (cartesian-product tile-colors tile-shapes)))
 (define num-tile-sets 30)
+
+;; The default 1080 starting tiles for a game of Q.
 (define start-tiles (flatten (build-list num-tile-sets (thunk* tile-set))))
 
 

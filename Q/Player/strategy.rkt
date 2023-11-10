@@ -26,10 +26,6 @@
        (listof posn?)
        procedure?
        turn-action?)]
-  [remove-placed
-   (-> player-state?
-       tile?
-       player-state?)]
   [combine-actions
    (-> turn-action?
        turn-action?
@@ -67,11 +63,6 @@
   (define pment (placement first-posn tile))
   (place (list pment)))
 
-
-#; {PlayerState Tile -> PlayerState}
-;; Remove a single tile from the player's hand.
-(define (remove-placed state t)
-  (remove-from-hand state (list t)))
 
 #; {TurnAction TurnAction -> TurnAction}
 ;; Combine two turn actions into one, where the first action is performed first.

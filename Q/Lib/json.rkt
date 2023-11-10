@@ -6,5 +6,5 @@
 
 (define (json-write+flush j)
   (write-json j)
-  (writeln "")
+  (displayln "")
   (flush-output))

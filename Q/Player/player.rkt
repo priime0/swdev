@@ -53,7 +53,11 @@
          ["win" ((override-method/exn playable<%> win won?) player%)]))
      (new exn-player%
           [id (string->symbol jname)]
-          [strategy (hash->strategy++ jstrategy)])]))
+          [strategy (hash->strategy++ jstrategy)])]
+    [(list jname jstrategy "a cheat" jcheat)
+     (new player%
+          [id (string->symbol jname)]
+          [strategy (hash->strategy++ jstrategy jcheat)])]))
 
 
 (module+ test
