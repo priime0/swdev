@@ -102,7 +102,7 @@
 
     (define/public (choose-action pub-state)
       (let/ec return
-        (send this select-first-invalid pub-state '() return)))))
+        (send this select-invalid pub-state '() return)))))
 
 
 ;; A "bad ask for tiles" strategy is a strategy that willfuly makes an invalid exchange.
