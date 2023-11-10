@@ -10,6 +10,8 @@
 
 (require Q/Referee/observer)
 
+(provide default-observer%)
+
 #; {class DefaultObserver}
 ;; A DefaultObserver represents a concrete implementation of the Observer interface which collects
 ;; a list of game states and displays them in an interactive program when the game has ended.
