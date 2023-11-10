@@ -23,7 +23,7 @@
   (define players (map hash->player++ jactors))
 
   (when (show)
-    (define default-observer% (dynamic-require 'Q/Referee/observer
+    (define default-observer% (dynamic-require 'Q/Referee/visual-observer
                                                'default-observer%))
     (send (*obman*) connect (new default-observer%)))
 
