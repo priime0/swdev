@@ -7,6 +7,7 @@
 (require Q/Common/config)
 (require Q/Lib/list)
 (require Q/Lib/struct)
+(require Q/Lib/contracts)
 (require Q/Common/interfaces/serializable)
 
 (provide
@@ -20,17 +21,17 @@
  hash->tile++
  empty-tile-image
  start-tiles
- tile-set
- (contract-out
-  #:unprotected-submodule no-contract
-  [tile-shapes (listof symbol?)]
-  [tile-colors (listof symbol?)]
-  [tile-shape? (-> any/c boolean?)]
-  [tile-color? (-> any/c boolean?)]
-  [tile<       (-> tile? tile? boolean?)]
-  [sort-tiles  (-> (listof tile?) (listof tile?))]
-  [render-tile (-> tile? image?)]
-  [render-tiles (-> (listof tile?) image?)]))
+ tile-set)
+
+(provide/cond-contract
+ [tile-shapes (listof symbol?)]
+ [tile-colors (listof symbol?)]
+ [tile-shape? (-> any/c boolean?)]
+ [tile-color? (-> any/c boolean?)]
+ [tile<       (-> tile? tile? boolean?)]
+ [sort-tiles  (-> (listof tile?) (listof tile?))]
+ [render-tile (-> tile? image?)]
+ [render-tiles (-> (listof tile?) image?)])
 
 ;; ========================================================================================
 ;; DATA DEFINITIONS

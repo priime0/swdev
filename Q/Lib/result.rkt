@@ -1,17 +1,20 @@
 #lang racket
 
+(require Q/Lib/contracts)
+
 (provide
  (struct-out success)
- (struct-out failure)
- (contract-out
-  [unwrap-or
-   (-> result?
-       any/c
-       any)]
-  [unwrap-or-else
-   (-> result?
-       procedure?
-       any)]))
+ (struct-out failure))
+
+(provide/cond-contract
+ [unwrap-or
+  (-> result?
+      any/c
+      any)]
+ [unwrap-or-else
+  (-> result?
+      procedure?
+      any)])
 
 
 #; {type [Result X Y] (U [Success X] [Failure Y])}

@@ -11,25 +11,27 @@
 (require Q/Common/config)
 (require Q/Common/turn-action)
 (require Q/Lib/list)
+(require Q/Lib/contracts)
 
 
 (provide
- player-strategy<%>
- (contract-out
-  [choose-tile
-   (-> (listof tile?)
-       unprotected-board/c
-       (or/c (cons/c tile? (listof posn?))
-             #f))]
-  [choose-placement
-   (-> tile?
-       (listof posn?)
-       procedure?
-       turn-action?)]
-  [combine-actions
-   (-> turn-action?
-       turn-action?
-       turn-action?)]))
+ player-strategy<%>)
+
+(provide/cond-contract
+ [choose-tile
+  (-> (listof tile?)
+      unprotected-board/c
+      (or/c (cons/c tile? (listof posn?))
+            #f))]
+ [choose-placement
+  (-> tile?
+      (listof posn?)
+      procedure?
+      turn-action?)]
+ [combine-actions
+  (-> turn-action?
+      turn-action?
+      turn-action?)])
 
 
 ;; A PlayerStrategy is an interface that represents the functionality that any player strategy will
@@ -39,7 +41,7 @@
     #; {PlayerStrategy PublicState -> TurnAction}
     ;; Given some turn information for the player, produce an action to influence the game
     ;; state.
-    [choose-action (->m pub-state/c turn-action?)]))
+    choose-action))
 
 
 #; {[Listof Tile] Board -> [Maybe [Pairof Tile [Listof TilePlacement]]]}

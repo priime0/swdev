@@ -22,50 +22,52 @@
 (require Q/Lib/list)
 (require Q/Lib/image)
 (require Q/Lib/misc)
+(require Q/Lib/contracts)
 (require Q/Common/interfaces/serializable)
 (require Q/Common/interfaces/playable)
+
+(provide/cond-contract
+ [hash->pub-state
+  (-> hash? pub-state/c)]
+ [hash->priv-state
+  (-> hash? priv-state/c)]
+ [render-game-state
+  (-> priv-state/c image?)]
+ [make-game-state
+  (->i ([tiles (listof tile?)] [players (listof (is-a?/c playable<%>))])
+       #:pre/name (tiles players)
+       "not enough tiles!"
+       (< (add1 (* (length players)
+                   (*hand-size*)))
+          (length tiles))
+       [result priv-state/c])]
+ [priv-state->pub-state
+  (-> priv-state/c pub-state/c)]
+ [remove-player
+  (-> priv-state/c priv-state/c)]
+ [turn-valid?
+  (-> game-state/c turn-action? boolean?)]
+ [do-turn/action
+  (-> game-state/c turn-action? game-state/c)]
+ [do-turn/score
+  (-> game-state/c turn-action? natural?)]
+ [do-turn/rotate
+  (-> priv-state/c priv-state/c)]
+ [do-turn-without-rotate
+  (-> priv-state/c turn-action? (values priv-state/c boolean?))]
+ [new-tiles
+  (-> priv-state/c (listof tile?))]
+ [players-left?
+  (-> game-state/c boolean?)]
+ [winners+losers
+  (-> priv-state/c (values (listof player-state?)
+                           (listof player-state?)))])
 
 (provide
  pub-state/c
  priv-state/c
  game-state/c
- (struct-out game-state)
- (contract-out
-  [hash->pub-state
-   (-> hash? pub-state/c)]
-  [hash->priv-state
-   (-> hash? priv-state/c)]
-  [render-game-state
-   (-> priv-state/c image?)]
-  [make-game-state
-   (->i ([tiles (listof tile?)] [players (listof (is-a?/c playable<%>))])
-        #:pre/name (tiles players)
-        "not enough tiles!"
-        (< (add1 (* (length players)
-                    (*hand-size*)))
-           (length tiles))
-        [result priv-state/c])]
-  [priv-state->pub-state
-   (-> priv-state/c pub-state/c)]
-  [remove-player
-   (-> priv-state/c priv-state/c)]
-  [turn-valid?
-   (-> game-state/c turn-action? boolean?)]
-  [do-turn/action
-   (-> game-state/c turn-action? game-state/c)]
-  [do-turn/score
-   (-> game-state/c turn-action? natural?)]
-  [do-turn/rotate
-   (-> priv-state/c priv-state/c)]
-  [do-turn-without-rotate
-   (-> priv-state/c turn-action? (values priv-state/c boolean?))]
-  [new-tiles
-   (-> priv-state/c (listof tile?))]
-  [players-left?
-   (-> game-state/c boolean?)]
-  [winners+losers
-   (-> priv-state/c (values (listof player-state?)
-                            (listof player-state?)))]))
+ (struct-out game-state))
 
 
 

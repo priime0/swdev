@@ -19,16 +19,16 @@
   (interface ()
     #; {Playable -> String}
     ;; Retrieve the name of the player
-    [name      (->m string?)]
+    name      
     #; {Playable Board Tile -> Void}
     ;; Set up the player's knowledge of the game
-    [setup     (->m unprotected-board/c (listof tile?) void?)]
+    setup
     #; {Playable TurnInfo -> TurnAction}
     ;; Execute the player's strategy with the given turn information to produce an action.
-    [take-turn (->m pub-state/c turn-action?)]
+    take-turn
     #; {[Listof Tile] -> Void}
     ;; Give tiles to the player
-    [new-tiles (->m (listof tile?) void?)]
+    new-tiles
     #; {Boolean -> Void}
     ;; Send information on whether the player won
-    [win       (->m boolean? void?)]))
+    win))

@@ -10,38 +10,40 @@
 (require Q/Common/tile)
 (require Q/Lib/list)
 (require Q/Lib/test)
+(require Q/Lib/contracts)
 (require Q/Common/interfaces/serializable)
 (require Q/Common/interfaces/playable)
+
+(provide/cond-contract
+ [make-player-state
+  (-> (listof tile?)
+      any/c
+      player-state?)]
+ [add-to-hand
+  (-> player-state? (listof tile?)
+      player-state?)]
+ [remove-from-hand
+  (->i ([ps  player-state?]
+        [tls (listof tile?)])
+       #:pre/name (ps tls)
+       "hand must contain given tiles!"
+       (contains-all? (player-state-hand ps) tls)
+       [result player-state?])]
+ [clear-hand
+  (-> player-state? player-state?)]
+ [add-points
+  (-> player-state?
+      natural?
+      player-state?)]
+ [render-player-state
+  (-> player-state?
+      image?)])
 
 (provide
  player-state++
  set-player-state-payload
  hash->player-state++
- (struct-out player-state)
- (contract-out
-  [make-player-state
-   (-> (listof tile?)
-       any/c
-       player-state?)]
-  [add-to-hand
-   (-> player-state? (listof tile?)
-       player-state?)]
-  [remove-from-hand
-   (->i ([ps  player-state?]
-         [tls (listof tile?)])
-        #:pre/name (ps tls)
-        "hand must contain given tiles!"
-        (contains-all? (player-state-hand ps) tls)
-        [result player-state?])]
-  [clear-hand
-   (-> player-state? player-state?)]
-  [add-points
-   (-> player-state?
-       natural?
-       player-state?)]
-  [render-player-state
-   (-> player-state?
-       image?)]))
+ (struct-out player-state))
 
 
 ;; ========================================================================================

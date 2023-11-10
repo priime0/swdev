@@ -6,6 +6,7 @@
 
 (require Q/Lib/list)
 (require Q/Lib/struct)
+(require Q/Lib/contracts)
 (require Q/Common/interfaces/serializable)
 
 (provide
@@ -20,35 +21,35 @@
  horizontal-axis
  direction-names
  direction-name?
- axis?
- (contract-out
-  #:unprotected-submodule no-contract
-  [posn-translate
-   (-> posn? direction-name? posn?)]
-  [neighbors?
-   (-> posn? posn? boolean?)]
-  [posn-neighbors/dirs
-   (->i ([p posn?] [dirs (listof direction-name?)])
-        [result (p) (listof (flat-contract (curry neighbors? p)))])]
-  [posns-same-row?
-   (-> (listof posn?) boolean?)]
-  [posns-same-column?
-   (-> (listof posn?) boolean?)]
-  [same-axis?
-   (-> (listof posn?) boolean?)]
-  [axis-of
-   (->i ([pns (listof posn?)])
-        #:pre/name (pns)
-        "must be more than one posn in the list"
-        (>= (length pns) 2)
-        #:pre/name (pns)
-        "posns must be aligned on an axis"
-        (same-axis? pns)
-        [result axis?])]
-  [posn<?
-   (-> posn? posn? boolean?)]
-  [sort-posns
-   (-> (listof posn?) (listof posn?))]))
+ axis?)
+
+(provide/cond-contract
+ [posn-translate
+  (-> posn? direction-name? posn?)]
+ [neighbors?
+  (-> posn? posn? boolean?)]
+ [posn-neighbors/dirs
+  (->i ([p posn?] [dirs (listof direction-name?)])
+       [result (p) (listof (flat-contract (curry neighbors? p)))])]
+ [posns-same-row?
+  (-> (listof posn?) boolean?)]
+ [posns-same-column?
+  (-> (listof posn?) boolean?)]
+ [same-axis?
+  (-> (listof posn?) boolean?)]
+ [axis-of
+  (->i ([pns (listof posn?)])
+       #:pre/name (pns)
+       "must be more than one posn in the list"
+       (>= (length pns) 2)
+       #:pre/name (pns)
+       "posns must be aligned on an axis"
+       (same-axis? pns)
+       [result axis?])]
+ [posn<?
+  (-> posn? posn? boolean?)]
+ [sort-posns
+  (-> (listof posn?) (listof posn?))])
 
 #; {type Posn = (posn Integer Integer)}
 ;; A Posn is a (posn r c), which represent a row and column.

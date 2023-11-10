@@ -17,66 +17,68 @@
 (require Q/Common/turn-action)
 (require Q/Lib/function)
 (require Q/Lib/list)
+(require Q/Lib/contracts)
 (require Q/Common/interfaces/serializable)
+
+(provide/cond-contract
+ [make-board (-> tile? unprotected-board/c)]
+ [has-adjacent-tiles? (-> unprotected-board/c posn? boolean?)]
+ [tile-at (-> unprotected-board/c posn? (or/c tile? #f))]
+ [valid-placement?
+  (-> unprotected-board/c
+      placement?
+      boolean?)]
+ [valid-placements?
+  (-> unprotected-board/c
+      (listof placement?)
+      boolean?)]
+ [add-tiles
+  (->i ([b unprotected-board/c] [pments (listof placement?)])
+       #:pre/name (b pments)
+       "posns aren't empty"
+       (andmap (negate (curry tile-at b))
+               pments)
+       [result unprotected-board/c])]
+ [add-tile
+  (->i ([b unprotected-board/c] [pment placement?])
+       #:pre/name (b pment)
+       "given posn isn't empty"
+       ((negate tile-at) b (placement-posn pment))
+       #:pre/name (b pment)
+       "given posn has no adjacent tiles"
+       (has-adjacent-tiles? b (placement-posn pment))
+       [result unprotected-board/c])]
+ [adjacent-tiles
+  (-> unprotected-board/c
+      posn?
+      (listof tile?))]
+ [valid-tile-placements
+  (-> tile?
+      unprotected-board/c
+      (listof posn?))]
+ [collect-sequence
+  (-> unprotected-board/c
+      posn?
+      axis?
+      sequence?)]
+ [open-posns
+  (-> unprotected-board/c
+      (listof posn?))]
+ [q-sequence?
+  (-> (listof placement?) boolean?)]
+ [get-sequences
+  (-> unprotected-board/c (listof placement?) (listof (listof placement?)))]
+ [hash->board++
+  (-> (listof (cons/c integer? (listof (cons/c integer? any/c))))
+      unprotected-board/c)]
+ [render-board
+  (-> unprotected-board/c image?)])
 
 (provide
  sequence?
  bounds
  unprotected-board/c
- protected-board/c
- (contract-out
-  [make-board (-> tile? unprotected-board/c)]
-  [has-adjacent-tiles? (-> unprotected-board/c posn? boolean?)]
-  [tile-at (-> unprotected-board/c posn? (or/c tile? #f))]
-  [valid-placement?
-   (-> unprotected-board/c
-       placement?
-       boolean?)]
-  [valid-placements?
-   (-> unprotected-board/c
-       (listof placement?)
-       boolean?)]
-  [add-tiles
-   (->i ([b unprotected-board/c] [pments (listof placement?)])
-        #:pre/name (b pments)
-        "posns aren't empty"
-        (andmap (negate (curry tile-at b))
-                pments)
-        [result unprotected-board/c])]
-  [add-tile
-   (->i ([b unprotected-board/c] [pment placement?])
-        #:pre/name (b pment)
-        "given posn isn't empty"
-        ((negate tile-at) b (placement-posn pment))
-        #:pre/name (b pment)
-        "given posn has no adjacent tiles"
-        (has-adjacent-tiles? b (placement-posn pment))
-        [result unprotected-board/c])]
-  [adjacent-tiles
-   (-> unprotected-board/c
-       posn?
-       (listof tile?))]
-  [valid-tile-placements
-   (-> tile?
-       unprotected-board/c
-       (listof posn?))]
-  [collect-sequence
-   (-> unprotected-board/c
-       posn?
-       axis?
-       sequence?)]
-  [open-posns
-   (-> unprotected-board/c
-       (listof posn?))]
-  [q-sequence?
-   (-> (listof placement?) boolean?)]
-  [get-sequences
-   (-> unprotected-board/c (listof placement?) (listof (listof placement?)))]
-  [hash->board++
-   (-> (listof (cons/c integer? (listof (cons/c integer? any/c))))
-       unprotected-board/c)]
-  [render-board
-   (-> unprotected-board/c image?)]))
+ protected-board/c)
 
 
 ;; {type Sequence = [Listof TilePlacement]}

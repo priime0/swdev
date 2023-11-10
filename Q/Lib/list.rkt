@@ -2,22 +2,23 @@
 
 (require Q/Lib/hash)
 (require Q/Lib/function)
+(require Q/Lib/contracts)
 
 (provide
  find-remf
- cons-if
- (contract-out
-  #:unprotected-submodule no-contract
-  [member?       (any/c (or/c list? any/c) . -> . boolean?)]
-  [all-same?     (list? . -> . boolean?)]
-  [rotate-left   (natural? list? . -> . list?)]
-  [rotate-left-1 (list? . -> . list?)]
-  [remove-from   (list? list? . -> . list?)]
-  [contains-all? (list? list? . -> . boolean?)]
-  [same-elements? (list? list? . -> . boolean?)]
-  [segment       (natural? list? . -> . list?)]
-  [index<?       (list? any/c any/c . -> . boolean?)]
-  [sort-by       ((listof (cons/c (any/c any/c . -> . any/c) (any/c . -> . any/c))) . -> . ((listof any/c) . -> . (listof any/c)))]))
+ cons-if)
+
+(provide/cond-contract
+ [member?       (any/c (or/c list? any/c) . -> . boolean?)]
+ [all-same?     (list? . -> . boolean?)]
+ [rotate-left   (natural? list? . -> . list?)]
+ [rotate-left-1 (list? . -> . list?)]
+ [remove-from   (list? list? . -> . list?)]
+ [contains-all? (list? list? . -> . boolean?)]
+ [same-elements? (list? list? . -> . boolean?)]
+ [segment       (natural? list? . -> . list?)]
+ [index<?       (list? any/c any/c . -> . boolean?)]
+ [sort-by       ((listof (cons/c (any/c any/c . -> . any/c) (any/c . -> . any/c))) . -> . ((listof any/c) . -> . (listof any/c)))])
 
 #; {(X) X [Listof X] -> Boolean}
 ;; Is the given element `v` a member of the given list `lst`?
