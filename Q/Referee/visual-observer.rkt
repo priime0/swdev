@@ -65,7 +65,7 @@
              (match-define [world-state states index path _] ws)
              (define states-len (gvector-count states))
 
-b             (case key
+             (case key
                [("left")
                 (cond [(zero? index) ws]
                       [else (world-state states (sub1 index) path #f)])]
