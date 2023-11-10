@@ -71,11 +71,22 @@
     (super-new)
     (field [states (make-gvector)])
 
-
     (define/public (observe priv-state)
-      (when (zero? (gvector-count states))
+      (define states-len (gvector-count states))
+      (when states-len
         (send this start-observation))
-      (gvector-add! states priv-state))
+      (gvector-add! states priv-state)
+
+      (define img (render-game-state priv-state))
+
+      (define tmp-dir (simplify-path (build-path "./Tmp/")))
+      (unless (directory-exists? tmp-dir)
+        (make-directory tmp-dir))
+
+      (define file-name (format "~a.png" states-len))
+      (define img-path (simplify-path (build-path tmp-dir file-name)))
+
+      (save-image img img-path))
 
     (define/public (terminate)
       (void))
