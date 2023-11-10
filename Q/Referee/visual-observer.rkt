@@ -60,26 +60,39 @@
         ;; Render the index of the current state.
         (define render-index
           (@index . ~> . (curry format "index: ~a")))
+        ;;
+        (define image-path
+          (@index . ~> . (curry format "Tmp/~a.png")))
         ;; Save the current game state as JSON.
         (define (save)
           (define state (gvector-ref states (obs-peek @index)))
           (define state/jsexpr (serialize state))
           (define file-target (put-file))
           (call-with-output-file file-target
-            (curry displayln state/jsexpr))
-          (void))
+            (curry displayln state/jsexpr)))
 
         ;; game state interaction panel
         (define decrement-button (button "-" previous))
         (define increment-button (button "+" next))
         (define text-field (text render-index))
-        (define gs-panel (hpanel decrement-button text-field increment-button))
+        (define gs-panel (hpanel decrement-button text-field increment-button
+                                 #:alignment '(center center)
+                                 #:margin '(10 10)))
+
+        ;; image panel
+        (define img-container (image image-path))
+        (define image-panel (hpanel img-container
+                                    #:margin '(10 10)))
 
         ;; file interaction panel
         (define save-button (button "Save" save))
-        (define input-panel (hpanel save-button))
+        (define input-panel (hpanel save-button
+                                    #:alignment '(center center)
+                                    #:margin '(10 10)))
 
-        (define main-window (window gs-panel input-panel))
+        (define main-window
+          (window gs-panel image-panel input-panel
+                  #:alignment '(center center)))
 
         (render main-window)
         (void)))
