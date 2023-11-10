@@ -88,10 +88,6 @@
       (define file-name (format "~a.png" states-len))
       (define img-path (simplify-path (build-path tmp-dir file-name)))
 
-      (println img-path)
-
-      (printf "~a: ~a\n" states-len (save-image img img-path))
-
       (void))
 
     (define/public (terminate)

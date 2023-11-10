@@ -6,7 +6,6 @@
 (require Q/Common/config)
 (require Q/Player/player)
 (require Q/Referee/referee)
-(require Q/Referee/observer)
 (require Q/Lib/json)
 
 
@@ -23,9 +22,10 @@
   (define start-state (hash->priv-state jstate))
   (define players (map hash->player++ jactors))
 
-  (if (show)
-      (send (*obman*) connect (new default-observer%))
-      (void))
+  (when (show)
+    (define default-observer% (dynamic-require 'Q/Referee/observer
+                                               'default-observer%))
+    (send (*obman*) connect (new default-observer%)))
 
   (define result (play-game players #:game-state start-state))
   (define winners (first result))
