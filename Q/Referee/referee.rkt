@@ -37,10 +37,8 @@
 ;; progression of a game. It contains the current state, as well as
 ;; the list of players that broke the rules, in the increasing
 ;; time-order of elimination.
-(struct/contract game-info
-                 ([state priv-state/c]
-                  [sinners (listof string?)])
-                 #:transparent)
+(struct  game-info (state sinners)
+  #:transparent)
 
 #; {GameInfo PrivateState -> GameInfo}
 ;; Creates a copy of the given game info with the given new private state.

@@ -40,7 +40,7 @@
       image?)])
 
 (provide
- player-state++
+ player-state
  set-player-state-payload
  hash->player-state
  (struct-out player-state))
@@ -56,18 +56,33 @@
 ;; the points the player accrued during the game, along with the tiles in their hand during a move,
 ;; and a payload of type `Any`.
 ;; INVARIANT: The hand of a player state has a length L such that 0 ≤ L ≤ (*hand-size*).
-(struct++ player-state
-          ([(score 0)    natural?]
-           [hand         (listof tile?)]
-           [(name #f)    (or/c symbol? #f)]
-           [(payload #f) any/c])
-          #:transparent
-          #:methods gen:serializable
-          [(define/generic ->jsexpr* ->jsexpr)
-           (define (->jsexpr ps)
-             (match-define [player-state score hand _name _payload] ps)
-             (hash 'score score
-                   'tile* (map ->jsexpr* hand)))])
+(struct player-state (score hand name payload)
+  #:transparent
+  #:methods gen:serializable
+  [(define/generic ->jsexpr* ->jsexpr)
+   (define (->jsexpr ps)
+     (match-define [player-state score hand _name _payload] ps)
+     (hash 'score score
+           'tile* (map ->jsexpr* hand)))])
+
+#; {PlayerState [Listof Tile] -> PlayerState}
+;; Creates a copy of the given player state with the given hand as
+;; that player state's new hand.
+(define (set-player-state-hand ps new-hand)
+  (match-define [player-state score hand name payload] ps)
+  (player-state score new-hand name payload))
+
+#; {PlayerState Natural -> PlayerState}
+;; Creates a copy of the given player state with the new given score.
+(define (set-player-state-score ps new-score)
+  (match-define [player-state score hand name payload] ps)
+  (player-state new-score hand name payload))
+
+#; {PlayerState Any -> PlayerState}
+;; Creates a copy of the given player state with the new given payload
+(define (set-player-state-payload ps new-payload)
+  (match-define [player-state score hand name payload] ps)
+  (player-state score hand name new-payload))
 
 
 ;; ========================================================================================
@@ -79,7 +94,7 @@
 ;; Creates a player with the given hand, a default score of 0,
 ;; and the given optional payload (default of #f).
 (define (make-player-state hand [payload #f])
-  (player-state++ #:hand hand #:payload payload))
+  (player-state 0 hand #f payload))
 
 
 #; {([Listof Tile] -> [Listof Tile]) PlayerState -> PlayerState}
@@ -96,14 +111,15 @@
 #; {JPlayer -> PlayerState}
 (define (hash->player-state jp)
   (define score (hash-ref jp 'score))
-  (define hand (map hash->tile++ (hash-ref jp 'tile*)))
+  (define hand (map hash->tile (hash-ref jp 'tile*)))
   (define name
     (if (hash-has-key? jp 'name)
         (string->symbol (hash-ref jp 'name))
         #f))
-  (player-state++ #:score score
-                  #:hand  hand
-                  #:name  name))
+  (player-state score
+                hand
+                name
+                #f))
 
 
 #; {PlayerState [Listof Tile] -> PlayerState}

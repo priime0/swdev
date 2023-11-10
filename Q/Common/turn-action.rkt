@@ -11,15 +11,12 @@
 
 (provide
  (struct-out place)
+ place-placements
  (struct-out exchange)
  (struct-out pass)
  turn-action?
  hash->placement
  (struct-out placement))
-
-(provide/cond-contract
- [placement (-> posn? tile? placement?)]
- [place     (-> (listof placement?) place?)])
 
 
 #; {type TilePlacement = (placement Posn Tile)}

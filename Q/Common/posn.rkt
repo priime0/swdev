@@ -11,6 +11,7 @@
 
 (provide
  posn?
+ posn
  hash->posn
  posn-row
  posn-column
@@ -23,7 +24,6 @@
  axis?)
 
 (provide/cond-contract
- [posn (-> integer? integer? posn?)]
  [posn-translate
   (-> posn? direction-name? posn?)]
  [neighbors?
