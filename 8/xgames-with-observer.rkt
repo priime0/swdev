@@ -27,7 +27,10 @@
                                                'default-observer%))
     (send (*obman*) connect (new default-observer%)))
 
-  (define result (play-game players #:game-state start-state))
+  (define result
+    (parameterize ([*bonus* 4]
+                   [*points-per-q* 8])
+      (play-game players #:game-state start-state)))
   (define winners (first result))
   (define sinners (second result))
 
