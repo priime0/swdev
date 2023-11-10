@@ -112,8 +112,8 @@
     (define/public (choose-action pub-state)
       (define xchange (exchange))
       (if (turn-valid? pub-state xchange)
-          xchange
-          (pass)))))
+          (pass)
+          xchange))))
 
 ;; A "no fit" strategy is a strategy that willfuly place a tile in
 ;; hand into a spot where the neighbors dont match on the board.
