@@ -135,4 +135,5 @@
                      #:when (not (valid-placement? board (placement p t))))
           (placement p t)))
 
-      (or maybe-action (pass)))))
+      (or (and maybe-action (place (list maybe-action)))
+          (pass)))))
