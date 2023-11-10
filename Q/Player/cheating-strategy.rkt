@@ -170,7 +170,14 @@
     (game-state (make-board (tile 'red 'square))
                 (list (tile 'blue 'square)
                       (tile 'red 'clover))
-                (list (player-state++ #:hand (list (tile 'green 'square)))))))
+                (list (player-state++ #:hand (list (tile 'green 'square))))))
+
+  (define gs5
+    (game-state (make-board (tile 'red 'square))
+                (list (tile 'blue 'square)
+                      (tile 'red 'clover))
+                (list (player-state++ #:hand (list (tile 'green 'square)
+                                                   (tile 'blue 'square)))))))
 
 (module+ test
   
@@ -227,11 +234,19 @@
    (send no-fit1 choose-action (priv-state->pub-state gs4))
    (pass))
 
-  (test-equal?)
+  (test-equal?
+   "not a line will produce pass if it cannot place an otherwise valid non line"
+   (send not-line1 choose-action (priv-state->pub-state gs5))
+   (place (list (placement (posn 0 -1) (tile 'blue 'square)) (placement (posn -1 0) (tile 'green 'square)))))
 
-  
-  
-  )
+  (test-false
+   "placements not in a line are invalid moves"
+   (turn-valid? gs5 (send not-line1 choose-action (priv-state->pub-state gs5))))
+
+  (test-equal?
+   "not a line will produce pass if it cannot place an otherwise valid non line"
+   (send not-line1 choose-action (priv-state->pub-state gs1))
+   (pass)))
 
 
 
