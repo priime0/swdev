@@ -17,7 +17,8 @@ The referee communicates with the `*obman*` parameter, which contains
 an *observer manager* that implements the `observer<%>` interface. The
 referee only uses methods specified by the `observer<%>` interface,
 but we don't write an explicit constraint on the parameter that its
-value has to implement the interface.
+value has to implement the interface. This allows us to optionally
+wire in actual observers, meaning that no observation is required.
 
 Referee communicating with the observer:
 
@@ -53,7 +54,11 @@ https://github.khoury.northeastern.edu/CS4500-F23/fearless-mice/blob/54be7e079aa
   - does the purpose statement explain how to program to the
     observer's interface? 
 
-Yes (concisely):
+Yes, concisely. The purpose statement tells a potential implementer 
+everything they need to know, except for one thing we missed: the observers
+and observer manager are run in the main thread, which we should either state,
+or provide some protections against, so that implementers of the interface
+know to run non-blocking visualizations.
 
 https://github.khoury.northeastern.edu/CS4500-F23/fearless-mice/blob/54be7e079aa77d101ba3327c2b2fba18d3f0c835/Q/Referee/observer.rkt#L19-L30
 
