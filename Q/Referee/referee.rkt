@@ -70,7 +70,6 @@
                    #:tiles [tiles start-tiles]
                    #:game-state [gs* (make-game-state tiles playables)])
   (define gs (bind-playables gs* playables))
-
   (define game-info0 (setup gs))
   (send (*obman*) observe (game-info-state game-info0))
   (define game-info1 (run-game game-info0))

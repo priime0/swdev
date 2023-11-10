@@ -115,7 +115,7 @@
   (define name
     (if (hash-has-key? jp 'name)
         (string->symbol (hash-ref jp 'name))
-        #f))
+        "foo"))
   (player-state score
                 hand
                 name

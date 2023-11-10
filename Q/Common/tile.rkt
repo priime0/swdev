@@ -97,8 +97,8 @@
 
 #; {JTile -> Tile}
 (define (hash->tile h)
-  (define color (hash-ref h 'color))
-  (define shape (hash-ref h 'shape))
+  (define color (string->symbol (hash-ref h 'color)))
+  (define shape (string->symbol (hash-ref h 'shape)))
   (tile color shape))
 
 

@@ -19,7 +19,7 @@
 ;; This work was based on the typed-racket implementation of optional contracts:
 ;; https://github.com/racket/typed-racket/blob/master/typed-racket-lib/typed-racket/utils/utils.rkt
 (define-for-syntax enable-contracts?
-  (and (getenv "ENABLE_CONTRACTS") #true))
+  (and (getenv "ENABLE_CONTRACTS") #false))
 
 (begin-for-syntax
   (define-syntax-class clause
