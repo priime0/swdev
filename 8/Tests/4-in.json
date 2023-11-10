@@ -1,0 +1,148 @@
+{
+    "map": [
+        [
+            0,
+            [
+                0,
+                {
+                    "color": "red",
+                    "shape": "square"
+                }
+            ]
+        ]
+    ],
+    "players": [
+        {
+            "name": "andrey",
+            "score": 0,
+            "tile*": [
+                {
+                    "color": "red",
+                    "shape": "square"
+                },
+                {
+                    "color": "red",
+                    "shape": "square"
+                },
+                {
+                    "color": "red",
+                    "shape": "square"
+                },
+                {
+                    "color": "red",
+                    "shape": "square"
+                },
+                {
+                    "color": "red",
+                    "shape": "square"
+                },
+                {
+                    "color": "blue",
+                    "shape": "8star"
+                }
+            ]
+        },
+        {
+            "name": "lucas",
+            "score": 0,
+            "tile*": [
+                {
+                    "color": "red",
+                    "shape": "square"
+                },
+                {
+                    "color": "red",
+                    "shape": "square"
+                },
+                {
+                    "color": "red",
+                    "shape": "square"
+                },
+                {
+                    "color": "red",
+                    "shape": "square"
+                },
+                {
+                    "color": "red",
+                    "shape": "square"
+                },
+                {
+                    "color": "blue",
+                    "shape": "8star"
+                }
+            ]
+        },
+        {
+            "name": "matthias",
+            "score": 0,
+            "tile*": [
+                {
+                    "color": "red",
+                    "shape": "8star"
+                },
+                {
+                    "color": "orange",
+                    "shape": "star"
+                }
+            ]
+        }
+    ],
+    "tile*": [
+        {
+            "color": "blue",
+            "shape": "8star"
+        },
+        {
+            "color": "blue",
+            "shape": "8star"
+        },
+        {
+            "color": "blue",
+            "shape": "8star"
+        },
+        {
+            "color": "blue",
+            "shape": "8star"
+        },
+        {
+            "color": "blue",
+            "shape": "8star"
+        },
+        {
+            "color": "blue",
+            "shape": "8star"
+        },
+        {
+            "color": "blue",
+            "shape": "8star"
+        },
+        {
+            "color": "blue",
+            "shape": "8star"
+        },
+        {
+            "color": "blue",
+            "shape": "8star"
+        },
+        {
+            "color": "red",
+            "shape": "8star"
+        }
+    ]
+}
+[
+    [
+        "andrey",
+        "dag"
+    ],
+    [
+        "lucas",
+        "ldasg"
+    ],
+    [
+        "matthias",
+        "dag",
+        "a cheat",
+        "bad-ask-for-tiles"
+    ]
+]
