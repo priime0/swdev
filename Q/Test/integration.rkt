@@ -4,7 +4,7 @@
 (require threading)
 (require racket/place/distributed)
 
-(define dirs '("3" "4" "5" "6" "7"))
+(define dirs '("7"))
 
 (define root-directory (build-path (current-directory) 'up 'up))
 
@@ -35,11 +35,11 @@
   (define expected (read-json expected-port))
   (close-input-port expected-port)
   
-  (define command (racket-path))
+  #;(define command (racket-path))
   (define script-file (path->string script))
   
   (define-values (s result-port op err-port)
-    (subprocess #f in-port #f command script-file))
+    (subprocess #f in-port #f script script-file))
   (subprocess-wait s)
   
   (close-input-port in-port)
@@ -101,9 +101,10 @@
 
     (define script
       (for/first ([file-path (directory-list test-dir)]
-                  #:when (path-has-extension? file-path ".rkt"))
+                  #:when (string-suffix? (path->string file-path) "xgames"))
         (simplify-path (build-path test-dir file-path))))
 
+    (println script)
     (define group-test-dir (simplify-path (build-path test-dir "Tests")))
 
     (define inputs1  (filter-input-files group-test-dir))
