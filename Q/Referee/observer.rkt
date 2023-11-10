@@ -2,6 +2,7 @@
 
 (require Q/Common/game-state)
 (require Q/Common/config)
+(require Q/Common/interfaces/serializable)
 
 (require racket/class)
 (require racket/set)
@@ -91,7 +92,7 @@
            (lambda (ws)
              (match-define [world-state states index path _] ws)
              (define state (gvector-ref states index))
-             (define rendered-state (crop 0 0 (render-game-state state) 900 900))
+             (define rendered-state (crop 0 0 900 900 (render-game-state state)))
              (define textbox (frame (text path (/ (*game-size*) 2) 'black)))
              (define scene-width 1000)
              (define scene-height 1000)
@@ -111,6 +112,14 @@
                [("right")
                 (cond [(= (add1 index) states-len) ws]
                       [else (world-state states (add1 index) path #f)])]
+               [("\r")
+                (define state (gvector-ref states index))
+                (define state/json (serialize state))
+                (when (file-exists? path)
+                  (delete-file path))
+                (with-output-to-file path
+                  (thunk (displayln state/json)))
+                ws]
                [("escape") (world-state states index path #t)]
                [("\b")
                 (define path+
@@ -136,3 +145,28 @@
                 ws]
                [else
                 (world-state states index (string-append path key) #f)]))]))))))
+
+
+(module+ test
+  (require racket/class)
+
+  (require Q/Common/tile)
+
+  (require Q/Common/tile)
+  (require Q/Player/player)
+  (require Q/Player/ldasg)
+  (require Q/Player/dag)
+  (require Q/Player/iterative)
+
+  (define dag (new dag%))
+  (define ldasg (new ldasg%))
+  (define itdag (new iterative% [strategy dag]))
+  (define itldasg (new iterative% [strategy ldasg]))
+
+  (define luke (new player% [id 'luke] [strategy itdag]))
+  (define andrey (new player% [id 'andrey] [strategy itdag]))
+  (define lucas (new player% [id 'lucas] [strategy itldasg]))
+
+  (define players0 (list luke andrey lucas))
+
+  (define gs1 (make-game-state (take start-tiles 30) players0)))
