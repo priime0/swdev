@@ -73,8 +73,36 @@
 (define not-a-line%
   (class* object% (player-strategy<%>)
     (super-new)
+
+    #; {PublicState [Listof TilePlacement] Continuation}
+    ;; Using backtracking, computes a placement that is not along the
+    ;; same axis.
+    (define/public (select-invalid pub-state pments k)
+      (when (and (not (same-axis? (map placement-posn pments)))
+                 (pair? pments)
+                 (pair? (cdr pments)))
+        (k (place pments)))
+
+      (match-define [game-state board tiles* [cons state others]] pub-state)
+      (define hand (player-state-hand state))
+      (cond
+        [(null? hand) (void)]
+        [(pair? hand)
+         (define tile0 (first hand))
+         (define possible-posns (valid-tile-placements tile0 board))
+         (define possible-placements (map (curryr placement tile0) possible-posns))
+
+         (for ([pment possible-placements])
+           (define pub-state+ (do-turn/action pub-state (place (list pment))))
+           (select-invalid pub-state+ (cons pment pments) k))
+
+         (define pub-state+ (game-state board tiles* (cons (remove-from-hand state (list tile0))
+                                                           others)))
+         (select-invalid pub-state+ pments k)]))
+
     (define/public (choose-action pub-state)
-      (void))))
+      (let/ec return
+        (send this select-first-invalid pub-state '() return)))))
 
 
 ;; A "bad ask for tiles" strategy is a strategy that willfuly makes an invalid exchange.
