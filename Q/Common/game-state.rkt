@@ -112,12 +112,19 @@
 ;; A GameState is one of a PrivateState or a PublicState.
 (define game-state/c (or/c pub-state/c priv-state/c))
 
-(struct/contract game-state
-                 ([board unprotected-board/c]
-                  [tiles (or/c natural? (listof tile?))]
-                  [players (or/c (listof player-state?)
-                                 (cons/c player-state? (listof natural?)))])
-                 #:transparent)
+(struct game-state
+  (board tiles players)
+  #:transparent
+  #:methods gen:serializable
+  [(define/generic ->jsexpr* ->jsexpr)
+   (define (->jsexpr gs)
+     (match-define [game-state board tiles players] gs)
+     (define board/jsexpr (->jsexpr* board))
+     (define tiles/jsexpr (map ->jsexpr* tiles))
+     (define players/jsexpr (map ->jsexpr* players))
+     (hash 'map     board/jsexpr
+           'tile*   tiles/jsexpr
+           'players players/jsexpr))])
 
 
 ;; ========================================================================================
