@@ -13,19 +13,56 @@ Indicate below each bullet which file/unit takes care of each task:
   - is the referee programmed to the observer's interface
     or is it hardwired?
 
+The referee communicates with the `*obman*` parameter, which contains
+an *observer manager* that implements the `observer<%>` interface. The
+referee only uses methods specified by the `observer<%>` interface,
+but we don't write an explicit constraint on the parameter that its
+value has to implement the interface.
+
+Referee communicating with the observer:
+
+https://github.khoury.northeastern.edu/CS4500-F23/fearless-mice/blob/54be7e079aa77d101ba3327c2b2fba18d3f0c835/Q/Referee/referee.rkt#L77-L79
+
+Observer parameter (note the lack of constraint that `*obman*` is an
+implementation of the `observer<%>` interface):
+
+https://github.khoury.northeastern.edu/CS4500-F23/fearless-mice/blob/54be7e079aa77d101ba3327c2b2fba18d3f0c835/Q/Common/config.rkt#L29-L31
+
   - if an observer is desired, is every state per player turn sent to
     the observer? Where? 
 
+The state after the turn is collected and then sent to the observer
+manager:
+
+https://github.khoury.northeastern.edu/CS4500-F23/fearless-mice/blob/54be7e079aa77d101ba3327c2b2fba18d3f0c835/Q/Referee/referee.rkt#L151-L152
+
   - if an observer is not desired, how does the referee avoid calls to
     the observer?
+    
+__We chose a different design decision__. The referee *does not* avoid
+calls to the observer manager. However, the observer manager manages
+observers that connect to it, dispatching any received game states to
+the observers it manages. So, if an observer is not desired, then the
+observer manager does not have observers, and the referee's calls to
+the observer manager are not directed to any observers.
+
+https://github.khoury.northeastern.edu/CS4500-F23/fearless-mice/blob/54be7e079aa77d101ba3327c2b2fba18d3f0c835/8/xgames-with-observer.rkt#L25-L28
 
 - concerning the implementation of the observer:
 
   - does the purpose statement explain how to program to the
     observer's interface? 
 
+Yes (concisely):
+
+https://github.khoury.northeastern.edu/CS4500-F23/fearless-mice/blob/54be7e079aa77d101ba3327c2b2fba18d3f0c835/Q/Referee/observer.rkt#L19-L30
+
   - does the purpose statement explain how a user would use the
     observer's view? Or is it explained elsewhere? 
+
+It does not. Purpose statement for the concrete visual observer here:
+
+https://github.khoury.northeastern.edu/CS4500-F23/fearless-mice/blob/54be7e079aa77d101ba3327c2b2fba18d3f0c835/Q/Referee/visual-observer.rkt#L15-L17
 
 The ideal feedback for each of these three points is a GitHub
 perma-link to the range of lines in a specific file or a collection of
