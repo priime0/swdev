@@ -1,0 +1,123 @@
+{
+    "map": [
+        [
+            0,
+            [
+                0,
+                {
+                    "color": "red",
+                    "shape": "square"
+                }
+            ]
+        ]
+    ],
+    "players": [
+        {
+            "name": "andrey",
+            "score": 0,
+            "tile*": [
+                {
+                    "color": "orange",
+                    "shape": "star"
+                },
+                {
+                    "color": "blue",
+                    "shape": "circle"
+                },
+                {
+                    "color": "green",
+                    "shape": "8star"
+                },
+                {
+                    "color": "yellow",
+                    "shape": "clover"
+                },
+                {
+                    "color": "purple",
+                    "shape": "diamond"
+                },
+                {
+                    "color": "blue",
+                    "shape": "square"
+                }
+            ]
+        },
+        {
+            "name": "lucas",
+            "score": 0,
+            "tile*": [
+                {
+                    "color": "red",
+                    "shape": "star"
+                },
+                {
+                    "color": "blue",
+                    "shape": "square"
+                },
+                {
+                    "color": "red",
+                    "shape": "square"
+                },
+                {
+                    "color": "red",
+                    "shape": "clover"
+                },
+                {
+                    "color": "red",
+                    "shape": "diamond"
+                },
+                {
+                    "color": "blue",
+                    "shape": "circle"
+                }
+            ]
+        },
+        {
+            "name": "matthias",
+            "score": 0,
+            "tile*": [
+                {
+                    "color": "orange",
+                    "shape": "clover"
+                },
+                {
+                    "color": "blue",
+                    "shape": "clover"
+                },
+                {
+                    "color": "green",
+                    "shape": "diamond"
+                },
+                {
+                    "color": "yellow",
+                    "shape": "star"
+                },
+                {
+                    "color": "purple",
+                    "shape": "circle"
+                },
+                {
+                    "color": "blue",
+                    "shape": "8star"
+                }
+            ]
+        }
+    ],
+    "tile*": []
+}
+[
+    [
+        "andrey",
+        "dag"
+    ],
+    [
+        "lucas",
+        "ldasg"
+    ],
+    [
+        "matthias",
+        "dag",
+        "a cheat",
+        "tile-not-owned"
+    ]
+]

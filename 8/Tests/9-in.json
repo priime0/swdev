@@ -1,0 +1,131 @@
+{
+    "map": [
+        [
+            0,
+            [
+                -1,
+                {
+                    "color": "red",
+                    "shape": "square"
+                }
+            ],
+            [
+                
+                0,
+                {
+                    "color": "red",
+                    "shape": "square"
+                }
+            ]
+            ,[
+                
+                1,
+                {
+                    "color": "red",
+                    "shape": "square"
+                }
+            ]
+        ]
+        ,[
+            -1,
+            [
+                -1,
+                {
+                    "color": "red",
+                    "shape": "square"
+                }
+            ],
+            [
+                0,
+                {
+                    "color": "blue",
+                    "shape": "circle"
+                }
+            ]
+            ,[
+                
+                1,
+                {
+                    "color": "red",
+                    "shape": "square"
+                }
+            ]
+        ]
+    ],
+    "players": [
+        {
+            "name": "andrey",
+            "score": 0,
+            "tile*": [
+                {
+                    "color": "red",
+                    "shape": "square"
+                },
+                {
+                    "color": "blue",
+                    "shape": "star"
+                }
+            ]
+        },
+        {
+            "name": "lucas",
+            "score": 0,
+            "tile*": [
+                {
+                    "color": "orange",
+                    "shape": "8star"
+                }
+            ]
+        },
+        {
+            "name": "matthias",
+            "score": 0,
+            "tile*": [
+                {
+                    "color": "red",
+                    "shape": "square"
+                },
+                {
+                    "color": "red",
+                    "shape": "square"
+                },
+                {
+                    "color": "red",
+                    "shape": "square"
+                },
+                {
+                    "color": "red",
+                    "shape": "square"
+                },
+                {
+                    "color": "red",
+                    "shape": "square"
+                },
+                {
+                    "color": "red",
+                    "shape": "square"
+                }
+            ]
+        }
+    ],
+    "tile*": [
+        
+    ]
+} [
+  [
+    "andrey",
+      "ldasg",
+      "a cheat",
+      "no-fit"
+  ],
+  [
+    "lucas",
+    "ldasg"
+  ],
+  [
+    "matthias",
+    "dag",
+    "a cheat",
+    "no-fit"
+  ]
+]
