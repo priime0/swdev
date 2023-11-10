@@ -65,6 +65,9 @@
        posn?
        axis?
        sequence?)]
+  [open-posns
+   (-> unprotected-board/c
+       (listof posn?))]
   [q-sequence?
    (-> (listof placement?) boolean?)]
   [get-sequences
