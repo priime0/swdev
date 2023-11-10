@@ -96,8 +96,14 @@
 #; {JPlayer -> PlayerState}
 (define (hash->player-state jp)
   (define score (hash-ref jp 'score))
-  (define hand (map hash->tile (hash-ref jp 'tile*)))
-  (player-state score hand #f #f))
+  (define hand (map hash->tile++ (hash-ref jp 'tile*)))
+  (define name
+    (if (hash-has-key? jp 'name)
+        (string->symbol (hash-ref jp 'name))
+        #f))
+  (player-state++ #:score score
+                  #:hand  hand
+                  #:name  name))
 
 
 #; {PlayerState [Listof Tile] -> PlayerState}
