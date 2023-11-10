@@ -430,17 +430,36 @@
 
 ;; ----------------------------------------------------------------------------------------
 
+;; ========================================================================================
+;; UNIT TESTS
+;; ========================================================================================
+
 #; {PrivateState -> Image}
 (define (render-game-state gs)
   (match-define [game-state board tiles players] gs)
+  (define spacing (empty-space 20 20))
   (define states-image
     (for/fold ([img empty-image])
               ([ps players])
       (beside img
               (render-player-state ps)
-              (empty-space 20 20))))
+              spacing)))
   (define board-image (render-board board))
-  (above board-image (empty-space 20 20) states-image))
+  (define tiles+
+    (if (> (length tiles) 6)
+        (take tiles 6)
+        tiles))
+  (define tiles-image (above (text (~a "Tiles left: " (length tiles))
+                                   (/ (*game-size*) 2)
+                                   'black)
+                             (render-tiles tiles+)))
+  (above board-image spacing states-image spacing tiles-image))
+
+
+;; ========================================================================================
+;; UNIT TESTS
+;; ========================================================================================
+
 
 (module+ test
   (require rackunit)
@@ -460,7 +479,7 @@
   (define player-strategy<%> (dynamic-require 'Q/Player/strategy 'player-strategy<%>))
   (define dag% (dynamic-require 'Q/Player/dag 'dag%))
   (define ldasg% (dynamic-require 'Q/Player/ldasg 'ldasg%))
-  
+
   (define tile-set
     (~>> (cartesian-product tile-colors tile-shapes)
          (map (curry apply tile))))

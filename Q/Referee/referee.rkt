@@ -4,7 +4,9 @@
 (require Q/Common/game-state)
 (require Q/Common/player-state)
 (require Q/Common/turn-action)
+(require Q/Common/config)
 (require Q/Common/interfaces/playable)
+(require Q/Referee/observer)
 (require Q/Lib/macros)
 (require Q/Lib/result)
 
@@ -68,11 +70,13 @@
 ;; equal length to the list of player states in the game state.
 (define (play-game playables
                    #:tiles [tiles start-tiles]
-                   #:game-state [gs* (make-game-state playables tiles)])
+                   #:game-state [gs* (make-game-state tiles playables)])
   (define gs (bind-playables gs* playables))
 
   (define game-info0 (setup gs))
+  (send (*obman*) observe (game-info-state game-info0))
   (define game-info1 (run-game game-info0))
+  (send (*obman*) observe (game-info-state game-info1))
   (match-define [game-info priv-state sinners0] game-info1)
 
   (define-values (winners losers) (winners+losers priv-state))
@@ -109,7 +113,7 @@
   (for/fold ([gs^       gs] [sinners   '()]
                             #:result (game-info gs^ (reverse sinners)))
             ([state states])
-    (match-define [player-state _score hand playable] state)
+    (match-define [player-state _score hand _ playable] state)
     (define name           (unwrap-or (send/checked playable name #f) ""))
     (define setup-result   (send/checked playable setup name board hand))
     (define setup-success? (success? setup-result))
@@ -145,6 +149,7 @@
               ([state (game-state-players priv-state)])
       (define playable (player-state-payload state))
       (match-define [cons g-info+ placed?] (run-turn g-info^ playable k))
+      (send (*obman*) observe (game-info-state g-info+))
       (values g-info+ (or placed? any-placed?))))
 
   (if (not placement-made?)
@@ -186,6 +191,7 @@
       (stop-turn (cons (kick-player g-info name k) #f)))
     
     (define action  (success-val turn-result))
+    (println action)
     (define placed? (place? action))
   
     (unless (turn-valid? priv-state action)

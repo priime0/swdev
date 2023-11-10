@@ -15,7 +15,7 @@
 
 (define placements (map hash->placement++ jplacements))
 
-(define pub (game-state b 0 (list (player-state 0 '() #f))))
+(define pub (game-state b 0 (list (make-player-state '()))))
 
 (define score
   (parameterize ([*bonus* 0])
