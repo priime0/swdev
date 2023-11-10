@@ -26,16 +26,16 @@
     ;; one direction to find the first spot that doesn't have any
     ;; neighbors.
     (define/public (first-non-adj-posn start-posn board)
-      (define direction (first directions))
+      (define direction (first direction-names))
       (let loop ([p start-posn])
-        (if (has-adjacent-tiles? board posn)
-            (loop (posn-translate posn direction))
+        (if (has-adjacent-tiles? board p)
+            (loop (posn-translate p direction))
             p)))
-
+    
     (define/public (choose-action pub-state)
       (match-define [game-state board tiles* [cons state others]] pub-state)
       (define hand  (player-state-hand state))
-
+      
       (define open-positions (open-posns board))
       (cond
         [(null? open-positions) (pass)]
@@ -55,8 +55,9 @@
     (define/public (choose-action pub-state)
       (match-define [game-state board tiles* [cons state others]] pub-state)
       (define hand  (player-state-hand state))
-
-      (define not-in-hand-tiles (filter-not (curry member? tile-set) hand))
+      
+      (define not-in-hand-tiles (filter-not (curryr member? hand) tile-set))
+      
       (cond
         [(null? not-in-hand-tiles) (pass)]
         [(pair? not-in-hand-tiles)
@@ -65,7 +66,7 @@
            [#f
             (pass)]
            [(cons t pments)
-            (place (list (first pments)))])]))))
+            (place (list (placement (first pments) t)))])]))))
 
 
 ;; A "not a line" strategy willfuly places a series of placements
@@ -73,7 +74,7 @@
 (define not-a-line%
   (class* object% (player-strategy<%>)
     (super-new)
-
+    
     #; {PublicState [Listof TilePlacement] Continuation}
     ;; Using backtracking, computes a placement that is not along the
     ;; same axis.
@@ -82,7 +83,7 @@
                  (pair? pments)
                  (pair? (cdr pments)))
         (k (place pments)))
-
+      
       (match-define [game-state board tiles* [cons state others]] pub-state)
       (define hand (player-state-hand state))
       (cond
@@ -91,15 +92,15 @@
          (define tile0 (first hand))
          (define possible-posns (valid-tile-placements tile0 board))
          (define possible-placements (map (curryr placement tile0) possible-posns))
-
+         
          (for ([pment possible-placements])
            (define pub-state+ (do-turn/action pub-state (place (list pment))))
            (select-invalid pub-state+ (cons pment pments) k))
-
+         
          (define pub-state+ (game-state board tiles* (cons (remove-from-hand state (list tile0))
                                                            others)))
          (select-invalid pub-state+ pments k)]))
-
+    
     (define/public (choose-action pub-state)
       (define result
         (let/ec return
@@ -127,13 +128,113 @@
     (define/public (choose-action pub-state)
       (match-define [game-state board tiles* [cons state others]] pub-state)
       (define hand (player-state-hand state))
-
+      
       (define open-positions (open-posns board))
       (define maybe-action
         (for*/first ([p open-positions]
                      [t hand]
                      #:when (not (valid-placement? board (placement p t))))
           (placement p t)))
-
+      
       (or (and maybe-action (place (list maybe-action)))
           (pass)))))
+
+(module+ test
+  (require rackunit)
+  
+  (define no-fit1 (new no-fit%))
+  (define bad-xchange1 (new bad-ask-for-tiles%))
+  (define not-line1    (new not-a-line%))
+  (define non-adj-coord1 (new non-adj-coord%))
+  (define tile-not-owned1 (new tile-not-owned%))
+  
+  (define gs1
+    (game-state (make-board (tile 'red 'square))
+                (list (tile 'blue 'square))
+                (list (player-state++ #:hand (list (tile 'purple 'clover)
+                                                   (tile 'green 'square))))))
+  
+  (define gs2
+    (game-state (make-board (tile 'red 'square))
+                (list (tile 'blue 'square)
+                      (tile 'red 'clover))
+                (list (player-state++ #:hand (list (tile 'purple 'clover)
+                                                   (tile 'green 'square))))))
+  (define gs3
+    (game-state (make-board (tile 'red 'square))
+                (list (tile 'blue 'square)
+                      (tile 'red 'clover))
+                (list (player-state++ #:hand tile-set))))
+
+  (define gs4
+    (game-state (make-board (tile 'red 'square))
+                (list (tile 'blue 'square)
+                      (tile 'red 'clover))
+                (list (player-state++ #:hand (list (tile 'green 'square)))))))
+
+(module+ test
+  
+  (test-equal?
+   "bad ask for tiles correctly produces an exchange"
+   (send bad-xchange1 choose-action (priv-state->pub-state gs1))
+   (exchange))
+  
+  (test-false
+   "bad ask for tiles exchange is invalid"
+   (turn-valid? gs1 (exchange)))
+  
+  (test-equal?
+   "if bad ask for tiles cant cheat, it produces a pass"
+   (send bad-xchange1 choose-action (priv-state->pub-state gs2))
+   (pass))
+  
+  (test-equal?
+   "non adjacent coord picks a placement that is up"
+   (send non-adj-coord1 choose-action (priv-state->pub-state gs1))
+   (place (list (placement (posn -2 0) (tile 'purple 'clover)))))
+  
+  (test-false
+   "non adjacent coord picks a placement which is invalid"
+   (turn-valid? gs1
+                (send non-adj-coord1 choose-action (priv-state->pub-state gs1))))
+  
+  
+  (test-equal?
+   "not-owned tile strategy tries to place a tile that it doesnt own"
+   (send tile-not-owned1 choose-action (priv-state->pub-state gs1))
+   (place (list (placement (posn -1 0) (tile 'red 'star)))))
+  
+  (test-false
+   "not owned tile strategy produces an invalid move if it can"
+   (turn-valid? gs1 (send tile-not-owned1 choose-action (priv-state->pub-state gs1))))
+  
+  (test-equal?
+   "not owned tile passes if it cant find an invalid move"
+   (send tile-not-owned1 choose-action (priv-state->pub-state gs3))
+   (pass))
+
+  (test-equal?
+   "no fit strategy places a tile so the neighbors dont match"
+   (send no-fit1 choose-action (priv-state->pub-state gs1))
+   (place (list (placement (posn -1 0) (tile 'purple 'clover)))))
+
+  (test-false
+   "no fit strategy produces an invalid move"
+   (turn-valid? gs1 (send no-fit1 choose-action (priv-state->pub-state gs1))))
+
+  (test-equal?
+   "if there are only valid moves, no fit will pass"
+   (send no-fit1 choose-action (priv-state->pub-state gs4))
+   (pass))
+
+  (test-equal?)
+
+  
+  
+  )
+
+
+
+
+
+
