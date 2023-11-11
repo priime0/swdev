@@ -25,25 +25,25 @@
     ;; Starting from the given position on this board, translate in
     ;; one direction to find the first spot that doesn't have any
     ;; neighbors.
-    (define/public (first-non-adj-posn start-posn board)
+    ;; generative: generates a posn that has no adjacent tiles on the given board.
+    ;; terminates: the map is finite and posns are infinite, so there will always
+    ;;             be such a position that can be produced by translating in one direction.
+    (define/public (first-non-adj-posn p board)
       (define direction (first direction-names))
-      (let loop ([p start-posn])
-        (if (has-adjacent-tiles? board p)
-            (loop (posn-translate p direction))
-            p)))
+      (cond
+        [(not (has-adjacent-tiles? board p)) p]
+        [else
+         (define next-posn (posn-translate p direction))
+         (send this first-non-adj-posn next-posn board)]))
     
     (define/public (choose-action pub-state)
       (match-define [game-state board tiles* [cons state others]] pub-state)
       (define hand  (player-state-hand state))
-      
+
       (define open-positions (open-posns board))
-      (cond
-        [(null? open-positions) (pass)]
-        [(null? hand)           (pass)] ;; should never happen
-        [else
-         (define start-pos   (first open-positions))
-         (define pos         (send this first-non-adj-posn start-pos board))
-         (place (list (placement pos (first hand))))]))))
+      (define start-pos      (first open-positions))
+      (define pos            (send this first-non-adj-posn start-pos board))
+      (place (list (placement pos (first hand)))))))
 
 
 ;; A "tile-not-owned" strategy will willfuly produce an invalid
