@@ -8,25 +8,33 @@
 
 (provide hash->strategy++)
 
-#; {JSExpr -> Strategy}
+#; {JSExpr JCheat -> Strategy}
 (define (hash->strategy++ h [cheat #f])
-  (define base-strat
-    (match h
-      ["dag"   (new iterative% [strategy (new dag%)])]
-      ["ldasg" (new iterative% [strategy (new ldasg%)])]))
+  (define base-strat (jstrategy->strategy h))
   (cond
     [cheat
-     (define cheat-strat
-       (match cheat
-         ["non-adjacent-coordinate"
-          (new non-adj-coord%)]
-         ["tile-not-owned"
-          (new tile-not-owned%)]
-         ["not-a-line"
-          (new not-a-line%)]
-         ["bad-ask-for-tiles"
-          (new bad-ask-for-tiles%)]
-         ["no-fit"
-          (new no-fit%)]))
+     (define cheat-strat (jcheat->strategy cheat))
      (new compound% [strategy0 cheat-strat] [strategy1 base-strat])]
     [else base-strat]))
+
+#; {JStrategy -> Strategy}
+;; Deserializes a JStrategy into a PlayerStrategy
+(define (jstrategy->strategy jstrategy)
+  (match jstrategy
+    ["dag"   (new iterative% [strategy (new dag%)])]
+    ["ldasg" (new iterative% [strategy (new ldasg%)])]))
+
+#; {JCheat -> Strategy}
+;; Converts a JCheat into the corresponding cheating strategy.
+(define (jcheat->strategy jcheat)
+  (match jcheat
+    ["non-adjacent-coordinate"
+     (new non-adj-coord%)]
+    ["tile-not-owned"
+     (new tile-not-owned%)]
+    ["not-a-line"
+     (new not-a-line%)]
+    ["bad-ask-for-tiles"
+     (new bad-ask-for-tiles%)]
+    ["no-fit"
+     (new no-fit%)]))
