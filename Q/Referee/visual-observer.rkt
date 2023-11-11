@@ -15,6 +15,10 @@
 
 (provide default-observer%)
 
+;; ========================================================================================
+;; DATA DEFINITIONS
+;; ========================================================================================
+
 #; {class DefaultObserver}
 ;; A DefaultObserver represents a concrete implementation of the Observer interface which collects
 ;; a list of game states and displays them in an interactive program when the game has ended.
@@ -49,55 +53,22 @@
         ;; Represents the current state to observe and graphically render.
         (define @index (@ 0))
 
-
-        ;; Go to the previous state if possible.
-        (define (previous)
-          (:= @index (max 0 (sub1 (obs-peek @index)))))
-        ;; Go to the next state if possible.
-        (define (next)
-          (:= @index (min (sub1 (gvector-count states))
-                          (add1 (obs-peek @index)))))
-        ;; Render the index of the current state.
-        (define render-index
-          (@index . ~> . (curry format "index: ~a")))
-        ;;
-        (define image-path
-          (@index . ~> . (curry format "Tmp/~a.png")))
-        ;; Save the current game state as JSON.
-        (define (save)
-          (define state (gvector-ref states (obs-peek @index)))
-          (define state/jsexpr (serialize state))
-          (define file-target (put-file))
-          (call-with-output-file file-target
-            (curry displayln state/jsexpr)))
-
-        ;; game state interaction panel
-        (define decrement-button (button "-" previous))
-        (define increment-button (button "+" next))
-        (define text-field (text render-index))
-        (define gs-panel (hpanel decrement-button text-field increment-button
-                                 #:alignment '(center center)
-                                 #:margin '(10 10)))
-
-        ;; image panel
-        (define img-container (image image-path))
-        (define image-panel (hpanel img-container
-                                    #:margin '(10 10)))
-
-        ;; file interaction panel
-        (define save-button (button "Save" save))
-        (define input-panel (hpanel save-button
-                                    #:alignment '(center center)
-                                    #:margin '(10 10)))
+        (define gs-panel    (make-game-state-panel states @index))
+        (define image-panel (make-image-panel             @index))
+        (define input-panel (make-input-panel      states @index))
 
         (define main-window
           (window gs-panel image-panel input-panel
-                  #:alignment '(center center)))
+                  #:alignment alignment/center))
 
         (render main-window)
         (void)))
       (void))))
 
+
+;; ========================================================================================
+;; OBSERVER FILE INTERACTIONS
+;; ========================================================================================
 
 #; {Natural -> Void}
 ;; Ensure that the directory exists in the current directory.
@@ -118,6 +89,79 @@
   (save-image img img-path)
   (void))
 
+
+#; {[GVectorof PrivateState] [Observableof Natural] -> Void}
+;; Save the state at the given observable's index to the filepath the
+;; user enters in the dialog.
+(define (save states @index)
+  (define state (gvector-ref states (obs-peek @index)))
+  (define state/jsexpr (serialize state))
+  (define file-target (put-file))
+  (when file-target
+    (call-with-output-file file-target
+      (curry displayln state/jsexpr))))
+
+
+;; ========================================================================================
+;; OBSERVER COMPONENTS
+;; ========================================================================================
+
+(define alignment/center '(center center))
+(define margin/center    '(10 10))
+
+#; {[GVectorof PrivateState] [Observableof Natural] -> View}
+;; Make the panel for viewing and manipulating the index representing
+;; the current game state.
+(define (make-game-state-panel states @index)
+  ;; Go to the previous state if possible.
+  (define (previous)
+    (:= @index (max 0 (sub1 (obs-peek @index)))))
+
+  ;; Go to the next state if possible.
+  (define (next)
+    (define states-len (gvector-count states))
+    (:= @index (min (sub1 states-len)
+                    (add1 (obs-peek @index)))))
+
+  ;; Make the text label that indicates the index of the current game state.
+  (define (make-index-label)
+    (define @rendered-index
+      (@index . ~> . (curry format "index: ~a")))
+    (text @rendered-index))
+
+  ;; game state interaction panel
+  (define decrement-button (button "-" previous))
+  (define increment-button (button "+" next))
+  (define index-label (make-index-label))
+  (hpanel decrement-button index-label increment-button
+          #:alignment alignment/center
+          #:margin    margin/center))
+
+
+#; {[Observableof Natural] -> View}
+;; Make the panel that views the current game state image.
+(define (make-image-panel @index)
+  (define (make-state-image @index)
+    (define @image-path
+      (@index . ~> . (curry format "Tmp/~a.png")))
+    (image @image-path))
+
+  (define img-container (make-state-image @index))
+  (hpanel img-container #:margin margin/center))
+
+
+#; {[GVectorof PrivateState] [Observableof Natural] -> View}
+;; Make the panel that views the current game state image.
+(define (make-input-panel states @index)
+  (define save-button (button "Save" (thunk (save states @index))))
+  (hpanel save-button
+          #:alignment alignment/center
+          #:margin margin/center))
+
+
+;; ========================================================================================
+;; UNIT TESTS
+;; ========================================================================================
 
 
 (module+ test
