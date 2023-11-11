@@ -13,11 +13,11 @@
 (define (main) (define jmap (read-json))
   (define jplacements (read-json))
 
-  (define b (hash->board jmap))
+  (define b (hash->board++ jmap))
 
-  (define placements (map hash->placement jplacements))
+  (define placements (map hash->placement++ jplacements))
 
-  (define pub (game-state b 0 (list (make-player-state '()))))
+  (define pub (game-state b 0 (list (make-player-state '() #f))))
 
   (define score
     (parameterize ([*bonus* 0])
