@@ -12,11 +12,7 @@
 ;; board.
 (define dag%
   (class* greedy-select-strategy% (player-strategy<%>)
-    (super-new)
-
-    (define/override (get-compare-accessor-list _pub-state)
-      (list (cons < posn-row)
-            (cons < posn-column)))))
+    (super-new)))
 
 
 (module+ test

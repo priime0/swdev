@@ -62,10 +62,10 @@
         [(pair? not-in-hand-tiles)
          (define maybe-pment (choose-tile not-in-hand-tiles board))
          (match maybe-pment
-           [#f
-            (pass)]
            [(cons t pments)
-            (place (list (placement (first pments) t)))])]))))
+            ((place (list (placement (first pments) t))))]
+           [#f
+            (pass)])]))))
 
 
 ;; A "not a line" strategy willfuly places a series of placements

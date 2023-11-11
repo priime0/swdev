@@ -8,6 +8,8 @@
 (require Q/Player/strategy)
 (require Q/Player/dag)
 
+(require Q/Common/posn)
+
 (provide ldasg%)
 
 ;; The "less dumb and still greedy" strategy selects the smallest placeable tile from the player's
@@ -17,10 +19,11 @@
   (class* dag% (player-strategy<%>)
     (super-new)
 
-    (define/override (get-compare-accessor-list pub-state)
-      (match-define [game-state board _ _] pub-state)
-      (cons (cons > (lambda~>> (adjacent-tiles board) length))
-            (super get-compare-accessor-list pub-state)))))
+    (define/override (smallest-posn posns board)
+      (define lexico-posns (sort posns posn<?))
+      (define most-constrained (sort lexico-posns <
+                                     #:key (lambda (p) (length (adjacent-tiles board p)))))
+      (first most-constrained))))
 
 (module+ test
   (require rackunit)
