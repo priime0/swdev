@@ -7,6 +7,7 @@
 (require Q/Player/player)
 (require Q/Referee/referee)
 (require Q/Referee/observer)
+(require Q/Referee/visual-observer)
 (require Q/Lib/json)
 
 (provide main)
