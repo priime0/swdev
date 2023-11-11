@@ -38,8 +38,7 @@
     
     (define/public (choose-action pub-state)
       (match-define [game-state board tiles* [cons state others]] pub-state)
-      (define hand  (player-state-hand state))
-
+      (define hand           (player-state-hand state))
       (define open-positions (open-posns board))
       (define start-pos      (first open-positions))
       (define pos            (send this first-non-adj-posn start-pos board))
