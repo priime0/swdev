@@ -4,7 +4,7 @@
 (require threading)
 (require racket/sandbox)
 
-(define dirs '("3"  "4" "5" "6" "7"))
+(define dirs '("3" "4" "5" "6" "7" "8"))
 
 (define root-directory (build-path (current-directory) 'up 'up))
 
@@ -35,7 +35,7 @@
   (define expected-port (open-input-file output-file))
   (define expected (read-json expected-port))
   (close-input-port expected-port)
-  
+
 
   (parameterize ([current-input-port in-port]
                  [current-output-port out-port])
@@ -44,8 +44,9 @@
 
   (close-input-port in-port)
   (define output-string (get-output-string out-port))
+  (close-output-port out-port)
   (define actual-output (read-json (open-input-string output-string)))
-  
+
   (cond
     [(equal? expected actual-output)
      #t]
