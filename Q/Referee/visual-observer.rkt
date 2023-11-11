@@ -57,9 +57,12 @@
         (define image-panel (make-image-panel             @index))
         (define input-panel (make-input-panel      states @index))
 
+        (define window-size '(1000 800))
+
         (define main-window
           (window gs-panel image-panel input-panel
-                  #:alignment alignment/center))
+                  #:alignment alignment/center
+                  #:size      window-size))
 
         (render main-window)
         (void)))
@@ -147,7 +150,11 @@
     (image @image-path))
 
   (define img-container (make-state-image @index))
-  (hpanel img-container #:margin margin/center))
+  (define container-size '(800 600))
+  (hpanel img-container
+          #:margin  margin/center
+          #:style   '(hscroll vscroll)
+          #:min-size container-size))
 
 
 #; {[GVectorof PrivateState] [Observableof Natural] -> View}
