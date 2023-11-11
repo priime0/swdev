@@ -2,9 +2,9 @@
 
 (require json)
 (require threading)
-(require racket/place/distributed)
+(require racket/sandbox)
 
-(define dirs '("7"))
+(define dirs '("3"  "4" "5" "6" "7"))
 
 (define root-directory (build-path (current-directory) 'up 'up))
 
@@ -31,48 +31,33 @@
 
 (define (run-script-for-tests script input-file output-file)
   (define in-port (open-input-file input-file))
+  (define out-port (open-output-string))
   (define expected-port (open-input-file output-file))
   (define expected (read-json expected-port))
   (close-input-port expected-port)
   
-  #;(define command (racket-path))
-  (define script-file (path->string script))
-  
-  (define-values (s result-port op err-port)
-    (subprocess #f in-port #f script script-file))
-  (subprocess-wait s)
-  
+
+  (parameterize ([current-input-port in-port]
+                 [current-output-port out-port])
+    (with-handlers ([exn:fail? (lambda (e) (raise e))])
+      ((dynamic-require (make-resolved-module-path script) 'main))))
+
   (close-input-port in-port)
-
-
-  (define result
-    (let/ec return
-      (unless (zero? (subprocess-status s))
-        (displayln "ERRORED")
-        (display "test: ")
-        (println input-file)
-        (displayln "error:")
-        (displayln (port->string err-port))
-        (return #f))
-
-      (define result (read-json result-port))
-      (unless (equal? expected result)
-        (displayln "DIFFERENT OUTPUT")
-        (display "test: ")
-        (println input-file)
-        (displayln "expected:")
-        (println expected)
-        (displayln "received:")
-        (println result)
-        (return #f))
-
-      #t))
-
-  (close-input-port result-port)
-  (when op (close-output-port op))
-  (close-input-port err-port)
-
-  result)
+  (define output-string (get-output-string out-port))
+  (define actual-output (read-json (open-input-string output-string)))
+  
+  (cond
+    [(equal? expected actual-output)
+     #t]
+    [else
+     (displayln "DIFFERENT OUTPUT")
+     (display "test: ")
+     (println input-file)
+     (displayln "expected:")
+     (println expected)
+     (displayln "received:")
+     (println actual-output)
+     #f]))
 
 (define (run-test-dir script inputs outputs)
   (for/fold ([passed 0]
@@ -101,10 +86,9 @@
 
     (define script
       (for/first ([file-path (directory-list test-dir)]
-                  #:when (string-suffix? (path->string file-path) "xgames"))
+                  #:when (string-suffix? (path->string file-path) ".rkt"))
         (simplify-path (build-path test-dir file-path))))
 
-    (println script)
     (define group-test-dir (simplify-path (build-path test-dir "Tests")))
 
     (define inputs1  (filter-input-files group-test-dir))
@@ -112,6 +96,7 @@
 
     (define-values (passed+ failed+ total+)
       (run-test-dir script inputs1 outputs1))
+
 
     (set! passed* (+ passed* passed+))
     (set! failed* (+ failed* failed+))
@@ -127,8 +112,7 @@
           (cons "staff-tests"
            (~>> (build-path test-dir "grade")
                 directory-list
-                (filter (compose string-numeric? path->string)))
-                ))
+                (filter (compose string-numeric? path->string)))))
 
         (for ([other-dir other-test-dirs])
           (define other-test-dir (simplify-path (build-path test-dir "grade" other-dir)))

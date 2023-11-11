@@ -7,22 +7,30 @@
 (require Q/Common/game-state)
 (require Q/Common/interfaces/serializable)
 
-(define jpub        (read-json (current-input-port)))
-(define jplacements (read-json (current-input-port)))
+(provide main)
 
-(define pub (hash->pub-state jpub))
-(define placements (map hash->placement++ jplacements))
+(define (main)
+  (define jpub        (read-json (current-input-port)))
+  (define jplacements (read-json (current-input-port)))
 
-(unless (turn-valid? pub (place placements))
-  (write-json #f)
+  (define pub (hash->pub-state jpub))
+  (define placements (map hash->placement jplacements))
+
+  (unless (turn-valid? pub (place placements))
+    (write-json #f)
+    (displayln "")
+    (flush-output)
+    (exit))
+
+  (define b+ (game-state-board (do-turn/action pub (place placements))))
+
+  (define out-json (->jsexpr b+))
+
+  (write-json out-json (current-output-port))
   (displayln "")
-  (flush-output)
-  (exit))
+  (flush-output))
 
-(define b+ (game-state-board (do-turn/action pub (place placements))))
+(module+ main
+  (main))
 
-(define out-json (->jsexpr b+))
 
-(write-json out-json (current-output-port))
-(displayln "")
-(flush-output)

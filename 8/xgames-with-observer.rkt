@@ -9,8 +9,9 @@
 (require Q/Referee/observer)
 (require Q/Lib/json)
 
+(provide main)
 
-(module+ main
+(define (main)
   (define show (make-parameter #f))
   (command-line
    #:once-each
@@ -34,3 +35,6 @@
   (define sorted-winners (sort winners string<=?))
 
   (json-write+flush (list sorted-winners sinners)))
+
+(module+ main
+  (main))

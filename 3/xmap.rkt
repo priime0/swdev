@@ -8,26 +8,32 @@
 (require Q/Common/tile)
 (require Q/Common/posn)
 
-(define jboard (read-json (current-input-port)))
-(define jtile  (read-json (current-input-port)))
+(provide main)
 
-(define board            (hash->board++ jboard))
-(define tile             (hash->tile++ jtile))
-(define valid-placements (valid-tile-placements tile board))
+(define (main)
+  (define jboard (read-json (current-input-port)))
+  (define jtile  (read-json (current-input-port)))
 
-(define (sort^ lst extract-key)
-  (sort lst < #:key extract-key))
+  (define board            (hash->board jboard))
+  (define tile             (hash->tile jtile))
+  (define valid-placements (valid-tile-placements tile board))
 
-(define sorted-placements
-  (~> valid-placements
-      (sort^ posn-column)
-      (sort^ posn-row)))
+  (define (sort^ lst extract-key)
+    (sort lst < #:key extract-key))
 
-(define (posn->hash p)
-  (struct->hash posn p))
+  (define sorted-placements
+    (~> valid-placements
+        (sort^ posn-column)
+        (sort^ posn-row)))
 
-(define out-json (map posn->hash sorted-placements))
+  (define (posn->hash p)
+    (struct->hash posn p))
 
-(write-json out-json (current-output-port))
-(displayln "")
-(flush-output)
+  (define out-json (map posn->hash sorted-placements))
+
+  (write-json out-json (current-output-port))
+  (displayln "")
+  (flush-output))
+
+(module+ main
+  (main))
