@@ -6,10 +6,12 @@
 (require Q/Common/config)
 (require Q/Player/player)
 (require Q/Referee/referee)
+(require Q/Referee/observer)
 (require Q/Lib/json)
 
+(provide main)
 
-(module+ main
+(define (main)
   (define show (make-parameter #f))
   (command-line
    #:once-each
@@ -22,18 +24,17 @@
   (define start-state (hash->priv-state jstate))
   (define players (map hash->player++ jactors))
 
-  (when (show)
-    (define default-observer% (dynamic-require 'Q/Referee/visual-observer
-                                               'default-observer%))
-    (send (*obman*) connect (new default-observer%)))
+  (if (show)
+      (send (*obman*) connect (new default-observer%))
+      (void))
 
-  (define result
-    (parameterize ([*bonus* 4]
-                   [*points-per-q* 8])
-      (play-game players #:game-state start-state)))
+  (define result (play-game players #:game-state start-state))
   (define winners (first result))
   (define sinners (second result))
 
   (define sorted-winners (sort winners string<=?))
 
   (json-write+flush (list sorted-winners sinners)))
+
+(module+ main
+  (main))

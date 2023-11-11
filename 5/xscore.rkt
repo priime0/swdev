@@ -8,18 +8,23 @@
 (require Q/Common/player-state)
 (require Q/Common/config)
 
-(define jmap (read-json))
-(define jplacements (read-json))
+(provide main)
 
-(define b (hash->board++ jmap))
+(define (main) (define jmap (read-json))
+  (define jplacements (read-json))
 
-(define placements (map hash->placement++ jplacements))
+  (define b (hash->board jmap))
 
-(define pub (game-state b 0 (list (make-player-state '()))))
+  (define placements (map hash->placement jplacements))
 
-(define score
-  (parameterize ([*bonus* 0])
-    (do-turn/score pub (place placements))))
-(write-json score)
-(displayln "")
-(flush-output)
+  (define pub (game-state b 0 (list (make-player-state '()))))
+
+  (define score
+    (parameterize ([*bonus* 0])
+      (do-turn/score pub (place placements))))
+  (write-json score)
+  (displayln "")
+  (flush-output))
+
+(module+ main
+  (main))
