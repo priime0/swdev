@@ -17,7 +17,7 @@
     (define jplacements (read-json (current-input-port)))
 
     (define pub (hash->pub-state jpub))
-    (define placements (map hash->placement jplacements))
+    (define placements (map hash->placement++ jplacements))
 
     (unless (turn-valid? pub (place placements))
       (json-write+flush #f)

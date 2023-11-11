@@ -14,8 +14,8 @@
   (define jboard (read-json (current-input-port)))
   (define jtile  (read-json (current-input-port)))
 
-  (define board            (hash->board jboard))
-  (define tile             (hash->tile jtile))
+  (define board            (hash->board++ jboard))
+  (define tile             (hash->tile++ jtile))
   (define valid-placements (valid-tile-placements tile board))
 
   (define (sort^ lst extract-key)
