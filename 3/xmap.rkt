@@ -18,13 +18,9 @@
   (define tile             (hash->tile++ jtile))
   (define valid-placements (valid-tile-placements tile board))
 
-  (define (sort^ lst extract-key)
-    (sort lst < #:key extract-key))
-
   (define sorted-placements
     (~> valid-placements
-        (sort^ posn-column)
-        (sort^ posn-row)))
+        (sort _ posn<?)))
 
   (define (posn->hash p)
     (struct->hash posn p))
