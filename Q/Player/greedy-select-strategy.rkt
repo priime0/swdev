@@ -24,28 +24,32 @@
           (exchange)
           (pass)))
 
-    #; {PublicState -> TilePlacement}
+    #; {[Listof Tile] Board -> [Maybe TilePlacement]}
     ;; Choose this strategy's preferred, smallest placement possible
-    ;; in the given public state
-    (define/public (smallest-placement pub-state)
-      (match-define [game-state board tiles* [cons state others]] pub-state)
-      (define hand (player-state-hand state))
-      (define sorted-tiles (sort hand tile<))
+    ;; in the given board with the given hand.
+    (define/public (smallest-placement hand board)
+      (define sorted-tiles (send this rank-tiles hand board))
       (for/first ([t (in-list sorted-tiles)]
-                  #:do [(define posns (valid-tile-placements t board))]
-                  #:when (pair? posns))
-        (placement (send this smallest-posn posns board) t)))
+                  #:do [(define posns (valid-tile-placements t board))
+                        (define sorted-posns (send this rank-posns posns board))]
+                  #:when (pair? sorted-posns))
+        (placement (first sorted-posns) t)))
 
-    #; {[Listof Posn] Board -> Posn}
-    ;; Chooses this strategy's preferred posn on the board out of the
-    ;; given list of posns.
-    (define/public (smallest-posn posns board)
-      (define sorted-posns (sort posns posn<?))
-      (first sorted-posns))
+    #; {[Listof Tile] Board -> [Listof Tile]}
+    ;; Rank the tiles in hand according to this strategy's tile preference.
+    (define/public (rank-tiles hand board)
+      (sort hand tile<))
+
+    #; {[Listof Posn] Board -> [Listof Posn]}
+    ;; Rank this strategy's preferred positions in lexicographic order.
+    (define/public (rank-posns posns board)
+      (sort posns posn<?))
 
     #; {TurnInfo -> TurnAction}
     (define/public (choose-action pub-state)
-      (define maybe-pment (send this smallest-placement pub-state))
+      (match-define [game-state board _ [cons state _]] pub-state)
+      (define hand (player-state-hand state))
+      (define maybe-pment (send this smallest-placement hand board))
       (if maybe-pment
           (place (list maybe-pment))
           (send this pass-or-exchange pub-state)))))

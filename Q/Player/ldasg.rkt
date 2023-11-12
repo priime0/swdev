@@ -19,11 +19,10 @@
   (class* dag% (player-strategy<%>)
     (super-new)
 
-    (define/override (smallest-posn posns board)
-      (define lexico-posns (sort posns posn<?))
-      (define most-constrained (sort lexico-posns <
-                                     #:key (lambda (p) (length (adjacent-tiles board p)))))
-      (first most-constrained))))
+    (define/override (rank-posns posns board)
+      (define lexico-posns (super rank-posns posns board))
+      (sort lexico-posns <
+            #:key (lambda (p) (length (adjacent-tiles board p)))))))
 
 (module+ test
   (require rackunit)

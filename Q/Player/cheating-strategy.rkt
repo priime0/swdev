@@ -12,6 +12,7 @@
 
 (require Q/Player/strategy)
 (require Q/Player/dag)
+(require Q/Player/greedy-select-strategy)
 
 (provide (all-defined-out))
 
@@ -49,23 +50,19 @@
 ;; placement. Specifically, it will choose a tile not in its hand and
 ;; place it in a valid spot on the board.
 (define tile-not-owned%
-  (class* object% (player-strategy<%>)
+  (class* greedy-select-strategy% (player-strategy<%>)
     (super-new)
-    (define/public (choose-action pub-state)
-      (match-define [game-state board tiles* [cons state others]] pub-state)
+    (inherit/super smallest-placement)
+
+    (define/override (choose-action pub-state)
+      (match-define [game-state board _ [cons state _]] pub-state)
       (define hand  (player-state-hand state))
-      
       (define not-in-hand-tiles (filter-not (curryr member? hand) tile-set))
-      
-      (cond
-        [(null? not-in-hand-tiles) (pass)]
-        [(pair? not-in-hand-tiles)
-         (define maybe-pment (choose-tile not-in-hand-tiles board))
-         (match maybe-pment
-           [(cons t pments)
-            ((place (list (placement (first pments) t))))]
-           [#f
-            (pass)])]))))
+
+      (define maybe-pment (super smallest-placement not-in-hand-tiles board))
+      (if maybe-pment
+          (place (list maybe-pment))
+          (pass)))))
 
 
 ;; A "not a line" strategy willfuly places a series of placements
