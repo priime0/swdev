@@ -71,36 +71,31 @@
   (class* object% (player-strategy<%>)
     (super-new)
     
-    #; {PublicState [Listof TilePlacement] Continuation}
+    #; {PublicState [Listof TilePlacement] Continuation -> (U Void
+                                                              TurnAction)}
     ;; Using backtracking, computes a placement that is not along the
-    ;; same axis.
+    ;; same axis, returning when it finds one with the given
+    ;; continuation. 
     (define/public (select-invalid pub-state pments k)
-      (when (and (not (same-axis? (map placement-posn pments)))
-                 (pair? pments)
-                 (pair? (cdr pments)))
+      (when (not (same-axis? (map placement-posn pments)))
         (k (place pments)))
-      
-      (match-define [game-state board tiles* [cons state others]] pub-state)
+
+      (match-define [game-state board _ [cons state _]] pub-state)
       (define hand (player-state-hand state))
-      (cond
-        [(null? hand) (void)]
-        [(pair? hand)
-         (define tile0 (first hand))
-         (define possible-posns (valid-tile-placements tile0 board))
-         (define possible-placements (map (curryr placement tile0) possible-posns))
-         
-         (for ([pment possible-placements])
-           (define pub-state+ (do-turn/action pub-state (place (list pment))))
-           (select-invalid pub-state+ (cons pment pments) k))
-         
-         (define pub-state+ (game-state board tiles* (cons (remove-from-hand state (list tile0))
-                                                           others)))
-         (select-invalid pub-state+ pments k)]))
-    
+      (when (pair? hand)
+        (define tile0 (first hand))
+        (~>> tile0
+             (valid-tile-placements _ board)
+             (map (curryr placement tile0))
+             (for-each (lambda (pment)
+                         (define pub-state+ (do-turn/action pub-state (place (list pment))))
+                         (select-invalid pub-state+ (cons pment pments) k))))))
+
     (define/public (choose-action pub-state)
       (define result
         (let/ec return
           (send this select-invalid pub-state '() return)))
+
       (if (void? result)
           (pass)
           result))))

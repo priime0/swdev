@@ -12,4 +12,4 @@
        image?)]))
 
 (define (empty-space width height)
-  (rectangle width height 'solid (*background-color*)))
+  (rectangle width height 0 (*background-color*)))
