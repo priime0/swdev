@@ -29,13 +29,15 @@
   [has-adjacent-tiles? (-> unprotected-board/c posn? boolean?)]
   [tile-at (-> unprotected-board/c posn? (or/c tile? #f))]
   [valid-placement?
-   (-> unprotected-board/c
-       placement?
-       boolean?)]
+   (->* (unprotected-board/c
+         placement?)
+        ((-> unprotected-board/c placement? boolean?))
+        boolean?)]
   [valid-placements?
-   (-> unprotected-board/c
-       (listof placement?)
-       boolean?)]
+   (->* (unprotected-board/c
+         (listof placement?))
+        ((-> unprotected-board/c placement? boolean?))
+        boolean?)]
   [add-tiles
    (->i ([b unprotected-board/c] [pments (listof placement?)])
         #:pre/name (b pments)
@@ -56,10 +58,11 @@
    (-> unprotected-board/c
        posn?
        (listof tile?))]
-  [valid-tile-placements
-   (-> tile?
-       unprotected-board/c
-       (listof posn?))]
+  [posns-for-tile
+   (->* (tile?
+         unprotected-board/c)
+        ((-> unprotected-board/c placement? boolean?))
+        (listof posn?))]
   [collect-sequence
    (-> unprotected-board/c
        posn?
@@ -220,12 +223,13 @@
   (apply-map add-tile+ board))
 
 
-#; {Tile Board -> [Listof Posn]}
-;; Produce a list of placements (posns) that are valid for this tile on the given board.
-(define (valid-tile-placements tile board)
+#; {Tile Board (Board TilePlacement -> Boolean) -> [Listof Posn]}
+;; Produce a list of placements (posns) that are valid for this tile on the given board,
+;; using the given matching predicate
+(define (posns-for-tile tile board [matching-proc q-matching-rule])
   (~>> (open-posns board)
        (map (curryr placement tile))
-       (filter (curry valid-placement? board))
+       (filter (lambda (pment) (valid-placement? board pment matching-proc)))
        (map placement-posn)))
 
 #; {Tile [Listof Tile] -> Boolean}
@@ -235,40 +239,44 @@
   ((disjoin tiles-equal-color? tiles-equal-shape?)
    (cons tile tiles)))
 
-
-#; {Board TilePlacement -> Boolean}
-;; Is the given placement valid in the game of Q?
-;; A valid Q position is one where the left and right adjacent tiles, if any, share the same shape
-;; or (inclusive) the same color, and the up and down adjacent tiles, if any, share the same shape
-;; or (inclusive) same color.
-(define (valid-placement? board pment)
-  (match-define [placement posn tile] pment)
+#; {Board Placement -> Boolean}
+;; Is the given placement valid on the given board in the game of Q?
+(define (q-matching-rule board pment)
+  (match-define [placement p t] pment)
   #; {[Listof Direction] -> [Listof Tile]}
   ;; Gets the existing tiles in the given directions.
   (define (adjacent-tiles dirs)
     (define tile-at^          (curry tile-at board))
-    (define target-neighbors  (curry posn-neighbors/dirs posn))
+    (define target-neighbors  (curry posn-neighbors/dirs p))
     (filter-map tile-at^      (target-neighbors dirs)))
-  
+
   (define row-adjacent-tiles (adjacent-tiles horizontal-axis))
   (define col-adjacent-tiles (adjacent-tiles vertical-axis))
 
-  (define/lazy empty-tile?     (not (tile-at board posn)))
-  (define/lazy adjacent-tiles? (has-adjacent-tiles? board posn))
-  (define/lazy matches-neighbors?
-    (andmap (curry valid-tile-sequence? tile)
-            (list row-adjacent-tiles col-adjacent-tiles)))
-  
-  (and empty-tile? adjacent-tiles? matches-neighbors?))
+  (andmap (curry valid-tile-sequence? t)
+          (list row-adjacent-tiles col-adjacent-tiles)))
 
-#; {Board [Listof TilePlacement] -> Boolean}
+
+#; {Board TilePlacement (Board TilePlacement -> Boolean) -> Boolean}
+;; Is the given placement valid for the given rule?
+(define (valid-placement? board pment [matching-proc q-matching-rule])
+  (match-define [placement p _t] pment)
+ 
+  (define empty-tile?     (not (tile-at board p)))
+  (define adjacent-tiles? (has-adjacent-tiles? board p))
+  
+  (and empty-tile?
+       adjacent-tiles?
+       (matching-proc board pment)))
+
+#; {Board [Listof TilePlacement] (Board TilePlacement -> Boolean) -> Boolean}
 ;; Is the given sequence of placements valid on this board? 
-(define (valid-placements? board placements)
+(define (valid-placements? board placements [matching-proc q-matching-rule])
   (for/fold ([b^ board]
              #:result (not (false? b^)))
             ([pment placements]
              #:break (not b^))
-    (and (valid-placement? b^ pment)
+    (and (valid-placement? b^ pment matching-proc)
          (add-tile b^ pment))))
 
 
@@ -547,17 +555,17 @@
   (test-check
    "possible tile positions for a red clover"
    set=?
-   (valid-tile-placements (tile 'red 'clover) example-board)
+   (posns-for-tile (tile 'red 'clover) example-board)
    (list (posn 0 -1) (posn -1 0) (posn 3 0) (posn 2 -1) (posn 2 1) (posn 1 -1)))
 
   (test-check
    "possible tile positions for a green square"
    set=?
-   (valid-tile-placements (tile 'green 'square) example-board)
+   (posns-for-tile (tile 'green 'square) example-board)
    (list (posn 0 -1) (posn -1 0) (posn -1 1) (posn 0 2)))
 
   (test-check
    "no possible tile positions for a blue 8star"
    set=?
-   (valid-tile-placements (tile 'blue '8star) example-board)
+   (posns-for-tile (tile 'blue '8star) example-board)
    '()))

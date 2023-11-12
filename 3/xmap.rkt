@@ -16,7 +16,7 @@
 
   (define board            (hash->board++ jboard))
   (define tile             (hash->tile++ jtile))
-  (define valid-placements (valid-tile-placements tile board))
+  (define valid-placements (posns-for-tile tile board))
 
   (define sorted-placements
     (~> valid-placements

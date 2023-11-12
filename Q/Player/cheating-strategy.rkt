@@ -86,7 +86,7 @@
         [(null? hand) (void)]
         [(pair? hand)
          (define tile0 (first hand))
-         (define possible-posns (valid-tile-placements tile0 board))
+         (define possible-posns (posns-for-tile tile0 board))
          (define possible-placements (map (curryr placement tile0) possible-posns))
          
          (for ([pment possible-placements])

@@ -30,7 +30,7 @@
     (define/public (smallest-placement hand board)
       (define sorted-tiles (send this rank-tiles hand board))
       (for/first ([t (in-list sorted-tiles)]
-                  #:do [(define posns (valid-tile-placements t board))
+                  #:do [(define posns (posns-for-tile t board))
                         (define sorted-posns (send this rank-posns posns board))]
                   #:when (pair? sorted-posns))
         (placement (first sorted-posns) t)))
