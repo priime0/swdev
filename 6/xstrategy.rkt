@@ -5,6 +5,7 @@
 (require Q/Player/strategy)
 (require Q/Player/dag)
 (require Q/Player/ldasg)
+(require Q/Player/strategy-deserialize)
 (require Q/Common/interfaces/serializable)
 
 (require json)
@@ -24,10 +25,7 @@
                    j1))
 
   (define pub-state (hash->pub-state jpub))
-  (define strat
-    (match jstrat
-      ["dag"   (new dag%)]
-      ["ldasg" (new ldasg%)]))
+  (define strat     (hash->strategy++ jstrat))
 
   (define action (send strat choose-action pub-state))
   (define serialized-action

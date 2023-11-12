@@ -30,6 +30,23 @@
                (define pub-state+ (do-turn/action pub-state^ action))
                (loop action+ pub-state+)])))))
 
+#; {TurnAction TurnAction -> TurnAction}
+;; Combine two turn actions into one, where the first action is performed first.
+(define (combine-actions a1 a2)
+  (match (cons a1 a2)
+    [(cons (pass) action)
+     action]
+    [(cons (exchange) act)
+     (if (place? act)
+         act
+         (exchange))]
+    [(cons (place pments) (pass))
+     (place pments)]
+    [(cons (place pments) (exchange))
+     (place pments)]
+    [(cons (place p1) (place p2))
+     (place (append p1 p2))]))
+
 (module+ test
   (require rackunit)
   (require Q/Common/game-state)
