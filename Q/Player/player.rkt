@@ -25,7 +25,7 @@
     (define/public (name)
       (symbol->string id))
 
-    (define/public (setup board tiles)
+    (define/public (setup pub-state tiles)
       (void))
 
     (define/public (take-turn pub-state)

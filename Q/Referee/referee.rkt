@@ -115,7 +115,8 @@
             ([state states])
     (match-define [player-state _score hand _ playable] state)
     (define name           (unwrap-or (send/checked playable name #f) ""))
-    (define setup-result   (send/checked playable setup name board hand))
+    (define pub-state      (priv-state->pub-state gs^))
+    (define setup-result   (send/checked playable setup name pub-state hand))
     (define setup-success? (success? setup-result))
     (if setup-success?
         (values (do-turn/rotate gs^) sinners)

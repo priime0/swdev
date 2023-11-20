@@ -22,7 +22,7 @@
     [name      (->m string?)]
     #; {Playable Board Tile -> Void}
     ;; Set up the player's knowledge of the game
-    [setup     (->m unprotected-board/c (listof tile?) void?)]
+    [setup     (->m pub-state/c (listof tile?) void?)]
     #; {Playable TurnInfo -> TurnAction}
     ;; Execute the player's strategy with the given turn information to produce an action.
     [take-turn (->m pub-state/c turn-action?)]
