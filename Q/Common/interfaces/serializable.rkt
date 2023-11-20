@@ -16,7 +16,11 @@
 (define-generics serializable
   #; {Serializable -> JSExpr}
   ;; Transform the given serializable into a hashtable representing a JSON.
-  (->jsexpr serializable))
+  (->jsexpr serializable)
+  #:defaults
+  ([boolean?
+    (define (->jsexpr b)
+      b)]))
 
 #; {Serializable -> String}
 ;; Transform the given serializable into its JSON string representation.
