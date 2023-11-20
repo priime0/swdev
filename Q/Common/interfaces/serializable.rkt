@@ -20,7 +20,11 @@
   #:defaults
   ([boolean?
     (define (->jsexpr b)
-      b)]))
+      b)]
+   [list?
+    (define/generic ->jsexpr* ->jsexpr)
+    (define (->jsexpr lst)
+      (map ->jsexpr* lst))]))
 
 #; {Serializable -> String}
 ;; Transform the given serializable into its JSON string representation.
