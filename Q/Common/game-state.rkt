@@ -119,12 +119,30 @@
   [(define/generic ->jsexpr* ->jsexpr)
    (define (->jsexpr gs)
      (match-define [game-state board tiles players] gs)
-     (define board/jsexpr (->jsexpr* board))
-     (define tiles/jsexpr (map ->jsexpr* tiles))
-     (define players/jsexpr (map ->jsexpr* players))
+     (define board/jsexpr   (->jsexpr* board))
+     (define tiles/jsexpr   (->jsexpr/tiles tiles))
+     (define players/jsexpr (->jsexpr/players players))
      (hash 'map     board/jsexpr
            'tile*   tiles/jsexpr
-           'players players/jsexpr))])
+           'players players/jsexpr))
+
+   ;; Transform the `tiles` field of the current game state into its respective
+   ;; public/private JSExpr representation.
+   (define (->jsexpr/tiles tiles)
+     (if (natural? tiles)
+         tiles
+         (map ->jsexpr* tiles)))
+
+   ;; Transform the `players` field of the current game state into its respective
+   ;; public/private JSExpr representation.
+   (define (->jsexpr/players players)
+     (match-define [cons curr rest] players)
+     (define state (->jsexpr* curr))
+     (define rest+
+       (if ((listof natural?) rest)
+           rest
+           (map ->jsexpr* rest)))
+     (cons state rest+))])
 
 
 ;; ========================================================================================
