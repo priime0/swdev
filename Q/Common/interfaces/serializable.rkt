@@ -24,7 +24,16 @@
    [list?
     (define/generic ->jsexpr* ->jsexpr)
     (define (->jsexpr lst)
-      (map ->jsexpr* lst))]))
+      (map ->jsexpr* lst))]
+   [void?
+    (define (->jsexpr v)
+      "void")]
+   [string?
+    (define (->jsexpr s)
+      s)]
+   [symbol?
+    (define (->jsexpr s)
+      (symbol->string s))]))
 
 #; {Serializable -> String}
 ;; Transform the given serializable into its JSON string representation.

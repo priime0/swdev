@@ -7,8 +7,6 @@
 (require Q/Common/interfaces/serializable)
 (require Q/Lib/connection)
 
-(require (for-syntax syntax/parse syntax/stx racket/syntax))
-
 
 #; {class PlayerProxy}
 ;; A PlayerProxy acts as a proxy for the referee to interact with remote players via JSON. If the
@@ -22,77 +20,88 @@
     (define/public (name)
       id)
 
+    #; {Symbol Any ... -> JSExpr}
+    ;; Serialize a complete method call with its list of arguments.
+    (define (serialize-call mname . args)
+      (cons (->jsexpr mname)
+            (->jsexpr args)))
+
+    #; {Symbol Any ... -> JSExpr}
+    ;; Send an RPC to the remote player, and return the JSON result of
+    ;; the RPC, blocking until a result is returned.
+    (define (send-rpc mname . args)
+      (define msg (serialize-call mname args))
+      (conn-write conn msg)
+      (conn-read conn))
+
     (define/public (setup pub-state hand)
-      (define jpub (serialize pub-state))
-      (define hand (serialize hand))
+      (define result (send-rpc 'setup pub-state hand))
+      (hash->void result))
 
-      (define message `("setup" (,jpub ,hand)))
-      (conn-write conn message)
-
-      (define result (conn-read conn))
-
-      (unless (equal? result "void")
-        (error 'setup "expected void, got ~a" result)))
-
-    (define/public (take-turn pub-state)
-      (define jpub (serialize pub-state))
-      
-      (define message `("take-turn" (,jpub)))
-      (conn-write conn message)
-
-      (define result (conn-read conn))
-      
+    (define/public (take-turn pub-state) 
+      (define result (send-rpc 'take-turn pub-state))
       (hash->turn-action result))
 
     (define/public (new-tiles tiles)
-      (define jtile* (serialize tiles))
+      (define result (send-rpc 'new-tiles tiles))
+      (hash->void result))
 
-      (define message `("new-tiles" (,jtile*)))
-      (conn-write conn message)
-
-      (define result (conn-read conn))
-
-      (unless (equal? result "void")
-        (error 'new-tiles "expected void, got ~a" result)))
-
-    (define/thing (win won?)
-      (unless (equal? result "void")
-        (error 'win "expected void, got ~a" result)))
-
-#;
     (define/public (win won?)
-      (define jwon (serialize won?))
+      (define result (send-rpc 'win won?))
+      (hash->void result))))
 
-      (define message `("new-tiles" (,jwon)))
-      (conn-write conn message)
+#; {JSExpr -> Void}
+;; Deserialize a "void" RPC result into a racket #<void> value.
+(define (hash->void v)
+  (match v
+    ["void" (void)]))
 
-      (define result (conn-read conn))
+(module+ test
+  (require rackunit)
+  (require json)
+  (require Q/Common/map)
+  (require Q/Common/game-state)
+  (require Q/Common/tile)
+  (require Q/Common/posn)
+  (require Q/Common/player-state)
 
-      (unless (equal? result "void")
-        (error 'win "expected void, got ~a" result)))))
+  (define hand0 (list (tile 'red 'star)))
+  (define pub-state0 (game-state (make-board (tile 'red 'square))
+                                 2
+                                 (list (make-player-state hand0)
+                                       0)))
+  (define pment0 (place (list (placement (posn -1 0) (tile 'red 'star)))))
 
-#;
-(define-syntax (define/thing stx)
-  (syntax-parse stx
-    [(_ (method-name args ...) exprs ...)
-     (with-syntax
-         ([new-ids (stx-map (lambda (id) (format-id stx "~a+" id)) #'(args ...))]
-          [method-name-str (syntax->datum #'method-name)]
-          [(id+-defs ...)
-           (stx-map
-            (lambda (id id+)
-              #`(define #,id+
-                  (if (list? #,id)
-                      (map serialize #,id)
-                      (serialize #,id))))
-            #'(args ...)
-            new-ids)])
-       #`(define/public (method-name args ...)
-           id+-defs ...
-           (define message (list method-name-str (list @,new-ids)))
-           (conn-write conn message)
-           (define result (conn-read conn))
+  (define result0 (serialize (void)))
+  (define result1 (serialize pment0))
+  (define result2 (serialize (void)))
 
-           exprs ...))
-     
-     ]))
+  ;; mock connection setup
+  (define mock-input0 (open-input-string (string-append result0 result1 result2)))
+  (define mock-output0 (open-output-string))
+  (define mock-connection (connection mock-input0 mock-output0))
+
+  ;; player proxy
+  (define player-proxy0 (new player-proxy% [id 'andrey] [conn mock-connection])))
+
+(module+ test
+  (test-case
+   "player proxy writes correct data to connection and returns correct results"
+   (send player-proxy0 setup pub-state0 hand0) ;; TODO: can't test because of void
+
+   (test-equal?
+    "take turn returns correct placements"
+    (send player-proxy0 take-turn pub-state0)
+    pment0)
+
+   (send player-proxy0 win #t) ;; TODO: can't test because of void
+
+   (test-equal?
+    "player proxy writes correct data to connection"
+    (get-output-string mock-output0)
+    (string-append (serialize (list 'setup (list pub-state0 hand0)))
+                   "\n"
+                   (serialize (list 'take-turn (list pub-state0)))
+                   "\n"
+                   (serialize (list 'win (list #t)))
+                   "\n"))))

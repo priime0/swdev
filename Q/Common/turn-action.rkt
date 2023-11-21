@@ -14,6 +14,7 @@
  (struct-out pass)
  turn-action?
  hash->placement++
+ hash->turn-action
  (struct-out placement))
 
 
@@ -45,9 +46,28 @@
 ;; - A placement of tiles onto the board at the corresponding locations in the given order
 ;; - An exchange of all tiles in a player's hand
 ;; - Skipping a player's turn (withdrawing from performing any actions)
-(struct++ place     ([placements (listof placement?)]) #:transparent)
-(struct   exchange  ()                                 #:transparent)
-(struct   pass      ()                                 #:transparent)
+(struct++ place     ([placements (listof placement?)])
+          #:transparent
+          #:methods gen:serializable
+          [(define/generic ->jsexpr* ->jsexpr)
+           (define (->jsexpr p)
+             (->jsexpr* (place-placements p)))])
+(struct   exchange  ()
+  #:transparent
+  #:methods gen:serializable
+  [(define (->jsexpr e)
+     "replace")])
+(struct   pass      ()
+  #:transparent
+  #:methods gen:serializable
+  [(define (->jsexpr p)
+     "pass")])
+
+(define (hash->turn-action jchoice)
+  (match jchoice
+    ["pass" (pass)]
+    ["replace" (exchange)]
+    [(list 1pment0 1pments ...) (place (map hash->placement++ (cons 1pment0 1pments)))]))
 
 
 #; {Any -> Boolean}

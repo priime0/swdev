@@ -59,11 +59,11 @@
 ;; instead throw an exception.
 (define-syntax (override-method/exn stx)
   (syntax-parse stx
-    [(_ interface-expr exn-method method-arg ...)
+    [(_ interface-expr exn-method)
      #:with exn-name (syntax->datum #'exn-method)
      #'(mixin (interface-expr) (interface-expr)
          (super-new)
-         (define/override (exn-method method-arg ...)
+         (define/override (exn-method . method-args)
            (error (quote exn-name) "this is an expected exception")))]))
 
 

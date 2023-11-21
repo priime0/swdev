@@ -4,7 +4,7 @@
 
 (provide json-write+flush)
 
-(define (json-write+flush j)
-  (write-json j)
-  (displayln "")
-  (flush-output))
+(define (json-write+flush j [port (current-output-port)])
+  (write-json j port)
+  (displayln "" port)
+  (flush-output port))

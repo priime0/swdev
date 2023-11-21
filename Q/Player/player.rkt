@@ -37,6 +37,15 @@
     (define/public (win won?)
       (void))))
 
+#; {JExn -> {class ExnPlayer}}
+;; Creates a new player% sub-class, overriding the given method to throw an error.
+(define (exn-player jexn)
+  (match jexn
+    ["setup"     ((override-method/exn playable<%> setup) player%)]
+    ["take-turn" ((override-method/exn playable<%> take-turn) player%)]
+    ["new-tiles" ((override-method/exn playable<%> new-tiles) player%)]
+    ["win"       ((override-method/exn playable<%> win) player%)]))
+
 #; {JSExpr -> Player}
 (define (hash->player++ jactor)
   (match jactor
@@ -45,12 +54,7 @@
           [id (string->symbol jname)]
           [strategy (hash->strategy++ jstrategy)])]
     [(list jname jstrategy jexn)
-     (define exn-player%
-       (match jexn
-         ["setup" ((override-method/exn playable<%> setup board tiles) player%)]
-         ["take-turn" ((override-method/exn playable<%> take-turn pub-state) player%)]
-         ["new-tiles" ((override-method/exn playable<%> new-tiles tiles) player%)]
-         ["win" ((override-method/exn playable<%> win won?) player%)]))
+     (define exn-player% (exn-player jexn))
      (new exn-player%
           [id (string->symbol jname)]
           [strategy (hash->strategy++ jstrategy)])]
@@ -58,6 +62,7 @@
      (new player%
           [id (string->symbol jname)]
           [strategy (hash->strategy++ jstrategy jcheat)])]))
+
 
 
 (module+ test

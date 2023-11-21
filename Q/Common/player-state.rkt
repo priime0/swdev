@@ -20,9 +20,9 @@
  (struct-out player-state)
  (contract-out
   [make-player-state
-   (-> (listof tile?)
-       any/c
-       player-state?)]
+   (->* ((listof tile?))
+        (any/c)
+        player-state?)]
   [add-to-hand
    (-> player-state? (listof tile?)
        player-state?)]
