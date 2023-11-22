@@ -1,0 +1,937 @@
+{
+  "map": [
+    [
+      0,
+      [
+        0,
+        {
+          "color": "red",
+          "shape": "star"
+        }
+      ]
+    ]
+  ],
+  "players": [
+    {
+      "name": "A",
+      "score": 0,
+      "tile*": [
+        {
+          "color": "green",
+          "shape": "8star"
+        },
+        {
+          "color": "blue",
+          "shape": "square"
+        },
+        {
+          "color": "yellow",
+          "shape": "circle"
+        },
+        {
+          "color": "orange",
+          "shape": "clover"
+        },
+        {
+          "color": "purple",
+          "shape": "diamond"
+        },
+        {
+          "color": "purple",
+          "shape": "square"
+        }
+      ]
+    },
+    {
+      "name": "B",
+      "score": 13,
+      "tile*": [
+        {
+          "color": "red",
+          "shape": "8star"
+        },
+        {
+          "color": "blue",
+          "shape": "square"
+        }
+      ]
+    }
+  ],
+  "tile*": [
+    {
+      "color": "red",
+      "shape": "star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "square"
+    },
+    {
+      "color": "red",
+      "shape": "circle"
+    },
+    {
+      "color": "red",
+      "shape": "clover"
+    },
+    {
+      "color": "red",
+      "shape": "diamond"
+    },
+    {
+      "color": "green",
+      "shape": "star"
+    },
+    {
+      "color": "green",
+      "shape": "8star"
+    },
+    {
+      "color": "green",
+      "shape": "square"
+    },
+    {
+      "color": "green",
+      "shape": "circle"
+    },
+    {
+      "color": "green",
+      "shape": "clover"
+    },
+    {
+      "color": "green",
+      "shape": "diamond"
+    },
+    {
+      "color": "blue",
+      "shape": "star"
+    },
+    {
+      "color": "blue",
+      "shape": "8star"
+    },
+    {
+      "color": "blue",
+      "shape": "square"
+    },
+    {
+      "color": "blue",
+      "shape": "circle"
+    },
+    {
+      "color": "blue",
+      "shape": "clover"
+    },
+    {
+      "color": "blue",
+      "shape": "diamond"
+    },
+    {
+      "color": "yellow",
+      "shape": "star"
+    },
+    {
+      "color": "yellow",
+      "shape": "8star"
+    },
+    {
+      "color": "yellow",
+      "shape": "square"
+    },
+    {
+      "color": "yellow",
+      "shape": "circle"
+    },
+    {
+      "color": "yellow",
+      "shape": "clover"
+    },
+    {
+      "color": "yellow",
+      "shape": "diamond"
+    },
+    {
+      "color": "orange",
+      "shape": "star"
+    },
+    {
+      "color": "orange",
+      "shape": "8star"
+    },
+    {
+      "color": "orange",
+      "shape": "square"
+    },
+    {
+      "color": "orange",
+      "shape": "circle"
+    },
+    {
+      "color": "orange",
+      "shape": "clover"
+    },
+    {
+      "color": "orange",
+      "shape": "diamond"
+    },
+    {
+      "color": "purple",
+      "shape": "star"
+    },
+    {
+      "color": "purple",
+      "shape": "8star"
+    },
+    {
+      "color": "purple",
+      "shape": "square"
+    },
+    {
+      "color": "purple",
+      "shape": "circle"
+    },
+    {
+      "color": "purple",
+      "shape": "clover"
+    },
+    {
+      "color": "purple",
+      "shape": "diamond"
+    },
+    {
+      "color": "red",
+      "shape": "star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "square"
+    },
+    {
+      "color": "red",
+      "shape": "circle"
+    },
+    {
+      "color": "red",
+      "shape": "clover"
+    },
+    {
+      "color": "red",
+      "shape": "diamond"
+    },
+    {
+      "color": "green",
+      "shape": "star"
+    },
+    {
+      "color": "green",
+      "shape": "8star"
+    },
+    {
+      "color": "green",
+      "shape": "square"
+    },
+    {
+      "color": "green",
+      "shape": "circle"
+    },
+    {
+      "color": "green",
+      "shape": "clover"
+    },
+    {
+      "color": "green",
+      "shape": "diamond"
+    },
+    {
+      "color": "blue",
+      "shape": "star"
+    },
+    {
+      "color": "blue",
+      "shape": "8star"
+    },
+    {
+      "color": "blue",
+      "shape": "square"
+    },
+    {
+      "color": "blue",
+      "shape": "circle"
+    },
+    {
+      "color": "blue",
+      "shape": "clover"
+    },
+    {
+      "color": "blue",
+      "shape": "diamond"
+    },
+    {
+      "color": "yellow",
+      "shape": "star"
+    },
+    {
+      "color": "yellow",
+      "shape": "8star"
+    },
+    {
+      "color": "yellow",
+      "shape": "square"
+    },
+    {
+      "color": "yellow",
+      "shape": "circle"
+    },
+    {
+      "color": "yellow",
+      "shape": "clover"
+    },
+    {
+      "color": "yellow",
+      "shape": "diamond"
+    },
+    {
+      "color": "orange",
+      "shape": "star"
+    },
+    {
+      "color": "orange",
+      "shape": "8star"
+    },
+    {
+      "color": "orange",
+      "shape": "square"
+    },
+    {
+      "color": "orange",
+      "shape": "circle"
+    },
+    {
+      "color": "orange",
+      "shape": "clover"
+    },
+    {
+      "color": "orange",
+      "shape": "diamond"
+    },
+    {
+      "color": "purple",
+      "shape": "star"
+    },
+    {
+      "color": "purple",
+      "shape": "8star"
+    },
+    {
+      "color": "purple",
+      "shape": "square"
+    },
+    {
+      "color": "purple",
+      "shape": "circle"
+    },
+    {
+      "color": "purple",
+      "shape": "clover"
+    },
+    {
+      "color": "purple",
+      "shape": "diamond"
+    },
+    {
+      "color": "red",
+      "shape": "star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "square"
+    },
+    {
+      "color": "red",
+      "shape": "circle"
+    },
+    {
+      "color": "red",
+      "shape": "clover"
+    },
+    {
+      "color": "red",
+      "shape": "diamond"
+    },
+    {
+      "color": "green",
+      "shape": "star"
+    },
+    {
+      "color": "green",
+      "shape": "8star"
+    },
+    {
+      "color": "green",
+      "shape": "square"
+    },
+    {
+      "color": "green",
+      "shape": "circle"
+    },
+    {
+      "color": "green",
+      "shape": "clover"
+    },
+    {
+      "color": "green",
+      "shape": "diamond"
+    },
+    {
+      "color": "blue",
+      "shape": "star"
+    },
+    {
+      "color": "blue",
+      "shape": "8star"
+    },
+    {
+      "color": "blue",
+      "shape": "square"
+    },
+    {
+      "color": "blue",
+      "shape": "circle"
+    },
+    {
+      "color": "blue",
+      "shape": "clover"
+    },
+    {
+      "color": "blue",
+      "shape": "diamond"
+    },
+    {
+      "color": "yellow",
+      "shape": "star"
+    },
+    {
+      "color": "yellow",
+      "shape": "8star"
+    },
+    {
+      "color": "yellow",
+      "shape": "square"
+    },
+    {
+      "color": "yellow",
+      "shape": "circle"
+    },
+    {
+      "color": "yellow",
+      "shape": "clover"
+    },
+    {
+      "color": "yellow",
+      "shape": "diamond"
+    },
+    {
+      "color": "orange",
+      "shape": "star"
+    },
+    {
+      "color": "orange",
+      "shape": "8star"
+    },
+    {
+      "color": "orange",
+      "shape": "square"
+    },
+    {
+      "color": "orange",
+      "shape": "circle"
+    },
+    {
+      "color": "orange",
+      "shape": "clover"
+    },
+    {
+      "color": "orange",
+      "shape": "diamond"
+    },
+    {
+      "color": "purple",
+      "shape": "star"
+    },
+    {
+      "color": "purple",
+      "shape": "8star"
+    },
+    {
+      "color": "purple",
+      "shape": "square"
+    },
+    {
+      "color": "purple",
+      "shape": "circle"
+    },
+    {
+      "color": "purple",
+      "shape": "clover"
+    },
+    {
+      "color": "purple",
+      "shape": "diamond"
+    },
+    {
+      "color": "red",
+      "shape": "star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "square"
+    },
+    {
+      "color": "red",
+      "shape": "circle"
+    },
+    {
+      "color": "red",
+      "shape": "clover"
+    },
+    {
+      "color": "red",
+      "shape": "diamond"
+    },
+    {
+      "color": "green",
+      "shape": "star"
+    },
+    {
+      "color": "green",
+      "shape": "8star"
+    },
+    {
+      "color": "green",
+      "shape": "square"
+    },
+    {
+      "color": "green",
+      "shape": "circle"
+    },
+    {
+      "color": "green",
+      "shape": "clover"
+    },
+    {
+      "color": "green",
+      "shape": "diamond"
+    },
+    {
+      "color": "blue",
+      "shape": "star"
+    },
+    {
+      "color": "blue",
+      "shape": "8star"
+    },
+    {
+      "color": "blue",
+      "shape": "square"
+    },
+    {
+      "color": "blue",
+      "shape": "circle"
+    },
+    {
+      "color": "blue",
+      "shape": "clover"
+    },
+    {
+      "color": "blue",
+      "shape": "diamond"
+    },
+    {
+      "color": "yellow",
+      "shape": "star"
+    },
+    {
+      "color": "yellow",
+      "shape": "8star"
+    },
+    {
+      "color": "yellow",
+      "shape": "square"
+    },
+    {
+      "color": "yellow",
+      "shape": "circle"
+    },
+    {
+      "color": "yellow",
+      "shape": "clover"
+    },
+    {
+      "color": "yellow",
+      "shape": "diamond"
+    },
+    {
+      "color": "orange",
+      "shape": "star"
+    },
+    {
+      "color": "orange",
+      "shape": "8star"
+    },
+    {
+      "color": "orange",
+      "shape": "square"
+    },
+    {
+      "color": "orange",
+      "shape": "circle"
+    },
+    {
+      "color": "orange",
+      "shape": "clover"
+    },
+    {
+      "color": "orange",
+      "shape": "diamond"
+    },
+    {
+      "color": "purple",
+      "shape": "star"
+    },
+    {
+      "color": "purple",
+      "shape": "8star"
+    },
+    {
+      "color": "purple",
+      "shape": "square"
+    },
+    {
+      "color": "purple",
+      "shape": "circle"
+    },
+    {
+      "color": "purple",
+      "shape": "clover"
+    },
+    {
+      "color": "purple",
+      "shape": "diamond"
+    },
+    {
+      "color": "red",
+      "shape": "star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "square"
+    },
+    {
+      "color": "red",
+      "shape": "circle"
+    },
+    {
+      "color": "red",
+      "shape": "clover"
+    },
+    {
+      "color": "red",
+      "shape": "diamond"
+    },
+    {
+      "color": "green",
+      "shape": "star"
+    },
+    {
+      "color": "green",
+      "shape": "8star"
+    },
+    {
+      "color": "green",
+      "shape": "square"
+    },
+    {
+      "color": "green",
+      "shape": "circle"
+    },
+    {
+      "color": "green",
+      "shape": "clover"
+    },
+    {
+      "color": "green",
+      "shape": "diamond"
+    },
+    {
+      "color": "blue",
+      "shape": "star"
+    },
+    {
+      "color": "blue",
+      "shape": "8star"
+    },
+    {
+      "color": "blue",
+      "shape": "square"
+    },
+    {
+      "color": "blue",
+      "shape": "circle"
+    },
+    {
+      "color": "blue",
+      "shape": "clover"
+    },
+    {
+      "color": "blue",
+      "shape": "diamond"
+    },
+    {
+      "color": "yellow",
+      "shape": "star"
+    },
+    {
+      "color": "yellow",
+      "shape": "8star"
+    },
+    {
+      "color": "yellow",
+      "shape": "square"
+    },
+    {
+      "color": "yellow",
+      "shape": "circle"
+    },
+    {
+      "color": "yellow",
+      "shape": "clover"
+    },
+    {
+      "color": "yellow",
+      "shape": "diamond"
+    },
+    {
+      "color": "orange",
+      "shape": "star"
+    },
+    {
+      "color": "orange",
+      "shape": "8star"
+    },
+    {
+      "color": "orange",
+      "shape": "square"
+    },
+    {
+      "color": "orange",
+      "shape": "circle"
+    },
+    {
+      "color": "orange",
+      "shape": "clover"
+    },
+    {
+      "color": "orange",
+      "shape": "diamond"
+    },
+    {
+      "color": "purple",
+      "shape": "star"
+    },
+    {
+      "color": "purple",
+      "shape": "8star"
+    },
+    {
+      "color": "purple",
+      "shape": "square"
+    },
+    {
+      "color": "purple",
+      "shape": "circle"
+    },
+    {
+      "color": "purple",
+      "shape": "clover"
+    },
+    {
+      "color": "purple",
+      "shape": "diamond"
+    },
+    {
+      "color": "red",
+      "shape": "star"
+    },
+    {
+      "color": "red",
+      "shape": "8star"
+    },
+    {
+      "color": "red",
+      "shape": "square"
+    },
+    {
+      "color": "red",
+      "shape": "circle"
+    },
+    {
+      "color": "red",
+      "shape": "clover"
+    },
+    {
+      "color": "red",
+      "shape": "diamond"
+    },
+    {
+      "color": "green",
+      "shape": "star"
+    },
+    {
+      "color": "green",
+      "shape": "8star"
+    },
+    {
+      "color": "green",
+      "shape": "square"
+    },
+    {
+      "color": "green",
+      "shape": "circle"
+    },
+    {
+      "color": "green",
+      "shape": "clover"
+    },
+    {
+      "color": "green",
+      "shape": "diamond"
+    },
+    {
+      "color": "blue",
+      "shape": "star"
+    },
+    {
+      "color": "blue",
+      "shape": "8star"
+    },
+    {
+      "color": "blue",
+      "shape": "square"
+    },
+    {
+      "color": "blue",
+      "shape": "circle"
+    },
+    {
+      "color": "blue",
+      "shape": "clover"
+    },
+    {
+      "color": "blue",
+      "shape": "diamond"
+    },
+    {
+      "color": "yellow",
+      "shape": "star"
+    },
+    {
+      "color": "yellow",
+      "shape": "8star"
+    },
+    {
+      "color": "yellow",
+      "shape": "square"
+    },
+    {
+      "color": "yellow",
+      "shape": "circle"
+    },
+    {
+      "color": "yellow",
+      "shape": "clover"
+    },
+    {
+      "color": "yellow",
+      "shape": "diamond"
+    },
+    {
+      "color": "orange",
+      "shape": "star"
+    },
+    {
+      "color": "orange",
+      "shape": "8star"
+    },
+    {
+      "color": "orange",
+      "shape": "square"
+    },
+    {
+      "color": "orange",
+      "shape": "circle"
+    },
+    {
+      "color": "orange",
+      "shape": "clover"
+    },
+    {
+      "color": "orange",
+      "shape": "diamond"
+    },
+    {
+      "color": "purple",
+      "shape": "star"
+    },
+    {
+      "color": "purple",
+      "shape": "8star"
+    },
+    {
+      "color": "purple",
+      "shape": "square"
+    },
+    {
+      "color": "purple",
+      "shape": "circle"
+    },
+    {
+      "color": "purple",
+      "shape": "clover"
+    },
+    {
+      "color": "purple",
+      "shape": "diamond"
+    }
+  ]
+}
+
+[
+  [
+    "A",
+    "ldasg"
+  ],
+  [
+    "B",
+    "dag"
+  ]
+]

@@ -1,0 +1,26 @@
+{"map":
+[
+  [0,
+    [0,{"color":"yellow","shape":"circle"}],
+    [1,{"color":"yellow","shape":"square"}],
+    [2,{"color":"green","shape":"square"}]],
+  [1,
+    [0,{"color":"blue","shape":"clover"}],
+    [1,{"color":"blue","shape":"diamond"}],
+    [2,{"color":"blue","shape":"square"}]]],
+  "tile*":
+  [{"color":"red","shape":"8star"},
+    {"color":"yellow","shape":"diamond"},
+    {"color":"green","shape":"square"}],
+  "players":
+  [{"name": "player1","score":0,"tile*":[
+    {"color":"red","shape":"8star"},
+    {"color":"orange","shape":"diamond"}]},
+    {"name": "player2","score":5,"tile*":[
+      {"color":"green","shape":"clover"},
+      {"color":"red","shape":"8star"}]},
+    {"name": "player3","score":4,"tile*":[
+      {"color":"purple","shape":"circle"}]},
+    {"name": "player4","score":7,"tile*":[
+      {"color":"blue","shape":"diamond"}]}]}
+[["player1", "dag", "new-tiles"], ["player2", "dag", "win"], ["player3", "ldasg", "a cheat", "bad-ask-for-tiles"], ["player4", "ldasg"]]

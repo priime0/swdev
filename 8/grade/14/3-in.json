@@ -1,0 +1,18 @@
+{"map" : [[0, [0, {"color" : "yellow", "shape" : "circle"}]]],
+"tile*" : [{"color" : "purple", "shape" : "clover"}],
+"players" : [{
+              "score" : 0, 
+              "name" : "Jebediah", 
+              "tile*" : [{"color" : "red", "shape" : "circle"}, {"color" : "purple", "shape" : "clover"}, {"color" : "green", "shape" : "square"}]
+             },
+             {
+                "score" : 0,
+                "name" : "Alberto",
+                "tile*" : [{"color" : "red", "shape" : "circle"}, {"color" : "red", "shape" : "circle"}, {"color" : "blue", "shape" : "8star"}]
+             }, 
+             {
+                "score" : 0, 
+                "name" : "Barbera", 
+                "tile*" : [{"color" : "green", "shape" : "circle"}, {"color" : "green", "shape" : "square"}, {"color" : "blue", "shape" : "8star"}]
+                }]}
+[["Jebediah", "dag", "a cheat", "no-fit"], ["Alberto", "dag"], ["Barbera" , "dag"]]

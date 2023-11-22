@@ -1,0 +1,5 @@
+{"map" : [[0, [0, {"color" : "yellow", "shape" : "star"}]]],
+"tile*" : [],
+"players" : [{"score" : 0, "name" : "badtiles", "tile*" : [{"color" : "yellow", "shape" : "circle"}, {"color" : "blue", "shape" : "square"}]}, 
+             {"score" : 10, "name" : "CrashingKyle", "tile*" : [{"color" : "blue", "shape" : "circle"}]}]}
+[["badtiles", "dag", "a cheat", "bad-ask-for-tiles"], ["CrashingKyle", "ldasg", "take-turn"]]

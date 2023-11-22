@@ -1,0 +1,3 @@
+{"map":[[-3,[0,{"color":"blue","shape":"8star"}]]],"tile*":[{"color":"purple","shape":"8star"}],"players":[{"score":0,"name":"Tester","tile*":[{"color":"red","shape":"8star"},{"color":"purple","shape":"circle"}]},{"score":0,"name":"SecondTester","tile*":[{"color":"orange","shape":"square"},{"color":"green","shape":"clover"}]},{"score":11,"name":"Cheater1","tile*":[{"color":"blue","shape":"square"},{"color":"orange","shape":"clover"}]}]}
+[["Tester","dag"],["SecondTester","ldasg"],["Cheater1","dag","a cheat","no-fit"]]
+

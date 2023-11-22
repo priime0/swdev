@@ -1,0 +1,82 @@
+{
+  "map": [
+    [
+      0,
+      [
+        0,
+        { "color":"yellow", "shape":"clover" }
+      ],
+      [
+        1,
+        { "color": "green", "shape": "clover"}
+      ]
+    ]
+  ],
+  "players": [
+    {
+      "name": "nonadj",
+      "score": 37,
+      "tile*": [
+        {
+          "color": "yellow",
+          "shape": "square"
+        },
+        {
+          "color": "green",
+          "shape": "square"
+        },
+        {
+          "color": "orange",
+          "shape": "8star"
+        },
+        {
+          "color": "blue",
+          "shape": "8star"
+        },
+        {
+          "color": "purple",
+          "shape": "square"
+        },
+        {
+          "color": "green",
+          "shape": "square"
+        }
+      ]
+    },
+    {
+      "name": "player2",
+      "score": 36,
+      "tile*": [
+        {
+          "color": "red",
+          "shape": "star"
+        },
+        {
+          "color": "green",
+          "shape": "clover"
+        },
+        {
+          "color": "red",
+          "shape": "star"
+        },
+        {
+          "color": "red",
+          "shape": "star"
+        },
+        {
+          "color": "red",
+          "shape": "star"
+        },
+        {
+          "color": "red",
+          "shape": "star"
+        }
+      ]
+    }
+  ],
+  "tile*": []
+}
+[
+  ["nonadj", "ldasg", "a cheat", "non-adjacent-coordinate"],
+  ["player2", "dag"]
+]

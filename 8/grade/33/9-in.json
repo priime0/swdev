@@ -1,0 +1,11 @@
+{"map":[[0,[0,{"color":"red","shape":"clover"}]],[1,[0,{"color":"red","shape":"diamond"}]],[2,[0,{"color":"red","shape":"circle"}]]],
+  "players":[
+    {"name":"player1","score":0,
+      "tile*":[{"color":"green","shape":"8star"},{"color":"green","shape":"square"},{"color":"yellow","shape":"diamond"},{"color":"purple","shape":"clover"},{"color":"blue","shape":"star"},{"color":"orange","shape":"8star"}]},
+    {"name":"player2","score":100,
+      "tile*":[{"color":"green","shape":"8star"},{"color":"blue","shape":"square"},{"color":"purple","shape":"clover"},{"color":"purple","shape":"clover"},{"color":"yellow","shape":"diamond"},{"color":"yellow","shape":"diamond"}]},
+    {"name":"player3","score":200,
+      "tile*":[{"color":"red","shape":"star"},{"color":"green","shape":"square"},{"color":"yellow","shape":"clover"},{"color":"green","shape":"circle"},{"color":"green","shape":"diamond"},{"color":"blue","shape":"clover"}]}],
+  "tile*":[{"color":"green","shape":"clover"},{"color":"green","shape":"circle"},{"color":"blue","shape":"clover"},{"color":"purple","shape":"clover"},{"color":"yellow","shape":"diamond"},{"color":"orange","shape":"circle"},{"color":"green","shape":"circle"}]}
+[["player1","dag"],["player2","ldasg","a cheat","non-adjacent-coordinate"], ["player3","dag","a cheat","no-fit"]]
+

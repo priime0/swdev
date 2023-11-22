@@ -1,0 +1,31 @@
+{
+    "map":[
+        [0, [0, {"color":"yellow","shape":"star"}], [1, {"color":"yellow","shape":"circle"}], [2, {"color":"orange","shape":"circle"}]],
+        [1, [0, {"color":"green","shape":"square"}], [1, {"color":"purple","shape":"circle"}], [2, {"color":"blue","shape":"star"}]]
+    ],
+    "players":[
+        {
+            "name":"P1",
+            "score":0,
+            "tile*":[
+                {"color":"green","shape":"square"}, 
+                {"color":"purple","shape":"circle"}, 
+                {"color":"blue","shape":"star"}
+            ]
+        }, {
+            "name":"P2",
+            "score":0,
+            "tile*":[
+                {"color":"blue","shape":"circle"}, 
+                {"color":"blue","shape":"star"}, 
+                {"color":"blue","shape":"circle"}
+            ]
+        }
+    ],
+    "tile*":[
+        {"color":"green", "shape":"square"},
+        {"color":"purple", "shape":"circle"}
+    ]
+}
+[["P1", "dag"],["P2", "ldasg"]]
+

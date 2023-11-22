@@ -1,0 +1,25 @@
+{
+    "map":[
+        [0, [0, {"color":"purple","shape":"square"}]],
+        [1, [0, {"color":"green","shape":"square"}]],
+        [2, [0, {"color":"yellow","shape":"square"}]]
+    ],
+    "players":[
+        {
+            "name":"P1",
+            "score":0,
+            "tile*":[
+                {"color":"purple","shape":"diamond"}
+            ]
+        },{
+            "name":"P2",
+            "score":0,
+            "tile*":[
+                {"color":"red","shape":"circle"}
+            ]
+        }
+    ],
+    "tile*":[]
+}
+[["P1", "dag"],["P2", "dag"]]
+

@@ -1,0 +1,8 @@
+{"map":[[0,[0,{"color":"yellow","shape":"clover"}],[1, {"color": "purple", "shape": "clover"}]],
+[1,[0, {"color": "yellow", "shape": "circle"}]]], 
+"players" : [
+    {"name": "Andrew", "score": 10, "tile*" : [{"color":"green","shape":"star"},{"color":"green","shape":"square"},{"color":"orange","shape":"8star"}, {"color": "yellow", "shape": "circle"}]},
+    {"name": "Ben", "score" : 2, "tile*" : [{"color":"green","shape":"square"},{"color":"red","shape":"square"},{"color":"blue","shape":"8star"}]}],
+    "tile*": []}
+[["Andrew","ldasg"],["Ben","ldasg"]]
+

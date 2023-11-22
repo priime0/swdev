@@ -1,0 +1,20 @@
+{
+  "map": [ [ 0, [ 0, { "color": "blue", "shape": "square" } ] ] ],
+  "players": [
+    { "name": "A", "score": 0, "tile*": [ { "color": "blue", "shape": "circle" }, { "color": "green", "shape": "square" }, { "color": "red", "shape": "star" } ] },
+    { "name": "B", "score": 0, "tile*": [ { "color": "green", "shape": "star" } ] },
+    { "name": "C", "score": 0, "tile*": [ { "color": "orange", "shape": "diamond" } ] },
+    { "name": "D", "score": 0, "tile*": [ { "color": "green", "shape": "star" } ] }],
+  "tile*": [
+    {
+      "color": "yellow",
+      "shape": "diamond"
+    }
+  ]
+}
+
+[["A","dag"],
+ ["B","ldasg",  "a cheat", "bad-ask-for-tiles"],
+ ["C","dag", "a cheat", "tile-not-owned"],
+ ["D","ldasg"]]
+
