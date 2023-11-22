@@ -1,0 +1,35 @@
+{ "map" : [
+  [0,
+    [0,
+      {"color" : "red" , "shape" : "circle"}
+    ]
+  ]
+],
+  "tile*" : [{"color" : "blue", "shape": "square"},
+             {"color" : "yellow", "shape": "star"},
+             {"color" : "green", "shape": "circle"},
+             {"color" : "purple", "shape": "diamond"},
+             {"color" : "blue", "shape": "star"},
+             {"color" : "red", "shape": "clover"}],
+  "players" : [  {"score" : 0,
+                  "name" : "Eve",
+                  "tile*":  [{"color" : "blue", "shape": "star"}, 
+                             {"color" : "green", "shape": "8star"},
+                             {"color" : "red", "shape": "square"},
+                             {"color" : "purple", "shape": "clover"},
+                             {"color" : "yellow", "shape": "diamond"}]},
+                 {"score" : 0,
+                  "name" : "Adam",
+                  "tile*":  [{"color" : "orange", "shape": "star"}, 
+                             {"color" : "blue", "shape": "8star"},
+                             {"color" : "orange", "shape": "square"},
+                             {"color" : "red", "shape": "clover"},
+                             {"color" : "yellow", "shape": "diamond"}]}
+               ]
+}
+
+[
+  ["Eve", "dag", "setup"],
+  ["Adam", "dag", "a cheat", "non-adjacent-coordinate"] 
+]  
+

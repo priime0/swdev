@@ -1,0 +1,10 @@
+{"map":[[0,[0,{"color":"red","shape":"star"}]]],
+"tile*":[{"color":"purple","shape":"square"}],
+"players":[
+{"score":0,"name":"player1","tile*":[{"color":"orange","shape":"star"},{"color":"green","shape":"circle"}]},
+{"score":0,"name":"player2","tile*":[{"color":"blue","shape":"star"}]}
+]
+}
+[["player1","dag","a cheat","bad-ask-for-tiles"],["player2","dag"]]
+
+

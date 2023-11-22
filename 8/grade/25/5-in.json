@@ -1,0 +1,81 @@
+{
+  "map": [
+    [
+      0,
+      [
+        0,
+        {
+          "color": "red",
+          "shape": "star"
+        }
+      ]
+    ]
+  ],
+  "players": [
+    {
+      "name": "ch1",
+      "score": 37,
+      "tile*": [
+        {
+          "color": "yellow",
+          "shape": "square"
+        },
+        {
+          "color": "green",
+          "shape": "square"
+        },
+        {
+          "color": "orange",
+          "shape": "8star"
+        },
+        {
+          "color": "blue",
+          "shape": "8star"
+        },
+        {
+          "color": "purple",
+          "shape": "square"
+        },
+        {
+          "color": "green",
+          "shape": "square"
+        }
+      ]
+    },
+    {
+      "name": "ch2",
+      "score": 36,
+      "tile*": [
+        {
+          "color": "red",
+          "shape": "star"
+        },
+        {
+          "color": "green",
+          "shape": "clover"
+        },
+        {
+          "color": "red",
+          "shape": "star"
+        },
+        {
+          "color": "red",
+          "shape": "star"
+        },
+        {
+          "color": "red",
+          "shape": "star"
+        },
+        {
+          "color": "red",
+          "shape": "star"
+        }
+      ]
+    }
+  ],
+  "tile*": []
+}
+[
+  ["ch1", "ldasg", "a cheat", "tile-not-owned"],
+  ["ch2", "dag", "a cheat", "no-fit"]
+]

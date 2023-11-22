@@ -1,0 +1,108 @@
+{
+    "map": [
+        [
+            -1,
+            [
+                -1,
+                {
+                    "color": "red",
+                    "shape": "8star"
+                }
+            ]
+        ],
+        [
+            0,
+            [
+                0,
+                {
+                    "color": "red",
+                    "shape": "clover"
+                }
+            ]
+        ],
+        [
+            1,
+            [
+                1,
+                {
+                    "color": "red",
+                    "shape": "diamond"
+                }
+            ]
+        ],
+        [
+            2,
+            [
+                2,
+                {
+                    "color": "red",
+                    "shape": "circle"
+                }
+            ]
+        ]
+    ],
+    "tile*": [
+        {
+            "color": "red",
+            "shape": "star"
+        },
+        {
+            "color": "red",
+            "shape": "star"
+        },
+        {
+            "color": "red",
+            "shape": "star"
+        },
+        {
+            "color": "red",
+            "shape": "star"
+        },
+        {
+            "color": "red",
+            "shape": "star"
+        }
+    ],
+    "players": [
+        {
+            "score": 0,
+            "name": "a",
+            "tile*": [
+                {
+                    "color": "red",
+                    "shape": "square"
+                },
+                {
+                    "color": "blue",
+                    "shape": "square"
+                },
+                {
+                    "color": "purple",
+                    "shape": "square"
+                }
+            ]
+        },
+        {
+            "score": 0,
+            "name": "chbadaft",
+            "tile*": [
+                {
+                    "color": "green",
+                    "shape": "8star"
+                },
+                {
+                    "color": "blue",
+                    "shape": "clover"
+                },
+                {
+                    "color": "red",
+                    "shape": "star"
+                }
+            ]
+        }
+    ]
+}
+[
+    ["a", "dag"],
+    ["chbadaft", "dag", "a cheat", "bad-ask-for-tiles"]
+]

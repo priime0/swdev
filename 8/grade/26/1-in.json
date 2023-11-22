@@ -1,0 +1,8 @@
+{"map":[[0,[0,{"color":"red","shape":"circle"}]]],
+  "players":[
+    {"name":"a","score":15,"tile*": [{"color":"green","shape":"8star"}]},
+    {"name":"bc","score":0,"tile*":[{"color":"purple","shape":"square"}]},
+    {"name":"c","score":0,"tile*":[{"color":"red","shape":"square"}]}],
+  "tile*":[{"color":"red","shape":"star"}]}
+[["a","ldasg","a cheat","no-fit"],["bc","ldasg"], ["c", "ldasg", "win"]]
+

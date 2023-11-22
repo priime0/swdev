@@ -1,0 +1,92 @@
+{
+    "map": [
+        [
+            -1,
+            [
+                0,
+                {
+                    "color": "red",
+                    "shape": "8star"
+                }
+            ]
+        ],
+        [
+            0,
+            [
+                0,
+                {
+                    "color": "red",
+                    "shape": "clover"
+                }
+            ]
+        ],
+        [
+            1,
+            [
+                0,
+                {
+                    "color": "red",
+                    "shape": "diamond"
+                }
+            ]
+        ],
+        [
+            2,
+            [
+                0,
+                {
+                    "color": "red",
+                    "shape": "circle"
+                }
+            ]
+        ]
+    ],
+    "tile*": [
+        {
+            "color": "red",
+            "shape": "star"
+        }
+    ],
+    "players": [
+        {
+            "score": 0,
+            "name": "a",
+            "tile*": [
+                {
+                    "color": "red",
+                    "shape": "star"
+                },
+                {
+                    "color": "blue",
+                    "shape": "square"
+                },
+                {
+                    "color": "purple",
+                    "shape": "square"
+                }
+            ]
+        },
+        {
+            "score": 0,
+            "name": "chtilen",
+            "tile*": [
+                {
+                    "color": "red",
+                    "shape": "star"
+                },
+                {
+                    "color": "blue",
+                    "shape": "circle"
+                },
+                {
+                    "color": "red",
+                    "shape": "circle"
+                }
+            ]
+        }
+    ]
+}
+[
+    ["a", "dag", "take-turn"],
+    ["chtilen", "dag", "a cheat", "tile-not-owned"]
+]

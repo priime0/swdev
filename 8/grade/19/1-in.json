@@ -1,0 +1,37 @@
+{ "map" : [
+  [0,
+    [0,
+      {"color" : "yellow" , "shape" : "star"}
+    ]
+  ]
+],
+  "tile*" : [{"color" : "green", "shape": "star"}, 
+             {"color" : "purple", "shape": "clover"}, 
+             {"color" : "purple", "shape": "clover"}, 
+             {"color" : "purple", "shape": "clover"}, 
+             {"color" : "purple", "shape": "clover"}, 
+             {"color" : "purple", "shape": "clover"}],
+  "players" : [  {"score" : 0, 
+                  "name" : "Meixia",
+                  "tile*":  [{"color" : "green", "shape": "circle"}, 
+                             {"color" : "blue", "shape": "8star"},
+                             {"color" : "green", "shape": "square"},
+                             {"color" : "orange", "shape": "clover"},
+                             {"color" : "yellow", "shape": "diamond"},
+                             {"color" : "red", "shape": "circle"}]},
+                 {"score" : 0, 
+                  "name" : "Aiden",
+                  "tile*":  [{"color" : "red", "shape": "star"}, 
+                             {"color" : "purple", "shape": "clover"}, 
+                             {"color" : "purple", "shape": "clover"}, 
+                             {"color" : "purple", "shape": "clover"}, 
+                             {"color" : "purple", "shape": "clover"}, 
+                             {"color" : "purple", "shape": "clover"}]}
+               ] 
+}
+
+[
+  ["Meixia", "dag"],
+  ["Aiden", "ldasg"] 
+]  
+

@@ -1,0 +1,155 @@
+{
+  "map": [
+    [
+      0,
+      [
+        0,
+        {
+          "color": "red",
+          "shape": "star"
+        }
+      ]
+    ]
+  ],
+  "players": [
+    {
+      "name": "A",
+      "score": 0,
+      "tile*": [
+        {
+          "color": "green",
+          "shape": "8star"
+        },
+        {
+          "color": "blue",
+          "shape": "square"
+        },
+        {
+          "color": "yellow",
+          "shape": "circle"
+        },
+        {
+          "color": "orange",
+          "shape": "clover"
+        },
+        {
+          "color": "purple",
+          "shape": "diamond"
+        }
+      ]
+    },
+    {
+      "name": "B",
+      "score": 12,
+      "tile*": [
+        {
+          "color": "red",
+          "shape": "8star"
+        },
+        {
+          "color": "blue",
+          "shape": "square"
+        }
+      ]
+    }
+  ],
+  "tile*": [
+    {
+      "color": "red",
+      "shape": "star"
+    },
+    {
+      "color": "red",
+      "shape": "star"
+    },
+    {
+      "color": "red",
+      "shape": "star"
+    },
+    {
+      "color": "red",
+      "shape": "star"
+    },
+    {
+      "color": "red",
+      "shape": "star"
+    },
+    {
+      "color": "red",
+      "shape": "star"
+    },
+    {
+      "color": "red",
+      "shape": "star"
+    },
+    {
+      "color": "red",
+      "shape": "star"
+    },
+    {
+      "color": "red",
+      "shape": "star"
+    },
+    {
+      "color": "red",
+      "shape": "star"
+    },
+    {
+      "color": "red",
+      "shape": "star"
+    },
+    {
+      "color": "red",
+      "shape": "star"
+    },
+    {
+      "color": "red",
+      "shape": "star"
+    },
+    {
+      "color": "red",
+      "shape": "star"
+    },
+    {
+      "color": "red",
+      "shape": "star"
+    },
+    {
+      "color": "red",
+      "shape": "star"
+    },
+    {
+      "color": "red",
+      "shape": "star"
+    },
+    {
+      "color": "red",
+      "shape": "star"
+    },
+    {
+      "color": "red",
+      "shape": "star"
+    },
+    {
+      "color": "red",
+      "shape": "star"
+    },
+    {
+      "color": "red",
+      "shape": "star"
+    }
+  ]
+}
+
+[
+  [
+    "A",
+    "ldasg",
+    "a cheat",
+    "bad-ask-for-tiles"
+  ],
+  [
+    "B",
+    "ldasg"
+  ]
+]
