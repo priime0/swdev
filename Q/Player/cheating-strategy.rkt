@@ -71,30 +71,11 @@
   (class* object% (player-strategy<%>)
     (super-new)
     
-    #; {PublicState [Listof TilePlacement] Continuation -> (U Void
-                                                              TurnAction)}
-    ;; Using backtracking, computes a placement that is not along the
-    ;; same axis, returning when it finds one with the given
-    ;; continuation. 
-    (define/public (select-invalid pub-state pments k)
-      (when (not (same-axis? (map placement-posn pments)))
-        (k (place pments)))
-
-      (match-define [game-state board _ [cons state _]] pub-state)
-      (define hand (player-state-hand state))
-      (when (pair? hand)
-        (define tile0 (first hand))
-        (~>> tile0
-             (valid-tile-placements _ board)
-             (map (curryr placement tile0))
-             (for-each (lambda (pment)
-                         (define pub-state+ (do-turn/action pub-state (place (list pment))))
-                         (select-invalid pub-state+ (cons pment pments) k))))))
-
     (define/public (choose-action pub-state)
       (define result
         (let/ec return
-          (send this select-invalid pub-state '() return)))
+          (define not-a-line? (lambda (pments) (not (same-axis? (map placement-posn pments)))))
+          (find-first not-a-line? valid-tile-placements pub-state return '())))
 
       (if (void? result)
           (pass)
@@ -130,21 +111,49 @@
       (or (and maybe-action (place (list maybe-action)))
           (pass)))))
 
+#; {([Listof TilePlacement] -> Boolean) (Tile Board -> [Listof Posn]) PublicState Continuation [Listof TilePlacement] -> [Listof TilePlacement]}
+;; Given a predicate, a function that generates possible positions
+;; for a tile and a board, a public state, and a continuation to
+;; escape when the first is found, find the first list of tile
+;; placements that satisfies the given predicate and return it.
+;; EFFECT: returns the first satisfying list of placements, halting computation.
+;; ACCUMULATOR: recursively accumulates the list of placements in reverse order
+(define (find-first predicate posn-gen pub-state k pments)
+  (when (predicate pments)
+    (k (place pments)))
+
+  (match-define [game-state board tiles [cons state others]] pub-state)
+  (define hand (player-state-hand state))
+  (when (pair? hand)
+    (define tile0 (first hand))
+    (~>> tile0
+         (posn-gen _ board)
+         (map (curryr placement tile0))
+         (for-each (lambda (pment)
+                     (define pub-state+ (do-turn/action pub-state (place (list pment))))
+                     (find-first predicate posn-gen pub-state+ k (cons pment pments)))))
+
+    (define pub-state+ (game-state board tiles (cons (remove-from-hand state
+                                                                       (list tile0))
+                                                     others)))
+    (find-first predicate posn-gen pub-state+ k pments)))
+
+
 (module+ test
   (require rackunit)
-  
+
   (define no-fit1 (new no-fit%))
   (define bad-xchange1 (new bad-ask-for-tiles%))
   (define not-line1    (new not-a-line%))
   (define non-adj-coord1 (new non-adj-coord%))
   (define tile-not-owned1 (new tile-not-owned%))
-  
+
   (define gs1
     (game-state (make-board (tile 'red 'square))
                 (list (tile 'blue 'square))
                 (list (player-state++ #:hand (list (tile 'purple 'clover)
                                                    (tile 'green 'square))))))
-  
+
   (define gs2
     (game-state (make-board (tile 'red 'square))
                 (list (tile 'blue 'square)
