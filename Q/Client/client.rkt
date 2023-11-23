@@ -2,6 +2,11 @@
 
 (require Q/Lib/connection)
 (require Q/Client/referee)
+(require Q/Common/interfaces/playable)
+
+(provide
+ (contract-out
+  [start (-> string? natural? (is-a?/c playable<%>) void?)]))
 
 ;; ========================================================================================
 ;; FUNCTIONALITY
@@ -10,7 +15,7 @@
 #; {String PortNumber Playable -> Void}
 ;; Connects to the server and signs up the player, participating in a game.
 (define (start hostname port playable)
-  (define conn (connect hostname port playable))
+  (define conn (connect hostname port))
   (sign-up conn playable)
   (listen conn playable))
 

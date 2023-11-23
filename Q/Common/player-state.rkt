@@ -16,6 +16,7 @@
 (provide
  player-state++
  set-player-state-payload
+ set-player-state-name
  hash->player-state++
  player-name?
  (struct-out player-state)

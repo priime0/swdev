@@ -30,18 +30,18 @@
 
 ;; the maximum amount of time a server will wait for a client to
 ;; supply their name after accepting their connection in seconds
-(define *server-client-timeout* 3)
+(define *server-client-timeout* (make-parameter 3))
 
 ;; the maximimum amount of time a server will wait to acquire the
 ;; minimum number of players for a game in seconds
-(define *signup-timeout* 20)
+(define *signup-timeout* (make-parameter 20))
 
 ;; number of times to try and collect a lobby of players
-(define *tries* 2)
+(define *tries* (make-parameter 2))
 
 ;; the min and max number of players in a game
-(define *min-players* 2)
-(define *max-players* 4)
+(define *min-players* (make-parameter 2))
+(define *max-players* (make-parameter 4))
 
 
 (define *obman*

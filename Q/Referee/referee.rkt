@@ -108,7 +108,11 @@
 
   (match-define [game-state board tiles states] gs)
   (define states+ (map set-player-state-payload states playables))
-  (game-state board tiles states+))
+  (define states++ (map (lambda (s p)
+                          (set-player-state-name s (string->symbol (send p name))))
+                        states+
+                        playables))
+  (game-state board tiles states++))
 
 
 #; {PrivateState -> GameInfo}

@@ -48,8 +48,8 @@
 (define (collect-players info)
   (define info^ (box info))
   (define signup-engine (engine (thunk* (signup-players info^))))
-  (define timeout-ms (* *signup-timeout* 1000))
-  (let loop ([remaining-attemps *tries*])
+  (define timeout-ms (* (*signup-timeout*) 1000))
+  (let loop ([remaining-attemps (*tries*)])
     (cond
       [(zero? remaining-attemps) info]
       [(engine-run timeout-ms signup-engine) (unbox info^)]
@@ -78,7 +78,7 @@
 (define (signup-player info)
   (define listener (lobby-info-listener (unbox info)))
   (define conn (connection-from-listener listener))
-  (define maybe-name (conn-read/timeout conn *server-client-timeout*))
+  (define maybe-name (conn-read/timeout conn (*server-client-timeout*)))
   (cond
     [(not maybe-name) (close-connection conn)]
     [(not (player-name? (string->symbol maybe-name))) (close-connection conn)]
@@ -98,14 +98,14 @@
 ;; Is the given lobby full?
 (define (lobby-full? info)
   (= (length (lobby-info-players info))
-     *max-players*))
+     (*max-players*)))
 
 #; {LobbyInfo -> Boolean}
 ;; Is the given lobby ready for play? (i.e. does it have at least the
 ;; min number of players?)
 (define (lobby-ready? info)
   (>= (length (lobby-info-players info))
-      *min-players*))
+      (*min-players*)))
 
 #; {LobbyInfo -> Boolean}
 ;; Is the given lobby empty?

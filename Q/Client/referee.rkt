@@ -35,7 +35,8 @@
 (define (listen conn playable)
   (let/ec end-listening
     (execute-rpc conn playable end-listening)
-    (listen conn playable)))
+    (listen conn playable))
+  (void))
 
 #; {Connection Playable -> RPC}
 ;; Reads and deserialzies a JSON message into an RPC for the referee
@@ -43,17 +44,17 @@
 (define (execute-rpc/read conn playable)
   (define command (conn-read conn))
   (match command
-    [(list "setup" jpub jtiles)
+    [(list "setup" (list jpub jtiles))
      (define pub-state (hash->pub-state jpub))
      (define hand      (map hash->tile++ jtiles))
      (values (thunk (send playable setup pub-state hand)) #f)]
-    [(list "take-turn" jpub)
+    [(list "take-turn" (list jpub))
      (define pub-state (hash->pub-state jpub))
      (values (thunk (send playable take-turn pub-state)) #f)]
-    [(list "new-tiles" jtiles)
+    [(list "new-tiles" (list jtiles))
      (define hand (map hash->tile++ jtiles))
      (values (thunk (send playable new-tiles hand)) #f)]
-    [(list "win" won?)
+    [(list "win" (list won?))
      (values (thunk (send playable win won?)) #t)]))
 
 #; {Connection Playable EndOfGameContinuation -> Void}
@@ -96,19 +97,19 @@
                                  1
                                  (list (make-player-state hand0)
                                        0)))
-  (define call0 (serialize `(setup ,pub-state0 ,hand0)))
-  (define call1 (serialize `(take-turn ,pub-state0)))
-  (define call2 (serialize `(win #t)))
+  (define call0 (serialize `(setup (,pub-state0 ,hand0))))
+  (define call1 (serialize `(take-turn (,pub-state0))))
+  (define call2 (serialize `(win (#t))))
 
   (define hand1 (list (tile 'red 'star) (tile 'blue 'circle)))
   (define pub-state1 (game-state (make-board (tile 'red 'square))
                                  1
                                  (list (make-player-state hand1)
                                        0)))
-  (define call3 (serialize `(setup ,pub-state1 ,hand1)))
-  (define call4 (serialize `(take-turn ,pub-state1)))
-  (define call5 (serialize `(new-tiles ,(list (tile 'red 'clover)))))
-  (define call6 (serialize `(win #f)))
+  (define call3 (serialize `(setup (,pub-state1 ,hand1))))
+  (define call4 (serialize `(take-turn (,pub-state1))))
+  (define call5 (serialize `(new-tiles (,(list (tile 'red 'clover))))))
+  (define call6 (serialize `(win (#f))))
 
   ;; mock connection setup
   (define mock-input0 (open-input-string (string-append call0 call1 call2)))
