@@ -56,6 +56,19 @@
       [(lobby-ready? (unbox info^)) (unbox info^)]
       [else (loop (sub1 remaining-attemps))])))
 
+#; {[Boxof LobbyInfo] -> Void}
+;; Signs up players until the lobby is full, or until the signup
+;; window is ended.  If there are the minimum number of people in the
+;; lobby when the signup window ends, that lobby is returned on the
+;; given channel, otherwise returns false on the given channel.
+(define (signup-players info)
+  (let loop ()
+    (cond
+      [(lobby-full? (unbox info)) (void)]
+      [else
+       (signup-player info)
+       (loop)])))
+
 
 #; {[Boxof LobbyInfo] -> Void}
 ;; Signs up a new player to the given lobby. Waits for a player to
@@ -71,19 +84,6 @@
     [(not (player-name? (string->symbol maybe-name))) (close-connection conn)]
     [else (add-player info conn (string->symbol maybe-name))]))
 
-
-#; {[Boxof LobbyInfo] -> Void}
-;; Signs up players until the lobby is full, or until the signup
-;; window is ended.  If there are the minimum number of people in the
-;; lobby when the signup window ends, that lobby is returned on the
-;; given channel, otherwise returns false on the given channel.
-(define (signup-players info)
-  (let loop ()
-    (cond
-      [(lobby-full? (unbox info)) (void)]
-      [else
-       (signup-player info)
-       (loop)])))
 
 #; {[Boxof LobbyInfo] Connection Symbol -> Void}
 ;; Creates a new player with the given info and adds them to the given lobby.
