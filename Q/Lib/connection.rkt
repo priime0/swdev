@@ -10,6 +10,7 @@
   [conn-write (-> connection? any/c void?)]
   [conn-read  (-> connection? any)]
   [conn-read/timeout (-> connection? (and/c real? (not/c negative?)) any)]
+  [connect (-> string? port-number? connection?)]
   [connection-from-listener (-> tcp-listener? connection?)]
   [close-connection (-> connection? void?)]))
 
