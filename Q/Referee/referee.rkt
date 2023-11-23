@@ -56,12 +56,19 @@
 ;; trigger the end of the game. It should be called with one argument,
 ;; the final GameInfo.
 
+;; ----------------------------------------------------------------------------------------
+
+#; {type GameResult = (list [Listof String] [Listof String])}
+;; A GameResult represents the summary of a game, and contains the
+;; list of names of winners (player(s) with the highest score), and
+;; the list of names of rulebreakers (those who threw errors or made
+;; invalid moves) in chronological order.
 
 ;; ========================================================================================
 ;; FUNCTIONALITY
 ;; ========================================================================================
 
-#; {[Listof Playable] -> (list [Listof String] [Listof String])}
+#; {[Listof Playable] -> GameResult}
 ;; Play a game of Q with the given list of players to completion, producing the list of players with
 ;; the highest scores sorted in lexicographical order and a list of rulebreakers sorted by temporal
 ;; order of rule-breaking.

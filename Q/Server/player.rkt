@@ -7,6 +7,7 @@
 (require Q/Common/interfaces/serializable)
 (require Q/Lib/connection)
 
+(provide player-proxy%)
 
 #; {class PlayerProxy}
 ;; A PlayerProxy acts as a proxy for the referee to interact with remote players via JSON. If the
@@ -18,7 +19,7 @@
     (init-field id)
 
     (define/public (name)
-      id)
+      (symbol->string id))
 
     #; {Symbol Any ... -> JSExpr}
     ;; Serialize a complete method call with its list of arguments.
@@ -56,9 +57,11 @@
   (match v
     ["void" (void)]))
 
+
+
+
 (module+ test
   (require rackunit)
-  (require json)
   (require Q/Common/map)
   (require Q/Common/game-state)
   (require Q/Common/tile)

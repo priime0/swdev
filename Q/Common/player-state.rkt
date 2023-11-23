@@ -17,6 +17,7 @@
  player-state++
  set-player-state-payload
  hash->player-state++
+ player-name?
  (struct-out player-state)
  (contract-out
   [make-player-state
@@ -49,7 +50,14 @@
 ;; ========================================================================================
 
 
-#; {type PlayerState = (player-state Natural [Listof Tile] Any)}
+#; {Any -> Boolean}
+;; Determines if the provided value is a PlayerName.
+(define (player-name? name)
+  (cond
+    [(symbol? name) (regexp-match "^[a-zA-Z0-9]+$" (symbol->string name))]
+    [else #f]))
+
+#; {type PlayerState = (player-state Natural [Listof Tile] PlayerName Any)}
 ;; A PlayerState represents a participating player's state during any instant of time, containing
 ;; the points the player accrued during the game, along with the tiles in their hand during a move,
 ;; and a payload of type `Any`.
@@ -57,7 +65,7 @@
 (struct++ player-state
           ([(score 0)    natural?]
            [hand         (listof tile?)]
-           [(name #f)    (or/c symbol? #f)]
+           [(name #f)    (or/c player-name? #f)]
            [(payload #f) any/c])
           #:transparent
           #:methods gen:serializable
@@ -66,6 +74,9 @@
              (match-define [player-state score hand _name _payload] ps)
              (hash 'score score
                    'tile* (map ->jsexpr* hand)))])
+
+#; {type PlayerName = Symbol}
+;; A PlayerName is a Symbol that must consisent of 1-20 alphanumeric characters.
 
 
 ;; ========================================================================================
