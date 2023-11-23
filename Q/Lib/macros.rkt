@@ -11,7 +11,8 @@
 
 (provide for/partition
          send/checked
-         override-method/exn)
+         override-method/exn
+         override-method/count)
 
 
 ;; Iterates through the given sequence, adding an element to the `accept' list
@@ -54,16 +55,32 @@
                           (thunk
                            (send obj-expr method-id arg ...)))))]))
 
+
 ;; Produces a mixin that consumes and produces a class of the given
 ;; interface, overriding the given method with its arguments to
 ;; instead throw an exception.
-(define-syntax (override-method/exn stx)
-  (syntax-parse stx
+(define-syntax override-method/exn
+  (syntax-rules ()
     [(_ interface-expr exn-method)
-     #:with exn-name (syntax->datum #'exn-method)
-     #'(mixin (interface-expr) (interface-expr)
-         (super-new)
-         (define/override (exn-method . method-args)
-           (error (quote exn-name) "this is an expected exception")))]))
+     (mixin (interface-expr) (interface-expr)
+       (super-new)
+       (define/override (exn-method . args)
+         (error (quote exn-method) "this is an expected exception")))]))
 
 
+;; Produces a mixin that consumes and produces a class of the given
+;; interface, overriding the given method that runs the super class's
+;; method _cnt_ times before looping infinitely on the _cnt_th call.
+(define-syntax override-method/count
+  (syntax-rules ()
+    [(_ interface-expr exn-method cnt)
+     (mixin (interface-expr) (interface-expr)
+       (super-new)
+       (init-field [curr-count cnt])
+
+       (define/override (exn-method . args)
+         (set! curr-count (sub1 curr-count))
+         (cond [(zero? curr-count)
+                (let loop () (loop))]
+               [else
+                (super exn-method args)])))]))

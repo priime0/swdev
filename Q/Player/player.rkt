@@ -53,15 +53,26 @@
      (new player%
           [id (string->symbol jname)]
           [strategy (hash->strategy++ jstrategy)])]
+    [(list jname jstrategy "a cheat" jcheat)
+     (new player%
+          [id (string->symbol jname)]
+          [strategy (hash->strategy++ jstrategy jcheat)])]
     [(list jname jstrategy jexn)
      (define exn-player% (exn-player jexn))
      (new exn-player%
           [id (string->symbol jname)]
           [strategy (hash->strategy++ jstrategy)])]
-    [(list jname jstrategy "a cheat" jcheat)
-     (new player%
+    [(list jname jstrategy jexn cnt)
+     (define timeout-mixin
+       (match jexn
+         ["setup"     (override-method/count playable<%> setup cnt)]
+         ["take-turn" (override-method/count playable<%> take-turn cnt)]
+         ["new-tiles" (override-method/count playable<%> new-tiles cnt)]
+         ["win"       (override-method/count playable<%> win cnt)]))
+     (define timeout-player% (timeout-mixin player%))
+     (new timeout-player%
           [id (string->symbol jname)]
-          [strategy (hash->strategy++ jstrategy jcheat)])]))
+          [strategy (hash->strategy++ jstrategy)])]))
 
 
 
