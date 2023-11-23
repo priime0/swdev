@@ -59,7 +59,7 @@
 ;; If they comply, sign them up. Otherwise, discard the connection.
 (define (signup-player info)
   (define listener (lobby-info-listener (unbox info)))
-  (define conn (create-tcp-connection listener))
+  (define conn (connection-from-listener listener))
   (define maybe-name (conn-read/timeout conn *server-client-timeout*))
   (cond
     [(not maybe-name) (close-connection conn)]

@@ -10,7 +10,7 @@
   [conn-write (-> connection? any/c void?)]
   [conn-read  (-> connection? any)]
   [conn-read/timeout (-> connection? (and/c real? (not/c negative?)) any)]
-  [create-tcp-connection (-> tcp-listener? connection?)]
+  [connection-from-listener (-> tcp-listener? connection?)]
   [close-connection (-> connection? void?)]))
 
 
@@ -38,10 +38,19 @@
    (thread (thunk (set! msg (conn-read conn)))))
   msg)
 
+
+#; {String PortNumber -> Connection}
+;; Create a connection from a TCP connection with the given hostname
+;; and port number.
+(define (connect hostname port)
+  (define-values (in out) (tcp-connect hostname port))
+  (connection in out))
+
+
 #; {TcpListener -> Connection}
 ;; Create a connection from accepting a TCP listener.
 ;; Blocks until a connection request comes in.
-(define (create-tcp-connection listener)
+(define (connection-from-listener listener)
   (define-values (in out) (tcp-accept listener))
   (connection in out))
 
