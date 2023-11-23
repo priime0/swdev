@@ -1,0 +1,55 @@
+{ "map" : [
+  [0,
+    [0,
+      {"color" : "purple" , "shape" : "diamond"}
+    ]
+  ]
+],
+  "tile*" : [{"color" : "orange", "shape": "8star"},
+             {"color" : "orange", "shape": "8star"},
+             {"color" : "orange", "shape": "8star"},
+             {"color" : "orange", "shape": "8star"},
+             {"color" : "orange", "shape": "8star"},
+             {"color" : "orange", "shape": "8star"}],
+  "players" : [  {"score" : 0,
+                  "name" : "Matthias1",
+                  "tile*" : [{"color" : "blue", "shape": "diamond"}, 
+                             {"color" : "green", "shape": "diamond"},
+                             {"color" : "orange", "shape": "8star"},
+                             {"color" : "orange", "shape": "8star"},
+                             {"color" : "orange", "shape": "8star"},
+                             {"color" : "orange", "shape": "8star"}]},
+                 {"score" : 0,
+                  "name" : "Matthias2",
+                  "tile*" : [{"color" : "blue", "shape": "clover"}, 
+                             {"color" : "blue", "shape": "square"},
+                             {"color" : "orange", "shape": "8star"},
+                             {"color" : "orange", "shape": "8star"},
+                             {"color" : "orange", "shape": "8star"},
+                             {"color" : "orange", "shape": "8star"}]},
+                {"score" : 0,
+                 "name" : "Matthias3",
+                  "tile*" : [{"color" : "green", "shape": "star"}, 
+                             {"color" : "green", "shape": "circle"},
+                             {"color" : "orange", "shape": "8star"},
+                             {"color" : "orange", "shape": "8star"},
+                             {"color" : "orange", "shape": "8star"},
+                             {"color" : "orange", "shape": "8star"}]},
+                 {"score" : 0,
+                  "name" : "Matthias4",
+                  "tile*" : [{"color" : "orange", "shape": "8star"},
+                             {"color" : "orange", "shape": "8star"},
+                             {"color" : "orange", "shape": "8star"},
+                             {"color" : "orange", "shape": "8star"},
+                             {"color" : "orange", "shape": "8star"},
+                             {"color" : "orange", "shape": "8star"}]}
+               ]
+}
+
+[
+  ["Matthias1", "dag"],
+  ["Matthias2", "ldasg"],
+  ["Matthias3", "ldasg"],
+  ["Matthias4", "ldasg"] 
+]  
+

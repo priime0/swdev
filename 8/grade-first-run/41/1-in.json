@@ -1,0 +1,2 @@
+{"map":[[0,[0,{"color":"yellow","shape":"clover"}]]],"players":[{"name":"A","score":0,"tile*":[{"color":"purple","shape":"clover"}]},{"name":"cheater","score":0,"tile*":[{"color":"purple","shape":"star"}]},{"name":"Exn","score":0,"tile*":[{"color":"purple","shape":"clover"}]}],"tile*":[]}
+[["A","ldasg"],["cheater","ldasg","a cheat","non-adjacent-coordinate"], ["Exn", "ldasg", "win"]]

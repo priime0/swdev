@@ -1,0 +1,17 @@
+{"map":[[100,[-10,{"color":"blue","shape":"square"}]]],
+  "players":[
+    {"name":"player1","score":0,
+      "tile*":
+      [{"color":"green","shape":"square"},
+        {"color":"yellow","shape":"circle"},
+        {"color":"purple","shape":"diamond"}]},
+    {"name":"player2","score":0,"tile*":[
+      {"color":"orange","shape":"diamond"}]},
+    {"name":"player3","score":0,"tile*":[
+      {"color":"blue","shape":"8star"}]},
+    {"name":"player4","score":0,"tile*":[
+      {"color":"yellow","shape":"diamond"}]}],
+  "tile*":[{"color":"red","shape":"star"},
+    {"color":"green","shape":"diamond"},
+    {"color":"blue","shape":"8star"}]}
+[["player1","ldasg","a cheat","non-adjacent-coordinate"],["player2","ldasg", "a cheat", "non-adjacent-coordinate"], ["player3", "dag", "a cheat", "no-fit"], ["player4", "dag", "a cheat", "tile-not-owned"]]

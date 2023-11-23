@@ -1,0 +1,47 @@
+{ "map" : [
+  [0,
+    [0,
+      {"color" : "yellow" , "shape" : "star"}
+    ]
+  ]
+],
+  "tile*" : [{"color" : "purple", "shape": "circle"},
+             {"color" : "purple", "shape": "circle"},
+             {"color" : "purple", "shape": "circle"},
+             {"color" : "purple", "shape": "circle"},
+             {"color" : "purple", "shape": "circle"},
+             {"color" : "purple", "shape": "circle"},
+             {"color" : "purple", "shape": "circle"}],
+  "players" : [  {"score" : 0,
+                  "name" : "Tom",
+                  "tile*" : [{"color" : "red", "shape": "star"}, 
+                             {"color" : "red", "shape": "star"},
+                             {"color" : "purple", "shape": "circle"},
+                             {"color" : "purple", "shape": "circle"},
+                             {"color" : "purple", "shape": "circle"},
+                             {"color" : "purple", "shape": "circle"}]},
+                 {"score" : 0,
+                  "name" : "Jerry",
+                  "tile*" : [{"color" : "yellow", "shape": "8star"}, 
+                             {"color" : "yellow", "shape": "8star"},
+                             {"color" : "purple", "shape": "circle"}, 
+                             {"color" : "purple", "shape": "circle"},
+                             {"color" : "purple", "shape": "circle"},
+                             {"color" : "purple", "shape": "circle"}]},
+                 {"score" : 0,
+                  "name" : "Carol",
+                  "tile*" : [{"color" : "purple", "shape": "circle"},
+                             {"color" : "purple", "shape": "circle"},
+                             {"color" : "purple", "shape": "circle"},
+                             {"color" : "purple", "shape": "circle"},
+                             {"color" : "purple", "shape": "circle"},
+                             {"color" : "purple", "shape": "circle"}]}
+               ]
+}
+
+[
+  ["Tom", "dag"],
+  ["Jerry", "dag"],
+  ["Carol", "ldasg", "a cheat", "no-fit"] 
+]  
+

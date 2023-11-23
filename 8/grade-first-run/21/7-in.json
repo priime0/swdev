@@ -1,0 +1,20 @@
+{
+  "map" :
+  [
+    [0,[0,{"color" : "orange", "shape" : "star"}]]
+  ]
+,
+  "tile*" : [{"color" : "orange", "shape" : "star"}],
+  "players" : [
+    {"name": "player1","score" : 14, "tile*" : [{"color" : "orange", "shape" : "star"}, {"color" : "orange", "shape" : "star"}, {"color" : "orange", "shape" : "star"}, {"color" :  "red", "shape":  "circle"}]},
+    {"name": "player2","score" : 25, "tile*" : [{"color" : "blue", "shape" : "8star"}]},
+    {"name": "player3","score" : 25, "tile*" : [{"color" : "blue", "shape" : "8star"}]},
+    {"name": "player4","score" : 25, "tile*" : [{"color" : "blue", "shape" : "8star"}]}
+  ]
+}
+[
+  ["player1", "dag", "a cheat", "bad-ask-for-tiles"],
+  ["player2", "dag", "a cheat", "non-adjacent-coordinate"],
+  ["player3", "ldasg", "a cheat", "tile-not-owned"],
+  ["player4", "dag", "a cheat", "not-a-line"]
+]

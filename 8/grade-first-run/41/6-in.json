@@ -1,0 +1,15 @@
+{
+    "map":[[0,[0,{"color":"green","shape":"clover"}]]],
+    "tile*": [{"color":"blue","shape":"square"}, {"color":"green","shape":"clover"}, {"color":"green","shape":"clover"}],
+    "players":[
+        {"name":"A","score":0,"tile*":[
+            {"color":"green","shape":"8star"},{"color":"blue","shape":"square"}
+        ]},
+        {"name":"B","score":0,"tile*":[
+            {"color":"blue","shape":"square"},{"color":"blue","shape":"square"}, {"color":"blue","shape":"square"}
+        ]}
+    ]
+}
+
+
+[["A","ldasg"],["B","ldasg", "a cheat", "bad-ask-for-tiles"]]

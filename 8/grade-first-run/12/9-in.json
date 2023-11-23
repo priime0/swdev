@@ -1,0 +1,63 @@
+{
+  "map": [
+    [
+      0,
+      [
+        1,
+        {
+          "color": "orange",
+          "shape": "star"
+        }
+      ]
+    ]
+  ],
+  "players": [
+    {
+      "name": "A",
+      "score": 0,
+      "tile*": [
+        {
+          "color": "red",
+          "shape": "star"
+        }
+      ]
+    },
+    {
+      "name": "B",
+      "score": 0,
+      "tile*": [
+        {
+          "color": "red",
+          "shape": "8star"
+        },
+        {
+          "color": "blue",
+          "shape": "square"
+        }
+      ]
+    }
+  ],
+  "tile*": [
+    {
+      "color": "red",
+      "shape": "star"
+    },
+    {
+      "color": "red",
+      "shape": "star"
+    }
+  ]
+}
+
+[
+  [
+    "A",
+    "ldasg",
+    "a cheat",
+    "no-fit"
+  ],
+  [
+    "B",
+    "ldasg"
+  ]
+]

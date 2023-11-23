@@ -1,0 +1,10 @@
+{"map":[[0,[0,{"color":"yellow","shape":"clover"}],[1, {"color": "purple", "shape": "clover"}]],
+[1,[0, {"color": "yellow", "shape": "circle"}], [1, {"color": "purple", "shape": "clover"}]],
+[2, [0, {"color": "blue", "shape": "circle"}], [1, {"color" : "blue", "shape": "clover"}]]], 
+"players" : [
+    {"name": "Andrew", "score": 15, "tile*" : [{"color":"green","shape":"star"},{"color":"green","shape":"square"},{"color":"orange","shape":"8star"}, {"color": "yellow", "shape": "circle"}]},
+    {"name": "Ben", "score" : 2, "tile*" : [{"color":"green","shape":"square"},{"color":"red","shape":"square"},{"color":"blue","shape":"8star"}]},
+    {"name": "Connor", "score": 28, "tile*" : [{"color":"purple","shape":"circle"},{"color":"purple","shape":"square"},{"color":"orange","shape":"8star"}, {"color": "yellow", "shape": "circle"}]},
+    {"name": "Dave", "score": 5, "tile*" : [{"color":"red","shape":"8star"},{"color":"blue","shape":"square"},{"color":"orange","shape":"8star"}, {"color": "orange", "shape": "star"}]}],
+    "tile*": [{"color": "green", "shape": "star"}]}
+[["Andrew","ldasg"],["Ben","ldasg"], ["Connor", "dag", "a cheat", "not-a-line"], ["Dave", "dag", "a cheat", "tile-not-owned"]]

@@ -1,0 +1,10 @@
+{"map":[[0,[0,{"color":"red","shape":"star"}]]],
+"tile*":[{"color":"blue","shape":"8star"},{"color":"green","shape":"star"}],
+"players":[
+{"score":0,"name":"player1","tile*":[{"color":"yellow","shape":"circle"},{"color":"green","shape":"circle"},{"color":"blue","shape":"square"},{"color":"purple","shape":"square"}]},
+{"score":0,"name":"eliminated","tile*":[{"color":"orange","shape":"star"},{"color":"green","shape":"circle"}]},
+{"score":0,"name":"player3","tile*":[{"color":"purple","shape":"square"}]}
+]
+}
+[["player1","dag"],["eliminated","ldasg","new-tiles"],["player3","ldasg"]]
+
