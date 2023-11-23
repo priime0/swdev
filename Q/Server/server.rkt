@@ -6,6 +6,12 @@
 (require Q/Common/config)
 (require Q/Lib/connection)
 
+(require racket/engine)
+
+(provide
+ (contract-out
+  [run (-> natural? (list/c (listof string?) (listof string?)))]))
+
 ;; ========================================================================================
 ;; DATA DEFINITIONS
 ;; ========================================================================================
@@ -15,8 +21,7 @@
 ;; server, and contains the listener on which the server accepts
 ;; client connections, and the server's current list of players
 ;; waiting in the lobby, in ascending age order.
-(struct lobby-info (listener players) #:transparent
-  #:property prop:evt (struct-field-index listener))
+(struct lobby-info (listener players) #:transparent)
 
 ;; ========================================================================================
 ;; FUNCTIONALITY
@@ -37,19 +42,19 @@
     (custodian-shutdown-all (current-custodian))
     result))
 
+
 #; {LobbyInfo -> LobbyInfo}
 ;; Collects players into the given lobby.
 (define (collect-players info)
-  (define lobby-chan (make-channel))
-  (define _ (thread (thunk (signup-players lobby-chan info))))
+  (define info^ (box info))
+  (define signup-engine (engine (thunk* (signup-players info^))))
+  (define timeout-ms (* *signup-timeout* 1000))
   (let loop ([remaining-attemps *tries*])
     (cond
       [(zero? remaining-attemps) info]
-      [(sync/timeout *signup-timeout* lobby-chan) => identity]
-      [else
-       (channel-put lobby-chan 'get)
-       (define result (channel-get lobby-chan))
-       (or result (loop (sub1 remaining-attemps)))])))
+      [(engine-run timeout-ms signup-engine) (unbox info^)]
+      [(lobby-ready? (unbox info^)) (unbox info^)]
+      [else (loop (sub1 remaining-attemps))])))
 
 
 #; {[Boxof LobbyInfo] -> Void}
@@ -67,28 +72,18 @@
     [else (add-player info conn (string->symbol maybe-name))]))
 
 
-#; {[Channel (U Symbol LobbyInfo)] LobbyInfo -> Void}
+#; {[Boxof LobbyInfo] -> Void}
 ;; Signs up players until the lobby is full, or until the signup
 ;; window is ended.  If there are the minimum number of people in the
 ;; lobby when the signup window ends, that lobby is returned on the
 ;; given channel, otherwise returns false on the given channel.
-(define (signup-players lobby-channel info)
-(let/ec stop
-  (define info^ (box info))
+(define (signup-players info)
   (let loop ()
     (cond
-      [(lobby-full? (unbox info^))
-       (stop (channel-put lobby-channel (unbox info^)))]
-      [(lobby-ready? (unbox info^))
-       (sync
-        (handle-evt lobby-channel (thunk* (stop (channel-put lobby-channel (unbox info^)))))
-        (handle-evt (unbox info^) (thunk* (signup-player info^))))
-       (loop)]
+      [(lobby-full? (unbox info)) (void)]
       [else
-       (sync
-        (handle-evt lobby-channel (thunk* (channel-put lobby-channel #f)))
-        (handle-evt (unbox info^) (thunk* (signup-player info^))))
-       (loop)]))))
+       (signup-player info)
+       (loop)])))
 
 #; {[Boxof LobbyInfo] Connection Symbol -> Void}
 ;; Creates a new player with the given info and adds them to the given lobby.
