@@ -37,14 +37,25 @@
     (define/public (win won?)
       (void))))
 
-#; {JExn -> {class ExnPlayer}}
+#; {JExn -> (class ExnPlayer)}
 ;; Creates a new player% sub-class, overriding the given method to throw an error.
 (define (exn-player jexn)
-  (match jexn
-    ["setup"     ((override-method/exn playable<%> setup) player%)]
-    ["take-turn" ((override-method/exn playable<%> take-turn) player%)]
-    ["new-tiles" ((override-method/exn playable<%> new-tiles) player%)]
-    ["win"       ((override-method/exn playable<%> win) player%)]))
+  ((match jexn
+     ["setup"     (override-method/exn playable<%> setup)]
+     ["take-turn" (override-method/exn playable<%> take-turn)]
+     ["new-tiles" (override-method/exn playable<%> new-tiles)]
+     ["win"       (override-method/exn playable<%> win)])
+   player%))
+
+#; {JExn Count -> (class TimeoutPlayer)}
+;; Creates a new player% sub-class, which overrides the
+(define (timeout-player jexn cnt)
+  ((match jexn
+     ["setup"     (override-method/count playable<%> setup cnt)]
+     ["take-turn" (override-method/count playable<%> take-turn cnt)]
+     ["new-tiles" (override-method/count playable<%> new-tiles cnt)]
+     ["win"       (override-method/count playable<%> win cnt)])
+   player%))
 
 #; {JSExpr -> Player}
 (define (hash->player++ jactor)
@@ -63,13 +74,7 @@
           [id (string->symbol jname)]
           [strategy (hash->strategy++ jstrategy)])]
     [(list jname jstrategy jexn cnt)
-     (define timeout-mixin
-       (match jexn
-         ["setup"     (override-method/count playable<%> setup cnt)]
-         ["take-turn" (override-method/count playable<%> take-turn cnt)]
-         ["new-tiles" (override-method/count playable<%> new-tiles cnt)]
-         ["win"       (override-method/count playable<%> win cnt)]))
-     (define timeout-player% (timeout-mixin player%))
+     (define timeout-player% (timeout-player jexn cnt))
      (new timeout-player%
           [id (string->symbol jname)]
           [strategy (hash->strategy++ jstrategy)])]))
