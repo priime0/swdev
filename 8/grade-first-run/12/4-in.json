@@ -1,0 +1,278 @@
+{
+  "map": [
+    [
+      -3,
+      [
+        1,
+        {
+          "color": "orange",
+          "shape": "clover"
+        }
+      ]
+    ],
+    [
+      -2,
+      [
+        1,
+        {
+          "color": "green",
+          "shape": "circle"
+        }
+      ],
+      [
+        3,
+        {
+          "color": "orange",
+          "shape": "star"
+        }
+      ],
+      [
+        5,
+        {
+          "color": "blue",
+          "shape": "circle"
+        }
+      ]
+    ],
+    [
+      -1,
+      [
+        -1,
+        {
+          "color": "yellow",
+          "shape": "square"
+        }
+      ],
+      [
+        0,
+        {
+          "color": "purple",
+          "shape": "8star"
+        }
+      ],
+      [
+        1,
+        {
+          "color": "orange",
+          "shape": "8star"
+        }
+      ],
+      [
+        2,
+        {
+          "color": "yellow",
+          "shape": "clover"
+        }
+      ],
+      [
+        3,
+        {
+          "color": "purple",
+          "shape": "clover"
+        }
+      ],
+      [
+        4,
+        {
+          "color": "red",
+          "shape": "square"
+        }
+      ],
+      [
+        5,
+        {
+          "color": "purple",
+          "shape": "circle"
+        }
+      ],
+      [
+        6,
+        {
+          "color": "orange",
+          "shape": "8star"
+        }
+      ]
+    ],
+    [
+      0,
+      [
+        0,
+        {
+          "color": "purple",
+          "shape": "diamond"
+        }
+      ],
+      [
+        1,
+        {
+          "color": "blue",
+          "shape": "square"
+        }
+      ],
+      [
+        2,
+        {
+          "color": "red",
+          "shape": "8star"
+        }
+      ],
+      [
+        4,
+        {
+          "color": "red",
+          "shape": "8star"
+        }
+      ]
+    ],
+    [
+      1,
+      [
+        0,
+        {
+          "color": "purple",
+          "shape": "star"
+        }
+      ],
+      [
+        1,
+        {
+          "color": "green",
+          "shape": "circle"
+        }
+      ],
+      [
+        2,
+        {
+          "color": "orange",
+          "shape": "diamond"
+        }
+      ],
+      [
+        3,
+        {
+          "color": "yellow",
+          "shape": "diamond"
+        }
+      ],
+      [
+        4,
+        {
+          "color": "orange",
+          "shape": "star"
+        }
+      ],
+      [
+        5,
+        {
+          "color": "blue",
+          "shape": "star"
+        }
+      ]
+    ],
+    [
+      2,
+      [
+        1,
+        {
+          "color": "orange",
+          "shape": "star"
+        }
+      ],
+      [
+        4,
+        {
+          "color": "blue",
+          "shape": "square"
+        }
+      ]
+    ],
+    [
+      3,
+      [
+        1,
+        {
+          "color": "blue",
+          "shape": "star"
+        }
+      ]
+    ]
+  ],
+  "tile*": [
+  ],
+  "players": [
+    {
+      "score": 0,
+      "name": "A",
+      "tile*": [
+        {
+          "color": "green",
+          "shape": "diamond"
+        }
+      ]
+    },
+    {
+      "score": 0,
+      "name": "B",
+      "tile*": [
+        {
+          "color": "orange",
+          "shape": "8star"
+        },
+        {
+          "color": "green",
+          "shape": "diamond"
+        },
+        {
+          "color": "yellow",
+          "shape": "circle"
+        },
+        {
+          "color": "red",
+          "shape": "circle"
+        }
+      ]
+    },
+    {
+      "score": 0,
+      "name": "C",
+      "tile*": [
+        {
+          "color": "red",
+          "shape": "diamond"
+        }
+      ]
+    },
+    {
+      "score": 0,
+      "name": "D",
+      "tile*": [
+        {
+          "color": "red",
+          "shape": "diamond"
+        }
+      ]
+    }
+  ]
+}
+[
+  [
+    "A",
+    "dag"
+  ],
+  [
+    "B",
+    "dag"
+  ],
+  [
+    "C",
+    "dag",
+    "a cheat",
+    "no-fit"
+  ],
+  [
+    "D",
+    "dag",
+    "a cheat",
+    "no-fit"
+  ]
+]

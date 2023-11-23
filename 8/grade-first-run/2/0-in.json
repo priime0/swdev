@@ -1,0 +1,2 @@
+{"map":[[0,[0,{"color":"orange","shape":"8star"}]]],"players":[{"name":"A","score":0,"tile*":[{"color":"blue","shape":"star"}]},{"name":"B","score":0,"tile*":[{"color":"blue","shape":"star"}]}],"tile*":[]}
+[["A","dag"],["B","dag","setup"]]

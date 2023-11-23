@@ -1,0 +1,16 @@
+{
+    "map" :
+    [
+      [0,[-1, {"color" : "red", "shape" : "star"}],[0,{"color" : "orange", "shape" : "star"}], [1, {"color" : "red", "shape" : "star"}]], [1, [0, {"color" : "red", "shape" : "star"}]]
+    ]
+  ,
+    "tile*" : [{"color" : "orange", "shape" : "clover"}],
+    "players" : [
+      {"name": "player1","score" : 100, "tile*" : [{"color" : "orange", "shape" : "square"}, {"color" : "orange", "shape" : "circle"}, {"color" : "blue", "shape": "diamond"}]},
+      {"name": "player2","score" : 25, "tile*" : [{"color" : "purple", "shape" : "8star"}]}
+    ]
+  }
+  [
+    ["player1", "dag", "a cheat", "not-a-line"],
+    ["player2", "dag"]
+  ]

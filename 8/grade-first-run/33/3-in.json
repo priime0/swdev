@@ -1,0 +1,5 @@
+{"map":[[0,[0,{"color":"red","shape":"clover"}]],[1,[0,{"color":"red","shape":"diamond"}]],[2,[0,{"color":"red","shape":"circle"}]]],
+  "players":[{"name":"A","score":0,"tile*":[{"color":"green","shape":"8star"},{"color":"blue","shape":"square"},{"color":"purple","shape":"clover"},{"color":"purple","shape":"clover"},{"color":"yellow","shape":"diamond"},{"color":"orange","shape":"circle"}]},
+    {"name":"B","score":0,"tile*":[{"color":"green","shape":"8star"},{"color":"blue","shape":"square"},{"color":"purple","shape":"clover"},{"color":"purple","shape":"clover"},{"color":"yellow","shape":"diamond"},{"color":"yellow","shape":"diamond"}]}],
+  "tile*":[{"color":"green","shape":"8star"},{"color":"blue","shape":"square"},{"color":"yellow","shape":"circle"},{"color":"purple","shape":"clover"},{"color":"yellow","shape":"diamond"},{"color":"orange","shape":"circle"}]}
+[["A","dag"],["B","ldasg","a cheat","no-fit"]]

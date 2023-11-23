@@ -1,0 +1,53 @@
+{
+    "map": [
+        [
+            0,
+            [
+                0,
+                {
+                    "color": "red",
+                    "shape": "clover"
+                }
+            ]
+        ]
+    ],
+    "tile*": [],
+    "players": [
+        {
+            "score": 0,
+            "name": "Dag",
+            "tile*": [
+                {
+                    "color": "red",
+                    "shape": "star"
+                },
+                {
+                    "color": "green",
+                    "shape": "square"
+                }
+            ]
+        },
+        {
+            "score": 0,
+            "name": "Ldasg",
+            "tile*": [
+                {
+                    "color": "green",
+                    "shape": "star"
+                }
+            ]
+        }
+    ]
+}
+[
+    [
+        "Dag",
+        "dag"
+    ],
+    [
+        "Ldasg",
+        "ldasg",
+        "a cheat",
+        "no-fit"
+    ]
+]

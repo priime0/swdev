@@ -1,0 +1,48 @@
+{
+    "map":[
+        [0, [0, {"color":"yellow","shape":"star"}], [1, {"color":"yellow","shape":"circle"}], [2, {"color":"orange","shape":"circle"}]],
+        [1, [0, {"color":"red","shape":"square"}], [1, {"color":"purple","shape":"circle"}], [2, {"color":"blue","shape":"star"}]],
+        [2, [1, {"color":"purple","shape":"diamond"}], [2, {"color":"blue","shape":"circle"}]]
+    ],
+    "players":[
+        {
+            "name":"P1",
+            "score":0,
+            "tile*":[
+                {"color":"green","shape":"8star"}, 
+                {"color":"green","shape":"8star"}, 
+                {"color":"green","shape":"8star"}
+            ]
+        },{
+            "name":"P2",
+            "score":0,
+            "tile*":[
+                {"color":"green","shape":"circle"}, 
+                {"color":"purple","shape":"star"}, 
+                {"color":"blue","shape":"square"}
+                ]
+        },{
+            "name":"P3",
+            "score":0,
+            "tile*":[
+                {"color":"purple","shape":"star"}, 
+                {"color":"purple","shape":"8star"}, 
+                {"color":"orange","shape":"circle"}
+            ]
+        },{
+            "name":"P4",
+            "score":0,
+            "tile*":[
+                {"color":"yellow","shape":"star"}, 
+                {"color":"green","shape":"8star"}, 
+                {"color":"blue","shape":"clover"}
+            ]
+        }
+    ],
+    "tile*":[
+        {"color":"purple", "shape":"square"},
+        {"color":"purple", "shape":"8star"}
+    ]
+}    
+[["P1", "ldasg", "win"],["P2", "ldasg", "setup"],["P3", "ldasg", "take-turn"],["P4", "ldasg", "new-tiles"]]
+

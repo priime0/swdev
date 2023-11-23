@@ -1,0 +1,15 @@
+{
+    "map":[[0,[0,{"color":"green","shape":"clover"}]]],
+    "tile*": [{"color":"blue","shape":"square"}, {"color":"green","shape":"clover"}, {"color":"green","shape":"clover"}],
+    "players":[
+        {"name":"A","score":0,"tile*":[
+            {"color":"green","shape":"clover"}, {"color":"green","shape":"clover"}, {"color":"green","shape":"clover"}
+        ]},
+        {"name":"B","score":0,"tile*":[
+            {"color":"green","shape":"clover"}
+        ]}
+    ]
+}
+
+
+[["A","ldasg", "a cheat", "tile-not-owned"],["B","ldasg", "new-tiles"]]

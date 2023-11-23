@@ -1,0 +1,59 @@
+{
+  "map": [
+    [
+      0,
+      [
+        0,
+        {
+          "color": "red",
+          "shape": "star"
+        }
+      ],
+      [
+        1,
+        {
+          "color": "blue",
+          "shape": "star"
+        }
+      ],
+      [
+        -1,
+        {
+          "color": "blue",
+          "shape": "star"
+        }
+      ]
+    ]
+  ],
+  "players": [
+    {
+      "name": "p01p02p12",
+      "score": 37,
+      "tile*": [
+        { "color":"red", "shape":"diamond" },
+        { "color":"red", "shape":"square" },
+        { "color":"red", "shape":"8star" },
+        { "color":"red", "shape":"diamond" },
+        { "color":"red", "shape":"square" },
+        { "color":"red", "shape":"clover" }
+      ]
+    },
+    {
+      "name": "winman",
+      "score": 1000,
+      "tile*": [
+        { "color":"red", "shape":"diamond" },
+        { "color":"blue", "shape":"diamond" },
+        { "color":"orange", "shape":"8star" },
+        { "color":"orange", "shape":"star" },
+        { "color":"blue", "shape":"8star" },
+        { "color":"green", "shape":"circle" }
+      ]
+    }
+  ],
+  "tile*": []
+}
+[
+  ["p01p02p12", "dag", "a cheat", "not-a-line"],
+  ["winman", "ldasg"]
+]

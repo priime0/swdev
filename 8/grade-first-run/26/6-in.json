@@ -1,0 +1,31 @@
+{"map":
+[
+  [800,
+    [-800,{"color":"orange","shape":"8star"}]],
+  [801,
+    [-800,{"color":"green","shape":"diamond"}],
+    [-799,{"color":"yellow","shape":"star"}]]],
+  "tile*":
+  [{"color":"orange","shape":"8star"},
+    {"color":"red","shape":"8star"},
+    {"color":"blue","shape":"circle"},
+    {"color":"blue","shape":"circle"}],
+  "players":
+  [{"name" : "player1","score":2,"tile*":[
+    {"color":"orange","shape":"star"},
+    {"color":"blue","shape":"star"},
+    {"color":"green","shape":"diamond"},
+    {"color":"red","shape":"8star"}]},
+    {"name" : "player2","score":25,"tile*":[
+      {"color":"yellow","shape":"circle"},
+      {"color":"purple","shape":"8star"},
+      {"color":"orange","shape":"star"}]},
+    {"name" : "player3","score":24,"tile*":[
+      {"color":"green","shape":"diamond"},
+      {"color":"yellow","shape":"diamond"},
+      {"color":"blue","shape":"square"}]},
+    {"name" : "player4","score":5,"tile*":[
+      {"color":"blue","shape":"square"},
+      {"color":"red","shape":"square"},
+      {"color":"green","shape":"diamond"}]}]}
+[["player1", "dag"], ["player2", "ldasg"], ["player3", "ldasg", "a cheat", "bad-ask-for-tiles"], ["player4", "dag"]]

@@ -1,0 +1,35 @@
+{
+    "map":[
+        [0, [0, {"color":"red","shape":"star"}]]
+    ],
+    "players":[
+        {
+            "name":"one",
+            "score":0,
+            "tile*":[
+                {"color":"purple","shape":"diamond"}
+            ]
+        },{
+            "name":"two",
+            "score":0,
+            "tile*":[
+                {"color":"green","shape":"8star"}
+            ]
+        },{
+            "name":"three",
+            "score":0,
+            "tile*":[
+                {"color":"yellow","shape":"square"}
+           ]
+        },{
+            "name":"four",
+            "score":0,
+            "tile*":[
+                {"color":"orange","shape":"circle"}
+           ]
+        }
+    ],
+    "tile*":[]
+}
+[["one", "dag"],["two", "dag"],["three", "dag", "take-turn"],["four", "dag", "a cheat", "bad-ask-for-tiles"]]
+

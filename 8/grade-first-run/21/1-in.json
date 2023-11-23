@@ -1,0 +1,17 @@
+{
+  "map" :
+  [
+    [1,[0,{"color" : "red", "shape" : "8star"}]],
+    [2,[0, {"color" : "green", "shape" : "8star"}]]
+  ]
+,
+  "tile*" : [{"color" : "blue", "shape" : "8star"}],
+  "players" : [
+    {"name": "player1","score" : 25, "tile*" : [{"color" : "blue", "shape" : "8star"}, {"color" : "blue", "shape" : "8star"}]},
+    {"name": "player2","score" : 25, "tile*" : [{"color" : "blue", "shape" : "8star"}]}
+  ]
+}
+[
+  ["player1", "dag", "a cheat", "non-adjacent-coordinate"],
+  ["player2", "dag"]
+]

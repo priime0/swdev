@@ -1,0 +1,8 @@
+{"map": [[0, [0, {"color": "red", "shape": "diamond"}]]],
+"tile*": [{"color": "red", "shape": "square"}, {"color": "red", "shape": "square"}, {"color": "red", "shape": "square"}, {"color": "red", "shape": "square"}],
+"players": 
+[{"name": "Alice", "score": 0, "tile*": [{"color": "green", "shape": "diamond"}, {"color": "blue", "shape": "diamond"}, {"color": "yellow", "shape": "diamond"}, {"color": "orange", "shape": "diamond"}, {"color": "purple", "shape": "diamond"}]},
+ {"name": "Bob", "score": 0, "tile*": [{"color": "green", "shape": "diamond"}, {"color": "blue", "shape": "diamond"}, {"color": "yellow", "shape": "diamond"}, {"color": "orange", "shape": "diamond"}, {"color": "purple", "shape": "diamond"}]}] 
+}
+[["Alice", "ldasg", "a cheat", "non-adjacent-coordinate"], ["Bob", "dag"]]
+

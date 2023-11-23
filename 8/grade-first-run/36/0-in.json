@@ -1,0 +1,178 @@
+{
+  "map": [
+    [
+      -4,
+      [
+        0,
+        {
+          "color": "green",
+          "shape": "clover"
+        }
+      ],
+      [
+        1,
+        {
+          "color": "orange",
+          "shape": "star"
+        }
+      ]
+    ],
+    [
+      -3,
+      [
+        1,
+        {
+          "color": "yellow",
+          "shape": "square"
+        }
+      ]
+    ],
+    [
+      -2,
+      [
+        1,
+        {
+          "color": "red",
+          "shape": "8star"
+        }
+      ]
+    ],
+    [
+      -1,
+      [
+        0,
+        {
+          "color": "green",
+          "shape": "clover"
+        }
+      ],
+      [
+        1,
+        {
+          "color": "green",
+          "shape": "8star"
+        }
+      ],
+      [
+        2,
+        {
+          "color": "purple",
+          "shape": "star"
+        }
+      ],
+      [
+        3,
+        {
+          "color": "orange",
+          "shape": "8star"
+        }
+      ],
+      [
+        4,
+        {
+          "color": "orange",
+          "shape": "circle"
+        }
+      ]
+    ],
+    [
+      0,
+      [
+        -1,
+        {
+          "color": "blue",
+          "shape": "clover"
+        }
+      ],
+      [
+        0,
+        {
+          "color": "blue",
+          "shape": "star"
+        }
+      ],
+      [
+        1,
+        {
+          "color": "orange",
+          "shape": "clover"
+        }
+      ]
+    ]
+  ],
+  "players": [
+    {
+      "score": 0,
+      "tile*": [
+        {
+          "color": "green",
+          "shape": "star"
+        }
+      ],
+      "name": "D"
+    },
+    {
+      "score": 0,
+      "tile*": [
+        {
+          "color": "blue",
+          "shape": "square"
+        },
+        {
+          "color": "orange",
+          "shape": "diamond"
+        }
+      ],
+      "name": "C"
+    },
+    {
+      "score": 0,
+      "tile*": [
+        {
+          "color": "orange",
+          "shape": "circle"
+        }
+      ],
+      "name": "B"
+    },
+    {
+      "score": 0,
+      "tile*": [
+        {
+          "color": "yellow",
+          "shape": "8star"
+        }
+      ],
+      "name": "A"
+    }
+  ],
+  "tile*": [
+    {
+      "color": "green",
+      "shape": "square"
+    }
+  ]
+}
+[
+  [
+    "D",
+    "dag",
+    "setup"
+  ],
+  [
+    "C",
+    "dag",
+    "setup"
+  ],
+  [
+    "B",
+    "dag",
+    "a cheat",
+    "no-fit"
+  ],
+  [
+    "A",
+    "dag",
+    "setup"
+  ]
+]

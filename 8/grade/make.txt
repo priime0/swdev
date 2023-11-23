@@ -20,18 +20,18 @@ raco setup: links files:
 raco setup:   /proj/racket/plt-released/recent/share/links.rktd
 raco setup:   /home/mballantyne/.racket/8.10/links.rktd
 raco setup: main docs: /proj/racket/plt-released/recent/doc
-raco setup: --- updating info-domain tables ---                    [17:31:58]
+raco setup: --- updating info-domain tables ---                    [20:47:44]
 raco setup: updating: /home/mballantyne/.racket/8.10/share/info-cache.rktd
-raco setup: --- pre-installing collections ---                     [17:31:58]
-raco setup: --- installing foreign libraries ---                   [17:31:58]
-raco setup: --- installing shared files ---                        [17:31:58]
-raco setup: --- compiling collections ---                          [17:31:58]
-raco setup: --- parallel build using 4 jobs ---                    [17:31:58]
-raco setup: --- creating launchers ---                             [17:31:59]
-raco setup: --- installing man pages ---                           [17:31:59]
-raco setup: --- building documentation ---                         [17:31:59]
-raco setup: --- installing collections ---                         [17:32:10]
-raco setup: --- post-installing collections ---                    [17:32:10]
+raco setup: --- pre-installing collections ---                     [20:47:44]
+raco setup: --- installing foreign libraries ---                   [20:47:44]
+raco setup: --- installing shared files ---                        [20:47:44]
+raco setup: --- compiling collections ---                          [20:47:44]
+raco setup: --- parallel build using 4 jobs ---                    [20:47:44]
+raco setup: --- creating launchers ---                             [20:47:44]
+raco setup: --- installing man pages ---                           [20:47:44]
+raco setup: --- building documentation ---                         [20:47:44]
+raco setup: --- installing collections ---                         [20:47:55]
+raco setup: --- post-installing collections ---                    [20:47:55]
 cd ../Q/ && raco pkg install --auto --skip-installed
 Linking current directory as a package
 raco setup: version: 8.10
@@ -51,13 +51,13 @@ raco setup: links files:
 raco setup:   /proj/racket/plt-released/recent/share/links.rktd
 raco setup:   /home/mballantyne/.racket/8.10/links.rktd
 raco setup: main docs: /proj/racket/plt-released/recent/doc
-raco setup: --- updating info-domain tables ---                    [17:32:14]
+raco setup: --- updating info-domain tables ---                    [20:47:58]
 raco setup: updating: /home/mballantyne/.racket/8.10/share/info-cache.rktd
-raco setup: --- pre-installing collections ---                     [17:32:14]
-raco setup: --- installing foreign libraries ---                   [17:32:14]
-raco setup: --- installing shared files ---                        [17:32:14]
-raco setup: --- compiling collections ---                          [17:32:14]
-raco setup: --- parallel build using 4 jobs ---                    [17:32:14]
+raco setup: --- pre-installing collections ---                     [20:47:58]
+raco setup: --- installing foreign libraries ---                   [20:47:58]
+raco setup: --- installing shared files ---                        [20:47:58]
+raco setup: --- compiling collections ---                          [20:47:58]
+raco setup: --- parallel build using 4 jobs ---                    [20:47:58]
 raco setup: 3 making: <pkgs>/Q
 raco setup: 3 making: <pkgs>/Q/Common
 raco setup: 3 making: <pkgs>/Q/Common/interfaces
@@ -66,10 +66,10 @@ raco setup: 3 making: <pkgs>/Q/Planning
 raco setup: 3 making: <pkgs>/Q/Player
 raco setup: 3 making: <pkgs>/Q/Referee
 raco setup: 3 making: <pkgs>/Q/Test
-raco setup: --- creating launchers ---                             [17:32:31]
-raco setup: --- installing man pages ---                           [17:32:31]
-raco setup: --- building documentation ---                         [17:32:31]
-raco setup: --- installing collections ---                         [17:32:41]
-raco setup: --- post-installing collections ---                    [17:32:41]
+raco setup: --- creating launchers ---                             [20:48:14]
+raco setup: --- installing man pages ---                           [20:48:14]
+raco setup: --- building documentation ---                         [20:48:14]
+raco setup: --- installing collections ---                         [20:48:24]
+raco setup: --- post-installing collections ---                    [20:48:24]
 cd ../8/ && raco exe xgames-with-observer.rkt
 cd ../8/ && chmod +x xgames-with-observer

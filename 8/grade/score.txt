@@ -5,11 +5,13 @@ Delivery
 5/5 pts: Delivery of test files
 
 Functionality
-90/100 pts: Passed 9 out of 10 tests (see test-results.txt)
+100/100 pts: Passed 10 out of 10 tests (see test-results.txt)
 100/100 pts: 10 valid tests (see test-audit-results.txt)
 60/60 bonus pts (other teams failing your tests)
 
 Inspection
 295/315 pts: See inspection.md
 
-Total: 565/535 pts
+Your score improved to 575 from 565 on the previous test run.
+
+Total: 575/535 pts

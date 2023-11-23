@@ -1,0 +1,8 @@
+{"map":[[0, [0,{"color":"green","shape":"diamond"}], [1,{"color":"blue","shape":"diamond"}]]],
+"players":[{"name":"A","score":0,"tile*":[{"color":"green","shape":"clover"},{"color":"green","shape":"circle"}, {"color":"green","shape":"8star"},{"color":"green","shape":"star"},{"color":"green","shape":"square"},{"color":"purple","shape":"clover"}]},
+        {"name":"B","score":0,"tile*":[{"color":"blue","shape":"diamond"},{"color":"yellow","shape":"diamond"}, {"color":"purple","shape":"diamond"},{"color":"orange","shape":"diamond"},{"color":"red","shape":"square"},{"color":"orange","shape":"square"}]}],
+"tile*":[{"color":"yellow","shape":"diamond"},{"color":"yellow","shape":"square"},{"color":"yellow","shape":"circle"},{"color":"yellow","shape":"8star"}]
+}
+[["A","dag"],["B","ldasg"]]
+
+
