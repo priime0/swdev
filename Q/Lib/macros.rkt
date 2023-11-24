@@ -73,16 +73,18 @@
 ;; Produces a mixin that consumes and produces a class of the given
 ;; interface, overriding the given method that runs the super class's
 ;; method _cnt_ times before looping infinitely on the _cnt_th call.
-(define-syntax override-method/count
-  (syntax-rules ()
+(define-syntax (override-method/count stx)
+  (syntax-parse stx
       [(_ interface-expr exn-method cnt)
-       (mixin (interface-expr) (interface-expr)
+       #:with super-exn (format-id stx "super/~a" #'exn-method)
+       #`(mixin (interface-expr) (interface-expr)
          (super-new)
          (init-field [curr-count cnt])
+         (inherit/super [super-exn exn-method])
 
          (define/override (exn-method . args)
            (set! curr-count (sub1 curr-count))
            (cond [(zero? curr-count)
                   (let loop () (loop))]
                  [else
-                  (send/apply this exn-method args)])))]))
+                  (super exn-method (apply values args))])))]))
