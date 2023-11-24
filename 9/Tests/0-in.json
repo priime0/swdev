@@ -1,0 +1,179 @@
+{
+    "map": [
+        [
+            -2,
+            [
+                0,
+                {
+                    "color": "green",
+                    "shape": "square"
+                }
+            ],
+            [
+                1,
+                {
+                    "color": "green",
+                    "shape": "square"
+                }
+            ],
+            [
+                2,
+                {
+                    "color": "green",
+                    "shape": "square"
+                }
+            ],
+            [
+                3,
+                {
+                    "color": "green",
+                    "shape": "square"
+                }
+            ],
+            [
+                4,
+                {
+                    "color": "green",
+                    "shape": "square"
+                }
+            ]
+
+        ],
+        [
+            -1,
+            [
+                -1,
+                {
+                    "color": "green",
+                    "shape": "square"
+                }
+            ],
+            [
+                0,
+                {
+                    "color": "green",
+                    "shape": "square"
+                }
+            ]
+        ],
+        [
+            0,
+            [
+                -1,
+                {
+                    "color": "green",
+                    "shape": "square"
+                }
+            ],
+            [
+                0,
+                {
+                    "color": "red",
+                    "shape": "square"
+                }
+            ]
+        ],
+        [
+            1,
+            [
+                -1,
+                {
+                    "color": "green",
+                    "shape": "square"
+                }
+            ],
+            [
+                0,
+                {
+                    "color": "green",
+                    "shape": "square"
+                }
+            ]
+        ],
+        [
+            2,
+            [
+                0,
+                {
+                    "color": "green",
+                    "shape": "square"
+                }
+            ],
+            [
+                1,
+                {
+                    "color": "green",
+                    "shape": "square"
+                }
+            ],
+            [
+                2,
+                {
+                    "color": "green",
+                    "shape": "square"
+                }
+            ],
+            [
+                3,
+                {
+                    "color": "green",
+                    "shape": "square"
+                }
+            ],
+            [
+                4,
+                {
+                    "color": "green",
+                    "shape": "square"
+                }
+            ]
+        ]
+    ],
+    "players": [
+        {
+            "name": "andrey",
+            "score": 0,
+            "tile*": [
+                {
+                    "color": "red",
+                    "shape": "star"
+                },
+                {
+                    "color": "red",
+                    "shape": "star"
+                },
+                {
+                    "color": "red",
+                    "shape": "star"
+                },
+                {
+                    "color": "red",
+                    "shape": "star"
+                }
+            ]
+        },
+        {
+            "name": "lucas",
+            "score": 0,
+            "tile*": [
+                {
+                    "color": "red",
+                    "shape": "star"
+                }
+            ]
+        }
+    ],
+    "tile*": []
+}
+[
+    [
+        "andrey"
+        , "dag"
+        , "a cheat"
+        , "not-a-line"
+    ],
+    [
+        "lucas",
+        "ldasg"
+    ]
+]
