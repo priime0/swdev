@@ -5,11 +5,8 @@
 (require Q/Common/game-state)
 (require Q/Player/player)
 (require Q/Referee/referee)
-
-;; DELETE
 (require Q/Common/config)
-(require Q/Referee/visual-observer)
-;; DELETE
+(require Q/Lib/json)
 
 (provide main)
 
@@ -21,14 +18,17 @@
   (define start-state (hash->priv-state jstate))
   (define players (map hash->player++ jactors))
 
-  (define result (play-game players #:game-state start-state))
+  (define result
+    (parameterize ([*points-per-q* 8]
+                   [*bonus*        4]
+                   [*timeout*      6])
+      (play-game players #:game-state start-state)))
   (define winners (first result))
   (define sinners (second result))
 
   (define sorted-winners (sort winners string<=?))
 
-  (write-json (list sorted-winners sinners))
-  (displayln "")
+  (json-write+flush (list sorted-winners sinners))
   (void))
 
 (module+ main
