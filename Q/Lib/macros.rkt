@@ -75,9 +75,9 @@
 ;; method _cnt_ times before looping infinitely on the _cnt_th call.
 (define-syntax (override-method/count stx)
   (syntax-parse stx
-      [(_ interface-expr exn-method cnt)
-       #:with super-exn (format-id stx "super/~a" #'exn-method)
-       #`(mixin (interface-expr) (interface-expr)
+    [(_ interface-expr exn-method cnt)
+     #:with super-exn (format-id stx "super/~a" #'exn-method)
+     #`(mixin (interface-expr) (interface-expr)
          (super-new)
          (init-field [curr-count cnt])
          (inherit/super [super-exn exn-method])
