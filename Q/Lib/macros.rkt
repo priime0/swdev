@@ -49,7 +49,9 @@
     [(send/checked obj-expr method-id payload arg ...)
      (with-handlers
          ([exn:fail?
-           (λ (e) (eprintf "error: ~a\n" (exn-message e) (failure payload)))])
+           (λ (e)
+             (eprintf "error: ~a\n" (exn-message e))
+             (failure payload))])
        (success
         (call-with-limits (*timeout*) #f
                           (thunk
