@@ -77,7 +77,7 @@
   (syntax-parse stx
     [(_ interface-expr exn-method cnt)
      #:with super-exn (format-id stx "super/~a" #'exn-method)
-     #`(mixin (interface-expr) (interface-expr)
+     #'(mixin (interface-expr) (interface-expr)
          (super-new)
          (init-field [curr-count cnt])
          (inherit/super [super-exn exn-method])
@@ -87,4 +87,4 @@
            (cond [(zero? curr-count)
                   (let loop () (loop))]
                  [else
-                  (super exn-method (apply values args))])))]))
+                  (super exn-method . args)])))]))
