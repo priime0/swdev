@@ -14,17 +14,6 @@
 (provide main)
 
 (define (main)
-  ;; DELETE
-  (define show (make-parameter #f))
-  (command-line
-   #:once-each
-   ["--show" "Attach observer to referee"
-             (show #t)])
-
-  (if (show)
-      (send (*obman*) connect (new default-observer%))
-      (void))
-  ;; DELETE
 
   (define jstate (read-json))
   (define jactors (read-json))

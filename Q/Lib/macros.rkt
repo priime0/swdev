@@ -75,14 +75,14 @@
 ;; method _cnt_ times before looping infinitely on the _cnt_th call.
 (define-syntax override-method/count
   (syntax-rules ()
-    [(_ interface-expr exn-method cnt)
-     (mixin (interface-expr) (interface-expr)
-       (super-new)
-       (init-field [curr-count cnt])
+      [(_ interface-expr exn-method cnt)
+       (mixin (interface-expr) (interface-expr)
+         (super-new)
+         (init-field [curr-count cnt])
 
-       (define/override (exn-method . args)
-         (set! curr-count (sub1 curr-count))
-         (cond [(zero? curr-count)
-                (let loop () (loop))]
-               [else
-                (super exn-method args)])))]))
+         (define/override (exn-method . args)
+           (set! curr-count (sub1 curr-count))
+           (cond [(zero? curr-count)
+                  (let loop () (loop))]
+                 [else
+                  (send/apply this exn-method args)])))]))
