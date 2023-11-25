@@ -75,7 +75,7 @@ We use [racket/engine](https://docs.racket-lang.org/reference/engine.html#%28def
 
 https://github.khoury.northeastern.edu/CS4500-F23/fearless-mice/blob/e87dfe75d5f768a6cc00a8c6654bf7641c7c7cff/Q/Server/server.rkt#L46-L70
 
-When players are signing up, we create an engine that signs up players and times out if enough haven't signed up. If 4 players have signed up, then the `signup-players` function returns early. If the engine times out and the lobby is ready, then we start the game. If the engine times out and the lobby is not ready, then we retry (a finite amount of times).
+When players are signing up, we create an engine (a dynamically runnable thread) that signs up players. The useful feature of engines here is that you can run them for a specified amount of time--if the function running in the thread finishes, the engine stops early, otherwise it runs until the timeout. If 4 players have signed up, then the `signup-players` function returns early, causing the engine to return early. If the engine times out and the lobby is ready (>=2 players), then we start the game. If the engine times out and the lobby is not ready, then we retry (a finite amount of times, represented as a parameter in `Q/Common/config.rkt` and currently set to 2). 
 
 
 The ideal feedback for each of these three points is a GitHub
