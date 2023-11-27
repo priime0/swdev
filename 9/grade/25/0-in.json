@@ -1,0 +1,21 @@
+{
+  "map":[
+    [-5, [0, { "color": "green", "shape": "circle" }]],
+    [-4, [0, { "color": "blue", "shape": "circle" }]],
+    [-3, [0, { "color": "yellow", "shape": "circle" }]],
+    [-2, [0, { "color": "orange", "shape": "circle" }]],
+    [-1, [0, { "color": "purple", "shape": "circle" }], [1, { "color": "purple", "shape": "8star" }]],
+    [0, [1, { "color": "red", "shape": "8star" }], [2, { "color": "red", "shape": "square" }], [3, { "color": "red", "shape": "star" }], [4, { "color": "red", "shape": "clover" }], [5, { "color": "red", "shape": "diamond" }]],
+    [1, [0, { "color": "green", "shape": "circle" }], [1, { "color": "green", "shape": "8star" }]],
+    [2, [0, { "color": "blue", "shape": "circle" }]],
+    [3, [0, { "color": "yellow", "shape": "circle" }]],
+    [4, [0, { "color": "orange", "shape": "circle" }]],
+    [5, [0, { "color": "purple", "shape": "circle" }]]
+  ],
+  "players":[
+    {"score":6,"name":"yakko","tile*":[{"color":"red","shape":"circle"},{"color":"purple","shape":"circle"},{"color":"orange","shape":"circle"}]},
+    {"score":16,"name":"wakko","tile*":[{"color":"red","shape":"circle"}]},
+    {"score":30,"name":"dot","tile*":[{"color":"blue","shape":"square"},{"color":"orange","shape":"clover"}]},
+    {"score":34,"name":"pinky","tile*":[{"color":"red","shape":"square"}]}],
+  "tile*":[{"color":"purple","shape":"clover"},{"color":"purple","shape":"clover"}]}
+[["yakko","ldasg","new-tiles",2],["wakko","ldasg","take-turn",3],["dot","dag"],["pinky","dag","win",1]]

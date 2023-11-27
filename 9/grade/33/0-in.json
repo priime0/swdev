@@ -1,0 +1,9 @@
+{"map":[[0,[0,{"color":"red","shape":"star"}]]],
+  "players":[
+                {"score":0, "name": "player1", "tile*":[{"color":"green","shape":"circle"}, {"color":"yellow","shape":"circle"}]},
+                {"score":0, "name": "player2", "tile*":[{"color":"orange","shape":"8star"},{"color":"green","shape":"circle"}]},
+                {"score": 0, "name": "slowSetup", "tile*":[{"color": "yellow", "shape": "clover"}, {"color": "blue", "shape": "diamond"}]}
+            ],
+  "tile*": [{"color":"blue","shape":"square"},{"color":"purple","shape":"square"}]}
+[["player1","dag"],["player2","dag"], ["slowSetup", "dag", "setup", 1]]
+

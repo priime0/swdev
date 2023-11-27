@@ -1,0 +1,5 @@
+{"map" : [[0, [0, {"color" : "yellow", "shape" : "star"}]]],
+"tile*" : [],
+"players" : [{"score" : 0, "name" : "LinelessLary", "tile*" : [{"color" : "yellow", "shape" : "circle"}, {"color" : "yellow", "shape" : "square"}]},
+             {"score" : 10, "name" : "InfiniteIvan", "tile*" : [{"color" : "blue", "shape" : "circle"}]}]}
+[["LinelessLary", "dag"], ["InfiniteIvan", "ldasg", "new-tiles", 1]]

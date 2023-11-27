@@ -1,0 +1,12 @@
+{
+  "map":[
+    [-1, [-1, { "color": "blue", "shape": "square" }], [0, { "color": "blue", "shape": "circle" }], [1, { "color": "blue", "shape": "diamond" }]],
+    [0, [-1, { "color": "red", "shape": "square" }], [1, { "color": "red", "shape": "diamond" }]],
+    [1, [-1, { "color": "green", "shape": "square" }], [0, { "color": "green", "shape": "circle" }], [1, { "color": "green", "shape": "diamond" }]]
+  ],
+  "players":[
+    {"score":14,"name":"yakko","tile*":[{"color":"yellow","shape":"square"},{"color":"purple","shape":"circle"}]},
+    {"score":15,"name":"wakko","tile*":[{"color":"orange","shape":"8star"}]},
+    {"score":12,"name":"dot","tile*":[{"color":"red","shape":"square"},{"color":"purple","shape":"circle"}]}],
+  "tile*":[{"color":"purple","shape":"circle"}]}
+[["yakko","ldasg","take-turn",2],["wakko","dag","a cheat","tile-not-owned"],["dot","dag"]]

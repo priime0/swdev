@@ -1,0 +1,27 @@
+{"map":
+[
+  [0,
+    [0,{"color":"yellow","shape":"circle"}],
+    [1,{"color":"blue","shape":"circle"}]],
+  [1,
+  [1, {"color":"blue","shape":"diamond"}]]],
+  "tile*":
+  [{"color":"red","shape":"circle"},
+    {"color":"blue","shape":"diamond"},
+    {"color":"purple","shape":"square"}],
+  "players":
+  [{"score":0,
+    "name":"asdfkjlsdf9073",
+    "tile*":[
+    {"color":"red","shape":"circle"},
+    {"color":"yellow","shape":"diamond"}]},
+    {"score":0,
+      "name":"SDF8fd5d3",
+      "tile*":[
+      {"color":"blue","shape":"clover"},
+      {"color":"green","shape":"8star"}]},
+    {"score":0,
+      "name":"h",
+      "tile*":[
+      {"color":"purple","shape":"diamond"}]}]}
+[["asdfkjlsdf9073", "dag", "new-tiles", 1], ["SDF8fd5d3", "dag"], ["h", "ldasg"]]

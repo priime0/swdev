@@ -1,0 +1,40 @@
+{
+	"map": [[0, [0, { "color": "green", "shape": "8star" }]]],
+	"players": [
+		{
+      		"name": "A",
+			"score": 0,
+			"tile*": [
+				{ "color": "red", "shape": "circle" },
+				{ "color": "red", "shape": "star" },
+				{ "color": "yellow", "shape": "star" },
+				{ "color": "blue", "shape": "diamond" },
+				{ "color": "blue", "shape": "clover" },
+				{ "color": "green", "shape": "square" }
+			]
+		},
+		{
+      		"name": "B",
+			"score": 0,
+			"tile*": [
+				{ "color": "yellow", "shape": "circle" },
+				{ "color": "blue", "shape": "square" },
+				{ "color": "orange", "shape": "clover" },
+				{ "color": "blue", "shape": "star" },
+				{ "color": "yellow", "shape": "circle" },
+				{ "color": "orange", "shape": "clover" }
+			]
+		}
+	],
+	"tile*": [
+		{ "color": "green", "shape": "8star" },
+		{ "color": "blue", "shape": "star" },
+		{ "color": "yellow", "shape": "diamond" },
+		{ "color": "purple", "shape": "circle" },
+		{ "color": "yellow", "shape": "star" },
+		{ "color": "red", "shape": "clover" },
+		{ "color": "green", "shape": "8star" }
+	]
+}
+[["A","ldasg"],["B","dag"]]
+

@@ -1,0 +1,192 @@
+{
+  "map": [
+    [
+      4,
+      [
+        3,
+        {
+          "color": "yellow",
+          "shape": "square"
+        }
+      ],
+      [
+        4,
+        {
+          "color": "yellow",
+          "shape": "square"
+        }
+      ],
+      [
+        5,
+        {
+          "color": "orange",
+          "shape": "8star"
+        }
+      ],
+      [
+        6,
+        {
+          "color": "green",
+          "shape": "square"
+        }
+      ],
+      [
+        7,
+        {
+          "color": "yellow",
+          "shape": "square"
+        }
+      ]
+    ],
+    [
+      5,
+      [
+        3,
+        {
+          "color": "green",
+          "shape": "square"
+        }
+      ],
+      [
+        5,
+        {
+          "color": "orange",
+          "shape": "8star"
+        }
+      ],
+      [
+        7,
+        {
+          "color": "red",
+          "shape": "square"
+        }
+      ]
+    ],
+    [
+      6,
+      [
+        7,
+        {
+          "color": "green",
+          "shape": "square"
+        }
+      ]
+    ]
+  ],
+  "tile*": [
+    {
+      "shape": "circle",
+      "color": "red"
+    },
+    {
+      "shape": "star",
+      "color": "green"
+    },
+    {
+      "shape": "8star",
+      "color": "red"
+    },
+    {
+      "shape": "square",
+      "color": "orange"
+    }
+  ],
+  "players": [
+    {
+      "score": 79,
+      "tile*": [
+        {
+          "shape": "clover",
+          "color": "purple"
+        },
+        {
+          "shape": "star",
+          "color": "blue"
+        },
+        {
+          "shape": "circle",
+          "color": "orange"
+        },
+        {
+          "shape": "square",
+          "color": "orange"
+        },
+        {
+          "shape": "square",
+          "color": "orange"
+        }
+      ],
+      "name": "jackson"
+    },
+    {
+      "score": 48,
+      "tile*": [
+        {
+          "shape": "star",
+          "color": "red"
+        },
+        {
+          "shape": "8star",
+          "color": "purple"
+        },
+        {
+          "shape": "square",
+          "color": "yellow"
+        },
+        {
+          "shape": "circle",
+          "color": "green"
+        },
+        {
+          "shape": "star",
+          "color": "orange"
+        }
+      ],
+      "name": "richard"
+    },
+    {
+      "score": 94,
+      "tile*": [
+        {
+          "shape": "star",
+          "color": "blue"
+        },
+        {
+          "shape": "clover",
+          "color": "yellow"
+        },
+        {
+          "shape": "diamond",
+          "color": "red"
+        },
+        {
+          "shape": "star",
+          "color": "green"
+        },
+        {
+          "shape": "square",
+          "color": "orange"
+        }
+      ],
+      "name": "matthias"
+    }
+  ]
+}
+[
+  [
+    "jackson",
+    "ldasg",
+    "a cheat",
+    "non-adjacent-coordinate"
+  ],
+  [
+    "richard",
+    "dag",
+    "setup"
+  ],
+  [
+    "matthias",
+    "dag"
+  ]
+]
+

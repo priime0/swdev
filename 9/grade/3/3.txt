@@ -1,0 +1,6 @@
+(testing /course/cs4500f23/ta/tedium-workdir/github/fearless-mice/9/xbaddies)
+(testing /course/cs4500f23/ta/tedium-workdir/testfest-results/9/3/Tests/3-in.json /course/cs4500f23/ta/tedium-workdir/testfest-results/9/3/Tests/3-out.json)
+(testing /course/cs4500f23/ta/tedium-workdir/testfest-results/9/3/Tests/4-in.json /course/cs4500f23/ta/tedium-workdir/testfest-results/9/3/Tests/4-out.json)
+((/course/cs4500f23/ta/tedium-workdir/testfest-results/9/3/Tests/3-in.json /course/cs4500f23/ta/tedium-workdir/testfest-results/9/3/Tests/3-out.json) (/course/cs4500f23/ta/tedium-workdir/testfest-results/9/3/Tests/4-in.json /course/cs4500f23/ta/tedium-workdir/testfest-results/9/3/Tests/4-out.json))
+((passed 2) (total 2) (partial-score 2))
+

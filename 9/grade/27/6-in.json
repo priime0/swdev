@@ -1,0 +1,81 @@
+{
+    "map" : [
+                [
+                    0,
+                    [
+                        0,
+                        {
+                            "color" : "red",
+                            "shape" : "circle"
+                        }
+                    ]
+                ],
+                [
+                    -1,
+                    [
+                        0,
+                        {
+                            "color" : "green",
+                            "shape" : "circle"
+                        }
+                    ]
+                ],
+                [
+                    -2,
+                    [
+                        0,
+                        {
+                            "color" : "blue",
+                            "shape" : "circle"
+                        }
+                    ]
+                ],
+                [
+                    -3,
+                    [
+                        0,
+                        {
+                            "color" : "yellow",
+                            "shape" : "circle"
+                        }
+                    ]
+                ],
+                [
+                    -4,
+                    [
+                        0,
+                        {
+                            "color" : "orange",
+                            "shape" : "circle"
+                        }
+                    ]
+                ]
+            ],
+    "tile*": [],
+    "players": [
+        { 
+            "score" : 0, 
+            "name" : "B",
+            "tile*" : [] 
+        },
+        { 
+            "score" : 0, 
+            "name" : "A",
+            "tile*" : [] 
+        }
+    ]
+}
+[
+    [
+        "B",
+        "dag",
+        "setup",
+        2
+    ],
+    [
+        "A",
+        "dag",
+        "setup",
+        2
+    ]
+]

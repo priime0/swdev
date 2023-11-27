@@ -1,0 +1,15 @@
+{
+    "map":[[0,[0,{"color":"green","shape":"clover"}]]],
+    "tile*": [{"color":"blue","shape":"square"}, {"color":"green","shape":"clover"}, {"color":"green","shape":"clover"}],
+    "players":[
+        {"name":"infS2","score":0,"tile*":[
+            {"color":"blue","shape":"square"}, {"color":"orange","shape":"circle"}, {"color":"purple","shape":"star"}, {"color":"green","shape":"clover"}
+        ]},
+        {"name":"exnS","score":0,"tile*":[
+            {"color":"red","shape":"clover"}
+        ]}
+    ]
+}
+
+
+[["infS2", "dag", "setup", 2], ["exnS", "dag", "win"]]

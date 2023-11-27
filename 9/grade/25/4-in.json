@@ -1,0 +1,87 @@
+{
+   "map": [
+    [
+      222,
+      [
+        -333,
+        {
+          "color": "yellow",
+          "shape": "square"
+        }
+      ]
+    ]
+  ],
+  "players": [
+    {
+      "score": 0,
+      "name": "yakko",
+      "tile*": [
+        {
+          "color": "blue",
+          "shape": "square"
+        },
+        {
+          "color": "blue",
+          "shape": "diamond"
+        }
+      ]
+    },
+    {
+      "score": 0,
+      "name": "wakko",
+      "tile*": [
+        {
+          "color": "blue",
+          "shape": "square"
+        },
+        {
+          "color": "green",
+          "shape": "diamond"
+        }
+      ]
+    },
+    {
+      "score": 0,
+      "name": "dot",
+      "tile*": [
+        {
+          "color": "orange",
+          "shape": "circle"
+        },
+        {
+          "color": "blue",
+          "shape": "diamond"
+        }
+      ]
+    }
+  ],
+  "tile*": [
+    {
+      "color": "purple",
+      "shape": "clover"
+    },
+    {
+      "color": "yellow",
+      "shape": "diamond"
+    }
+  ]
+}
+[
+  [
+    "yakko",
+    "ldasg",
+    "a cheat",
+    "no-fit"
+  ],
+  [
+    "wakko",
+    "dag",
+    "setup",
+    2
+  ],
+  [
+    "dot",
+    "ldasg"
+  ]
+]
+

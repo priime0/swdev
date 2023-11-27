@@ -1,0 +1,21 @@
+{
+    "map":[[0,[0,{"color":"green","shape":"clover"}]]],
+    "tile*": [{"color":"blue","shape":"square"}, {"color":"green","shape":"clover"}, {"color":"green","shape":"clover"}],
+    "players":[
+        {"name":"cheater","score":0,"tile*":[
+            {"color":"blue","shape":"square"}, {"color":"orange","shape":"circle"}, {"color":"purple","shape":"star"}, {"color":"green","shape":"clover"}
+        ]},
+        {"name":"A","score":0,"tile*":[
+            {"color":"green","shape":"8star"},{"color":"blue","shape":"square"}
+        ]},
+        {"name":"inf1","score":0,"tile*":[
+            {"color":"blue","shape":"square"}
+        ]},
+        {"name":"exnS","score":0,"tile*":[
+            {"color":"red","shape":"clover"}
+        ]}
+    ]
+}
+
+
+[["cheater", "dag", "a cheat", "bad-ask-for-tiles"], ["A","ldasg"],["inf1","ldasg", "setup", 1], ["exnS", "dag", "setup"]]

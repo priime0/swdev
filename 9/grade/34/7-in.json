@@ -1,0 +1,41 @@
+{"map":
+[
+  [0,
+    [0,{"color":"purple","shape":"square"}]],
+  [1,
+    [0,{"color":"green","shape":"clover"}],
+    [1,{"color":"blue","shape":"diamond"}]],
+  [2,
+    [0,{"color":"red","shape":"8star"}],
+    [1,{"color":"green","shape":"star"}]],
+  [3,
+    [0,{"color":"orange","shape":"square"}],
+    [1,{"color":"purple","shape":"star"}]],
+  [4,
+    [0,{"color":"green","shape":"clover"}],
+    [1,{"color":"blue","shape":"8star"}]],
+  [5,
+    [0,{"color":"red","shape":"circle"}],
+    [1,{"color":"green","shape":"square"}]]],
+  "tile*":
+  [{"color":"orange","shape":"8star"},
+    {"color":"red","shape":"8star"}],
+  "players":
+  [{"score":14,
+    "name":"player1",
+    "tile*":[
+    {"color":"red","shape":"diamond"},
+    {"color":"purple","shape":"clover"}]},
+    {"score":15,
+      "name":"player2",
+      "tile*":[
+      {"color":"orange","shape":"square"},
+      {"color":"blue","shape":"circle"},
+      {"color":"yellow","shape":"diamond"},
+      {"color":"green","shape":"star"}]},
+    {"score":11,
+      "name":"player3",
+      "tile*":[
+      {"color":"green","shape":"diamond"}]}]}
+[["player1", "dag", "a cheat" ,"no-fit"], ["player2", "ldasg"], ["player3", "ldasg", "take-turn", 6]]
+

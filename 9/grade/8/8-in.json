@@ -1,0 +1,65 @@
+{
+    "map": [
+        [0, [0, { "color": "green", "shape": "circle" }]],
+        [1, [0, { "color": "green", "shape": "star" }],
+            [1, { "color": "blue", "shape": "star" }]]
+    ],
+    "players": [
+      {
+        "name": "A",
+        "score": 0,
+        "tile*": [
+            { "color": "purple", "shape": "clover" },
+            { "color": "yellow", "shape": "square" },
+            { "color": "green", "shape": "diamond" },
+            { "color": "red", "shape": "8star" }
+        ]
+      },
+      {
+        "name": "B",
+        "score": 0,
+        "tile*": [
+            { "color": "blue", "shape": "clover" },
+            { "color": "blue", "shape": "clover" },
+            { "color": "yellow", "shape": "diamond" },
+            { "color": "orange", "shape": "circle" },
+            { "color": "purple", "shape": "clover" }
+        ]
+      },
+      {
+        "name": "C",
+        "score": 0,
+        "tile*": [
+            { "color": "blue", "shape": "circle" },
+            { "color": "green", "shape": "square" },
+            { "color": "orange", "shape": "square" }
+        ]
+      },
+      {
+        "name": "D",
+        "score": 0,
+        "tile*": [
+          { "color": "blue", "shape": "clover" },
+          { "color": "blue", "shape": "clover" },
+          { "color": "blue", "shape": "clover" },
+          { "color": "green", "shape": "clover" },
+          { "color": "yellow", "shape": "square" }
+        ]
+      }
+    ],
+    "tile*": [
+        { "color": "blue", "shape": "clover" },
+        { "color": "blue", "shape": "clover" },
+        { "color": "purple", "shape": "clover" },
+        { "color": "yellow", "shape": "square" },
+        { "color": "red", "shape": "diamond" },
+        { "color": "orange", "shape": "square" }
+    ]
+}
+[
+  ["A", "dag", "a cheat", "not-a-line"],
+  ["B", "dag", "new-tiles", 5],
+  ["C", "dag", "take-turn"],
+  ["D", "ldasg"]
+]
+

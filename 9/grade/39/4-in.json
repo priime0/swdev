@@ -1,0 +1,52 @@
+{
+    "map": [
+        [0, [0, {"color": "yellow", "shape": "square"}]]
+    ],
+    "tile*": [
+        {"color": "yellow", "shape": "diamond"},
+        {"color": "purple", "shape": "circle"},
+        {"color": "purple", "shape": "8star"},
+        {"color": "purple", "shape": "star"},
+        {"color": "purple", "shape": "square"},
+        {"color": "purple", "shape": "clover"},
+        {"color": "green", "shape": "diamond"},
+        {"color": "green", "shape": "circle"},
+        {"color": "green", "shape": "8star"},
+        {"color": "green", "shape": "star"},
+        {"color": "yellow", "shape": "diamond"},
+        {"color": "purple", "shape": "circle"},
+        {"color": "purple", "shape": "8star"},
+        {"color": "purple", "shape": "star"},
+        {"color": "purple", "shape": "square"},
+        {"color": "purple", "shape": "clover"},
+        {"color": "green", "shape": "diamond"},
+        {"color": "green", "shape": "circle"},
+        {"color": "green", "shape": "8star"},
+        {"color": "green", "shape": "star"}
+    ],
+    "players": [
+        {
+            "name": "A",
+            "score": 0,
+            "tile*": [
+                {"color": "yellow", "shape": "circle"},
+                {"color": "purple", "shape": "clover"},
+                {"color": "purple", "shape": "diamond"},
+                {"color": "green", "shape": "8star"}
+            ]
+        },
+        {
+            "name": "B",
+            "score": 0,
+            "tile*": [
+                {"color": "yellow", "shape": "diamond"},
+                {"color": "yellow", "shape": "clover"},
+                {"color": "red", "shape": "8star"},
+                {"color": "yellow", "shape": "diamond"},
+                {"color": "yellow", "shape": "diamond"}
+            ]
+        }
+    ]
+}
+
+[["A", "dag", "a cheat", "not-a-line"], ["B","ldasg"]]

@@ -1,0 +1,50 @@
+{
+    "map": [
+        [0, [0, { "color": "green", "shape": "circle" }]],
+        [1, [0, { "color": "green", "shape": "star" }],
+            [1, { "color": "blue", "shape": "star" }]]
+    ],
+    "players": [
+      {
+        "name": "A",
+        "score": 0,
+        "tile*": [
+          { "color": "green", "shape": "star" }
+        ]
+      },
+      {
+        "name": "B",
+        "score": 0,
+        "tile*": [{ "color": "red", "shape": "square" }]
+      },
+      {
+        "name": "C",
+        "score": 0,
+        "tile*": [{ "color": "orange", "shape": "square" }]
+      },
+      {
+        "name": "D",
+        "score": 0,
+        "tile*": [
+          { "color": "blue", "shape": "clover" },
+          { "color": "blue", "shape": "clover" },
+          { "color": "blue", "shape": "clover" },
+          { "color": "green", "shape": "clover" },
+          { "color": "yellow", "shape": "square" }
+        ]
+      }
+    ],
+    "tile*": [
+        { "color": "blue", "shape": "clover" },
+        { "color": "blue", "shape": "clover" },
+        { "color": "purple", "shape": "clover" },
+        { "color": "yellow", "shape": "square" }
+    ]
+}
+[
+  ["A", "dag", "a cheat", "no-fit"],
+  ["B", "dag", "take-turn", 1],
+  ["C", "dag", "take-turn", 1],
+  ["D", "dag", "take-turn", 1]
+]
+

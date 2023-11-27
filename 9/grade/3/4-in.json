@@ -1,0 +1,5 @@
+{"map":[[-1,[0,{"color":"yellow","shape":"square"}]],[0,[-1,{"color":"red","shape":"circle"}],[0,{"color":"yellow","shape":"circle"}],[1,{"color":"green","shape":"circle"}]],[1,[0,{"color":"yellow","shape":"diamond"}]]],
+  "tile*":[],
+  "players":[{"name":"B","score":0,"tile*":[{"color":"blue","shape":"circle"},{"color":"green","shape":"diamond"},{"color":"orange","shape":"circle"},{"color":"purple","shape":"clover"},{"color":"yellow","shape":"diamond"}]},
+    {"name":"A","score":0,"tile*":[{"color":"blue","shape":"square"},{"color":"blue","shape":"square"},{"color":"yellow","shape":"square"},{"color":"purple","shape":"clover"},{"color":"yellow","shape":"diamond"}]}]}
+[["B","dag","setup"],["A","ldasg","new-tiles",5]]

@@ -1,0 +1,2 @@
+{"map":[[0,[0,{"color":"red","shape":"circle"}],[1,{"color":"blue","shape":"circle"}],[2,{"color":"red","shape":"circle"}],[3,{"color":"yellow","shape":"circle"}],[4,{"color":"orange","shape":"circle"}],[5,{"color":"purple","shape":"circle"}]]],"tile*":[{"color":"red","shape":"circle"},{"color":"red","shape":"circle"}],"players":[{"name":"k1ngsmil","score":0,"tile*":[{"color":"orange","shape":"circle"}]},{"name":"Xylophone","score":0,"tile*":[{"color":"orange","shape":"circle"}]}]}
+[["k1ngsmil", "dag"], ["Xylophone", "ldasg"]]

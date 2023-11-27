@@ -1,0 +1,7 @@
+{"map":[[0,[0,{"color":"red","shape":"circle"}]]],
+  "players":[
+    {"name":"a","score":15,"tile*": [{"color":"purple","shape":"square"},{"color":"purple","shape":"square"}]},
+    {"name":"d","score":0,"tile*":[{"color":"purple","shape":"square"}]}],
+  "tile*":[{"color":"purple","shape":"diamond"}]}
+[["a","ldasg", "setup", 1],["d","ldasg", "setup", 1]]
+

@@ -1,0 +1,20 @@
+{
+  "map" :
+  [
+    [1,[0,{"color" : "red", "shape" : "8star"}]],
+    [2,[0, {"color" : "green", "shape" : "8star"}]],
+    [3,[0, {"color" : "blue", "shape" : "square"}]]
+  ]
+,
+  "tile*" : [{"color" : "blue", "shape" : "8star"}],
+  "players" : [
+    {"name": "player1","score" : 25, "tile*" : [{"color" : "blue", "shape" : "8star"}, {"color" : "purple", "shape" : "diamond"}]},
+    {"name": "player2","score" : 25, "tile*" : [{"color" : "blue", "shape" : "8star"}]},
+    {"name": "player3","score" : 25, "tile*" : [{"color" : "blue", "shape" : "8star"}]}
+  ]
+}
+[
+  ["player1", "dag", "setup", 1],
+  ["player2", "dag", "win", 1],
+  ["player3", "dag", "new-tiles", 1]
+]

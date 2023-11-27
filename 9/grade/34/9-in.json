@@ -1,0 +1,26 @@
+{"map":
+[
+  [500,
+    [-20,{"color":"orange","shape":"8star"}]],
+  [499,
+    [-19,{"color":"green","shape":"diamond"}],
+    [-20,{"color":"yellow","shape":"star"}]]],
+  "tile*":
+  [{"color":"orange","shape":"8star"},
+    {"color":"red","shape":"8star"}],
+  "players":
+  [{"score":35,
+    "name":"player1",
+    "tile*":[
+    {"color":"blue","shape":"circle"}]},
+    {"score":5,
+      "name":"player2",
+      "tile*":[
+      {"color":"yellow","shape":"diamond"},
+      {"color":"purple","shape":"8star"},
+      {"color":"orange","shape":"star"}]},
+    {"score":21,
+      "name":"player3",
+      "tile*":[
+      {"color":"red","shape":"star"}]}]}
+[["player1", "dag", "a cheat", "tile-not-owned"],["player2", "dag", "setup"], ["player3", "ldasg", "win", 3]]

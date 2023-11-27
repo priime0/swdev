@@ -1,0 +1,3 @@
+{"map":[[0,[0,{"color":"red","shape":"square"}]]],"tile*":[{"color":"orange","shape":"circle"},{"color":"purple","shape":"circle"},{"color":"purple","shape":"circle"},{"color":"purple","shape":"circle"},{"color":"purple","shape":"circle"}],"players":[{"score":0,"tile*":[{"color":"green","shape":"star"}],"name":"Hanger"},{"score":0,"tile*":[{"color":"red","shape":"diamond"},{"color":"red","shape":"star"},{"color":"purple","shape":"star"}],"name":"Dagger1"},{"score":0,"tile*":[{"color":"purple","shape":"square"}],"name":"Dagger2"}]}
+[["Hanger","ldasg","win",1],["Dagger1","dag","a cheat","not-a-line"],["Dagger2","dag","win"]]
+

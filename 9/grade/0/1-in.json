@@ -1,0 +1,56 @@
+{
+	"map": [[0, [0, { "color": "red", "shape": "circle" }]]],
+	"players": [
+		{
+			"score": 0,
+			"name": "A",
+			"tile*": [
+				{ "color": "red", "shape": "circle" },
+				{ "color": "red", "shape": "star" },
+				{ "color": "yellow", "shape": "star" },
+				{ "color": "green", "shape": "diamond" },
+				{ "color": "blue", "shape": "clover" },
+				{ "color": "green", "shape": "square" }
+			]
+		},
+		{
+			"score": 0,
+			"name": "B",
+			"tile*": [
+				{ "color": "yellow", "shape": "circle" },
+				{ "color": "blue", "shape": "square" },
+				{ "color": "orange", "shape": "clover" },
+				{ "color": "blue", "shape": "star" },
+				{ "color": "yellow", "shape": "circle" },
+				{ "color": "orange", "shape": "clover" }
+			]
+		},
+		{
+			"score": 5000,
+			"name": "C",
+			"tile*": [
+				{ "color": "red", "shape": "circle" },
+				{ "color": "red", "shape": "star" }
+			]
+		},
+		{
+			"score": 3000,
+			"name": "D",
+			"tile*": [
+				{ "color": "purple", "shape": "circle" },
+				{ "color": "purple", "shape": "8star" },
+				{ "color": "orange", "shape": "star" },
+				{ "color": "blue", "shape": "clover" },
+				{ "color": "yellow", "shape": "square" },
+				{ "color": "green", "shape": "8star" }
+			]
+		}
+	],
+	"tile*": [
+		{ "color": "green", "shape": "8star" },
+		{ "color": "blue", "shape": "star" },
+		{ "color": "yellow", "shape": "diamond" }
+	]
+}
+[["A","dag"],["B","dag"],["C","dag"],["D","dag"]]
+

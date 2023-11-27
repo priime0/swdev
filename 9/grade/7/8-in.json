@@ -1,0 +1,9 @@
+{"map":[[0,[0,{"color":"red","shape":"star"}]]],
+  "players":[
+    {"score":0,"name":"A","tile*":[{"color":"orange","shape":"star"},{"color":"yellow","shape":"circle"}]},
+    {"score":0,"name":"B","tile*":[{"color":"blue","shape":"star"}]}
+  ],
+  "tile*": [{"color": "yellow", "shape": "circle"},{"color":"purple","shape":"square"},{"color":"purple","shape":"star"}]}
+[["A","dag", "new-tiles", 2],["B","dag"]]
+
+

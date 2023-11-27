@@ -1,0 +1,7 @@
+{"map": [[0, [0, {"color": "green", "shape": "clover"}]]],
+"tile*": [],
+"players": 
+[{"name": "Alice", "score": 0, "tile*": [{"color": "green", "shape": "diamond"}]},
+ {"name": "Bob", "score": 0, "tile*": [{"color": "purple", "shape": "clover"}]}] 
+}
+[["Alice", "ldasg", "take-turn"], ["Bob", "dag", "take-turn", 3]]

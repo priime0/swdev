@@ -1,0 +1,17 @@
+{"map":[[0,[0,{"color":"blue","shape":"star"}]]],
+  "players":[
+    {"name":"one",
+      "score":0,
+      "tile*":
+      [{"color":"blue","shape":"star"},{"color":"orange","shape":"clover"},{"color":"yellow","shape":"diamond"}]},
+    {"name":"two",
+      "score":0,
+      "tile*":
+      [{"color":"green","shape":"star"},{"color":"yellow","shape":"circle"},{"color":"red","shape":"square"}]}
+  ],
+  "tile*":
+  [{"color":"green","shape":"star"},{"color":"blue","shape":"star"},{"color":"green","shape":"star"},
+    {"color":"blue","shape":"star"},{"color":"green","shape":"star"},{"color":"orange","shape":"clover"},
+    {"color":"purple","shape":"diamond"},{"color":"red","shape":"clover"},{"color":"purple","shape":"diamond"}]}
+[["one","dag", "setup", 1],["two","dag"]]
+

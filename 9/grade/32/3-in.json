@@ -1,0 +1,17 @@
+{
+    "map":[[0,[-1,{"color":"red","shape":"square"}],[0,{"color":"blue","shape":"square"}]]],
+    "tile*": [{"color":"blue","shape":"square"}, {"color":"green","shape":"clover"}, {"color":"green","shape":"clover"}],
+    "players":[
+        {"name":"A","score":0,"tile*":[
+            {"color":"blue","shape":"8star"}, {"color":"blue","shape":"star"}, {"color":"blue","shape":"clover"}, {"color":"blue","shape":"diamond"}, {"color":"purple","shape":"square"}
+        ]},
+        {"name":"B","score":0,"tile*":[
+            {"color":"red","shape":"clover"}, {"color":"red","shape":"star"}, {"color":"red","shape":"8star"}, {"color":"red","shape":"diamond"}, {"color":"purple","shape":"square"}
+        ]},
+        {"name": "qWin","score":0,"tile*":[
+            {"color":"blue","shape":"circle"}, {"color":"red","shape":"circle"}
+        ]}
+    ]
+}
+
+[["A", "dag"], ["B", "dag"], ["qWin", "dag"]]

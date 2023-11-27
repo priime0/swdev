@@ -1,0 +1,53 @@
+{
+        "map": [[0, [0, {"color": "green", "shape": "diamond"}]]],
+        "tile*": [
+          {"color": "green", "shape": "diamond"},
+          {"color": "green", "shape": "circle"},
+          {"color": "green", "shape": "8star"},
+          {"color": "green", "shape": "star"},
+          {"color": "green", "shape": "square"},
+          {"color": "purple", "shape": "diamond"},
+          {"color": "red", "shape": "circle"},
+          {"color": "red", "shape": "star"},
+          {"color": "blue", "shape": "8star"},
+          {"color": "purple", "shape": "clover"},
+          {"color": "orange", "shape": "diamond"},
+          {"color": "green", "shape": "diamond"},
+          {"color": "green", "shape": "circle"},
+          {"color": "green", "shape": "8star"},
+          {"color": "green", "shape": "star"},
+          {"color": "green", "shape": "square"},
+          {"color": "purple", "shape": "diamond"},
+          {"color": "red", "shape": "circle"},
+          {"color": "red", "shape": "star"},
+          {"color": "blue", "shape": "8star"},
+          {"color": "purple", "shape": "clover"},
+          {"color": "orange", "shape": "8star"},
+          {"color": "red", "shape": "circle"},
+          {"color": "red", "shape": "clover"},
+          {"color": "blue", "shape": "8star"},
+          {"color": "purple", "shape": "clover"},
+          {"color": "green", "shape": "diamond"},
+          {"color": "purple", "shape": "circle"}
+        ],
+        "players": [
+          {
+            "name": "A",
+            "score": 1000,
+            "tile*": [
+              {"color": "yellow", "shape": "clover"},
+              {"color": "yellow", "shape": "circle"},
+              {"color": "yellow", "shape": "8star"},
+              {"color": "yellow", "shape": "star"},
+              {"color": "yellow", "shape": "square"},
+              {"color": "purple", "shape": "clover"}
+            ]
+          },
+          {
+            "name": "C",
+            "score": 0,
+            "tile*": []
+          }
+        ]
+}      
+[["A","dag"],["C", "dag", "new-tiles", 1]]

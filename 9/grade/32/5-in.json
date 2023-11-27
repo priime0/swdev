@@ -1,0 +1,19 @@
+{
+    "map": [[0,[0,{"color":"red","shape":"clover"}]],[1,[0,{"color":"red","shape":"circle"}]]],
+    "players":[
+        {"name":"E","score":0,"tile*":[
+            {"color":"yellow","shape":"circle"},{"color":"purple","shape":"clover"},{"color":"orange","shape":"circle"}
+            ]
+        },
+        {"name":"F","score":0,"tile*":[
+            {"color":"blue","shape":"square"},{"color":"blue","shape":"square"},{"color":"yellow","shape":"circle"},{"color":"purple","shape":"clover"},{"color":"yellow","shape":"diamond"},{"color":"orange","shape":"circle"}
+            ]
+        }
+    ],
+    "tile*":[
+        {"color":"red","shape":"star"},{"color":"green","shape":"star"}
+    ]
+}
+
+[["E","ldasg", "take-turn", 2],["F","ldasg"]]
+

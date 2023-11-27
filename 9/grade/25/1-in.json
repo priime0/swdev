@@ -1,0 +1,16 @@
+{
+  "map":[
+    [0, [0, { "color": "red", "shape": "star" }], [1, { "color": "red", "shape": "8star" }], [2, { "color": "red", "shape": "square" }], [3, { "color": "red", "shape": "circle" }], [4, { "color": "red", "shape": "clover" }], [5, { "color": "red", "shape": "diamond" }]],
+    [1, [0, { "color": "green", "shape": "star" }], [1, { "color": "green", "shape": "8star" }], [2, { "color": "green", "shape": "square" }], [3, { "color": "green", "shape": "circle" }], [4, { "color": "green", "shape": "clover" }], [5, { "color": "green", "shape": "diamond" }]],
+    [2, [0, { "color": "blue", "shape": "star" }], [1, { "color": "blue", "shape": "8star" }], [2, { "color": "blue", "shape": "square" }], [3, { "color": "blue", "shape": "circle" }], [4, { "color": "blue", "shape": "clover" }], [5, { "color": "blue", "shape": "diamond" }]],
+    [3, [0, { "color": "yellow", "shape": "star" }], [1, { "color": "yellow", "shape": "8star" }], [2, { "color": "yellow", "shape": "square" }], [3, { "color": "yellow", "shape": "circle" }], [4, { "color": "yellow", "shape": "clover" }], [5, { "color": "yellow", "shape": "diamond" }]],
+    [4, [0, { "color": "orange", "shape": "star" }], [1, { "color": "orange", "shape": "8star" }], [2, { "color": "orange", "shape": "square" }], [3, { "color": "orange", "shape": "circle" }], [4, { "color": "orange", "shape": "clover" }], [5, { "color": "orange", "shape": "diamond" }]],
+    [5, [0, { "color": "purple", "shape": "star" }], [1, { "color": "purple", "shape": "8star" }], [2, { "color": "purple", "shape": "square" }], [3, { "color": "purple", "shape": "circle" }], [4, { "color": "purple", "shape": "clover" }], [5, { "color": "purple", "shape": "diamond" }]]
+  ],
+  "players":[
+    {"score":14,"name":"yakko","tile*":[{"color":"yellow","shape":"square"}]},
+    {"score":8,"name":"wakko","tile*":[{"color":"orange","shape":"8star"},{"color":"green","shape":"clover"},{"color":"green","shape":"clover"}]},
+    {"score":18,"name":"dot","tile*":[{"color":"green","shape":"square"}]},
+    {"score":12,"name":"pinky","tile*":[{"color":"red","shape":"square"}]}],
+  "tile*":[{"color":"purple","shape":"circle"}]}
+[["yakko","ldasg","take-turn",1],["wakko","dag","take-turn",6],["dot","ldasg","a cheat","no-fit"],["pinky","ldasg","win",2]]

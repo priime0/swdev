@@ -1,0 +1,27 @@
+{"map":[[0,[0,{"color":"red","shape":"star"}]]],
+  "players":[
+    {"name":"one",
+      "score":0,
+      "tile*":
+      [{"color":"red","shape":"star"},{"color":"blue","shape":"clover"},{"color":"yellow","shape":"circle"}]},
+    {"name":"two",
+      "score":0,
+      "tile*":
+      [{"color":"red","shape":"star"},{"color":"green","shape":"circle"},{"color":"green","shape":"square"}]},
+    {"name":"three",
+      "score":0,
+      "tile*":
+      [{"color":"red","shape":"star"},{"color":"blue","shape":"diamond"},{"color":"purple","shape":"diamond"}]},
+    {"name":"four",
+      "score":0,
+      "tile*":
+      [{"color":"red","shape":"star"},{"color":"purple","shape":"circle"},{"color":"purple","shape":"square"}]}
+  ],
+  "tile*":
+  [{"color":"red","shape":"star"},{"color":"red","shape":"star"},{"color":"red","shape":"star"},
+    {"color":"red","shape":"star"},{"color":"red","shape":"star"},{"color":"red","shape":"star"},
+    {"color":"red","shape":"star"},{"color":"red","shape":"star"},{"color":"purple","shape":"diamond"}]}
+[["one","dag", "take-turn", 2],["two","dag", "take-turn", 2],
+  ["three","dag", "take-turn", 3],
+  ["four","dag", "win", 1]]
+

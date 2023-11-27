@@ -1,0 +1,9 @@
+{"map":[[0,[0,{"color":"red","shape":"star"}]]],
+  "players":[
+      {"score":0, "name": "Joshua", "tile*":[{"color":"orange","shape":"8star"}, {"color":"green","shape":"circle"}]},
+      {"score":0, "name": "player1", "tile*":[{"color":"green","shape":"circle"},{"color":"yellow","shape":"circle"}]},
+      {"score":0, "name": "slowNewTiles", "tile*":[{"color":"blue","shape":"clover"},{"color":"red","shape":"star"}]}
+    ],
+  "tile*": [{"color":"blue","shape":"square"},{"color":"purple","shape":"square"}]}
+[["Joshua","dag","a cheat", "tile-not-owned"],["player1","dag"], ["slowNewTiles", "dag", "new-tiles", 1]]
+

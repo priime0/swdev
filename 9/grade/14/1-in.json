@@ -1,0 +1,36 @@
+{
+    "map": [[-54, [27, { "color": "red", "shape": "square" }]]],
+    "tile*": [
+        { "color": "red", "shape": "circle" },
+        { "color": "red", "shape": "circle" },
+        { "color": "red", "shape": "circle" },
+        { "color": "red", "shape": "circle" }
+    ],
+    "players": [
+        {
+            "score": 0,
+            "tile*": [
+                { "color": "purple", "shape": "circle" },
+                { "color": "purple", "shape": "star" }
+            ],
+            "name": "DavidOBrien1"
+        },
+        {
+            "score": 0,
+            "tile*": [
+                { "color": "red", "shape": "circle" },
+                { "color": "red", "shape": "star" }
+            ],
+            "name": "DavidOBrien2"
+        },
+        {
+            "score": 0,
+            "tile*": [
+                { "color": "blue", "shape": "circle" },
+                { "color": "blue", "shape": "star" }
+            ],
+            "name": "DavidOBrien3"
+        }
+    ]
+}[["DavidOBrien1","dag", "new-tiles", 1],["DavidOBrien2","dag", "take-turn", 6],["DavidOBrien3","dag", "win", 5]]
+

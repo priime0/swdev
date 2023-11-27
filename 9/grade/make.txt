@@ -1,0 +1,113 @@
+cd ../Q/ && raco pkg remove Q
+Removing Q
+The following packages were automatically installed and are no longer used:
+  pfds predicates
+Use `raco pkg remove --auto` to remove them.
+raco setup: version: 8.10
+raco setup: platform: x86_64-linux [cs]
+raco setup: target machine: ta6le
+raco setup: installation name: 8.10
+raco setup: variants: cs
+raco setup: main collects: /proj/racket/plt-released/recent/collects/
+raco setup: collects paths: 
+raco setup:   /home/mballantyne/.racket/8.10/collects
+raco setup:   /proj/racket/plt-released/recent/collects/
+raco setup: main pkgs: /proj/racket/plt-released/recent/share/pkgs
+raco setup: pkgs paths: 
+raco setup:   /proj/racket/plt-released/recent/share/pkgs
+raco setup:   /home/mballantyne/.racket/8.10/pkgs
+raco setup: links files: 
+raco setup:   /proj/racket/plt-released/recent/share/links.rktd
+raco setup:   /home/mballantyne/.racket/8.10/links.rktd
+raco setup: main docs: /proj/racket/plt-released/recent/doc
+raco setup: --- updating info-domain tables ---                    [21:56:53]
+raco setup: updating: /home/mballantyne/.racket/8.10/share/info-cache.rktd
+raco setup: --- pre-installing collections ---                     [21:56:53]
+raco setup: --- installing foreign libraries ---                   [21:56:53]
+raco setup: --- installing shared files ---                        [21:56:53]
+raco setup: --- compiling collections ---                          [21:56:53]
+raco setup: --- parallel build using 4 jobs ---                    [21:56:53]
+raco setup: --- creating launchers ---                             [21:56:54]
+raco setup: --- installing man pages ---                           [21:56:54]
+raco setup: --- building documentation ---                         [21:56:54]
+raco setup: --- installing collections ---                         [21:57:04]
+raco setup: --- post-installing collections ---                    [21:57:04]
+cd ../Q/ && raco pkg install --auto --skip-installed
+Linking current directory as a package
+Resolving "gui-easy" via https://download.racket-lang.org/releases/8.10/catalog/
+Resolving "gui-easy" via https://pkgs.racket-lang.org
+Downloading repository https://github.com/Bogdanp/racket-gui-easy.git?path=gui-easy commit d28afb9104ac065676ddb6562ba8c2f7782357a5
+Resolving "gui-easy-lib" via https://download.racket-lang.org/releases/8.10/catalog/
+Resolving "gui-easy-lib" via https://pkgs.racket-lang.org
+Using cached17009674261700967426861 for https://github.com/Bogdanp/racket-gui-easy.git?path=gui-easy-lib
+Resolving "box-extra-lib" via https://download.racket-lang.org/releases/8.10/catalog/
+Resolving "box-extra-lib" via https://pkgs.racket-lang.org
+Downloading repository https://github.com/Bogdanp/racket-box-extra.git?path=box-extra-lib commit 041412cd5b122ecfb9cc2312f21d281e0d4b7143
+The following uninstalled packages were listed as dependencies
+and they were automatically installed:
+ dependencies of Q:
+   gui-easy
+ dependencies of gui-easy:
+   gui-easy-lib
+ dependencies of gui-easy-lib:
+   box-extra-lib
+raco setup: version: 8.10
+raco setup: platform: x86_64-linux [cs]
+raco setup: target machine: ta6le
+raco setup: installation name: 8.10
+raco setup: variants: cs
+raco setup: main collects: /proj/racket/plt-released/recent/collects/
+raco setup: collects paths: 
+raco setup:   /home/mballantyne/.racket/8.10/collects
+raco setup:   /proj/racket/plt-released/recent/collects/
+raco setup: main pkgs: /proj/racket/plt-released/recent/share/pkgs
+raco setup: pkgs paths: 
+raco setup:   /proj/racket/plt-released/recent/share/pkgs
+raco setup:   /home/mballantyne/.racket/8.10/pkgs
+raco setup: links files: 
+raco setup:   /proj/racket/plt-released/recent/share/links.rktd
+raco setup:   /home/mballantyne/.racket/8.10/links.rktd
+raco setup: main docs: /proj/racket/plt-released/recent/doc
+raco setup: --- updating info-domain tables ---                    [21:57:11]
+raco setup: updating: /home/mballantyne/.racket/8.10/share/info-cache.rktd
+raco setup: --- pre-installing collections ---                     [21:57:11]
+raco setup: --- installing foreign libraries ---                   [21:57:11]
+raco setup: --- installing shared files ---                        [21:57:11]
+raco setup: --- compiling collections ---                          [21:57:11]
+raco setup: --- parallel build using 4 jobs ---                    [21:57:11]
+raco setup: 3 making: <pkgs>/Q
+raco setup: 3 making: <pkgs>/Q/Client
+raco setup: 2 making: <pkgs>/box-extra-lib
+raco setup: 1 making: <pkgs>/gui-easy
+raco setup: 1 making: <pkgs>/gui-easy/gui
+raco setup: 0 making: <pkgs>/gui-easy-lib
+raco setup: 0 making: <pkgs>/gui-easy-lib/gui
+raco setup: 0 making: <pkgs>/gui-easy-lib/gui/easy
+raco setup: 1 making: <pkgs>/gui-easy/gui/easy
+raco setup: 1 making: <pkgs>/gui-easy/gui/easy/scribblings
+raco setup: 3 making: <pkgs>/Q/Common
+raco setup: 3 making: <pkgs>/Q/Common/interfaces
+raco setup: 3 making: <pkgs>/Q/Lib
+raco setup: 3 making: <pkgs>/Q/Planning
+raco setup: 3 making: <pkgs>/Q/Player
+raco setup: 3 making: <pkgs>/Q/Referee
+raco setup: 0 making: <pkgs>/gui-easy-lib/gui/easy/private
+raco setup: 0 making: <pkgs>/gui-easy-lib/gui/easy/private/view
+raco setup: 1 making: <pkgs>/gui-easy/gui/easy/scribblings/media
+raco setup: 3 making: <pkgs>/Q/Server
+raco setup: 3 making: <pkgs>/Q/Test
+raco setup: --- creating launchers ---                             [21:57:34]
+raco setup: --- installing man pages ---                           [21:57:34]
+raco setup: --- building documentation ---                         [21:57:34]
+raco setup: 1 running: <pkgs>/gui-easy/gui/easy/scribblings/gui-easy.scrbl
+raco setup: 3 rendering: <pkgs>/gui-easy/gui/easy/scribblings/gui-easy.scrbl
+raco setup: 2 rendering: <pkgs>/racket-index/scribblings/main/user/local-redirect.scrbl
+raco setup: 1 rendering: <pkgs>/racket-index/scribblings/main/user/release.scrbl
+raco setup: 0 rendering: <pkgs>/racket-index/scribblings/main/user/search.scrbl
+raco setup: 1 rendering: <pkgs>/racket-index/scribblings/main/user/start.scrbl
+raco setup: --- installing collections ---                         [21:58:00]
+raco setup: installing: <collects>/racket
+raco setup: installing: <pkgs>/gui-lib/racket/gui
+raco setup: --- post-installing collections ---                    [21:58:00]
+cd ../9/ && raco exe xbaddies.rkt
+cd ../9/ && chmod +x xbaddies

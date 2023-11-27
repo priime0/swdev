@@ -1,0 +1,6 @@
+{"map":[[0,[0,{"color":"green","shape":"square"}]]],
+"players":[
+    {"name":"alpha","score":0,"tile*":[{"color":"green","shape":"8star"}, {"color":"yellow","shape":"8star"}, {"color":"blue","shape":"square"}]}, 
+    {"name":"beta","score":0,"tile*":[{"color":"blue","shape":"8star"}]}], "tile*":[{"color":"green","shape":"clover"},{"color":"yellow","shape":"square"},{"color":"green","shape":"circle"},{"color":"green","shape":"diamond"},{"color":"blue","shape":"diamond"}]}
+[["alpha","dag"],["beta","dag", "a cheat", "tile-not-owned"]]
+

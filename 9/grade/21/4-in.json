@@ -1,0 +1,3 @@
+{"map":[[-3,[0,{"color":"green","shape":"8star"}]]],"tile*":[{"color":"purple","shape":"8star"},{"color":"green","shape":"circle"}],"players":[{"score":0,"name":"Tester","tile*":[{"color":"orange","shape":"square"},{"color":"green","shape":"clover"}]},{"score":0,"name":"SecondTester","tile*":[{"color":"orange","shape":"square"},{"color":"green","shape":"clover"}]},{"score":11,"name":"looper","tile*":[{"color":"orange","shape":"square"},{"color":"green","shape":"clover"}]}]}
+[["Tester","dag"],["SecondTester","ldasg"],["looper","dag","setup",3]]
+

@@ -1,0 +1,29 @@
+{
+    "map": [[0, [0, { "color": "yellow", "shape": "8star" }]]],
+    "tile*": [
+        { "color": "yellow", "shape": "8star" },
+        { "color": "yellow", "shape": "8star" },
+        { "color": "yellow", "shape": "8star" },
+        { "color": "yellow", "shape": "8star" },
+        { "color": "yellow", "shape": "8star" },
+        { "color": "yellow", "shape": "8star" }
+    ],
+    "players": [
+        {
+            "score": 20,
+            "tile*": [
+                { "color": "blue", "shape": "diamond" },
+                { "color": "blue", "shape": "clover" }
+            ],
+            "name": "monsieur"
+        },
+        {
+            "score": 20,
+            "tile*": [
+                { "color": "green", "shape": "circle" },
+                { "color": "green", "shape": "circle" }
+            ],
+            "name": "madame"
+        }
+    ]
+}[["monsieur","dag"],["madame","ldasg", "take-turn"]]

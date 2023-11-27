@@ -1,0 +1,53 @@
+{
+    "map": [[0, [0, { "color": "red", "shape": "8star" }]]],
+    "tile*": [
+        { "color": "red", "shape": "star" },
+        { "color": "red", "shape": "square" },
+        { "color": "red", "shape": "8star" },
+        { "color": "red", "shape": "star" },
+        { "color": "red", "shape": "square" },
+        { "color": "red", "shape": "8star" },
+        { "color": "red", "shape": "star" },
+        { "color": "red", "shape": "square" },
+        { "color": "red", "shape": "8star" },
+        { "color": "red", "shape": "star" },
+        { "color": "red", "shape": "square" },
+        { "color": "red", "shape": "8star" },
+        { "color": "red", "shape": "star" },
+        { "color": "red", "shape": "square" },
+        { "color": "red", "shape": "8star" },
+        { "color": "red", "shape": "star" },
+        { "color": "red", "shape": "square" },
+        { "color": "red", "shape": "8star" },
+        { "color": "red", "shape": "star" },
+        { "color": "red", "shape": "square" },
+        { "color": "red", "shape": "8star" }
+    ],
+    "players": [
+        {
+            "score": 0,
+            "tile*": [
+                { "color": "blue", "shape": "diamond" },
+                { "color": "blue", "shape": "clover" }
+            ],
+            "name": "cat"
+        },
+        {
+            "score": 0,
+            "tile*": [
+                { "color": "green", "shape": "circle" },
+                { "color": "green", "shape": "circle" }
+            ],
+            "name": "dog"
+        },
+        {
+            "score": 0,
+            "tile*": [
+                { "color": "red", "shape": "star" },
+                { "color": "red", "shape": "clover" }
+            ],
+            "name": "mouse"
+        }
+    ]
+}[["cat","dag"],["dog","ldasg"],["mouse","dag"]]
+

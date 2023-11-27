@@ -1,0 +1,9 @@
+{"map":[[0,[0,{"color":"red","shape":"star"}]]],
+  "players":[
+      {"score":0, "name": "Joshua", "tile*":[{"color":"orange","shape":"8star"}, {"color":"green","shape":"circle"}]},
+      {"score":0, "name": "player1", "tile*":[{"color":"green","shape":"circle"},{"color":"yellow","shape":"circle"}]},
+      {"score":0, "name": "takeTurnExn", "tile*":[{"color":"blue","shape":"star"},{"color":"red","shape":"8star"}]}
+  ],
+  "tile*": [{"color":"blue","shape":"square"}]}
+[["Joshua","dag","a cheat", "bad-ask-for-tiles"],["player1","dag"], ["takeTurnExn", "dag", "take-turn"]]
+

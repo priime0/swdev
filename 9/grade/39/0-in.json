@@ -1,0 +1,6 @@
+{"map": [[0, [0, {"color": "red", "shape": "square"}]]],
+"tile*": [{"color": "red", "shape": "circle"}, {"color": "red", "shape": "star"}, {"color": "red", "shape": "8star"}, {"color": "red", "shape": "clover"}, {"color": "red", "shape": "diamond"}, {"color": "red", "shape": "circle"}, {"color": "red", "shape": "star"}, {"color": "red", "shape": "8star"}, {"color": "red", "shape": "clover"}, {"color": "red", "shape": "diamond"}, {"color": "red", "shape": "circle"}, {"color": "red", "shape": "star"}, {"color": "red", "shape": "circle"}, {"color": "red", "shape": "star"}],
+"players": [{"score": 0, "name": "Jay", "tile*": [{"color": "red", "shape": "circle"}, {"color": "blue", "shape": "circle"}, {"color": "green", "shape": "circle"}]}, 
+            {"score": 0, "name": "Tiaga", "tile*": [{"color": "red", "shape": "circle"}]}]}
+
+[["Jay", "dag", "a cheat", "non-adjacent-coordinate"], ["Tiaga", "ldasg"]]
