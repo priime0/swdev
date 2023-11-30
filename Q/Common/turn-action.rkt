@@ -39,7 +39,7 @@
   (placement p t))
 
 
-#; {type TurnAction = (U (place-tile [Listof TilePlacement])
+#; {type TurnAction = (U (place [Listof TilePlacement])
                          (exchange)
                          (pass))}
 ;; A TurnAction represents a possible action during a player turn, and is one of:
