@@ -23,6 +23,7 @@
 ;; An RPC represents a deserialized remote method request, consisting
 ;; of a thunk which produces the result of the requested method call,
 ;; and whether this is the final action of the game.
+;; Stands for "remote procedure call".
 
 ;; ========================================================================================
 ;; FUNCTIONALITY
