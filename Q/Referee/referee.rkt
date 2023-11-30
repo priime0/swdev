@@ -80,18 +80,18 @@
                    #:game-state [gs* (make-game-state tiles playables)])
   (define gs (bind-playables gs* playables))
 
-  (define game-info0 (setup gs))
-  (send (*obman*) observe (game-info-state game-info0))
-  (define game-info1 (run-game game-info0))
-  (send (*obman*) observe (game-info-state game-info1))
-  (match-define [game-info priv-state sinners0] game-info1)
+  (define pre-game-info (setup gs))
+  (send (*obman*) observe (game-info-state pre-game-info))
+  (define post-game-info (run-game pre-game-info))
+  (send (*obman*) observe (game-info-state post-game-info))
+  (match-define [game-info priv-state sinners0] post-game-info)
 
   (define-values (winners losers) (winners+losers priv-state))
   (define winners0 (map player-state-payload winners))
   (define losers0  (map player-state-payload losers))
 
   (define-values (winners1 sinners1) (notify-players winners0 #t))
-  (define-values (losers1  sinners2) (notify-players losers0 #f))
+  (define-values (_losers1 sinners2) (notify-players losers0 #f))
 
   (list winners1 (append sinners0 sinners1 sinners2)))
 
