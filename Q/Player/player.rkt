@@ -41,7 +41,7 @@
 #; {JSExpr -> Player}
 (define (hash->player++ jactor)
   (match jactor
-    [(list-rest jname rest)
+    [(cons jname rest)
      (unless (string? jname)
        (error 'hash->player++ "invalid name string in deserialization: ~a"
               jname))
@@ -50,7 +50,8 @@
        (constructor+strategy rest))
      (new player-constructor%
           [id id]
-          [strategy strategy])]))
+          [strategy strategy])]
+    [_ (error 'hash->player++ "received invalid jactor")]))
 
 
 #; {JSExpr -> (values Class Strategy)}
@@ -58,7 +59,9 @@
 ;; implementation and corresponding strategy based on the jactor's
 ;; remaining arguments.
 (define (constructor+strategy rest-args)
-  (match-define [list-rest jstrategy rest-args+] rest-args)
+  (when (null? rest-args)
+    (error 'hash->player++ "expected >1 list"))
+  (match-define [cons jstrategy rest-args+] rest-args)
   (define-values (constructor cheat?)
     (match rest-args+
       ['()
@@ -70,7 +73,8 @@
        (values exn-player% #f)]
       [(list jexn cnt)
        (define timeout-player% (timeout-player jexn cnt))
-       (values timeout-player% #f)]))
+       (values timeout-player% #f)]
+      [_ (error 'hash->player++ "received invalid jactor")]))
   (values constructor (hash->strategy++ jstrategy cheat?)))
 
 
