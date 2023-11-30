@@ -37,6 +37,43 @@
     (define/public (win won?)
       (void))))
 
+
+#; {JSExpr -> Player}
+(define (hash->player++ jactor)
+  (match jactor
+    [(list-rest jname rest)
+     (unless (string? jname)
+       (error 'hash->player++ "invalid name string in deserialization: ~a"
+              jname))
+     (define id (string->symbol jname))
+     (define-values (player-constructor% strategy)
+       (constructor+strategy rest))
+     (new player-constructor%
+          [id id]
+          [strategy strategy])]))
+
+
+#; {JSExpr -> (values Class Strategy)}
+;; Retrieve the corresponding concrete constructor for a player<%>
+;; implementation and corresponding strategy based on the jactor's
+;; remaining arguments.
+(define (constructor+strategy rest-args)
+  (match-define [list-rest jstrategy rest-args+] rest-args)
+  (define-values (constructor cheat?)
+    (match rest-args+
+      ['()
+       (values player% #f)]
+      [(list "a cheat" jcheat)
+       (values player% jcheat)]
+      [(list jexn)
+       (define exn-player% (exn-player jexn))
+       (values exn-player% #f)]
+      [(list jexn cnt)
+       (define timeout-player% (timeout-player jexn cnt))
+       (values timeout-player% #f)]))
+  (values constructor (hash->strategy++ jstrategy cheat?)))
+
+
 #; {JExn -> (class ExnPlayer)}
 ;; Creates a new player% sub-class, overriding the given method to throw an error.
 (define (exn-player jexn)
@@ -47,6 +84,7 @@
      ["win"       (override-method/exn playable<%> win)])
    player%))
 
+
 #; {JExn Count -> (class TimeoutPlayer)}
 ;; Creates a new player% sub-class, which overrides the
 (define (timeout-player jexn cnt)
@@ -56,28 +94,6 @@
      ["new-tiles" (override-method/count playable<%> new-tiles cnt)]
      ["win"       (override-method/count playable<%> win cnt)])
    player%))
-
-#; {JSExpr -> Player}
-(define (hash->player++ jactor)
-  (match jactor
-    [(list jname jstrategy)
-     (new player%
-          [id (string->symbol jname)]
-          [strategy (hash->strategy++ jstrategy)])]
-    [(list jname jstrategy "a cheat" jcheat)
-     (new player%
-          [id (string->symbol jname)]
-          [strategy (hash->strategy++ jstrategy jcheat)])]
-    [(list jname jstrategy jexn)
-     (define exn-player% (exn-player jexn))
-     (new exn-player%
-          [id (string->symbol jname)]
-          [strategy (hash->strategy++ jstrategy)])]
-    [(list jname jstrategy jexn cnt)
-     (define timeout-player% (timeout-player jexn cnt))
-     (new timeout-player%
-          [id (string->symbol jname)]
-          [strategy (hash->strategy++ jstrategy)])]))
 
 
 
