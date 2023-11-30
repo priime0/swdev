@@ -52,7 +52,8 @@
       (hash->void result))))
 
 #; {JSExpr -> Void}
-;; Deserialize a "void" RPC result into a racket #<void> value.
+;; Deserialize a "void" RPC result into a racket #<void> value,
+;; erroring if the received json was not "void".
 (define (hash->void v)
   (match v
     ["void" (void)]))
