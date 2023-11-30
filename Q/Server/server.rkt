@@ -5,6 +5,7 @@
 (require Q/Common/player-state)
 (require Q/Common/config)
 (require Q/Lib/connection)
+(require Q/Lib/result)
 
 (require racket/engine)
 
@@ -49,12 +50,12 @@
   (define info^ (box info))
   (define signup-engine (engine (thunk* (signup-players info^))))
   (define timeout-ms (* (*signup-timeout*) 1000))
-  (let loop ([remaining-attemps (*tries*)])
+  (let loop ([remaining-attempts (*tries*)])
     (cond
-      [(zero? remaining-attemps) info]
+      [(zero? remaining-attempts) info]
       [(engine-run timeout-ms signup-engine) (unbox info^)]
       [(lobby-ready? (unbox info^)) (unbox info^)]
-      [else (loop (sub1 remaining-attemps))])))
+      [else (loop (sub1 remaining-attempts))])))
 
 #; {[Boxof LobbyInfo] -> Void}
 ;; Signs up players until the lobby is full, or until the signup
@@ -78,11 +79,11 @@
 (define (signup-player info)
   (define listener (lobby-info-listener (unbox info)))
   (define conn (connection-from-listener listener))
-  (define maybe-name (conn-read/timeout conn (*server-client-timeout*)))
-  (cond
-    [(not maybe-name) (close-connection conn)]
-    [(not (player-name? (string->symbol maybe-name))) (close-connection conn)]
-    [else (add-player info conn (string->symbol maybe-name))]))
+  (define maybe-json-response (conn-read/timeout conn (*server-client-timeout*)))
+  (define player-name-result (jname->symbol maybe-json-response))
+  (match player-name-result
+    [(success player-name) (add-player info conn player-name)]
+    [(failure _)           (close-connection conn)]))
 
 
 #; {[Boxof LobbyInfo] Connection Symbol -> Void}
@@ -111,3 +112,14 @@
 ;; Is the given lobby empty?
 (define (lobby-empty? info)
   (null? (lobby-info-players info)))
+
+#; {[Maybe JSExpr] -> [Result Symbol]}
+;; Deserialize a received JSON response representing the jName into a
+;; player name symbol, producing a failure if malformed.
+(define (jname->symbol jname)
+  (cond [(or (not jname)
+             (not (string? jname))
+             (not (player-name? (string->symbol jname))))
+         (failure jname)]
+        [else
+         (success (string->symbol jname))]))
