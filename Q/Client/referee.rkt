@@ -38,6 +38,17 @@
     (listen conn playable))
   (void))
 
+#; {Connection Playable EndOfGameContinuation -> Void}
+;; Reads and executes the next RPC to come over the connection.
+;; Blocks until next command arrives.
+(define (execute-rpc conn playable k)
+  (define-values (method-call last-call?) (execute-rpc/read conn playable))
+  (define method-result (method-call))
+  (define serialized-result (->jsexpr method-result))
+  (conn-write conn serialized-result)
+  (when last-call?
+    (k)))
+
 #; {Connection Playable -> RPC}
 ;; Reads and deserialzies a JSON message into an RPC for the referee
 ;; proxy to execute.
@@ -56,17 +67,6 @@
      (values (thunk (send playable new-tiles hand)) #f)]
     [(list "win" (list won?))
      (values (thunk (send playable win won?)) #t)]))
-
-#; {Connection Playable EndOfGameContinuation -> Void}
-;; Reads and executes the next RPC to come over the connection.
-;; Blocks until next command arrives.
-(define (execute-rpc conn playable k)
-  (define-values (method-call last-call?) (execute-rpc/read conn playable))
-  (define method-result (method-call))
-  (define serialized-result (->jsexpr method-result))
-  (conn-write conn serialized-result)
-  (when last-call?
-    (k)))
 
 ;; ========================================================================================
 ;; TESTS
