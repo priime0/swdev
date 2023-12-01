@@ -3,6 +3,7 @@
 (require Q/Server/player)
 (require Q/Referee/referee)
 (require Q/Common/player-state)
+(require Q/Common/game-state)
 (require Q/Common/config)
 (require Q/Lib/connection)
 (require Q/Lib/result)
@@ -10,8 +11,12 @@
 (require racket/engine)
 
 (provide
+ (struct-out server-config)
+ (struct-out referee-config)
  (contract-out
-  [run (-> natural? (list/c (listof string?) (listof string?)))]))
+  [run (-> natural? (list/c (listof string?) (listof string?)))]
+  [hash->server-config (-> hash? server-config?)]
+  [hash->referee-config (-> hash? referee-config?)]))
 
 ;; ========================================================================================
 ;; DATA DEFINITIONS
@@ -23,6 +28,28 @@
 ;; client connections, and the server's current list of players
 ;; waiting in the lobby, in ascending age order.
 (struct lobby-info (listener players) #:transparent)
+
+#; {type ServerConfig = (server-config Natural Natural Natural Natural Boolean RefereeConfig)}
+;; Configuration for the server.
+(struct/contract server-config
+  ([port            natural?]
+   [server-tries    natural?]
+   [server-wait     natural?]
+   [wait-for-signup natural?]
+   [quiet?          boolean?]
+   [ref-spec        referee-config?])
+  #:transparent)
+
+#; {type RefereeConfig = (referee-config GameState Boolean Natural Natural Natural Boolean)}
+;; Configuration for the referee.
+(struct/contract referee-config
+  ([state0   game-state?]
+   [quiet?   boolean?]
+   [qbo      natural?]
+   [fbo      natural?]
+   [per-turn natural?]
+   [observe? natural?])
+  #:transparent)
 
 ;; ========================================================================================
 ;; FUNCTIONALITY
@@ -123,3 +150,42 @@
          (failure jname)]
         [else
          (success (string->symbol jname))]))
+
+#; {JSExpr -> ServerConfig}
+(define (hash->server-config jsexpr)
+  (define required-keys '(port server-tries server-wait wait-for-signup quiet ref-spec))
+  (define has-all-keys?
+    (andmap (curry hash-has-key? jsexpr) required-keys))
+  (unless has-all-keys?
+    (error 'hash->client-config "missing fields for server config"))
+
+  (define ref (curry hash-ref jsexpr))
+
+  (define port (ref 'port))
+  (define server-tries (ref 'server-tries))
+  (define server-wait (ref 'server-wait))
+  (define wait-for-signup (ref 'wait-for-signup))
+  (define quiet (ref 'quiet))
+  (define ref-spec (hash->referee-config (ref 'ref-spec)))
+
+  (referee-config port server-tries server-wait wait-for-signup quiet ref-spec))
+
+#; {JSExpr -> RefereeConfig}
+(define (hash->referee-config jsexpr)
+  (define required-keys '(state0 quiet config-s per-turn observe))
+  (define has-all-keys?
+    (andmap (curry hash-has-key? jsexpr) required-keys))
+  (unless has-all-keys?
+    (error 'hash->client-config "missing fields for referee config"))
+
+  (define ref (curry hash-ref jsexpr))
+
+  (define state0 (hash->priv-state (ref 'state0)))
+  (define quiet (ref 'quiet))
+  (define config-s (ref 'config-s))
+  (define qbo (hash-ref config-s 'qbo))
+  (define fbo (hash-ref config-s 'fbo))
+  (define per-turn (ref 'per-turn))
+  (define observe (ref 'observe))
+
+  (referee-config state0 quiet qbo fbo per-turn observe))
