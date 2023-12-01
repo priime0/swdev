@@ -1,27 +1,32 @@
 #lang racket
 
+(require Q/Common/config)
 (require Q/Client/client)
 (require Q/Player/iterative)
 (require Q/Player/ldasg)
 (require Q/Player/player)
 
+(require json)
+
 (provide main)
 
 (define (main)
-  (define port (make-parameter 10000))
   (define player-name (make-parameter 'foo))
 
-  (command-line
-   #:once-each
-   ["--port" port-str
-             "Port"
-             (port (string->number port-str))]
-   ["--name" name-str
-             "Name"
-             (player-name (string->symbol name-str))])
+  (define port
+    (command-line
+     #:args (port-num)
+     port-num))
 
-  (define playable (new player% [id (player-name)] [strategy (new iterative% [strategy (new ldasg%)])]))
-  (start "localhost" (port) playable))
+  (define client-config-json (read-json))
+  (define config (hash->client-config client-config-json))
+
+  (match-define [client-config _port host wait quiet? players] config)
+
+  (parameterize ([*port* port]
+                 [*hostname* host]
+                 [*wait* wait])
+    (start players)))
 
 
 (module+ main
