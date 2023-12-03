@@ -47,7 +47,8 @@
         (send observer observe priv-state)))
 
     (define/public (terminate)
-      (void))
+      (for ([observer observers])
+        (send observer terminate)))
 
     (define/public (connect observer)
       (unless (set-member? observers observer)
