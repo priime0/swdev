@@ -10,7 +10,7 @@
  (struct-out client-config)
  (contract-out
   [hash->client-config (-> hash? client-config?)]
-  [start (-> (listof (is-a?/c playable<%>)) void?)]))
+  [start (-> (is-a?/c playable<%>) void?)]))
 
 ;; ========================================================================================
 ;; DATA DEFINITIONS
@@ -32,14 +32,29 @@
 
 #; {Playable -> Void}
 ;; Connects to the server and signs up the player, participating in a game.
-(define (start playables)
-  (define conn (connect (*hostname*) (*port*)))
-  (define one-done? #f)
-  (for ([playable playables])
-    (sign-up conn playable)
-    (listen conn playable)
-    (when one-done? (sleep (*wait*)))
-    (set! one-done? #t)))
+(define (start playable)
+  (define maybe-conn (try-signups playable))
+  (when maybe-conn
+    (with-handlers ([exn:fail? (lambda (e) (unless (*client-quiet?*) (eprintf "~a\n" e)))])
+      (listen maybe-conn playable))))
+
+#; {Playable -> [Maybe Connection]}
+;; Tries at most *client-retries* times to connect to the server, or
+;; returns false if unable.
+(define (try-signups playable)
+  (let loop ([remaining-attempts (*client-retries*)])
+    (with-handlers ([exn:fail:network? (thunk* (unless (*client-quiet?*)
+                                                 (eprintf "unable to connect to ~a on port ~a\n"
+                                                          (*hostname*)
+                                                          (*port*)))
+                                               (sleep (*client-wait-before-retry*))
+                                               (loop (sub1 remaining-attempts)))])
+      (cond
+        [(zero? remaining-attempts) #f]
+        [else
+         (define conn (connect (*hostname*) (*port*)))
+         (sign-up conn playable)
+         conn]))))
 
 
 #; {Connection Playable -> Void}

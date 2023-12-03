@@ -29,6 +29,17 @@
 ;; waiting in the lobby, in ascending age order.
 (struct lobby-info (listener players) #:transparent)
 
+#; {type RefereeConfig = (referee-config GameState Boolean Natural Natural Natural Boolean)}
+;; Configuration for the referee.
+(struct/contract referee-config
+  ([state0   game-state?]
+   [quiet?   boolean?]
+   [qbo      natural?]
+   [fbo      natural?]
+   [per-turn natural?]
+   [observe? boolean?])
+  #:transparent)
+
 #; {type ServerConfig = (server-config Natural Natural Natural Natural Boolean RefereeConfig)}
 ;; Configuration for the server.
 (struct/contract server-config
@@ -38,17 +49,6 @@
    [wait-for-signup natural?]
    [quiet?          boolean?]
    [ref-spec        referee-config?])
-  #:transparent)
-
-#; {type RefereeConfig = (referee-config GameState Boolean Natural Natural Natural Boolean)}
-;; Configuration for the referee.
-(struct/contract referee-config
-  ([state0   game-state?]
-   [quiet?   boolean?]
-   [qbo      natural?]
-   [fbo      natural?]
-   [per-turn natural?]
-   [observe? natural?])
   #:transparent)
 
 ;; ========================================================================================
@@ -63,13 +63,20 @@
   (parameterize ([current-custodian (make-custodian)])
     (define info0 (lobby-info (tcp-listen port) '()))
     (define info1 (collect-players info0))
+    (for-each (lambda (p) (println (send p name)) (flush-output)) (reverse (lobby-info-players info1)))
     (define result
       (if (lobby-empty? info1)
           (list '() '())
-          (play-game (reverse (lobby-info-players info1)))))
+          (run-game (reverse (lobby-info-players info1)))))
     (custodian-shutdown-all (current-custodian))
     result))
 
+#; {[Listof Playable] -> GameResult}
+;; Runs a game with the given list of players in the appropriate order.
+(define (run-game players)
+  (if (*start-state*)
+      (play-game players #:game-state (*start-state*))
+      (play-game players)))
 
 #; {LobbyInfo -> LobbyInfo}
 ;; Collects players into the given lobby.
@@ -168,7 +175,7 @@
   (define quiet (ref 'quiet))
   (define ref-spec (hash->referee-config (ref 'ref-spec)))
 
-  (referee-config port server-tries server-wait wait-for-signup quiet ref-spec))
+  (server-config port server-tries server-wait wait-for-signup quiet ref-spec))
 
 #; {JSExpr -> RefereeConfig}
 (define (hash->referee-config jsexpr)

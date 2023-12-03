@@ -6,5 +6,5 @@
 
 (define (json-write+flush j [port (current-output-port)])
   (write-json j port)
-  (displayln "" port)
+  (displayln "      " port)
   (flush-output port))

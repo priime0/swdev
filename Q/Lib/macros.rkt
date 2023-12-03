@@ -48,7 +48,7 @@
   (syntax-rules ()
     [(send/checked obj-expr method-id payload arg ...)
      (with-handlers
-         ([exn:fail? (λ (e) (failure payload))])
+         ([exn:fail? (λ (e) (unless (*referee-quiet?*) (eprintf "~a\n" e)) (failure payload))])
        (success
         (call-with-limits (*timeout*) #f
                           (thunk

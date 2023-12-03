@@ -77,6 +77,16 @@
 ;; Corresponds with "quiet" field in ClientConfig spec.
 (define *client-quiet?* (make-parameter #t))
 
+#; {Natural}
+;; Represents how many times a client will retry connecting to a
+;; server if it is unable to immediately.
+(define *client-retries* (make-parameter 2))
+
+#; {Natural}
+;; Represents how long a client will wait before retrying a connection
+;; to a host, in seconds.
+(define *client-wait-before-retry* (make-parameter 2))
+
 ;; =============================================================================
 ;; REFEREE CONFIGURATION
 ;; =============================================================================
