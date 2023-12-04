@@ -510,15 +510,50 @@
   (define players0 (list luke andrey lucas))
 
   (define gs1 (apply/seed 0 make-game-state tile-set players0))
-  (define tile-set-seeded (apply/seed 0 shuffle tile-set))
+  (define tile-set-seeded (apply/seed 0 shuffle tile-set)))
 
-  #;
-  (define gs1+ (take-turn gs1 (place (list (placement (posn 1 0) (tile 'green 'clover))
-                                           (placement (posn 1 1) (tile 'blue 'clover))))))
+(module+ test
+  (parameterize ([*bonus* 10])
+    (define gs
+      (game-state (~> (make-board (tile 'red 'square))
+                      (add-tile (placement (posn 0 1) (tile 'red 'square))))
+                  (list (tile 'blue 'square))
+                  (list (player-state 0 (list) "andrey" #f)
+                        (player-state 0 (list (tile 'red 'square)) "lucas"  #f)
+                        (player-state 0 (list (tile 'red 'square)) "matthias" #f))))
+    (test-equal?
+     "scoring with game-end bonus 10"
+     (do-turn/score gs (place (list (placement (posn 0 1) (tile 'red 'square)))))
+     13))
 
-  #;
-  (define gs1++ (take-turn gs1+ (place (list (placement (posn 1 2) (tile 'red 'clover))
-                                             (placement (posn 1 -1) (tile 'green 'star))
-                                             (placement (posn 1 -2) (tile 'yellow 'star))
-                                             (placement (posn 1 -3) (tile 'blue 'star))
-                                             (placement (posn 1 -4) (tile 'blue 'circle)))))))
+  (parameterize ([*bonus* 6])
+    (define gs
+      (game-state (~> (make-board (tile 'red 'square))
+                      (add-tile (placement (posn 0 1) (tile 'red 'square))))
+                  (list (tile 'blue 'square))
+                  (list (player-state 0 (list) "andrey" #f)
+                        (player-state 0 (list (tile 'red 'square)) "lucas"  #f)
+                        (player-state 0 (list (tile 'red 'square)) "matthias" #f))))
+    (test-equal?
+     "scoring with game-end bonus 6"
+     (do-turn/score gs (place (list (placement (posn 0 1) (tile 'red 'square)))))
+     9))
+
+  (parameterize ([*bonus* 10] [*points-per-q* 10])
+    (define pments (list (placement (posn 0 1) (tile 'red 'circle))
+                         (placement (posn 0 2) (tile 'red 'clover))
+                         (placement (posn 0 3) (tile 'red 'star))
+                         (placement (posn 0 4) (tile 'red '8star))
+                         (placement (posn 0 5) (tile 'red 'diamond))))
+    (define b (~> (make-board (tile 'red 'square))
+                  (add-tiles pments)))
+    (define gs
+      (game-state b
+                  (list (tile 'blue 'square))
+                  (list (player-state 0 (list) "andrey" #f)
+                        (player-state 0 (list (tile 'red 'square)) "lucas"  #f)
+                        (player-state 0 (list (tile 'red 'square)) "matthias" #f))))
+    (test-equal?
+     "scoring with Q bonus of 10 and game-end bonus of 10"
+     (do-turn/score gs (place pments))
+     31)))
