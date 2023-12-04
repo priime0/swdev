@@ -6,7 +6,7 @@ A game based on Qwirkle, written in Racket.
 
 ### Pre-requisites
 
-- Racket 8.10
+- Racket 8.10+
 - raco
 
 ### Installation
@@ -38,7 +38,8 @@ The project is structured as follows:
 
 - `Q/`: The root directory of the project
   - `README.md`: This file
-  - `xtest`: The test script for running unit and integration tests
+  - `xtest`: The test script for running unit tests
+  - `Test/integration.rkt`: The test script for running integration tests
   - `Player/`: Contains player implementations and player strategies
     - `dag.rkt`: The "dumb and greedy" strategy implementation
     - `ldasg.rkt`: The "less dumb and still greedy" implementation
@@ -78,11 +79,6 @@ The project is structured as follows:
       - `image.rkt`: Image utilities
       - `test.rkt`: Utilities for testing
       - `misc.rkt`: Utilities for various miscellaneous categories
-
-## Roadmap
-
-- Support remote player implementations of the `playable` interface
-- Support different rule sets other than just the game of `Q`
 
 ## Module Diagrams
 
