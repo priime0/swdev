@@ -26,8 +26,10 @@ To run the collection of unit tests and integration tests, run in the
 ```bash
 $ # Make the test script executable
 $ chmod +x xtest
-$ # Run the test script
+$ # Run the test script (unit tests)
 $ ./xtest
+$ # Run the integration tests
+$ racket Test/integration.rkt
 ```
 
 ## Project Structure
