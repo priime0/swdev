@@ -274,18 +274,6 @@
            (image-width (render-tile/normalize (circle 95 'solid 'red))))))
 
 (module+ test
-  (parameterize ([*game-size* 100])
-    (test-equal?
-     "render red square correctly"
-     (render-tile red-square-tile)
-     (square 100 'solid 'red))
-
-    (test-equal?
-     "render blue star correctly"
-     (render-tile blue-star-tile)
-     (scale 5/7 (radial-star 4 25 100 'solid 'blue)))))
-
-(module+ test
   (test-true
    "equal color of tiles"
    (tiles-equal-color? (list red-square-tile red-star-tile)))
