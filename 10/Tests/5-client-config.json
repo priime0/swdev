@@ -1,5 +1,5 @@
 {
-    "host": "10.110.170.30",
+    "host": "127.0.0.1",
     "players": [
         [ "lucas",    "dag" ],
         [ "andrey",   "dag" ],
