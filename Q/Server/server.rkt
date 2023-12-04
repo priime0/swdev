@@ -188,3 +188,42 @@
   (define observe (ref 'observe))
 
   (referee-config state0 quiet qbo fbo per-turn observe))
+
+
+;; ========================================================================================
+;; UNIT TESTS
+;; ========================================================================================
+
+(module+ test
+  (require rackunit)
+  (require Q/Common/map)
+  (require Q/Player/player)
+  (require Q/Player/dag)
+  (require Q/Common/tile)
+
+  (define playables (list (new player% [id 'andrey] [strategy (new dag%)])
+                          (new player% [id 'lucas]  [strategy (new dag%)])))
+  (define player-states1 (list (player-state 0 (list (tile 'blue 'square)) 'andrey #f)
+                              (player-state 0 (list (tile 'blue 'circle)) 'lucas  #f)))
+  (define gs1 (game-state (make-board (tile 'red 'square))
+                         (list (tile 'red 'square))
+                         player-states1))
+
+  (define player-states2 (list (player-state 0 (list (tile 'blue 'circle)) 'andrey #f)
+                               (player-state 0 (list (tile 'blue 'square)) 'lucas  #f)))
+  (define gs2 (game-state (make-board (tile 'red 'square))
+                         (list (tile 'red 'square))
+                         player-states2)))
+
+(module+ test
+  (parameterize ([*start-state* gs1])
+    (test-equal?
+     "run simple game"
+     (run-game playables)
+     '(("andrey") ())))
+
+  (parameterize ([*start-state* gs2])
+    (test-equal?
+     "run simple game"
+     (run-game playables)
+     '(("lucas") ()))))
