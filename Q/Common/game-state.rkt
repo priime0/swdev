@@ -1,17 +1,11 @@
 #lang racket
 
-(require (rename-in (only-in lazy define)
-                    [define define/lazy]))
-(require racket/set)
 (require racket/generic)
 
 (require math/base)
 
-(require struct-plus-plus)
 (require threading)
 (require 2htdp/image)
-(require predicates)
-(require json)
 
 (require Q/Common/map)
 (require Q/Common/player-state)
