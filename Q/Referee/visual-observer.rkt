@@ -13,7 +13,6 @@
 (require Q/Lib/path)
 (require Q/Referee/observer)
 
-(provide default-observer%)
 
 ;; ========================================================================================
 ;; DATA DEFINITIONS
