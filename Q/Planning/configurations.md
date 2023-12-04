@@ -23,6 +23,12 @@ The changes involved:
 - Adding more Racket parameters for configuring the referee:
   `*start-state*`, `*per-turn*`, and `referee-quiet?`.
   
+Racket parameters act as thread-local global variables that can be
+changed for a given scope, allowing us to easily change their values
+for different scoring, server, client, and referee functionality. See
+the documentation: 
+https://docs.racket-lang.org/reference/parameters.html
+  
 In our scripts, these are first deserialized into config objects,
 added with these commits:
 
