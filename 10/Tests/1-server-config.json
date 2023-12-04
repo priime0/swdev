@@ -22,7 +22,7 @@
                     ]
                 ]
             ],
-            "tile*": [],
+            "tile*": [ { "color": "red", "shape": "square" }],
             "players": [
                 {
                     "name": "lucas",

@@ -19,7 +19,7 @@
                     [ 0, { "color": "red", "shape": "square" } ]
                 ]
             ],
-            "tile*": [],
+            "tile*": [ { "color": "purple", "shape": "star" } ],
             "players": [
                 {
                     "name": "lucas",

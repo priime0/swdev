@@ -42,7 +42,7 @@
                     [ 2, { "color": "green", "shape": "square" } ]
                 ]
             ],
-            "tile*": [],
+            "tile*": [ { "color": "purple", "shape": "8star" } ],
             "players": [
                 {
                     "name": "andrey",

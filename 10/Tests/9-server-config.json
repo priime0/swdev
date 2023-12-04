@@ -19,12 +19,13 @@
                     [ 0, { "color": "red", "shape": "square" } ]
                 ]
             ],
-            "tile*": [],
+            "tile*": [ { "color": "red", "shape": "square" } ],
             "players": [
                 {
                     "name": "lucas",
                     "score": 0,
                     "tile*": [
+                        { "color": "red", "shape": "square" },
                         { "color": "red", "shape": "square" }
                     ]
                 },
@@ -32,6 +33,7 @@
                     "name": "andrey",
                     "score": 0,
                     "tile*": [
+                        { "color": "red", "shape": "square" },
                         { "color": "red", "shape": "square" }
                     ]
                 }
