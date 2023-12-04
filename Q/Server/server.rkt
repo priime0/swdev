@@ -59,9 +59,7 @@
 ;; connection and tries to start a game at most twice, otherwise
 ;; returns an empty result.
 (define (run port)
-  (define info0 (lobby-info (tcp-listen port 4) '()))
-  (println (current-inexact-milliseconds))
-  (flush-output)
+  (define info0 (lobby-info (tcp-listen port 4 #t #f) '()))
   (define info1 (collect-players info0))
   (if (lobby-empty? info1)
       (list '() '())
@@ -95,8 +93,6 @@
     (cond
       [(lobby-full? (unbox info)) (void)]
       [else
-       (println "attempting signup-player")
-       (flush-output)
        (signup-player info)
        (loop)])))
 
@@ -109,8 +105,6 @@
 (define (signup-player info)
   (define listener (lobby-info-listener (unbox info)))
   (define conn (connection-from-listener listener))
-  (println "accepted connection")
-  (flush-output)
   (define maybe-json-response (conn-read/timeout conn (*server-client-timeout*)))
   (define player-name-result (jname->symbol maybe-json-response))
   (match player-name-result

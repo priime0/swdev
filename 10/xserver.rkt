@@ -38,8 +38,6 @@
   (json-write+flush game-result))
 
 (module+ main
-  (main)
-  #;
   (parameterize ([current-custodian (make-custodian)])
-
+    (main)
     (custodian-shutdown-all (current-custodian))))
