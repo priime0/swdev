@@ -1,0 +1,66 @@
+{
+    "port": 10001,
+    "quiet": true,
+    "server-tries": 2,
+    "server-wait": 15,
+    "wait-for-signup": 2,
+    "ref-spec": {
+        "config-s": {
+            "fbo": 20,
+            "qbo": 8
+        },
+        "observe": false,
+        "per-turn": 6,
+        "quiet": true,
+        "state0": {
+            "map": [
+                [
+                    0,
+                    [
+                        0,
+                        { "color": "red", "shape": "square" }
+                    ]
+                ]
+            ],
+            "tile*": [],
+            "players": [
+                {
+                    "name": "lucas",
+                    "score": 0,
+                    "tile*": [
+                        { "color": "blue",  "shape": "star"   },
+                        { "color": "red",   "shape": "circle" },
+                        { "color": "red",   "shape": "clover" },
+                        { "color": "green", "shape": "circle" },
+                        { "color": "blue",  "shape": "square" },
+                        { "color": "green", "shape": "circle" }
+                    ]
+                },
+                {
+                    "name": "andrey",
+                    "score": 0,
+                    "tile*": [
+                        { "color": "yellow", "shape": "star"    },
+                        { "color": "orange", "shape": "circle"  },
+                        { "color": "blue",   "shape": "clover"  },
+                        { "color": "purple", "shape": "8star"   },
+                        { "color": "green",  "shape": "square"  },
+                        { "color": "purple", "shape": "diamond" }
+                    ]
+                },
+                {
+                    "name": "matthias",
+                    "score": 0,
+                    "tile*": [
+                        { "color": "purple", "shape": "star"    },
+                        { "color": "green",  "shape": "circle"  },
+                        { "color": "yellow", "shape": "clover"  },
+                        { "color": "red",    "shape": "8star"   },
+                        { "color": "yellow", "shape": "square"  },
+                        { "color": "orange", "shape": "diamond" }
+                    ]
+                }
+            ]
+        }
+    }
+}

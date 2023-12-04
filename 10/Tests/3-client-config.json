@@ -1,0 +1,10 @@
+{
+    "host": "127.0.0.1",
+    "players": [
+        [ "andrey", "dag", "a cheat", "not-a-line" ],
+        [ "lucas", "ldasg" ]
+    ],
+    "port": 10003,
+    "quiet": true,
+    "wait": 3
+}

@@ -1,0 +1,17 @@
+{
+    "host": "127.0.0.1",
+    "players": [
+        [
+            "lucas", "ldasg", "take-turn"
+        ],
+        [
+            "andrey", "dag", "win"
+        ],
+        [
+            "matthias", "dag", "setup"
+        ]
+    ],
+    "port": 10001,
+    "quiet": true,
+    "wait": 3
+}

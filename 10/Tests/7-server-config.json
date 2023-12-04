@@ -1,0 +1,48 @@
+{
+    "port": 10007,
+    "quiet": true,
+    "server-tries": 2,
+    "server-wait": 20,
+    "wait-for-signup": 2,
+    "ref-spec": {
+        "config-s": {
+            "fbo": 10,
+            "qbo": 1
+        },
+        "observe": false,
+        "per-turn": 6,
+        "quiet": true,
+        "state0": {
+            "map": [
+                [
+                    0,
+                    [ 0, { "color": "red", "shape": "square" } ]
+                ]
+            ],
+            "tile*": [],
+            "players": [
+                {
+                    "name": "lucas",
+                    "score": 0,
+                    "tile*": [
+                        { "color": "red", "shape": "circle" }
+                    ]
+                },
+                {
+                    "name": "andrey",
+                    "score": 0,
+                    "tile*": [
+                        { "color": "red", "shape": "square" }
+                    ]
+                },
+                {
+                    "name": "matthias",
+                    "score": 0,
+                    "tile*": [
+                        { "color": "red", "shape": "square" }
+                    ]
+                }
+            ]
+        }
+    }
+}

@@ -1,0 +1,11 @@
+{
+    "host": "127.0.0.1",
+    "players": [
+        [ "lucas",    "dag", "take-turn", 1 ],
+        [ "andrey",   "dag", "setup",     1 ],
+        [ "matthias", "dag", "win",       1 ]
+    ],
+    "port": 10007,
+    "quiet": true,
+    "wait": 3
+}

@@ -1,0 +1,10 @@
+{
+    "host": "127.0.0.1",
+    "players": [
+        [ "lucas",    "dag", "a cheat", "bad-ask-for-tiles" ],
+        [ "andrey",   "dag" ]
+    ],
+    "port": 10008,
+    "quiet": true,
+    "wait": 3
+}
