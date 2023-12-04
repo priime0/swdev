@@ -11,4 +11,7 @@ Functionality
 30/100 pts: 3 valid tests (see test-audit-results.txt)
 60/60 bonus pts (other teams failing your tests)
 
-Total: 210/230 pts
+Inspection
+202/210 pts: See inspection.md
+
+Total: 412/440 pts

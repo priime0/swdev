@@ -43,12 +43,13 @@
 ;; returns false if unable.
 (define (try-signups playable)
   (let loop ([remaining-attempts (*client-retries*)])
-    (with-handlers ([exn:fail:network? (thunk* (unless (*client-quiet?*)
-                                                 (eprintf "unable to connect to ~a on port ~a\n"
-                                                          (*hostname*)
-                                                          (*port*)))
-                                               (sleep (*client-wait-before-retry*))
-                                               (loop (sub1 remaining-attempts)))])
+    (with-handlers ([exn:fail:network?
+                     (thunk* (unless (*client-quiet?*)
+                               (eprintf "unable to connect to ~a on port ~a\n"
+                                        (*hostname*)
+                                        (*port*)))
+                             (sleep (*client-wait-before-retry*))
+                             (loop (sub1 remaining-attempts)))])
       (cond
         [(zero? remaining-attempts) #f]
         [else
