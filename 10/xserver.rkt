@@ -2,7 +2,6 @@
 
 (require Q/Common/config)
 (require Q/Server/server)
-(require Q/Referee/visual-observer)
 (require Q/Lib/json)
 
 (require json)
@@ -32,8 +31,6 @@
                    [*bonus*                 fbo]
                    [*per-turn*              per-turn]
                    [*referee-quiet?*        ref-quiet?])
-      (when observe?
-        (send (*obman*) connect (new default-observer%)))
       (run port)))
   (json-write+flush game-result))
 
