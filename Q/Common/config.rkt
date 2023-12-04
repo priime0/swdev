@@ -80,12 +80,12 @@
 #; {Natural}
 ;; Represents how many times a client will retry connecting to a
 ;; server if it is unable to immediately.
-(define *client-retries* (make-parameter 2))
+(define *client-retries* (make-parameter 8))
 
 #; {Natural}
 ;; Represents how long a client will wait before retrying a connection
 ;; to a host, in seconds.
-(define *client-wait-before-retry* (make-parameter 2))
+(define *client-wait-before-retry* (make-parameter 0.25))
 
 ;; =============================================================================
 ;; REFEREE CONFIGURATION

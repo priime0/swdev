@@ -21,7 +21,7 @@
 
   (match-define [server-config _port tries wait signup-wait server-quiet? ref-spec] config)
   (match-define [referee-config state0 ref-quiet? qbo fbo per-turn observe?] ref-spec)
-
+  
   (define game-result
     (parameterize ([*tries*                 tries]
                    [*signup-timeout*        wait]
@@ -38,6 +38,8 @@
   (json-write+flush game-result))
 
 (module+ main
+  (main)
+  #;
   (parameterize ([current-custodian (make-custodian)])
-    (main)
+
     (custodian-shutdown-all (current-custodian))))

@@ -7,8 +7,7 @@
 (require Q/Common/config)
 (require Q/Lib/connection)
 (require Q/Lib/result)
-
-(require racket/engine)
+(require Q/Lib/time)
 
 (provide
  (struct-out server-config)
@@ -60,16 +59,13 @@
 ;; connection and tries to start a game at most twice, otherwise
 ;; returns an empty result.
 (define (run port)
-  (parameterize ([current-custodian (make-custodian)])
-    (define info0 (lobby-info (tcp-listen port) '()))
-    (define info1 (collect-players info0))
-    (for-each (lambda (p) (println (send p name)) (flush-output)) (reverse (lobby-info-players info1)))
-    (define result
-      (if (lobby-empty? info1)
-          (list '() '())
-          (run-game (reverse (lobby-info-players info1)))))
-    (custodian-shutdown-all (current-custodian))
-    result))
+  (define info0 (lobby-info (tcp-listen port 4) '()))
+  (println (current-inexact-milliseconds))
+  (flush-output)
+  (define info1 (collect-players info0))
+  (if (lobby-empty? info1)
+      (list '() '())
+      (run-game (reverse (lobby-info-players info1)))))
 
 #; {[Listof Playable] -> GameResult}
 ;; Runs a game with the given list of players in the appropriate order.
@@ -82,12 +78,10 @@
 ;; Collects players into the given lobby.
 (define (collect-players info)
   (define info^ (box info))
-  (define signup-engine (engine (thunk* (signup-players info^))))
-  (define timeout-ms (* (*signup-timeout*) 1000))
   (let loop ([remaining-attempts (*tries*)])
     (cond
       [(zero? remaining-attempts) info]
-      [(engine-run timeout-ms signup-engine) (unbox info^)]
+      [(success? (with-timeout (thunk (signup-players info^)) (*signup-timeout*))) (unbox info^)]
       [(lobby-ready? (unbox info^)) (unbox info^)]
       [else (loop (sub1 remaining-attempts))])))
 
@@ -101,6 +95,8 @@
     (cond
       [(lobby-full? (unbox info)) (void)]
       [else
+       (println "attempting signup-player")
+       (flush-output)
        (signup-player info)
        (loop)])))
 
@@ -113,6 +109,8 @@
 (define (signup-player info)
   (define listener (lobby-info-listener (unbox info)))
   (define conn (connection-from-listener listener))
+  (println "accepted connection")
+  (flush-output)
   (define maybe-json-response (conn-read/timeout conn (*server-client-timeout*)))
   (define player-name-result (jname->symbol maybe-json-response))
   (match player-name-result

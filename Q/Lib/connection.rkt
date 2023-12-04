@@ -3,6 +3,8 @@
 (require json)
 
 (require Q/Lib/json)
+(require Q/Lib/time)
+(require Q/Lib/result)
 
 (provide
  (struct-out connection)
@@ -33,11 +35,10 @@
 ;; Read a JSON from the connection, or return #f if nothing came
 ;; within the timeout window.
 (define (conn-read/timeout conn timeout)
-  (define msg #f)
-  (sync/timeout
-   timeout
-   (thread (thunk (set! msg (conn-read conn)))))
-  msg)
+  (define read-result (with-timeout (thunk (conn-read conn)) timeout))
+  (match read-result
+    [(success msg) msg]
+    [(failure _)   #f]))
 
 
 #; {String PortNumber -> Connection}
