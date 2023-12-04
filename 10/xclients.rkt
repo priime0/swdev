@@ -1,5 +1,6 @@
 #lang racket
 
+(require Q/Referee/observer)
 (require Q/Common/config)
 (require Q/Client/client)
 (require Q/Player/iterative)
@@ -31,9 +32,8 @@
 (define (run-players players)
   (define threads
     (for/fold ([threads '()])
-              ([player  players])   
-      (define t (thread (thunk (println (send player name))
-                               (flush-output) (start player))))
+              ([player  players])
+      (define t (thread (thunk (start player))))
       (sleep (*wait*))
       (cons t threads)))
   (for-each thread-wait threads))
