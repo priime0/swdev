@@ -16,7 +16,7 @@ pieces of functionality. Explain how your chosen data representation
 We implement the configurations as a set of pre-defined global Racket parameters defined here:
 https://github.khoury.northeastern.edu/CS4500-F23/fearless-mice/blob/7131ad18454dc7c8cedc17b1820b13a6da0de7b2/Q/Common/config.rkt#L20-L119
 
-These paramaters are created at compile time, and can have their values set via the Racket `parameterize` body, which is where we actually use these configurations, for example, here in xclients: https://github.khoury.northeastern.edu/CS4500-F23/fearless-mice/blob/7131ad18454dc7c8cedc17b1820b13a6da0de7b2/10/xclients.rkt#L24-L30
+These parameters are created at compile time, and can have their values set via the Racket `parameterize` body, which is where we actually use these configurations, for example, here in xclients: https://github.khoury.northeastern.edu/CS4500-F23/fearless-mice/blob/7131ad18454dc7c8cedc17b1820b13a6da0de7b2/10/xclients.rkt#L24-L30
 
  We also facilitate creation of configurations from JSON specs defined here by defining a struct that contains these fields:
 https://github.khoury.northeastern.edu/CS4500-F23/fearless-mice/blob/7131ad18454dc7c8cedc17b1820b13a6da0de7b2/Q/Client/client.rkt#L15-L27
@@ -30,7 +30,7 @@ https://github.khoury.northeastern.edu/CS4500-F23/fearless-mice/blob/7131ad18454
 
 - enforces that each configuration specifies a fixed set of properties (no more, no less)
 
-We enforce that each configuration specifies a fixed set of properties, as opposed to using something like a key-value map by having a compile-time set of configuration constants defined in the config, as mentioned above, and as well by defining the Client, Server, and Referee configurations as structs (also linked above), ensuring that those are the only parameters/config constants in the program.
+We enforce that each configuration specifies a fixed set of properties, as opposed to using something like a key-value map, by having a set of explicitly-defined configuration constants defined in the config, as mentioned above, and as well by defining the Client, Server, and Referee configurations as structs (also linked above), ensuring that those are the only parameters/config constants in the program.
 
 - supports the retrieval of properties 
 
