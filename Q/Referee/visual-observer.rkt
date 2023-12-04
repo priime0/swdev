@@ -163,33 +163,3 @@
   (hpanel save-button
           #:alignment alignment/center
           #:margin margin/center))
-
-
-;; ========================================================================================
-;; UNIT TESTS
-;; ========================================================================================
-
-
-(module+ test
-  (require racket/class)
-
-  (require Q/Common/tile)
-
-  (require Q/Common/tile)
-  (require Q/Player/player)
-  (require Q/Player/ldasg)
-  (require Q/Player/dag)
-  (require Q/Player/iterative)
-
-  (define dag (new dag%))
-  (define ldasg (new ldasg%))
-  (define itdag (new iterative% [strategy dag]))
-  (define itldasg (new iterative% [strategy ldasg]))
-
-  (define luke (new player% [id 'luke] [strategy itdag]))
-  (define andrey (new player% [id 'andrey] [strategy itdag]))
-  (define lucas (new player% [id 'lucas] [strategy itldasg]))
-
-  (define players0 (list luke andrey lucas))
-
-  (define gs1 (make-game-state (take start-tiles 30) players0)))
