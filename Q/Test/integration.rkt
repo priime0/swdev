@@ -4,7 +4,7 @@
 (require threading)
 (require racket/sandbox)
 
-(define dirs '("3" "4" "5" "6" "7" "8"))
+(define dirs '("3" "4" "5" "6" "7" "8" "9"))
 
 (define root-directory (build-path (current-directory) 'up 'up))
 

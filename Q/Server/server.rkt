@@ -13,7 +13,7 @@
  (struct-out server-config)
  (struct-out referee-config)
  (contract-out
-  [run (-> natural? (list/c (listof string?) (listof string?)))]
+  [run (-> natural? game-result?)]
   [hash->server-config (-> hash? server-config?)]
   [hash->referee-config (-> hash? referee-config?)]))
 
@@ -50,6 +50,16 @@
    [ref-spec        referee-config?])
   #:transparent)
 
+#; {LobbyInfo -> [Listof Playable]}
+;; Puts the lobby's players into descending age order
+(define (in-descending-age info)
+  (reverse (lobby-info-players info)))
+
+#; {LobbyInfo -> [Listof Playable]}
+;; Puts the lobby's players into ascending age order
+(define (in-ascending-age info)
+  (lobby-info-players info))
+
 ;; ========================================================================================
 ;; FUNCTIONALITY
 ;; ========================================================================================
@@ -59,11 +69,12 @@
 ;; connection and tries to start a game at most twice, otherwise
 ;; returns an empty result.
 (define (run port)
-  (define info0 (lobby-info (tcp-listen port 4 #t #f) '()))
+  (define reuse? #t)
+  (define info0 (lobby-info (tcp-listen port (*max-players*) reuse?) '()))
   (define info1 (collect-players info0))
-  (if (lobby-empty? info1)
-      (list '() '())
-      (run-game (reverse (lobby-info-players info1)))))
+  (if (lobby-ready? info1)
+      (run-game (in-descending-age info1))
+      (list '() '())))
 
 #; {[Listof Playable] -> GameResult}
 ;; Runs a game with the given list of players in the appropriate order.
@@ -78,9 +89,9 @@
   (define info^ (box info))
   (let loop ([remaining-attempts (*tries*)])
     (cond
-      [(zero? remaining-attempts) info]
-      [(success? (with-timeout (thunk (signup-players info^)) (*signup-timeout*))) (unbox info^)]
-      [(lobby-ready? (unbox info^)) (unbox info^)]
+      [(or (zero? remaining-attempts)
+           (success? (with-timeout (thunk (signup-players info^)) (*signup-timeout*)))
+           (lobby-ready? (unbox info^))) (unbox info^)]
       [else (loop (sub1 remaining-attempts))])))
 
 #; {[Boxof LobbyInfo] -> Void}
@@ -134,10 +145,6 @@
   (>= (length (lobby-info-players info))
       (*min-players*)))
 
-#; {LobbyInfo -> Boolean}
-;; Is the given lobby empty?
-(define (lobby-empty? info)
-  (null? (lobby-info-players info)))
 
 #; {[Maybe JSExpr] -> [Result Symbol]}
 ;; Deserialize a received JSON response representing the jName into a

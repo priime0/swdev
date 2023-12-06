@@ -16,11 +16,11 @@
   [play-game
    (->i ([playables (listof (is-a?/c playable<%>))])
         (#:tiles [tiles (listof tile?)]
-         #:game-state [gs game-state?])
+         #:game-state [gs priv-state/c])
         #:pre/name (tiles gs)
         "provide either one of tiles or game state"
         (or (unsupplied-arg? tiles) (unsupplied-arg? gs))
-        [result (listof (listof string?))])]))
+        [result game-result?])]))
 
 ;; ========================================================================================
 ;; DATA DEFINITIONS
@@ -71,14 +71,27 @@
 ;; the list of names of rulebreakers (those who threw errors or made
 ;; invalid moves) in chronological order.
 
+(define (game-result? a)
+  (and (pair? a)
+       (= (length a)
+          2)
+       ((listof string?) (first a))
+       ((listof string?) (second a))))
+
 ;; ========================================================================================
 ;; FUNCTIONALITY
 ;; ========================================================================================
 
 #; {[Listof Playable] -> GameResult}
-;; Play a game of Q with the given list of players to completion, producing the list of players with
-;; the highest scores sorted in lexicographical order and a list of rulebreakers sorted by temporal
-;; order of rule-breaking.
+;; Play a game of Q with the given list of players to completion,
+;; producing the unsorted list of all player(s) with the highest score
+;; and a list of rulebreakers sorted by ascending temporal order of
+;; rule-breaking.
+
+;; Only one of the two arguments should be provided.
+;; If tiles is provided, a game state will be generated from that
+;; tileset, and if game-state is provided, then the tiles argument is
+;; ignored.
 
 ;; CONSTRAINT: If starting from a start game state, the list of players must be
 ;; equal length to the list of player states in the game state.
@@ -151,8 +164,9 @@
     ;; terminates:
     ;; 1. all the players drop out if they misbehave, ending the game.
     ;; 2. there are a finite number of tiles, so eventually all are exhausted, and so players will
-    ;; be unable to place any tiles, ending the game. (no tiles are placed in a round)
-    ;; 3. a player places all the tiles in their hand.
+    ;;    be unable to place any tiles, ending the game.
+    ;; 3. a player wins the game by one of the win criteria (placing all tiles
+    ;;    or round ending with no placements)
     (let loop ([g-info^ g-info])
       (loop (run-round g-info^ end-game)))))
 
