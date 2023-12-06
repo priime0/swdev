@@ -69,9 +69,10 @@
 ;; ========================================================================================
 
 #; {[Listof Playable] -> GameResult}
-;; Play a game of Q with the given list of players to completion, producing the list of players with
-;; the highest scores sorted in lexicographical order and a list of rulebreakers sorted by temporal
-;; order of rule-breaking.
+;; Play a game of Q with the given list of players to completion,
+;; producing the unsorted list of all player(s) with the highest score
+;; and a list of rulebreakers sorted by ascending temporal order of
+;; rule-breaking.
 
 ;; CONSTRAINT: If starting from a start game state, the list of players must be
 ;; equal length to the list of player states in the game state.
@@ -144,7 +145,9 @@
     ;; terminates:
     ;; 1. all the players drop out if they misbehave, ending the game.
     ;; 2. there are a finite number of tiles, so eventually all are exhausted, and so players will
-    ;; be unable to place any tiles, ending the game.
+    ;;    be unable to place any tiles, ending the game.
+    ;; 3. a player wins the game by one of the win criteria (placing all tiles
+    ;;    or round ending with no placements)
     (let loop ([g-info^ g-info])
       (loop (run-round g-info^ end-game)))))
 
