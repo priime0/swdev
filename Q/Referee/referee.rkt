@@ -13,7 +13,16 @@
 (require threading)
 (require 2htdp/image)
 
-(provide play-game)
+(provide
+ (contract-out
+  [game-result?
+   (-> any/c
+       boolean?)]
+  [play-game
+   (->* ((listof (is-a?/c playable<%>)))
+        (#:tiles (listof tile?)
+         #:game-state priv-state/c)
+        game-result?)]))
 
 ;; ========================================================================================
 ;; DATA DEFINITIONS
@@ -63,6 +72,13 @@
 ;; list of names of winners (player(s) with the highest score), and
 ;; the list of names of rulebreakers (those who threw errors or made
 ;; invalid moves) in chronological order.
+
+(define (game-result? a)
+  (and (pair? a)
+       (= (length a)
+          2)
+       ((listof string?) (first a))
+       ((listof string?) (second a))))
 
 ;; ========================================================================================
 ;; FUNCTIONALITY

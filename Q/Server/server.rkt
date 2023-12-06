@@ -13,7 +13,7 @@
  (struct-out server-config)
  (struct-out referee-config)
  (contract-out
-  [run (-> natural? (list/c (listof string?) (listof string?)))]
+  [run (-> natural? game-result?)]
   [hash->server-config (-> hash? server-config?)]
   [hash->referee-config (-> hash? referee-config?)]))
 
