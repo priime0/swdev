@@ -6,14 +6,21 @@
 (require Q/Common/turn-action)
 (require Q/Common/config)
 (require Q/Common/interfaces/playable)
-(require Q/Referee/observer)
 (require Q/Lib/macros)
 (require Q/Lib/result)
 
-(require threading)
-(require 2htdp/image)
+(require racket/contract)
 
-(provide play-game)
+(provide
+ (contract-out
+  [play-game
+   (->i ([playables (listof (is-a?/c playable<%>))])
+        (#:tiles [tiles (listof tile?)]
+         #:game-state [gs game-state?])
+        #:pre/name (tiles gs)
+        "provide either one of tiles or game state"
+        (or (unsupplied-arg? tiles) (unsupplied-arg? gs))
+        [result (listof (listof string?))])]))
 
 ;; ========================================================================================
 ;; DATA DEFINITIONS
