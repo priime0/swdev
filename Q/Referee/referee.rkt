@@ -90,6 +90,11 @@
 ;; and a list of rulebreakers sorted by ascending temporal order of
 ;; rule-breaking.
 
+;; Only one of the two arguments should be provided.
+;; If tiles is provided, a game state will be generated from that
+;; tileset, and if game-state is provided, then the tiles argument is
+;; ignored.
+
 ;; CONSTRAINT: If starting from a start game state, the list of players must be
 ;; equal length to the list of player states in the game state.
 (define (play-game playables
