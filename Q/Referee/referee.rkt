@@ -151,7 +151,8 @@
     ;; terminates:
     ;; 1. all the players drop out if they misbehave, ending the game.
     ;; 2. there are a finite number of tiles, so eventually all are exhausted, and so players will
-    ;; be unable to place any tiles, ending the game.
+    ;; be unable to place any tiles, ending the game. (no tiles are placed in a round)
+    ;; 3. a player places all the tiles in their hand.
     (let loop ([g-info^ g-info])
       (loop (run-round g-info^ end-game)))))
 
@@ -172,6 +173,7 @@
       (values g-info+ (or placed? any-placed?))))
 
   (if (not placement-made?)
+      ;; end-game condition 2
       (k next-g-info)
       next-g-info))
 
@@ -186,6 +188,7 @@
   
   (if (players-left? priv-state+)
       g-info+
+      ;; end-game condition 1
       (k g-info+)))
 
 #; {type TurnResult = [Pairof GameInfo Boolean]}
@@ -217,6 +220,7 @@
 
     (define-values (priv-state+ ended?) (do-turn-without-rotate priv-state action))
     (when ended?
+      ;; end-game condition 3
       (k (game-info priv-state+ sinners)))
 
     (unless (pass? action)
