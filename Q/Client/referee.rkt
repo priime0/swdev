@@ -51,7 +51,7 @@
     (k)))
 
 #; {Connection Playable -> RPC}
-;; Reads and deserialzies a JSON message into an RPC for the referee
+;; Reads and deserializes a JSON message into an RPC for the referee
 ;; proxy to execute.
 (define (execute-rpc/read conn playable)
   (define command (conn-read conn))
