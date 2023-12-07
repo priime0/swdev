@@ -82,9 +82,7 @@ The project is structured as follows:
 
 ## Module Diagrams
 
-![overview](https://files.priime.dev/swdev/overview.png)
-
-![strategy](https://files.priime.dev/swdev/strategy.png)
+![overview](https://files.priime.dev/swdev/overview.svg)
 
 ## Logical Interactions
 
