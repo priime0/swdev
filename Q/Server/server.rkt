@@ -123,7 +123,7 @@
 
 
 #; {[Boxof LobbyInfo] Connection Symbol -> Void}
-;; Creates a new player with the given info and adds them to the given lobby.
+;; Creates a new player with the given connection and name and adds them to the given lobby.
 ;; EFFECT: mutates the lobby-info box to a new lobby-info with an updated list of players.
 (define (add-player! info conn name)
   (match-define [lobby-info listener players] (unbox info))
