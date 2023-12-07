@@ -84,7 +84,8 @@
       (play-game players)))
 
 #; {LobbyInfo -> LobbyInfo}
-;; Collects players into the given lobby.
+;; Collects players, if any, into the given lobby. Attempts to collect players *tries* amount of
+;; times.
 (define (collect-players info)
   (define info^ (box info))
   (let loop ([remaining-attempts (*tries*)])
