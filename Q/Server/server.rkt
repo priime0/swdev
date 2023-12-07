@@ -91,7 +91,8 @@
     (cond
       [(or (zero? remaining-attempts)
            (success? (with-timeout (thunk (signup-players info^)) (*signup-timeout*)))
-           (lobby-ready? (unbox info^))) (unbox info^)]
+           (lobby-ready? (unbox info^)))
+       (unbox info^)]
       [else (loop (sub1 remaining-attempts))])))
 
 #; {[Boxof LobbyInfo] -> Void}
