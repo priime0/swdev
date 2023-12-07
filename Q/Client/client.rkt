@@ -35,7 +35,10 @@
 (define (start playable)
   (define maybe-conn (try-signups playable))
   (when maybe-conn
-    (with-handlers ([exn:fail? (lambda (e) (unless (*client-quiet?*) (eprintf "~a\n" e)))])
+    (with-handlers ([exn:fail?
+                     (lambda (e)
+                       (unless (*client-quiet?*)
+                         (eprintf "~a\n" e)))])
       (listen maybe-conn playable))))
 
 #; {Playable -> [Maybe Connection]}
