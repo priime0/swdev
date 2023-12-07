@@ -13,6 +13,7 @@
 
 (provide
  (contract-out
+  [game-result? (-> any/c boolean?)]
   [play-game
    (->i ([playables (listof (is-a?/c playable<%>))])
         (#:tiles [tiles (listof tile?)]
