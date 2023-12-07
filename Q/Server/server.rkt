@@ -97,10 +97,7 @@
       [else (loop (sub1 remaining-attempts))])))
 
 #; {[Boxof LobbyInfo] -> Void}
-;; Signs up players until the lobby is full, or until the signup
-;; window is ended.  If there are the minimum number of people in the
-;; lobby when the signup window ends, that lobby is returned on the
-;; given channel, otherwise returns false on the given channel.
+;; Signs up players indefinitely until the lobby is full.
 (define (signup-players info)
   (let loop ()
     (cond
