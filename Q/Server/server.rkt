@@ -21,7 +21,7 @@
 ;; DATA DEFINITIONS
 ;; ========================================================================================
 
-#; {type LobbyInfo = (server-info TcpListener [Listof Playable])}
+#; {type LobbyInfo = (lobby-info TcpListener [Listof Playable])}
 ;; A LobbyInfo represents the summary of the current lobby on the
 ;; server, and contains the listener on which the server accepts
 ;; client connections, and the server's current list of players
@@ -66,7 +66,7 @@
 
 #; {Natural -> GameResult}
 ;; Runs the server on the given port. The Server listens on this TCP
-;; connection and tries to start a game at most twice, otherwise
+;; connection and tries to start a game, otherwise
 ;; returns an empty result.
 (define (run port)
   (define reuse? #t)
