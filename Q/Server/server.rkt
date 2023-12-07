@@ -84,14 +84,16 @@
       (play-game players)))
 
 #; {LobbyInfo -> LobbyInfo}
-;; Collects players into the given lobby.
+;; Collects players, if any, into the given lobby. Attempts to collect players *tries* amount of
+;; times.
 (define (collect-players info)
   (define info^ (box info))
   (let loop ([remaining-attempts (*tries*)])
     (cond
       [(or (zero? remaining-attempts)
            (success? (with-timeout (thunk (signup-players info^)) (*signup-timeout*)))
-           (lobby-ready? (unbox info^))) (unbox info^)]
+           (lobby-ready? (unbox info^)))
+       (unbox info^)]
       [else (loop (sub1 remaining-attempts))])))
 
 #; {[Boxof LobbyInfo] -> Void}
@@ -119,14 +121,14 @@
   (define maybe-json-response (conn-read/timeout conn (*server-client-timeout*)))
   (define player-name-result (jname->symbol maybe-json-response))
   (match player-name-result
-    [(success player-name) (add-player info conn player-name)]
+    [(success player-name) (add-player! info conn player-name)]
     [(failure _)           (close-connection conn)]))
 
 
 #; {[Boxof LobbyInfo] Connection Symbol -> Void}
 ;; Creates a new player with the given info and adds them to the given lobby.
-;; EFFECT: mutates the list of players in the given lobby-info
-(define (add-player info conn name)
+;; EFFECT: mutates the lobby-info box to a new lobby-info with an updated list of players.
+(define (add-player! info conn name)
   (match-define [lobby-info listener players] (unbox info))
   (define new-player (new player-proxy% [conn conn] [id name]))
   (define info+ (lobby-info listener (cons new-player players)))
