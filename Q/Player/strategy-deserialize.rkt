@@ -9,11 +9,11 @@
 (provide hash->strategy++)
 
 #; {JSExpr JCheat -> Strategy}
-(define (hash->strategy++ h [cheat? #f])
+(define (hash->strategy++ h [maybe-cheat #f])
   (define base-strat (jstrategy->strategy h))
   (cond
-    [cheat?
-     (define cheat-strat (jcheat->strategy cheat?))
+    [maybe-cheat
+     (define cheat-strat (jcheat->strategy maybe-cheat))
      (new compound% [strategy0 cheat-strat] [strategy1 base-strat])]
     [else base-strat]))
 

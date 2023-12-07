@@ -62,7 +62,7 @@
   (when (null? rest-args)
     (error 'hash->player++ "expected >1 list"))
   (match-define [cons jstrategy rest-args+] rest-args)
-  (define-values (constructor cheat?)
+  (define-values (constructor maybe-cheat)
     (match rest-args+
       ['()
        (values player% #f)]
@@ -75,7 +75,7 @@
        (define timeout-player% (timeout-player jexn cnt))
        (values timeout-player% #f)]
       [_ (error 'hash->player++ "received invalid jactor")]))
-  (values constructor (hash->strategy++ jstrategy cheat?)))
+  (values constructor (hash->strategy++ jstrategy maybe-cheat)))
 
 
 #; {JExn -> (class ExnPlayer)}
