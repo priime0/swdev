@@ -120,14 +120,14 @@
   (define maybe-json-response (conn-read/timeout conn (*server-client-timeout*)))
   (define player-name-result (jname->symbol maybe-json-response))
   (match player-name-result
-    [(success player-name) (add-player info conn player-name)]
+    [(success player-name) (add-player! info conn player-name)]
     [(failure _)           (close-connection conn)]))
 
 
 #; {[Boxof LobbyInfo] Connection Symbol -> Void}
 ;; Creates a new player with the given info and adds them to the given lobby.
 ;; EFFECT: mutates the list of players in the given lobby-info
-(define (add-player info conn name)
+(define (add-player! info conn name)
   (match-define [lobby-info listener players] (unbox info))
   (define new-player (new player-proxy% [conn conn] [id name]))
   (define info+ (lobby-info listener (cons new-player players)))
