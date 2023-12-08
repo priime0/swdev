@@ -72,8 +72,9 @@
           #:methods gen:serializable
           [(define/generic ->jsexpr* ->jsexpr)
            (define (->jsexpr ps)
-             (match-define [player-state score hand _name _payload] ps)
-             (hash 'score score
+             (match-define [player-state score hand name _payload] ps)
+             (hash 'name (->jsexpr name)
+                   'score score
                    'tile* (map ->jsexpr* hand)))])
 
 #; {type PlayerName = Symbol}
