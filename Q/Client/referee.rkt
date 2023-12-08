@@ -34,40 +34,30 @@
 ;; `win` completes, forwarding them to the provided player and putting
 ;; results back on the connection.
 (define (listen conn playable)
-  (let/ec end-listening
-    (execute-rpc conn playable end-listening)
-    (listen conn playable))
-  (void))
-
-#; {Connection Playable EndOfGameContinuation -> Void}
-;; Reads and executes the next RPC to come over the connection.
-;; Blocks until next command arrives.
-(define (execute-rpc conn playable k)
-  (define-values (method-call last-call?) (execute-rpc/read conn playable))
-  (define method-result (method-call))
-  (define serialized-result (->jsexpr method-result))
-  (conn-write conn serialized-result)
-  (when last-call?
-    (k)))
+  (define-values (method-result last-call?) (execute-rpc/read+write conn playable))
+  (define serialized (->jsexpr method-result))
+  (conn-write conn serialized)
+  (unless last-call?
+    (listen conn playable)))
 
 #; {Connection Playable -> RPC}
 ;; Reads and deserializes a JSON message into an RPC for the referee
 ;; proxy to execute.
-(define (execute-rpc/read conn playable)
+(define (execute-rpc/read+write conn playable)
   (define command (conn-read conn))
   (match command
     [(list "setup" (list jpub jtiles))
      (define pub-state (hash->pub-state jpub))
      (define hand      (map hash->tile++ jtiles))
-     (values (thunk (send playable setup pub-state hand)) #f)]
+     (values (send playable setup pub-state hand) #f)]
     [(list "take-turn" (list jpub))
      (define pub-state (hash->pub-state jpub))
-     (values (thunk (send playable take-turn pub-state)) #f)]
+     (values (send playable take-turn pub-state) #f)]
     [(list "new-tiles" (list jtiles))
      (define hand (map hash->tile++ jtiles))
-     (values (thunk (send playable new-tiles hand)) #f)]
+     (values (send playable new-tiles hand) #f)]
     [(list "win" (list won?))
-     (values (thunk (send playable win won?)) #t)]))
+     (values (send playable win won?) #t)]))
 
 ;; ========================================================================================
 ;; TESTS
