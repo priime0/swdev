@@ -73,9 +73,12 @@
           [(define/generic ->jsexpr* ->jsexpr)
            (define (->jsexpr ps)
              (match-define [player-state score hand name _payload] ps)
-             (hash 'name (->jsexpr name)
-                   'score score
-                   'tile* (map ->jsexpr* hand)))])
+             (define base-ht
+               (hash 'score score
+                     'tile* (map ->jsexpr* hand)))
+             (if name
+                 (hash-set base-ht 'name name)
+                 base-ht))])
 
 #; {type PlayerName = Symbol}
 ;; A PlayerName is a Symbol that must consisent of 1-20 alphanumeric characters.
